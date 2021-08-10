@@ -194,8 +194,8 @@ if __name__ == "__main__":
     #  Create random test data :
     #  Created points in Class Point form and stored in list P.
     P = []
-    for i in range(8):
-        pt = Point( random.randint(0, 20), random.randint(0, 20) )
+    for i in range(50):
+        pt = Point( random.randint(0, 80), random.randint(0, 80) )
         P.append( pt )
         #  Show each coordinate of the 30 points.
         # print(pt)
