@@ -1,4 +1,5 @@
 # Uses python3
+# Programming Challenge 2-4: Least Common Multiple.
 import sys
 
 """

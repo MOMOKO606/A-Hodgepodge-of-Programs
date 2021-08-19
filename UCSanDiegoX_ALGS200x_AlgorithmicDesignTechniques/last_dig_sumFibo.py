@@ -1,6 +1,5 @@
 # Uses python3
-# Programming Challenge 2-5: Compute a Huge Fibonacci Number Modulo m.
-import sys
+# Programming Challenge 2-6: Compute the Last Digit of a Sum of Fibonacci Numbers.
 
 
 """
@@ -35,9 +34,6 @@ Given two integers 𝑛 and 𝑚, output 𝐹𝑛 mod 𝑚 (that is, the remaind
 Using several variables.
 Input @para: two integers 𝑛 and 𝑚, 1 ≤ n ≤ 1018, 2 ≤ 𝑚 ≤ 105.
 Output: 𝐹𝑛 mod 𝑚.
-
-Key: for each m, 𝐹𝑛 mod 𝑚 generates a periodical sequence.
-we need to determine the periodical sequence or at least know its length first.
 """
 def fibonacci_mod_m(n, m):
     #  Get the correspond Pisano period.
@@ -61,9 +57,47 @@ def fibonacci_mod_m(n, m):
     return f_current % m
 
 
+"""
+Given an integer 𝑛, find the last digit of the sum 𝐹0 +𝐹1 +···+𝐹𝑛.
+Input:  Integer 𝑛.
+Output: the last digit of 𝐹0 + 𝐹1 + · · · + 𝐹𝑛.
+
+Note: O(n) is way too slow, which means we cannot use loop to check every Fibonacci number.
+
+Key1:
+------------------------------------------
+    Index 0, 1, 2,  3, 4,  5,  6,  7,  8,...
+------------------------------------------
+    Fi    0, 1, 1,  2, 3, |5,  8,  13, 21,...
+------------------------------------------
+    Sum   0, 1, 2, |4, 7,  12, 20, 33, 54,...
+------------------------------------------
+Sum[j] = Sum[Fi[0] + Fi[1] + ..., + Fi[j]] = Fi[ j + 2 ] - 1, when j > 2.
+
+Key2:
+The last digit = Sum[j] % 10 = Fi[ j + 2 ] % 10 - 1 % 10 = Fi[ j + 2 ] % 10 - 1
+               = Fi[ j + 2 ] mod 10 -1
+"""
+def fib_sum_last_dig( n ):
+
+    #  Base case, n <= 2
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    if n == 2:
+        return 2
+
+    ans = fibonacci_mod_m(n + 2, 10)
+    #  The special case, when the last digit is 0, 0 - 1 should be digit 9.
+    if ans == 0:
+        return 9
+    #  return Fi[ n + 2 ] mod 10 -1 when the last digit isn't 0.
+    else:
+        return ans - 1
+
 
 #  Drive code.
 if __name__ == "__main__":
-    input = sys.stdin.read()
-    n, m = map(int, input.split())
-    print(fibonacci_mod_m(n, m))
+    n = int(input())
+    print( fib_sum_last_dig( n ) )

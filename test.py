@@ -1,54 +1,43 @@
-# Uses python3
-import sys
+# Python3 program to calculate
+# Fibonacci no. modulo m using
+# Pisano Period
 
-"""
-Compute and return the Pisano period correspond m.
-Input @para: two integers 𝑛 and 𝑚, 1 ≤ n ≤ 1018, 2 ≤ 𝑚 ≤ 105.
-Output: m's Pisano period.
-"""
-def pisano_period( n, m ):
+# Calculate and return Pisano Period
+# The length of a Pisano Period for
+# a given m ranges from 3 to m * m
+def pisanoPeriod(m):
+    previous, current = 0, 1
+    for i in range(0, m * m):
+        previous, current \
+            = current, (previous + current) % m
 
-    #  Initialize the fibonacci sequence and the Pisano period.
-    fibo = [0, 1]
-    pisano = [0, 1]
-
-    #  Remember the previous element in Pisano period.
-    previous = 1
-
-    #  Computer the Pisano period.
-    #  key: 0, 1 is the first two elements of all period.
-    for i in range(2, m * m + 1):
-        fi = fibo[i - 2] + fibo[i - 1]
-        pi = fi % m
-
-        #  Sentinel, break the loop and return.
-        if pi == 1 and previous == 0:
-            return pisano[:i-1 ]
-
-        #  Update the fibonacci sequence and the Pisano period.
-        #  Update the previous element.
-        previous = pi
-        fibo.append(fi)
-        pisano.append(pi)
+        # A Pisano Period starts with 01
+        if (previous == 0 and current == 1):
+            return i + 1
 
 
-"""
-Given two integers 𝑛 and 𝑚, output 𝐹𝑛 mod 𝑚 (that is, the remainder of 𝐹𝑛 when divided by 𝑚).
-Input @para: two integers 𝑛 and 𝑚, 1 ≤ n ≤ 1018, 2 ≤ 𝑚 ≤ 105.
-Output: 𝐹𝑛 mod 𝑚.
-"""
-def fibonacci_modm( n, m ):
+# Calculate Fn mod m
+def fibonacciModulo(n, m):
+    # Getting the period
+    pisano_period = pisanoPeriod(m)
 
-    #  Get the correspond Pisano period.
-    pisano_sequence = pisano_period(n, m)
-    #  get the length of mth Pisano period.
-    factor = len(pisano_sequence)
-    #  Fn mod m = reminder mod m = reminder th element in Pisano period.
-    return pisano_sequence[n % factor]
+    # Taking mod of N with
+    # period length
+    n = n % pisano_period
+
+    previous, current = 0, 1
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    for i in range(n - 1):
+        previous, current \
+            = current, previous + current
+
+    return (current % m)
 
 
-#  Drive code.
-if __name__ == "__main__":
-    input = sys.stdin.read()
-    n, m = map(int, input.split())
-    print( fibonacci_modm( n, m))
+# Driver Code
+if __name__ == '__main__':
+
+    print(fibonacciModulo(5, 10))
