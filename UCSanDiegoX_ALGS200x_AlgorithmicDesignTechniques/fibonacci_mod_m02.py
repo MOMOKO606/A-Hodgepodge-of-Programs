@@ -4,10 +4,10 @@ import sys
 
 """
 Compute and return the Pisano period corresponded to m.
-Input @para: two integers 𝑛 and 𝑚, 1 ≤ n ≤ 1018, 2 ≤ 𝑚 ≤ 105.
+Input: integer 𝑚, 2 ≤ 𝑚 ≤ 105.
 Output: m's Pisano period.
 """
-def pisano_period(n, m):
+def pisano_period( m ):
     #  Initialize the fibonacci sequence and the Pisano period.
     fibo = [0, 1]
     pisano = [0, 1]
@@ -40,7 +40,7 @@ Output: 𝐹𝑛 mod 𝑚.
 """
 def fibonacci_mod_m(n, m):
     #  Get the correspond Pisano period.
-    pisano_sequence = pisano_period(n, m)
+    pisano_sequence = pisano_period( m )
     #  get the length of mth Pisano period.
     factor = len(pisano_sequence)
     #  Fn mod m = reminder mod m = reminder th element in Pisano period.

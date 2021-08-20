@@ -4,10 +4,10 @@
 
 """
 Compute and return the length of the Pisano period corresponded to m.
-Input @para: two integers 𝑛 and 𝑚, 1 ≤ n ≤ 1018, 2 ≤ 𝑚 ≤ 105.
+Input @para: integer 𝑚, 2 ≤ 𝑚 ≤ 105.
 Output: the length of the m's Pisano period.
 """
-def length_pisano_period( n, m ):
+def length_pisano_period( m ):
 
     f_previous = 0
     f_current = 1
@@ -34,10 +34,13 @@ Given two integers 𝑛 and 𝑚, output 𝐹𝑛 mod 𝑚 (that is, the remaind
 Using several variables.
 Input @para: two integers 𝑛 and 𝑚, 1 ≤ n ≤ 1018, 2 ≤ 𝑚 ≤ 105.
 Output: 𝐹𝑛 mod 𝑚.
+
+Key: for each m, 𝐹𝑛 mod 𝑚 generates a periodical sequence.
+we need to determine the periodical sequence or at least know its length first.
 """
 def fibonacci_mod_m(n, m):
     #  Get the correspond Pisano period.
-    factor = length_pisano_period(n, m)
+    factor = length_pisano_period( m )
 
     #  Fn mod m = reminder mod m = reminder th element in Pisano period.
     reminder = n % factor
@@ -55,6 +58,7 @@ def fibonacci_mod_m(n, m):
         f_previous, f_current = f_current, f_current + f_previous
 
     return f_current % m
+
 
 
 """
