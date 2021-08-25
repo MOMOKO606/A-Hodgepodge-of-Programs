@@ -105,27 +105,31 @@ def cross_closest_pair( X, Y, x_low, x_mid, x_high, d ):
     cross_ID1 = None
     cross_ID2 = None
 
-    #  Get the y start and y end indices of Point(s) in the region in sorted order by y axis.
-    indices = []
     #  Make sure we only check the Point(s) in the strip region.
-    Y_tmp = [ Y[i] for i in range(len(Y)) if Y[i] in R ]
-    for i in range(len(Y_tmp)):
-        if Y_tmp[i].x >= R[0].x and Y_tmp[i].x <= R[-1].x:
-            indices.append(i)
+    #  The idea is we go through Y using the min & max x coordinates in R as constrain, put the valid Point(s) in Y_tmp.
+    #  Point(s) in Y_tmp is sorted since Y is already sorted and we went through Y before.
+    Y_tmp = []
+    for i in range( len(Y) ):
 
-    #  No Point(s) or only one Point in the region.
-    if len(indices) < 2:
+        #  Sentinel, if R is empty break the loop.
+        if len(R) == 0:
+            break
+
+        if Y[i].x >= R[0].x and Y[i].x <= R[-1].x:
+            Y_tmp.append( Y[i] )
+
+    #  Sentinel, No Point(s) or only one Point in the region.
+    if len(Y_tmp) < 2:
         return mini_cross, cross_ID1, cross_ID2
 
-    y_low = indices[0]
-    y_high = indices[-1]
-    for i in range(y_low, y_high + 1):
-        for j in range(1, min(8, y_high + 1 - i)):
-            tmp = dist(Y[i], Y[i + j])
+    #  Get the mini_cross in the strip by Y-tmp.
+    for i in range( len(Y_tmp) - 1 ):
+        for j in range(1, min(8, len(Y_tmp) - i)):
+            tmp = dist(Y_tmp[i], Y_tmp[i + j])
             if tmp < mini_cross:
                 mini_cross = tmp
-                cross_ID1 = Y[i].ID
-                cross_ID2 = Y[i + j].ID
+                cross_ID1 = Y_tmp[i].ID
+                cross_ID2 = Y_tmp[i + j].ID
 
     return mini_cross, cross_ID1, cross_ID2
 
@@ -184,7 +188,6 @@ def closest_pair_aux( P ):
     return closest_pair_recur( X, Y, 0, len(X) - 1 )
 
 
-
 #  Drive code.
 if __name__ == "__main__":
 
@@ -204,7 +207,7 @@ if __name__ == "__main__":
     pickle.dump( P, pdata)
     pdata.close()
 
-    # #  Load test data 2:
+    #  Load test data 2:
     # file = open("points_data.pkl", "rb")
     # P = pickle.load( file )
     # file.close()
