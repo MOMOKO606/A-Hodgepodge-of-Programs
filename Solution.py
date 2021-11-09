@@ -97,8 +97,32 @@ class Solution:
     Output: [7,0,8]
     Explanation: 342 + 465 = 807.
     """
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+    def addTwoNumbers01(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         return array2Linkedlist(num2list_rever( linkedlist2num( l1 ) + linkedlist2num( l2 ) ))
+
+
+    def addTwoNumbers02(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+
+        ans = cur = ListNode(0)
+        carry = 0
+
+        while l1 or l2 or carry:
+
+            if l1:
+                carry += l1.val
+                l1 = l1.next
+
+            if l2:
+                carry += l2.val
+                l2 = l2.next
+
+
+            cur.next = ListNode( carry % 10)
+            cur = cur.next
+
+            carry //= 10
+
+        return ans.next
 
 
 
@@ -119,7 +143,7 @@ if __name__ == "__main__":
     l2 = array2Linkedlist(l2_list)
 
     print(S.twoSum03(l0, 9))   #  Leetcode, easy01
-    print(linkedlist2Array(array2Linkedlist(num2list_rever(linkedlist2num(l1) + linkedlist2num(l2)))))  #  Leetcode, easy02
+    print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  #  Leetcode, easy02
 
 
 
