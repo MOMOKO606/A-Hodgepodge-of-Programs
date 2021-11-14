@@ -124,6 +124,34 @@ class Solution:
 
         return ans.next
 
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        #  Initialization
+        #  usedchar是一个dict（即哈希表），用来存储已出现过的字符的；
+        #  left is the start index of the sliding window, -1是考虑到边界情况的初值;
+        #  max_count tracks the result.
+        usedchar, left, max_count = {}, -1, 0
+
+        #  Go through the string one time.
+        for right in range(len(s)):
+            #  s[right] is already in the dict.
+            #  特别注意要考虑到当字符已存在dict时，还需考虑是否是当前substring的重复字符。
+            if s[right] in usedchar and left < usedchar [s[right]]:
+                left = usedchar[s[right]]
+            #  s[right] is not in the dict.
+            else:
+                #  Update the result.
+                if right - left > max_count:
+                    max_count = right - left
+            #  无论如何，都要更新usedchar中的字符（如果没有就添加，如果有则因为sliding window要更新它的index）。
+            usedchar[s[right]] = right
+
+        return max_count
+
+
+
+
+
+
 
 
 
@@ -137,13 +165,19 @@ if __name__ == "__main__":
     l0 = [2,7,11,15]
     l1_list = [9,9,9,9,9,9,9]
     l2_list = [9,9,9,9]
+    string01 = "abcabcbb"
+    string02 = "bbbbb"
+    string03 = "pwwkew"
+    string04 = "dvdf"
+    string05 = ""
+    string06 = " "
+    string07 = "tmmzuxt"
 
     #  Data: Linked lists.
     l1 = array2Linkedlist(l1_list)
     l2 = array2Linkedlist(l2_list)
 
-    print(S.twoSum03(l0, 9))   #  Leetcode, easy01
-    print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  #  Leetcode, easy02
-
-
+    print(S.twoSum03(l0, 9))   #  Leetcode, 01
+    print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  #  Leetcode, 02
+    print(S.lengthOfLongestSubstring( string01 ))  #  Leetcode, 03
 
