@@ -172,16 +172,25 @@ class Solution:
     Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
     """
     def lengthOfLIS(self, nums: List[int]) -> int:
-        return max( [self.lis(i, nums) for i in range(len(nums))])
+        n = len(nums)
+        dp = [0] * n
+        for i in range(n):
+            self.lis(i,nums,dp)
+        return max( dp )
 
 
-    def lis(self, i, nums):
+    def lis(self, i, nums, dp):
+        if dp[i]:
+            return dp[i]
         if i == 0:
+            dp[i] = 1
             return 1
+
         max_len = 1
         for j in range(i):
             if nums[j] < nums[i]:
-                max_len = max(max_len, self.lis(j, nums) + 1  )
+                max_len = max(max_len, self.lis(j, nums, dp) + 1  )
+        dp[i] = max_len
         return max_len
 
 
