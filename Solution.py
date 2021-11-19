@@ -48,7 +48,7 @@ def num2list_rever( num:[int] ) -> List[int]:
 
 class Solution:
     """
-    Easy.01
+    01.Easy
 
     Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
     You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -87,7 +87,7 @@ class Solution:
 
 
     """
-    Easy.02
+    02.Medium
     
     You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, 
     and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
@@ -124,6 +124,16 @@ class Solution:
 
         return ans.next
 
+    """
+    03.Medium
+    
+    Given a string s, find the length of the longest substring without repeating characters.
+
+    Input: s = "pwwkew"
+    Output: 3
+    Explanation: The answer is "wke", with the length of 3.
+    Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+    """
     def lengthOfLongestSubstring(self, s: str) -> int:
         #  Initialization
         #  usedchar是一个dict（即哈希表），用来存储已出现过的字符的；
@@ -148,7 +158,31 @@ class Solution:
         return max_count
 
 
+    """
+    300.Medium
+    
+    Given an integer array nums, return the length of the longest strictly increasing subsequence.
 
+    A subsequence is a sequence that can be derived from an array by deleting some or no elements 
+    without changing the order of the remaining elements. For example, [3,6,2,7] is a subsequence 
+    of the array [0,3,1,6,2,2,7].
+    
+    Input: nums = [10,9,2,5,3,7,101,18]
+    Output: 4
+    Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+    """
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        return max( [self.lis(i, nums) for i in range(len(nums))])
+
+
+    def lis(self, i, nums):
+        if i == 0:
+            return 1
+        max_len = 1
+        for j in range(i):
+            if nums[j] < nums[i]:
+                max_len = max(max_len, self.lis(j, nums) + 1  )
+        return max_len
 
 
 
@@ -173,6 +207,10 @@ if __name__ == "__main__":
     string06 = " "
     string07 = "tmmzuxt"
 
+    l3 = [1, 5, 2, 4, 3]
+    l4 = [3, 2, 4, 1, 7, 6, 10]
+    l5 = [10,9,2,5,3,7,101,18]
+
     #  Data: Linked lists.
     l1 = array2Linkedlist(l1_list)
     l2 = array2Linkedlist(l2_list)
@@ -181,3 +219,6 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  #  Leetcode, 02
     print(S.lengthOfLongestSubstring( string01 ))  #  Leetcode, 03
 
+    print("--------------------------------")
+    print(S.lengthOfLIS(l3))  # Leetcode, 300
+    print(S.lengthOfLIS(l5))  # Leetcode, 300
