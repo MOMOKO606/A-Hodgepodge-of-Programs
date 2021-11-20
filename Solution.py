@@ -1,4 +1,5 @@
 from typing import Optional, List
+import bisect
 
 #  Auxiliary functions and classes.
 #  Definition for singly-linked list.
@@ -171,6 +172,7 @@ class Solution:
     Output: 4
     Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
     """
+    #  Solution1: the recursive lengthOfLIS with memo.
     def lengthOfLIS(self, nums: List[int]) -> int:
         n = len(nums)
         dp = [0] * n
@@ -194,6 +196,7 @@ class Solution:
         return max_len
 
 
+    #  Solution2: the iterative dynamic programming algorithm of lengthOfLIS.
     def lengthOfLIS_iter( self, nums: List[int] ) -> int:
         n = len(nums)
         dp = [1] * n
@@ -202,6 +205,18 @@ class Solution:
                 if nums[j] < nums[i]:
                     dp[i] = max(dp[i], dp[j] + 1)
         return max(dp)
+
+
+    #  Solution3: the greedy lengthOfLIS.
+    def lengthOfLIS_greedy( self, nums: List[int] ) -> int:
+        ans = []
+        for i in range(len(nums)):
+            index = bisect.bisect_left(ans, nums[i])
+            if index == len(ans) :
+                ans.append(nums[i])
+            else:
+                ans[index] = nums[i]
+        return len(ans)
 
 
 
@@ -245,4 +260,4 @@ if __name__ == "__main__":
 
     print("--------------------------------")
     print(S.lengthOfLIS(l3))  # Leetcode, 300
-    print(S.lengthOfLIS_iter(l5))  # Leetcode, 300
+    print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
