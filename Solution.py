@@ -175,11 +175,11 @@ class Solution:
         n = len(nums)
         dp = [0] * n
         for i in range(n):
-            self.lis(i,nums,dp)
+            self.lis(i, nums, dp)
         return max( dp )
 
 
-    def lis(self, i, nums, dp):
+    def lis(self, i: int, nums: List[int], dp: List[int]) -> int:
         if dp[i]:
             return dp[i]
         if i == 0:
@@ -192,6 +192,21 @@ class Solution:
                 max_len = max(max_len, self.lis(j, nums, dp) + 1  )
         dp[i] = max_len
         return max_len
+
+
+    def lengthOfLIS_iter( self, nums: List[int] ) -> int:
+        n = len(nums)
+        dp = [1] * n
+        for i in range(n):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp)
+
+
+
+
+
 
 
 
@@ -230,4 +245,4 @@ if __name__ == "__main__":
 
     print("--------------------------------")
     print(S.lengthOfLIS(l3))  # Leetcode, 300
-    print(S.lengthOfLIS(l5))  # Leetcode, 300
+    print(S.lengthOfLIS_iter(l5))  # Leetcode, 300
