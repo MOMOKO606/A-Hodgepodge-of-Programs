@@ -219,6 +219,43 @@ class Solution:
         return len(ans)
 
 
+    """
+    You are given an integer array coins representing coins of different denominations and an integer amount representing 
+    a total amount of money.
+
+    Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any 
+    combination of the coins, return -1.
+
+    You may assume that you have an infinite number of each kind of coin.
+    
+    Input: coins = [1,2,5], amount = 11
+    Output: 3
+    Explanation: 11 = 5 + 5 + 1
+    """
+
+    #  Solution1: the naive recursive algorithm.
+    def coinChange(self, coins: List[int], amount: int) -> int:
+
+        def coinChange_Aux( coins: List[int], amount: int) -> int:
+            if amount < 0:
+                return float("inf")
+            if amount == 0:
+                return 0
+
+            smallest = float("inf")
+            for i in range(len(coins)):
+                smallest = min( smallest, coinChange_Aux( coins, amount - coins[i]))
+
+            return smallest + 1
+
+        ans = coinChange_Aux(coins, amount)
+
+        if ans == float("inf"):
+            return -1
+        else:
+            return ans
+
+
 
 
 
@@ -250,6 +287,9 @@ if __name__ == "__main__":
     l4 = [3, 2, 4, 1, 7, 6, 10]
     l5 = [10,9,2,5,3,7,101,18]
 
+    coins = [1,2,5]
+    amount = 11
+
     #  Data: Linked lists.
     l1 = array2Linkedlist(l1_list)
     l2 = array2Linkedlist(l2_list)
@@ -257,7 +297,7 @@ if __name__ == "__main__":
     print(S.twoSum03(l0, 9))   #  Leetcode, 01
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  #  Leetcode, 02
     print(S.lengthOfLongestSubstring( string01 ))  #  Leetcode, 03
-
-    print("--------------------------------")
     print(S.lengthOfLIS(l3))  # Leetcode, 300
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
+    print("--------------------------------")
+    print(S.coinChange(coins, amount))  # Leetcode, 322
