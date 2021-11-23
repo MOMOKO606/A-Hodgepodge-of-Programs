@@ -221,6 +221,8 @@ class Solution:
 
 
     """
+    322.Medium
+    
     You are given an integer array coins representing coins of different denominations and an integer amount representing 
     a total amount of money.
 
@@ -287,6 +289,17 @@ class Solution:
             return ans
 
 
+    #  Solution3: the iterative dynamic programming algorithm.
+    def coinChange_iter(self, coins: List[int], amount: int) -> int:
+        memo = [amount + 1] * (amount + 1)
+        memo[0] = 0
+
+        for i in range(1, amount + 1):
+            for j in range(len(coins)):
+                if i - coins[j] >= 0:
+                    memo[i] = min(memo[i], memo[i -coins[j]] + 1)
+
+        return -1 if memo[amount] == amount + 1 else memo[amount]
 
 
 
@@ -330,4 +343,4 @@ if __name__ == "__main__":
     print(S.lengthOfLIS(l3))  # Leetcode, 300
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
     print("--------------------------------")
-    print(S.coinChange_recur_memo([1], 2))  # Leetcode, 322
+    print(S.coinChange_iter([2], 3))  # Leetcode, 322
