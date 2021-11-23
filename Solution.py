@@ -1,5 +1,6 @@
 from typing import Optional, List
 import bisect
+import math
 
 #  Auxiliary functions and classes.
 #  Definition for singly-linked list.
@@ -234,9 +235,9 @@ class Solution:
     """
 
     #  Solution1: the naive recursive algorithm.
-    def coinChange(self, coins: List[int], amount: int) -> int:
+    def coinChange_recur(self, coins: List[int], amount: int) -> int:
 
-        def coinChange_Aux( coins: List[int], amount: int) -> int:
+        def coinChange_Aux( coins: List[int], amount: int):
             if amount < 0:
                 return float("inf")
             if amount == 0:
@@ -255,6 +256,35 @@ class Solution:
         else:
             return ans
 
+
+    #  Solution2: the naive recursive algorithm with memo.
+    def coinChange_recur_memo(self, coins: List[int], amount: int) -> int:
+
+        memo = [float("nan")] * (amount + 1)
+        memo[0] = 0
+
+        def coinChange_Aux( coins: List[int], amount: int, memo):
+
+            if amount < 0:
+                return float("inf")
+
+            if not math.isnan(memo[amount]):
+                return memo[amount]
+
+
+            smallest = float("inf")
+            for i in range(len(coins)):
+                smallest = min( smallest, coinChange_Aux( coins, amount - coins[i], memo) )
+
+            memo[amount] = smallest + 1
+            return smallest + 1
+
+        ans = coinChange_Aux(coins, amount, memo)
+
+        if ans == float("inf"):
+            return -1
+        else:
+            return ans
 
 
 
@@ -300,4 +330,4 @@ if __name__ == "__main__":
     print(S.lengthOfLIS(l3))  # Leetcode, 300
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
     print("--------------------------------")
-    print(S.coinChange(coins, amount))  # Leetcode, 322
+    print(S.coinChange_recur_memo([1], 2))  # Leetcode, 322
