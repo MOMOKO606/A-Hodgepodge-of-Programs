@@ -348,6 +348,22 @@ class Solution:
         return uniquePath_Aux(m, n, memo)
 
 
+    #  Solution3: the iterative dynamic programming algorithm.
+    def uniquePaths(self, m: int, n: int) -> int:
+
+        memo = [[0 for i in range(n + 1)] for j in range(m + 1)]
+        memo[1][1] = 1
+
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if i != 1 or j != 1:
+                    memo[i][j] = memo[i - 1][j] + memo[i][j - 1]
+        return memo[m][n]
+
+
+
+
+
 
 
 
@@ -393,4 +409,4 @@ if __name__ == "__main__":
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
     print("--------------------------------")
-    print(S.uniquePaths_recur_memo(7, 3))  # Leetcode, 62
+    print(S.uniquePaths(7, 3))  # Leetcode, 62
