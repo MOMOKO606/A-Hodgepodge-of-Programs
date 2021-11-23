@@ -330,6 +330,26 @@ class Solution:
         return self.uniquePaths_recur(m - 1, n) + self.uniquePaths_recur(m, n - 1)
 
 
+    #  Solution2: the recursive algorithm with memo.
+    def uniquePaths_recur_memo(self, m: int, n: int) -> int:
+
+        def uniquePath_Aux( m: int, n: int, memo: List[int] ) -> int:
+            if memo[m][n] > 0:
+                return memo[m][n]
+            if m == 0 or n == 0:
+                memo[m][n] = 0
+                return 0
+            if m == 1 or n == 1:
+                memo[m][n] = 1
+                return 1
+            return uniquePath_Aux(m - 1, n, memo) + uniquePath_Aux(m, n - 1, memo)
+
+        memo = [[-1 for j in range(n + 2)] for i in range(m + 2)]
+        return uniquePath_Aux(m, n, memo)
+
+
+
+
 
 
 
@@ -373,4 +393,4 @@ if __name__ == "__main__":
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
     print("--------------------------------")
-    print(S.uniquePaths_recur(3, 3))  # Leetcode, 62
+    print(S.uniquePaths_recur_memo(7, 3))  # Leetcode, 62
