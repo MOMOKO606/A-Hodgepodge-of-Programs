@@ -50,7 +50,7 @@ def num2list_rever( num:[int] ) -> List[int]:
 
 class Solution:
     """
-    01.Easy
+    01. Two sum(Easy)
 
     Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
     You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -89,7 +89,7 @@ class Solution:
 
 
     """
-    02.Medium
+    02. Add two numbers(Medium)
     
     You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, 
     and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
@@ -127,7 +127,7 @@ class Solution:
         return ans.next
 
     """
-    03.Medium
+    03.Longest Substring Without Repeating Characters(Medium)
     
     Given a string s, find the length of the longest substring without repeating characters.
 
@@ -221,7 +221,7 @@ class Solution:
 
 
     """
-    322.Medium
+    322.Coin change(Medium)
     
     You are given an integer array coins representing coins of different denominations and an integer amount representing 
     a total amount of money.
@@ -302,6 +302,35 @@ class Solution:
         return -1 if memo[amount] == amount + 1 else memo[amount]
 
 
+    """
+    62.Unique Paths(Medium)
+
+    A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+
+    The robot can only move either down or right at any point in time. 
+    The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+
+    How many possible unique paths are there?
+
+    Input: m = 3, n = 2
+    Output: 3
+    Explanation:
+    From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
+    1. Right -> Down -> Down
+    2. Down -> Down -> Right
+    3. Down -> Right -> Down
+    """
+
+    #  Solution1: the naive recursive algorithm.
+    def uniquePaths_recur(self, m: int, n: int) -> int:
+        if m == 0 or n == 0:
+            return 0
+        if m == 1 or  n == 1:
+            return 1
+        return self.uniquePaths_recur(m - 1, n) + self.uniquePaths_recur(m, n - 1)
+
+
+
 
 
 
@@ -342,5 +371,6 @@ if __name__ == "__main__":
     print(S.lengthOfLongestSubstring( string01 ))  #  Leetcode, 03
     print(S.lengthOfLIS(l3))  # Leetcode, 300
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
-    print("--------------------------------")
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
+    print("--------------------------------")
+    print(S.uniquePaths_recur(3, 3))  # Leetcode, 62
