@@ -394,6 +394,7 @@ class Solution:
 
         return canJump_Aux( nums, len(nums) - 1)
 
+
     #  Solution2: the recursive algorithm with memo.
     def canJump_recur_memo(self, nums: List[int]) -> bool:
 
@@ -426,7 +427,7 @@ class Solution:
         ans[0] = True
         for i in range(1, len(nums)):
             for j in range(i):
-                if i - j <= nums[j]:
+                if i - j <= nums[j] and ans[j] is True:
                     ans[i] = True
                     break
         return ans[n - 1]
@@ -465,6 +466,7 @@ if __name__ == "__main__":
     l5 = [10,9,2,5,3,7,101,18]
     l6 = [2, 3, 1, 1, 4]
     l7 = [3, 2, 1, 0, 4]
+    l8 = [0, 2, 3]
 
     coins = [1,2,5]
     amount = 11
@@ -481,4 +483,4 @@ if __name__ == "__main__":
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
     print(S.uniquePaths(7, 3))  # Leetcode, 62
     print("--------------------------------")
-    print(S.canJump_iter(l7))  # Leetcode, 55
+    print(S.canJump_iter(l8))  # Leetcode, 55
