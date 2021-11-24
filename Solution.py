@@ -361,7 +361,41 @@ class Solution:
         return memo[m][n]
 
 
+    """
+    55.Jump Game(Medium)
 
+    You are given an integer array nums. You are initially positioned at the array's first index, 
+    and each element in the array represents your maximum jump length at that position.
+
+    Return true if you can reach the last index, or false otherwise.
+
+    Input: nums = [2,3,1,1,4]
+    Output: true
+    Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+    
+    Input: nums = [3,2,1,0,4]
+    Output: false
+    Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, 
+    which makes it impossible to reach the last index.
+    """
+
+    #  Solution1: the naive recursive algorithm.
+    def canJump(self, nums: List[int]) -> bool:
+
+        def canJump_aux(nums: List[int], i: int) -> bool:
+            if i == 0:
+                return True
+
+            for j in range(i):
+                if i - j <= nums[j]:
+                    if canJump_aux(nums, j):
+                        return True
+            return False
+
+        return canJump_aux( nums, len(nums) - 1)
+
+    #  Solution2: the recursive algorithm with memo.
+    #  Solution3: the iterative dynamic programming algorithm.
 
 
 
@@ -394,6 +428,8 @@ if __name__ == "__main__":
     l3 = [1, 5, 2, 4, 3]
     l4 = [3, 2, 4, 1, 7, 6, 10]
     l5 = [10,9,2,5,3,7,101,18]
+    l6 = [2, 3, 1, 1, 4]
+    l7 = [3, 2, 1, 0, 4]
 
     coins = [1,2,5]
     amount = 11
@@ -408,5 +444,6 @@ if __name__ == "__main__":
     print(S.lengthOfLIS(l3))  # Leetcode, 300
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
-    print("--------------------------------")
     print(S.uniquePaths(7, 3))  # Leetcode, 62
+    print("--------------------------------")
+    print(S.canJump(l7))  # Leetcode, 55
