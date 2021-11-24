@@ -380,21 +380,45 @@ class Solution:
     """
 
     #  Solution1: the naive recursive algorithm.
-    def canJump(self, nums: List[int]) -> bool:
+    def canJump_recur(self, nums: List[int]) -> bool:
 
-        def canJump_aux(nums: List[int], i: int) -> bool:
+        def canJump_Aux(nums: List[int], i: int) -> bool:
             if i == 0:
                 return True
 
             for j in range(i):
                 if i - j <= nums[j]:
-                    if canJump_aux(nums, j):
+                    if canJump_Aux(nums, j):
                         return True
             return False
 
-        return canJump_aux( nums, len(nums) - 1)
+        return canJump_Aux( nums, len(nums) - 1)
 
     #  Solution2: the recursive algorithm with memo.
+    def canJump_recur_memo(self, nums: List[int]) -> bool:
+
+        def canJump_Aux(nums: List[int], i: int, memo: List[bool]) -> bool:
+
+            if type(memo[i]) is bool:
+                return memo[i]
+
+            if i == 0:
+                memo[i] = True
+                return True
+
+            for j in range(i):
+                if i - j <= nums[j]:
+                    if canJump_Aux(nums, j, memo):
+                        memo[i] = True
+                        return True
+
+            memo[i] = False
+            return False
+
+        memo = [0] * len(nums)
+        return canJump_Aux(nums, len(nums) - 1 , memo)
+
+
     #  Solution3: the iterative dynamic programming algorithm.
 
 
@@ -446,4 +470,4 @@ if __name__ == "__main__":
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
     print(S.uniquePaths(7, 3))  # Leetcode, 62
     print("--------------------------------")
-    print(S.canJump(l7))  # Leetcode, 55
+    print(S.canJump_recur_memo(l6))  # Leetcode, 55
