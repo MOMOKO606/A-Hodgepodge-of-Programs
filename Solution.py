@@ -433,6 +433,16 @@ class Solution:
         return ans[n - 1]
 
 
+    #  Solution4: the greedy algorithm.
+    def canJump_greedy(self, nums: List[int]) -> bool:
+        reach = 0
+        n = len(nums)
+        for i in range(n):
+            if i <= reach:
+                reach = max(reach, nums[i] + i)
+            if reach >= n - 1:
+                return True
+        return False
 
 
 
@@ -483,4 +493,4 @@ if __name__ == "__main__":
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
     print(S.uniquePaths(7, 3))  # Leetcode, 62
     print("--------------------------------")
-    print(S.canJump_iter(l8))  # Leetcode, 55
+    print(S.canJump_greedy([1]))  # Leetcode, 55
