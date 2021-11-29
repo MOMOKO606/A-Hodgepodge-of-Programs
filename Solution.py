@@ -468,6 +468,7 @@ class Solution:
     Input: s = " "
     Output: true
     """
+    #  Solution 1.
     def isPalindrome(self, s: str) -> bool:
         #  Put s into lowercase.
         s = s.lower()
@@ -487,6 +488,30 @@ class Solution:
         return False
 
 
+    #  Solution 2.
+    def isPalindrome_beta(self, s: str) -> bool:
+        s = s.lower()
+
+        i = 0
+        j = len(s) - 1
+
+        while i < j:
+            while  i < len(s) and not (s[i].isalpha() or s[i].isdecimal()):
+                i += 1
+
+            while j > -1  and not (s[j].isalpha() or s[j].isdecimal()):
+                j -= 1
+
+            if i > j:
+                return True
+
+            if s[i] != s[j]:
+                return False
+            else:
+                i += 1
+                j -= 1
+
+        return True
 
 
 
@@ -539,5 +564,6 @@ if __name__ == "__main__":
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
     print(S.uniquePaths(7, 3))  # Leetcode, 62
     print(S.canJump_greedy([1]))  # Leetcode, 55
+    print(S.isPalindrome(string08))  # Leetcode, 125
     print("--------------------------------")
-    print(S.isPalindrome(string08))
+    print(S.isPalindrome_beta(".,"))
