@@ -445,6 +445,49 @@ class Solution:
         return False
 
 
+    """
+    125.Valid Palindrome(Easy)
+
+    A phrase is a palindrome if, 
+    after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, 
+    it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+    Given a string s, return true if it is a palindrome, or false otherwise.
+
+    Example 1:
+    Input: s = "A man, a plan, a canal: Panama"
+    Output: true
+    Explanation: "amanaplanacanalpanama" is a palindrome.
+    
+    Example 2:
+    Input: s = "race a car"
+    Output: false
+    Explanation: "raceacar" is not a palindrome.
+    
+    Example 3:
+    Input: s = " "
+    Output: true
+    """
+    def isPalindrome(self, s: str) -> bool:
+        #  Put s into lowercase.
+        s = s.lower()
+
+        #  Delete all the chars that are not alpha nor numbers.
+        s = [s[i] for i in range(len(s)) if s[i].isdecimal() or s[i].isalpha()]
+
+        #  Put the filtered chars together.
+        s_ori = "".join(s)
+
+        #  Put the filtered chars together reversely.
+        s.reverse()
+        s_rev =  "".join(s)
+
+        if s_ori == s_rev:
+            return True
+        return False
+
+
+
 
 
 
@@ -471,6 +514,9 @@ if __name__ == "__main__":
     string06 = " "
     string07 = "tmmzuxt"
 
+    string08 = "A man, a plan, a canal: Panama"
+    string09 = "race a car"
+
     l3 = [1, 5, 2, 4, 3]
     l4 = [3, 2, 4, 1, 7, 6, 10]
     l5 = [10,9,2,5,3,7,101,18]
@@ -492,5 +538,6 @@ if __name__ == "__main__":
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
     print(S.uniquePaths(7, 3))  # Leetcode, 62
-    print("--------------------------------")
     print(S.canJump_greedy([1]))  # Leetcode, 55
+    print("--------------------------------")
+    print(S.isPalindrome(string08))
