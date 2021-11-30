@@ -469,41 +469,34 @@ class Solution:
     Output: true
     """
     #  Solution 1.
-    def isPalindrome(self, s: str) -> bool:
+    def isPalindrome01(self, s: str) -> bool:
         #  Put s into lowercase.
         s = s.lower()
 
         #  Delete all the chars that are not alpha nor numbers.
-        s = [s[i] for i in range(len(s)) if s[i].isdecimal() or s[i].isalpha()]
+        s = [s[i] for i in range(len(s)) if s[i].isalnum()]
 
-        #  Put the filtered chars together.
-        s_ori = "".join(s)
-
-        #  Put the filtered chars together reversely.
-        s.reverse()
-        s_rev =  "".join(s)
-
-        if s_ori == s_rev:
+        #  Compare by slicing.
+        if s[::-1] == s:
             return True
         return False
 
 
     #  Solution 2.
-    def isPalindrome_beta(self, s: str) -> bool:
+    def isPalindrome02(self, s: str) -> bool:
         s = s.lower()
 
         i = 0
         j = len(s) - 1
 
         while i < j:
-            while  i < len(s) and not (s[i].isalpha() or s[i].isdecimal()):
+            if not s[i].isalnum():
                 i += 1
+                continue
 
-            while j > -1  and not (s[j].isalpha() or s[j].isdecimal()):
+            if not s[j].isalnum():
                 j -= 1
-
-            if i > j:
-                return True
+                continue
 
             if s[i] != s[j]:
                 return False
@@ -512,6 +505,9 @@ class Solution:
                 j -= 1
 
         return True
+
+
+
 
 
 
@@ -564,6 +560,6 @@ if __name__ == "__main__":
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
     print(S.uniquePaths(7, 3))  # Leetcode, 62
     print(S.canJump_greedy([1]))  # Leetcode, 55
-    print(S.isPalindrome(string08))  # Leetcode, 125
+    print(S.isPalindrome01(string08))  # Leetcode, 125
     print("--------------------------------")
-    print(S.isPalindrome_beta(".,"))
+    print(S.isPalindrome02(".,"))
