@@ -507,6 +507,32 @@ class Solution:
         return True
 
 
+    """
+    283. Move Zeros(Easy)
+    
+    Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+    Note that you must do this in-place without making a copy of the array.
+    
+    Example
+    Input: nums = [0,1,0,3,12]
+    Output: [1,3,12,0,0]
+    """
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        j = 0
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[j] = nums[i]
+                j += 1
+
+        for i in range(j, len(nums)):
+            nums[i] = 0
+
+
+
 
 
 
@@ -544,6 +570,7 @@ if __name__ == "__main__":
     l6 = [2, 3, 1, 1, 4]
     l7 = [3, 2, 1, 0, 4]
     l8 = [0, 2, 3]
+    l9 = [0,1,0,3,12]
 
     coins = [1,2,5]
     amount = 11
@@ -561,5 +588,7 @@ if __name__ == "__main__":
     print(S.uniquePaths(7, 3))  # Leetcode, 62
     print(S.canJump_greedy([1]))  # Leetcode, 55
     print(S.isPalindrome01(string08))  # Leetcode, 125
+    print(S.isPalindrome02(".,"))  # Leetcode, 125
     print("--------------------------------")
-    print(S.isPalindrome02(".,"))
+    S.moveZeroes(l8)
+    print(l8)  # Leetcode 283
