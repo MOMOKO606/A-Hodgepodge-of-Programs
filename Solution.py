@@ -588,7 +588,6 @@ class Solution:
     1. 1 step + 1 step
     2. 2 steps
     """
-
     #  Solution01: the naive recursive algorithm.
     def climbStairs_naive(self, n: int) -> int:
         if n == 1:
@@ -642,6 +641,36 @@ class Solution:
         return f3
 
 
+    """
+    15. Sum(Medium)
+
+    Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that 
+    i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+    Example
+    Input: nums = [-1,0,1,2,-1,-4]
+    Output: [[-1,-1,2],[-1,0,1]]
+    """
+    #  Solution01: brute force - O(n^3).
+    def threeSum_naive(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        ans = []
+        for i in range( n - 2 ):
+            key = 0 - nums[i]
+            for j in range(i + 1, n - 1):
+                pivot = key - nums[j]
+                for k in range(j + 1, n):
+                    if nums[k] == pivot:
+                        l = sorted([nums[i], nums[j], nums[k]])
+                        if l not in ans:
+                            ans.append(l)
+        return ans
+
+
+    #  Solution02: Hash table - O(n^2).
+
+
+
 
 
 
@@ -672,6 +701,9 @@ if __name__ == "__main__":
     l7 = [3, 2, 1, 0, 4]
     l8 = [0, 2, 3]
     l9 = [0, 1, 0, 3, 12]
+    l10 = []
+    l11 = [0]
+    l12 = [-1, 0, 1, 2, -1, -4]
     height01 = [1, 1]
     height02 = [4, 3, 2, 1, 4]
     height03 = [1, 2, 1]
@@ -699,3 +731,5 @@ if __name__ == "__main__":
     print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
     print(S.climbStairs(3))  # Leetcode 70
     print("--------------------------------")
+    print(S.threeSum(l12))  # leetcode 15
+
