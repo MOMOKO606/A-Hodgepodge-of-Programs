@@ -68,7 +68,6 @@ class Solution:
                 if nums[j] == x:
                     return i, j
 
-
     def twoSum02(self, nums: List[int], target: int) -> List[int]:
         hashmap = {}
         for i in range(len(nums)):
@@ -77,7 +76,6 @@ class Solution:
             x = target - nums[i]
             if x in hashmap:
                 return hashmap[x], i
-
 
     def twoSum03(self, nums: List[int], target:int) -> List[int]:
         hashmap = {}
@@ -102,7 +100,6 @@ class Solution:
     def addTwoNumbers01(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         return array2Linkedlist(num2list_rever( linkedlist2num( l1 ) + linkedlist2num( l2 ) ))
 
-
     def addTwoNumbers02(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
 
         ans = cur = ListNode(0)
@@ -118,13 +115,13 @@ class Solution:
                 carry += l2.val
                 l2 = l2.next
 
-
             cur.next = ListNode( carry % 10)
             cur = cur.next
 
             carry //= 10
 
         return ans.next
+
 
     """
     03.Longest Substring Without Repeating Characters(Medium)
@@ -181,7 +178,6 @@ class Solution:
             self.lis(i, nums, dp)
         return max( dp )
 
-
     def lis(self, i: int, nums: List[int], dp: List[int]) -> int:
         if dp[i]:
             return dp[i]
@@ -196,7 +192,6 @@ class Solution:
         dp[i] = max_len
         return max_len
 
-
     #  Solution2: the iterative dynamic programming algorithm of lengthOfLIS.
     def lengthOfLIS_iter( self, nums: List[int] ) -> int:
         n = len(nums)
@@ -206,7 +201,6 @@ class Solution:
                 if nums[j] < nums[i]:
                     dp[i] = max(dp[i], dp[j] + 1)
         return max(dp)
-
 
     #  Solution3: the greedy lengthOfLIS.
     def lengthOfLIS_greedy( self, nums: List[int] ) -> int:
@@ -235,7 +229,6 @@ class Solution:
     Output: 3
     Explanation: 11 = 5 + 5 + 1
     """
-
     #  Solution1: the naive recursive algorithm.
     def coinChange_recur(self, coins: List[int], amount: int) -> int:
 
@@ -257,7 +250,6 @@ class Solution:
             return -1
         else:
             return ans
-
 
     #  Solution2: the naive recursive algorithm with memo.
     def coinChange_recur_memo(self, coins: List[int], amount: int) -> int:
@@ -287,7 +279,6 @@ class Solution:
             return -1
         else:
             return ans
-
 
     #  Solution3: the iterative dynamic programming algorithm.
     def coinChange_iter(self, coins: List[int], amount: int) -> int:
@@ -320,7 +311,6 @@ class Solution:
     2. Down -> Down -> Right
     3. Down -> Right -> Down
     """
-
     #  Solution1: the naive recursive algorithm.
     def uniquePaths_recur(self, m: int, n: int) -> int:
         if m == 0 or n == 0:
@@ -328,7 +318,6 @@ class Solution:
         if m == 1 or  n == 1:
             return 1
         return self.uniquePaths_recur(m - 1, n) + self.uniquePaths_recur(m, n - 1)
-
 
     #  Solution2: the recursive algorithm with memo.
     def uniquePaths_recur_memo(self, m: int, n: int) -> int:
@@ -346,7 +335,6 @@ class Solution:
 
         memo = [[-1 for j in range(n + 2)] for i in range(m + 2)]
         return uniquePath_Aux(m, n, memo)
-
 
     #  Solution3: the iterative dynamic programming algorithm.
     def uniquePaths(self, m: int, n: int) -> int:
@@ -378,7 +366,6 @@ class Solution:
     Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, 
     which makes it impossible to reach the last index.
     """
-
     #  Solution1: the naive recursive algorithm.
     def canJump_recur(self, nums: List[int]) -> bool:
 
@@ -393,7 +380,6 @@ class Solution:
             return False
 
         return canJump_Aux( nums, len(nums) - 1)
-
 
     #  Solution2: the recursive algorithm with memo.
     def canJump_recur_memo(self, nums: List[int]) -> bool:
@@ -419,7 +405,6 @@ class Solution:
         memo = [0] * len(nums)
         return canJump_Aux(nums, len(nums) - 1 , memo)
 
-
     #  Solution3: the iterative dynamic programming algorithm.
     def canJump_iter(self, nums: List[int]) -> bool:
         n = len(nums)
@@ -431,7 +416,6 @@ class Solution:
                     ans[i] = True
                     break
         return ans[n - 1]
-
 
     #  Solution4: the greedy algorithm.
     def canJump_greedy(self, nums: List[int]) -> bool:
@@ -481,7 +465,6 @@ class Solution:
             return True
         return False
 
-
     #  Solution 2.
     def isPalindrome02(self, s: str) -> bool:
         s = s.lower()
@@ -518,7 +501,8 @@ class Solution:
     Input: nums = [0,1,0,3,12]
     Output: [1,3,12,0,0]
     """
-    def moveZeroes(self, nums: List[int]) -> None:
+    #  Solution1 with two loops.
+    def moveZeroes01(self, nums: List[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
         """
@@ -530,6 +514,27 @@ class Solution:
 
         for i in range(j, len(nums)):
             nums[i] = 0
+
+    #  Solution2 with one loop.
+    def moveZeroes02(self, nums: list[int]) -> None:
+        j = 0
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[j] = nums[i]
+                if j != i:
+                    nums[i] = 0
+                j += 1
+
+    #  Solution3 with one loop.
+    def moveZeroes03(self, nums: List[int]) -> None:
+        j = 0
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[i], nums[j] = nums[j], nums[i]
+                j += 1
+
+
+
 
 
 
@@ -590,5 +595,5 @@ if __name__ == "__main__":
     print(S.isPalindrome01(string08))  # Leetcode, 125
     print(S.isPalindrome02(".,"))  # Leetcode, 125
     print("--------------------------------")
-    S.moveZeroes(l8)
+    S.moveZeroes03(l8)
     print(l8)  # Leetcode 283
