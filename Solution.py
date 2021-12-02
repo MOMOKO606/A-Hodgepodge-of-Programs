@@ -48,6 +48,7 @@ def num2list_rever( num:[int] ) -> List[int]:
     return res
 
 
+
 class Solution:
     """
     01. Two sum(Easy)
@@ -68,6 +69,7 @@ class Solution:
                 if nums[j] == x:
                     return i, j
 
+
     def twoSum02(self, nums: List[int], target: int) -> List[int]:
         hashmap = {}
         for i in range(len(nums)):
@@ -76,6 +78,7 @@ class Solution:
             x = target - nums[i]
             if x in hashmap:
                 return hashmap[x], i
+
 
     def twoSum03(self, nums: List[int], target:int) -> List[int]:
         hashmap = {}
@@ -192,6 +195,7 @@ class Solution:
         dp[i] = max_len
         return max_len
 
+
     #  Solution2: the iterative dynamic programming algorithm of lengthOfLIS.
     def lengthOfLIS_iter( self, nums: List[int] ) -> int:
         n = len(nums)
@@ -201,6 +205,7 @@ class Solution:
                 if nums[j] < nums[i]:
                     dp[i] = max(dp[i], dp[j] + 1)
         return max(dp)
+
 
     #  Solution3: the greedy lengthOfLIS.
     def lengthOfLIS_greedy( self, nums: List[int] ) -> int:
@@ -251,6 +256,7 @@ class Solution:
         else:
             return ans
 
+
     #  Solution2: the naive recursive algorithm with memo.
     def coinChange_recur_memo(self, coins: List[int], amount: int) -> int:
 
@@ -279,6 +285,7 @@ class Solution:
             return -1
         else:
             return ans
+
 
     #  Solution3: the iterative dynamic programming algorithm.
     def coinChange_iter(self, coins: List[int], amount: int) -> int:
@@ -319,6 +326,7 @@ class Solution:
             return 1
         return self.uniquePaths_recur(m - 1, n) + self.uniquePaths_recur(m, n - 1)
 
+
     #  Solution2: the recursive algorithm with memo.
     def uniquePaths_recur_memo(self, m: int, n: int) -> int:
 
@@ -335,6 +343,7 @@ class Solution:
 
         memo = [[-1 for j in range(n + 2)] for i in range(m + 2)]
         return uniquePath_Aux(m, n, memo)
+
 
     #  Solution3: the iterative dynamic programming algorithm.
     def uniquePaths(self, m: int, n: int) -> int:
@@ -381,6 +390,7 @@ class Solution:
 
         return canJump_Aux( nums, len(nums) - 1)
 
+
     #  Solution2: the recursive algorithm with memo.
     def canJump_recur_memo(self, nums: List[int]) -> bool:
 
@@ -405,6 +415,7 @@ class Solution:
         memo = [0] * len(nums)
         return canJump_Aux(nums, len(nums) - 1 , memo)
 
+
     #  Solution3: the iterative dynamic programming algorithm.
     def canJump_iter(self, nums: List[int]) -> bool:
         n = len(nums)
@@ -416,6 +427,7 @@ class Solution:
                     ans[i] = True
                     break
         return ans[n - 1]
+
 
     #  Solution4: the greedy algorithm.
     def canJump_greedy(self, nums: List[int]) -> bool:
@@ -452,6 +464,7 @@ class Solution:
     Input: s = " "
     Output: true
     """
+
     #  Solution 1.
     def isPalindrome01(self, s: str) -> bool:
         #  Put s into lowercase.
@@ -464,6 +477,7 @@ class Solution:
         if s[::-1] == s:
             return True
         return False
+
 
     #  Solution 2.
     def isPalindrome02(self, s: str) -> bool:
@@ -501,6 +515,7 @@ class Solution:
     Input: nums = [0,1,0,3,12]
     Output: [1,3,12,0,0]
     """
+
     #  Solution1 with two loops.
     def moveZeroes01(self, nums: List[int]) -> None:
         """
@@ -515,6 +530,7 @@ class Solution:
         for i in range(j, len(nums)):
             nums[i] = 0
 
+
     #  Solution2 with one loop.
     def moveZeroes02(self, nums: list[int]) -> None:
         j = 0
@@ -525,6 +541,7 @@ class Solution:
                     nums[i] = 0
                 j += 1
 
+
     #  Solution3 with one loop.
     def moveZeroes03(self, nums: List[int]) -> None:
         j = 0
@@ -534,14 +551,44 @@ class Solution:
                 j += 1
 
 
+    """
+    8. Container with most water(Medium)
+    
+    Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai). 
+    n vertical lines are drawn such that the two endpoints of the line i is at (i, ai) and (i, 0). 
+    Find two lines, which, together with the x-axis forms a container, such that the container contains the most water.
+    
+    Example
+    Input: height = [1,8,6,2,5,4,8,3,7]
+    Output: 49
+    Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. 
+    In this case, the max area of water (blue section) the container can contain is 49.
+    """
+    #  Solution1 brute force.
+    def maxArea_naive(self, height:List[int]) -> int:
+        ans = 0
+        for i in range( len(height) - 1):
+            for j in range( i + 1, len(height)):
+                ans = max(ans, self.getArea(height, i, j))
+        return ans
+
+    def getArea(self, height, i, j):
+        return (j - i) * min(height[i], height[j])
 
 
+    #  Solution2 one loop with two pointers.
+    def maxArea01(self, height: List[int]) -> int:
+        i = 0
+        j = len(height) - 1
+        max_area = 0
+        while i < j:
+            max_area = max(max_area, (j - i) * min(height[i], height[j]))
 
-
-
-
-
-
+            if height[i] < height[j]:
+                i += 1
+            else:
+                j -= 1
+        return  max_area
 
 
 
@@ -576,6 +623,10 @@ if __name__ == "__main__":
     l7 = [3, 2, 1, 0, 4]
     l8 = [0, 2, 3]
     l9 = [0,1,0,3,12]
+    height01 = [1,1]
+    height02 = [4,3,2,1,4]
+    height03 = [1,2,1]
+    height04 = [1,8,6,2,5,4,8,3,7]
 
     coins = [1,2,5]
     amount = 11
@@ -594,6 +645,7 @@ if __name__ == "__main__":
     print(S.canJump_greedy([1]))  # Leetcode, 55
     print(S.isPalindrome01(string08))  # Leetcode, 125
     print(S.isPalindrome02(".,"))  # Leetcode, 125
-    print("--------------------------------")
     S.moveZeroes03(l8)
     print(l8)  # Leetcode 283
+    print("--------------------------------")
+    print(S.maxArea02([2,3,4,5,18,17,6]))
