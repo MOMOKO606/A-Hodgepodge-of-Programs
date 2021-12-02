@@ -2,6 +2,7 @@ from typing import Optional, List
 import bisect
 import math
 
+
 #  Auxiliary functions and classes.
 #  Definition for singly-linked list.
 class ListNode:
@@ -11,7 +12,7 @@ class ListNode:
 
 
 #  Transfer an array to a linked list.
-def array2Linkedlist( nums:List[int] ) -> Optional[ListNode]:
+def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
     head = cur = ListNode(nums[0])
     for i in range(1, len(nums)):
         cur.next = ListNode(nums[i])
@@ -20,7 +21,7 @@ def array2Linkedlist( nums:List[int] ) -> Optional[ListNode]:
 
 
 #  Transfer a linked list to an array.
-def linkedlist2Array( head: Optional[ListNode] ) -> List[int]:
+def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
     cur = head
     res = []
     while cur:
@@ -31,22 +32,21 @@ def linkedlist2Array( head: Optional[ListNode] ) -> List[int]:
 
 #  Transfer a linked list to represent a number
 #  The number in each node represents a digit of a number from left to right.
-def linkedlist2num( head: Optional[ListNode] ) -> int:
+def linkedlist2num(head: Optional[ListNode]) -> int:
     if head is None:
         return 0
-    return head.val + 10 * linkedlist2num( head.next )
+    return head.val + 10 * linkedlist2num(head.next)
 
 
 #  Transfer a number to a linked list in reverse order.
 #  The number in each node represents a digit of a number in reverse order.
-def num2list_rever( num:[int] ) -> List[int]:
+def num2list_rever(num: [int]) -> List[int]:
     if num == 0: return [0]
     res = []
     while num:
-        res.append( num % 10 )
+        res.append(num % 10)
         num //= 10
     return res
-
 
 
 class Solution:
@@ -62,13 +62,13 @@ class Solution:
     Output: [0,1]
     Output: Because nums[0] + nums[1] == 9, we return [0, 1].
     """
+
     def twoSum01(self, nums: List[int], target: int) -> List[int]:
         for i in range(len(nums)):
             x = target - nums[i]
             for j in range(i + 1, len(nums)):
                 if nums[j] == x:
                     return i, j
-
 
     def twoSum02(self, nums: List[int], target: int) -> List[int]:
         hashmap = {}
@@ -79,15 +79,13 @@ class Solution:
             if x in hashmap:
                 return hashmap[x], i
 
-
-    def twoSum03(self, nums: List[int], target:int) -> List[int]:
+    def twoSum03(self, nums: List[int], target: int) -> List[int]:
         hashmap = {}
         for i in range(len(nums)):
             x = target - nums[i]
             if x in hashmap:
                 return hashmap[x], i
             hashmap[nums[i]] = i
-
 
     """
     02. Add two numbers(Medium)
@@ -100,8 +98,9 @@ class Solution:
     Output: [7,0,8]
     Explanation: 342 + 465 = 807.
     """
+
     def addTwoNumbers01(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        return array2Linkedlist(num2list_rever( linkedlist2num( l1 ) + linkedlist2num( l2 ) ))
+        return array2Linkedlist(num2list_rever(linkedlist2num(l1) + linkedlist2num(l2)))
 
     def addTwoNumbers02(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
 
@@ -118,13 +117,12 @@ class Solution:
                 carry += l2.val
                 l2 = l2.next
 
-            cur.next = ListNode( carry % 10)
+            cur.next = ListNode(carry % 10)
             cur = cur.next
 
             carry //= 10
 
         return ans.next
-
 
     """
     03.Longest Substring Without Repeating Characters(Medium)
@@ -136,6 +134,7 @@ class Solution:
     Explanation: The answer is "wke", with the length of 3.
     Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
     """
+
     def lengthOfLongestSubstring(self, s: str) -> int:
         #  Initialization
         #  usedchar是一个dict（即哈希表），用来存储已出现过的字符的；
@@ -147,7 +146,7 @@ class Solution:
         for right in range(len(s)):
             #  s[right] is already in the dict.
             #  特别注意要考虑到当字符已存在dict时，还需考虑是否是当前substring的重复字符。
-            if s[right] in usedchar and left < usedchar [s[right]]:
+            if s[right] in usedchar and left < usedchar[s[right]]:
                 left = usedchar[s[right]]
             #  s[right] is not in the dict.
             else:
@@ -158,7 +157,6 @@ class Solution:
             usedchar[s[right]] = right
 
         return max_count
-
 
     """
     300.Medium
@@ -173,13 +171,14 @@ class Solution:
     Output: 4
     Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
     """
+
     #  Solution1: the recursive lengthOfLIS with memo.
     def lengthOfLIS(self, nums: List[int]) -> int:
         n = len(nums)
         dp = [0] * n
         for i in range(n):
             self.lis(i, nums, dp)
-        return max( dp )
+        return max(dp)
 
     def lis(self, i: int, nums: List[int], dp: List[int]) -> int:
         if dp[i]:
@@ -191,13 +190,12 @@ class Solution:
         max_len = 1
         for j in range(i):
             if nums[j] < nums[i]:
-                max_len = max(max_len, self.lis(j, nums, dp) + 1  )
+                max_len = max(max_len, self.lis(j, nums, dp) + 1)
         dp[i] = max_len
         return max_len
 
-
     #  Solution2: the iterative dynamic programming algorithm of lengthOfLIS.
-    def lengthOfLIS_iter( self, nums: List[int] ) -> int:
+    def lengthOfLIS_iter(self, nums: List[int]) -> int:
         n = len(nums)
         dp = [1] * n
         for i in range(n):
@@ -206,18 +204,16 @@ class Solution:
                     dp[i] = max(dp[i], dp[j] + 1)
         return max(dp)
 
-
     #  Solution3: the greedy lengthOfLIS.
-    def lengthOfLIS_greedy( self, nums: List[int] ) -> int:
+    def lengthOfLIS_greedy(self, nums: List[int]) -> int:
         ans = []
         for i in range(len(nums)):
             index = bisect.bisect_left(ans, nums[i])
-            if index == len(ans) :
+            if index == len(ans):
                 ans.append(nums[i])
             else:
                 ans[index] = nums[i]
         return len(ans)
-
 
     """
     322.Coin change(Medium)
@@ -234,10 +230,11 @@ class Solution:
     Output: 3
     Explanation: 11 = 5 + 5 + 1
     """
+
     #  Solution1: the naive recursive algorithm.
     def coinChange_recur(self, coins: List[int], amount: int) -> int:
 
-        def coinChange_Aux( coins: List[int], amount: int):
+        def coinChange_Aux(coins: List[int], amount: int):
             if amount < 0:
                 return float("inf")
             if amount == 0:
@@ -245,7 +242,7 @@ class Solution:
 
             smallest = float("inf")
             for i in range(len(coins)):
-                smallest = min( smallest, coinChange_Aux( coins, amount - coins[i]))
+                smallest = min(smallest, coinChange_Aux(coins, amount - coins[i]))
 
             return smallest + 1
 
@@ -256,14 +253,13 @@ class Solution:
         else:
             return ans
 
-
     #  Solution2: the naive recursive algorithm with memo.
     def coinChange_recur_memo(self, coins: List[int], amount: int) -> int:
 
         memo = [float("nan")] * (amount + 1)
         memo[0] = 0
 
-        def coinChange_Aux( coins: List[int], amount: int, memo):
+        def coinChange_Aux(coins: List[int], amount: int, memo):
 
             if amount < 0:
                 return float("inf")
@@ -271,10 +267,9 @@ class Solution:
             if not math.isnan(memo[amount]):
                 return memo[amount]
 
-
             smallest = float("inf")
             for i in range(len(coins)):
-                smallest = min( smallest, coinChange_Aux( coins, amount - coins[i], memo) )
+                smallest = min(smallest, coinChange_Aux(coins, amount - coins[i], memo))
 
             memo[amount] = smallest + 1
             return smallest + 1
@@ -286,7 +281,6 @@ class Solution:
         else:
             return ans
 
-
     #  Solution3: the iterative dynamic programming algorithm.
     def coinChange_iter(self, coins: List[int], amount: int) -> int:
         memo = [amount + 1] * (amount + 1)
@@ -295,10 +289,9 @@ class Solution:
         for i in range(1, amount + 1):
             for j in range(len(coins)):
                 if i - coins[j] >= 0:
-                    memo[i] = min(memo[i], memo[i -coins[j]] + 1)
+                    memo[i] = min(memo[i], memo[i - coins[j]] + 1)
 
         return -1 if memo[amount] == amount + 1 else memo[amount]
-
 
     """
     62.Unique Paths(Medium)
@@ -318,19 +311,19 @@ class Solution:
     2. Down -> Down -> Right
     3. Down -> Right -> Down
     """
+
     #  Solution1: the naive recursive algorithm.
     def uniquePaths_recur(self, m: int, n: int) -> int:
         if m == 0 or n == 0:
             return 0
-        if m == 1 or  n == 1:
+        if m == 1 or n == 1:
             return 1
         return self.uniquePaths_recur(m - 1, n) + self.uniquePaths_recur(m, n - 1)
-
 
     #  Solution2: the recursive algorithm with memo.
     def uniquePaths_recur_memo(self, m: int, n: int) -> int:
 
-        def uniquePath_Aux( m: int, n: int, memo: List[int] ) -> int:
+        def uniquePath_Aux(m: int, n: int, memo: List[int]) -> int:
             if memo[m][n] > 0:
                 return memo[m][n]
             if m == 0 or n == 0:
@@ -344,7 +337,6 @@ class Solution:
         memo = [[-1 for j in range(n + 2)] for i in range(m + 2)]
         return uniquePath_Aux(m, n, memo)
 
-
     #  Solution3: the iterative dynamic programming algorithm.
     def uniquePaths(self, m: int, n: int) -> int:
 
@@ -356,7 +348,6 @@ class Solution:
                 if i != 1 or j != 1:
                     memo[i][j] = memo[i - 1][j] + memo[i][j - 1]
         return memo[m][n]
-
 
     """
     55.Jump Game(Medium)
@@ -375,6 +366,7 @@ class Solution:
     Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, 
     which makes it impossible to reach the last index.
     """
+
     #  Solution1: the naive recursive algorithm.
     def canJump_recur(self, nums: List[int]) -> bool:
 
@@ -388,8 +380,7 @@ class Solution:
                         return True
             return False
 
-        return canJump_Aux( nums, len(nums) - 1)
-
+        return canJump_Aux(nums, len(nums) - 1)
 
     #  Solution2: the recursive algorithm with memo.
     def canJump_recur_memo(self, nums: List[int]) -> bool:
@@ -413,8 +404,7 @@ class Solution:
             return False
 
         memo = [0] * len(nums)
-        return canJump_Aux(nums, len(nums) - 1 , memo)
-
+        return canJump_Aux(nums, len(nums) - 1, memo)
 
     #  Solution3: the iterative dynamic programming algorithm.
     def canJump_iter(self, nums: List[int]) -> bool:
@@ -428,7 +418,6 @@ class Solution:
                     break
         return ans[n - 1]
 
-
     #  Solution4: the greedy algorithm.
     def canJump_greedy(self, nums: List[int]) -> bool:
         reach = 0
@@ -439,7 +428,6 @@ class Solution:
             if reach >= n - 1:
                 return True
         return False
-
 
     """
     125.Valid Palindrome(Easy)
@@ -478,7 +466,6 @@ class Solution:
             return True
         return False
 
-
     #  Solution 2.
     def isPalindrome02(self, s: str) -> bool:
         s = s.lower()
@@ -502,7 +489,6 @@ class Solution:
                 j -= 1
 
         return True
-
 
     """
     283. Move Zeros(Easy)
@@ -530,7 +516,6 @@ class Solution:
         for i in range(j, len(nums)):
             nums[i] = 0
 
-
     #  Solution2 with one loop.
     def moveZeroes02(self, nums: list[int]) -> None:
         j = 0
@@ -541,7 +526,6 @@ class Solution:
                     nums[i] = 0
                 j += 1
 
-
     #  Solution3 with one loop.
     def moveZeroes03(self, nums: List[int]) -> None:
         j = 0
@@ -549,7 +533,6 @@ class Solution:
             if nums[i] != 0:
                 nums[i], nums[j] = nums[j], nums[i]
                 j += 1
-
 
     """
     8. Container with most water(Medium)
@@ -564,20 +547,20 @@ class Solution:
     Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. 
     In this case, the max area of water (blue section) the container can contain is 49.
     """
+
     #  Solution1 brute force.
-    def maxArea_naive(self, height:List[int]) -> int:
+    def maxArea_naive(self, height: List[int]) -> int:
         ans = 0
-        for i in range( len(height) - 1):
-            for j in range( i + 1, len(height)):
+        for i in range(len(height) - 1):
+            for j in range(i + 1, len(height)):
                 ans = max(ans, self.getArea(height, i, j))
         return ans
 
     def getArea(self, height, i, j):
         return (j - i) * min(height[i], height[j])
 
-
     #  Solution2 one loop with two pointers.
-    def maxArea01(self, height: List[int]) -> int:
+    def maxArea(self, height: List[int]) -> int:
         i = 0
         j = len(height) - 1
         max_area = 0
@@ -588,9 +571,63 @@ class Solution:
                 i += 1
             else:
                 j -= 1
-        return  max_area
+        return max_area
+
+    """
+    70. Climbing Stairs
+    
+    You are climbing a staircase. It takes n steps to reach the top.
+
+    Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+    
+    Example
+    Input: n = 2
+    Output: 2
+    Explanation: There are two ways to climb to the top.
+    1. 1 step + 1 step
+    2. 2 steps
+    """
+
+    #  Solution01: the naive recursive algorithm.
+    def climbStairs_naive(self, n: int) -> int:
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+        return self.climbStairs_naive(n - 1) + self.climbStairs_naive(n - 2)
 
 
+    #  Solution02: the recursive algorithm with memo.
+    def climbStairs_memo(self, n: int) -> int:
+
+        def climbStairs_aux(n: int, memo: List[int]) -> int:
+            if memo[n]:
+                return memo[n]
+            if n == 1:
+                memo[n] = 1
+                return 1
+            if n == 2:
+                memo[n] = 2
+                return 2
+            return climbStairs_aux(n - 1, memo) + climbStairs_aux(n - 2, memo)
+
+
+        memo = [0] * (n + 1)
+        return climbStairs_aux(n, memo)
+
+
+    #  Solution03: the dynamic algoritm.
+    def climbStairs(self, n: int) -> int:
+        if n == 1:
+            return 1
+        if n == 2:
+            return 2
+        ans = [0] * (n + 1)
+        ans[1] = 1
+        ans[2] = 2
+        for i in range(3, n + 1):
+            ans[i] = ans[i - 1] + ans[i - 2]
+        return ans[n]
 
 
 
@@ -602,9 +639,9 @@ if __name__ == "__main__":
     S = Solution()
 
     #  Data: lists.
-    l0 = [2,7,11,15]
-    l1_list = [9,9,9,9,9,9,9]
-    l2_list = [9,9,9,9]
+    l0 = [2, 7, 11, 15]
+    l1_list = [9, 9, 9, 9, 9, 9, 9]
+    l2_list = [9, 9, 9, 9]
     string01 = "abcabcbb"
     string02 = "bbbbb"
     string03 = "pwwkew"
@@ -618,26 +655,26 @@ if __name__ == "__main__":
 
     l3 = [1, 5, 2, 4, 3]
     l4 = [3, 2, 4, 1, 7, 6, 10]
-    l5 = [10,9,2,5,3,7,101,18]
+    l5 = [10, 9, 2, 5, 3, 7, 101, 18]
     l6 = [2, 3, 1, 1, 4]
     l7 = [3, 2, 1, 0, 4]
     l8 = [0, 2, 3]
-    l9 = [0,1,0,3,12]
-    height01 = [1,1]
-    height02 = [4,3,2,1,4]
-    height03 = [1,2,1]
-    height04 = [1,8,6,2,5,4,8,3,7]
+    l9 = [0, 1, 0, 3, 12]
+    height01 = [1, 1]
+    height02 = [4, 3, 2, 1, 4]
+    height03 = [1, 2, 1]
+    height04 = [1, 8, 6, 2, 5, 4, 8, 3, 7]
 
-    coins = [1,2,5]
+    coins = [1, 2, 5]
     amount = 11
 
     #  Data: Linked lists.
     l1 = array2Linkedlist(l1_list)
     l2 = array2Linkedlist(l2_list)
 
-    print(S.twoSum03(l0, 9))   #  Leetcode, 01
-    print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  #  Leetcode, 02
-    print(S.lengthOfLongestSubstring( string01 ))  #  Leetcode, 03
+    print(S.twoSum03(l0, 9))  # Leetcode, 01
+    print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  # Leetcode, 02
+    print(S.lengthOfLongestSubstring(string01))  # Leetcode, 03
     print(S.lengthOfLIS(l3))  # Leetcode, 300
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
@@ -647,5 +684,6 @@ if __name__ == "__main__":
     print(S.isPalindrome02(".,"))  # Leetcode, 125
     S.moveZeroes03(l8)
     print(l8)  # Leetcode 283
+    print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
     print("--------------------------------")
-    print(S.maxArea02([2,3,4,5,18,17,6]))
+    print(S.climbStairs(3))
