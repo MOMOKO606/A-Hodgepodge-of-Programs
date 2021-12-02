@@ -573,6 +573,7 @@ class Solution:
                 j -= 1
         return max_area
 
+
     """
     70. Climbing Stairs(Easy)
     
@@ -630,6 +631,17 @@ class Solution:
         return ans[n]
 
 
+    #  Solution04: optimized algorithm.
+    def climbStairs_opt(self, n: int) -> int:
+        if n <= 2: return n
+        f1, f2 = 1, 2
+        for i in range(3, n + 1):
+            f3 = f1 + f2
+            f1 = f2
+            f2 = f3
+        return f3
+
+
 
 
 
@@ -685,5 +697,5 @@ if __name__ == "__main__":
     S.moveZeroes03(l8)
     print(l8)  # Leetcode 283
     print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
+    print(S.climbStairs(3))  # Leetcode 70
     print("--------------------------------")
-    print(S.climbStairs(3))
