@@ -667,7 +667,34 @@ class Solution:
         return ans
 
 
-    #  Solution02: Hash table - O(n^2).
+    #  Solution02: Hash table - O(n^2)
+    def threeSum_hash(self, nums: List[int] ) -> List[int]:
+
+        def twoSum( nums, i, key ):
+            hashmap = {}
+            result = []
+            for j in range(len(nums)):
+                #  Avoid pivot i.
+                if j == i:
+                    continue
+
+                wanted = key - nums[j]
+                if wanted in hashmap:
+                    result.append([nums[hashmap[wanted]], nums[j]])
+                hashmap[nums[j]] = j
+
+            return result
+
+        ans = []
+        for i in range(len(nums)):
+            tmp = twoSum(nums, i, -nums[i])
+            for l in tmp:
+                if l is not None:
+                    l.append(nums[i])
+                    l.sort()
+                    if l not in ans:
+                        ans.append(l)
+        return ans
 
 
 
@@ -704,6 +731,7 @@ if __name__ == "__main__":
     l10 = []
     l11 = [0]
     l12 = [-1, 0, 1, 2, -1, -4]
+    l13 = [-1,0,1,2,-1,-4,-2,-3,3,0,4]
     height01 = [1, 1]
     height02 = [4, 3, 2, 1, 4]
     height03 = [1, 2, 1]
@@ -731,5 +759,6 @@ if __name__ == "__main__":
     print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
     print(S.climbStairs(3))  # Leetcode 70
     print("--------------------------------")
-    print(S.threeSum(l12))  # leetcode 15
+    print(S.threeSum_naive(l10))  # leetcode 15
+    print(S.threeSum_hash(l10))  # leetcode 15
 
