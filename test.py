@@ -1,22 +1,75 @@
-def left_join(phrases: tuple) -> str:
-    """
-    Join strings and replace "right" to "left"
-    """
+from typing import Optional, List
+
+class ListNode:
+    def __init__(self, var = 0, next = None):
+        self.var = var
+        self.next = next
+
+
+def array2Linkedlist( nums: List[int] ) -> Optional[ListNode]:
+
+    if not nums:
+        return None
+
+    head = cur = ListNode(nums[0])
+    for j in range(1,len(nums)):
+        cur.next = ListNode(nums[j])
+        cur = cur.next
+
+    return head
+
+
+def linkedlist2Array( head: Optional[ListNode] ) -> List[int]:
     ans = []
-    for word in phrases:
-        ans.append(word.replace("right", "left"))
-    return ",".join(ans)
+    while head:
+        ans.append(head.var)
+        head = head.next
+    return ans
+
+
+def printLinkedlist( head: Optional[ListNode] ) -> None:
+    print(linkedlist2Array(head))
+
+
+
+
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+        def reverseList_aux( head ):
+            if head is None or head.next is None:
+                return head, head
+
+            new_head, new_tail = reverseList_aux( head.next )
+
+            new_tail.next = head
+            head.next = None
+
+            return new_head, head
+
+        head, tail = reverseList_aux( head )
+        return head
+
 
 
 if __name__ == "__main__":
-    print("Example:")
-    print(left_join(("left", "right", "left", "stop")))
+    l00 = []
+    l01 = [2,4,5,12,56,3,-3]
+    l02 = [1,2,3,4,5]
+    l03 = [1,2]
 
-    # These "asserts" using only for self-checking and not necessary for auto-testing
-    assert (
-        left_join(("left", "right", "left", "stop")) == "left,left,left,stop"
-    ), "All to left"
-    assert left_join(("bright aright", "ok")) == "bleft aleft,ok", "Bright Left"
-    assert left_join(("brightness wright",)) == "bleftness wleft", "One phrase"
-    assert left_join(("enough", "jokes")) == "enough,jokes", "Nothing to replace"
-    print("Coding complete? Click 'Check' to review your tests and earn cool rewards!")
+    ll00 = array2Linkedlist(l00)
+    ll01 = array2Linkedlist(l01)
+    ll02 = array2Linkedlist(l02)
+
+    S = Solution()
+    head = S.reverseList(ll00)
+    printLinkedlist(head)
+
+
+
+
+
+
+

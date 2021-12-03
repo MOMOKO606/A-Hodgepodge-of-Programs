@@ -642,7 +642,7 @@ class Solution:
 
 
     """
-    15. Sum(Medium)
+    15. threeSum(Medium)
 
     Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that 
     i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
@@ -736,7 +736,22 @@ class Solution:
     Input: head = [1,2,3,4,5]
     Output: [5,4,3,2,1]
     """
+    #  Solution01: recursive algorithm.
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+        def reverseList_aux(head):
+            if head is None or head.next is None:
+                return head, head
+
+            new_head, new_tail = reverseList_aux(head.next)
+
+            new_tail.next = head
+            head.next = None
+
+            return new_head, head
+
+        head, tail = reverseList_aux(head)
+        return head
 
 
 
@@ -777,6 +792,8 @@ if __name__ == "__main__":
     l11 = [0]
     l12 = [-1, 0, 1, 2, -1, -4]
     l13 = [-1,0,1,2,-1,-4,-2,-3,3,0,4]
+    l14 = [1, 2, 3, 4, 5]
+    l15 = [1, 2]
     height01 = [1, 1]
     height02 = [4, 3, 2, 1, 4]
     height03 = [1, 2, 1]
@@ -788,6 +805,7 @@ if __name__ == "__main__":
     #  Data: Linked lists.
     l1 = array2Linkedlist(l1_list)
     l2 = array2Linkedlist(l2_list)
+    linkedlist01 = array2Linkedlist( l14 )
 
     print(S.twoSum03(l0, 9))  # Leetcode, 01
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  # Leetcode, 02
@@ -803,6 +821,7 @@ if __name__ == "__main__":
     print(l8)  # Leetcode 283
     print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
     print(S.climbStairs(3))  # Leetcode 70
-    print("--------------------------------")
     print(S.threeSum(l13))  # leetcode 15
+    print("--------------------------------")
+    print(linkedlist2Array(S.reverseList(linkedlist01)))
 
