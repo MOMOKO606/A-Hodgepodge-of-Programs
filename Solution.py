@@ -697,6 +697,51 @@ class Solution:
         return ans
 
 
+    #  Solution03: sort and use 2 pointers - O(nlgn).
+    def threeSum(self, nums: List[int]) -> List[int]:
+
+        #  Sort the input array.
+        nums.sort()
+        ans, n = [], len(nums)
+
+        for i in range(n):
+            #  Sentinel, avoid duplicate element checking.
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+
+            l, r = i + 1, n - 1
+            while l < r:
+                total = nums[l] + nums[r] + nums[i]
+                if total == 0:
+                    ans.append( [nums[l], nums[r], nums[i]] )
+                    l += 1
+                    r -= 1
+                    #  Sentinels, avoid duplicate answer.
+                    while l < n and nums[l] == nums[l - 1]:
+                        l += 1
+                    while r >= 0 and nums[r] == nums[r + 1]:
+                        r -= 1
+                elif total < 0:
+                    l += 1
+                else:
+                    r -= 1
+        return ans
+
+
+    """
+    206. Reverse Linked List(Easy)
+    Given the head of a singly linked list, reverse the list, and return the reversed list.
+    
+    Example:
+    Input: head = [1,2,3,4,5]
+    Output: [5,4,3,2,1]
+    """
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+
+
+
+
 
 
 
@@ -759,6 +804,5 @@ if __name__ == "__main__":
     print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
     print(S.climbStairs(3))  # Leetcode 70
     print("--------------------------------")
-    print(S.threeSum_naive(l10))  # leetcode 15
-    print(S.threeSum_hash(l10))  # leetcode 15
+    print(S.threeSum(l13))  # leetcode 15
 
