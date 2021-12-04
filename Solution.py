@@ -30,6 +30,10 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
     return res
 
 
+def printLinkedlist( head: Optional[ListNode] ) -> None:
+    print(linkedlist2Array(head))
+
+
 #  Transfer a linked list to represent a number
 #  The number in each node represents a digit of a number from left to right.
 def linkedlist2num(head: Optional[ListNode]) -> int:
@@ -754,6 +758,26 @@ class Solution:
         return head
 
 
+    #  Solution02: iterative algorithm.
+    def reverseList_iter(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        #  Sentinel.
+        if head is None or head.next is None:
+            return head
+
+        prev, cur = None, head
+
+        while cur:
+            next = cur.next
+            cur.next = prev
+
+            prev = cur
+            cur = next
+
+        return prev
+
+
+
+
 
 
 
@@ -794,6 +818,7 @@ if __name__ == "__main__":
     l13 = [-1,0,1,2,-1,-4,-2,-3,3,0,4]
     l14 = [1, 2, 3, 4, 5]
     l15 = [1, 2]
+
     height01 = [1, 1]
     height02 = [4, 3, 2, 1, 4]
     height03 = [1, 2, 1]
@@ -806,6 +831,7 @@ if __name__ == "__main__":
     l1 = array2Linkedlist(l1_list)
     l2 = array2Linkedlist(l2_list)
     linkedlist01 = array2Linkedlist( l14 )
+    linkedlist02 = array2Linkedlist( l13 )
 
     print(S.twoSum03(l0, 9))  # Leetcode, 01
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  # Leetcode, 02
@@ -822,6 +848,6 @@ if __name__ == "__main__":
     print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
     print(S.climbStairs(3))  # Leetcode 70
     print(S.threeSum(l13))  # leetcode 15
-    print("--------------------------------")
     print(linkedlist2Array(S.reverseList(linkedlist01)))
-
+    print("--------------------------------")
+    print(linkedlist2Array(S.reverseList_iter(linkedlist02)))
