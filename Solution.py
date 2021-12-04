@@ -790,18 +790,16 @@ class Solution:
     Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
     """
     def hasCycle(self, head: Optional[ListNode]) -> bool:
-
         slow = fast = head
-        while True:
-
-            if fast is None or fast.next is None:
-                return False
-            else: fast = fast.next.next
-
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
             if slow == fast:
                 return True
+        return False
 
-            slow = slow.next
+
+
 
 
 
