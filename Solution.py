@@ -754,19 +754,17 @@ class Solution:
 
             return new_head, head
 
-        head, tail = reverseList_aux(head)
+        head, _ = reverseList_aux(head)
         return head
 
 
     #  Solution02: iterative algorithm.
     def reverseList_iter(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        #  Sentinel.
-        if head is None or head.next is None:
-            return head
-
         prev, cur = None, head
 
         while cur:
+            #  Pythonic style:
+            #  cur.next, prev, cur = prev, cur, cur.next
             next = cur.next
             cur.next = prev
 
@@ -774,6 +772,39 @@ class Solution:
             cur = next
 
         return prev
+
+
+    """
+    141. Linked List Cycle(Easy)
+    
+    Given head, the head of a linked list, determine if the linked list has a cycle in it.
+    There is a cycle in a linked list if there is some node in the list that can be reached again by continuously 
+    following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. 
+    Note that pos is not passed as a parameter.
+
+    Return true if there is a cycle in the linked list. Otherwise, return false.
+    
+    Example
+    Input: head = [3,2,0,-4], pos = 1
+    Output: true
+    Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+    """
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+
+        slow = fast = head
+        while True:
+
+            if fast is None or fast.next is None:
+                return False
+            else: fast = fast.next.next
+
+            if slow == fast:
+                return True
+
+            slow = slow.next
+
+
+
 
 
 
@@ -848,6 +879,6 @@ if __name__ == "__main__":
     print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
     print(S.climbStairs(3))  # Leetcode 70
     print(S.threeSum(l13))  # leetcode 15
-    print(linkedlist2Array(S.reverseList(linkedlist01)))
+    print(linkedlist2Array(S.reverseList(linkedlist01)))  # leetcode 206
+    print(linkedlist2Array(S.reverseList_iter(linkedlist02)))  #  # leetcode 206
     print("--------------------------------")
-    print(linkedlist2Array(S.reverseList_iter(linkedlist02)))
