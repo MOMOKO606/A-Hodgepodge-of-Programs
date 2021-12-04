@@ -816,7 +816,6 @@ class Solution:
     def detectCycle(self, head: ListNode) -> ListNode:
         #  Stage1. Find the node that fast and slow meet each other or there is no cycle.
         slow = fast = head
-
         while fast and fast.next:
             fast = fast.next.next
             slow = slow.next
@@ -830,6 +829,29 @@ class Solution:
                     p2 = p2.next
                 return p1
         return None
+
+
+    # The while-else version
+
+    # def detectCycle(self, head: ListNode) -> ListNode:
+    #     #  Stage1. Find the node that fast and slow meet each other or there is no cycle.
+    #     slow = fast = head
+    #     while fast and fast.next:
+    #         fast = fast.next.next
+    #         slow = slow.next
+    #         #  fast and slow first meet, go to the second stage.
+    #         if fast == slow:
+    #             p1 = fast
+    #             p2 = head
+    #             break
+    #     else:
+    #         #  No cycle.
+    #         return None
+    #     #  Stage2. find the start node of the cycle.
+    #     while head != slow:
+    #         head = head.next
+    #         slow = slow.next
+    #     return head
 
 
 
