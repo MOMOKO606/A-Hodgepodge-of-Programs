@@ -854,6 +854,30 @@ class Solution:
     #     return head
 
 
+    """
+    26. Remove Duplicates from Sorted Array(Medium)
+    
+    Given an integer array nums sorted in non-decreasing order, 
+    remove the duplicates in-place such that each unique element appears only once. 
+    The relative order of the elements should be kept the same.
+    
+    Example
+    Input: nums = [1,1,2]
+    Output: 2, nums = [1,2,_]
+    Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+    It does not matter what you leave beyond the returned k (hence they are underscores).
+    """
+
+    def removeDuplicates(self, nums: List[int]) -> int:
+        #  j represents the index where nums[...j] are distinct elements.
+        j = -1
+        for i in range(len(nums)):
+            if nums[i] != nums[j] or j < 0:
+                j += 1
+                nums[j] = nums[i]
+        return j + 1
+
+
 
 
 
@@ -904,6 +928,8 @@ if __name__ == "__main__":
     l13 = [-1,0,1,2,-1,-4,-2,-3,3,0,4]
     l14 = [1, 2, 3, 4, 5]
     l15 = [1, 2]
+    l16 = [1,1,2]
+    l17 = [0,0,1,1,1,2,2,3,3,4]
 
     height01 = [1, 1]
     height02 = [4, 3, 2, 1, 4]
@@ -937,3 +963,4 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.reverseList(linkedlist01)))  # leetcode 206
     print(linkedlist2Array(S.reverseList_iter(linkedlist02)))  #  # leetcode 206
     print("--------------------------------")
+    print(S.removeDuplicates(l17))
