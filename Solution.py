@@ -897,6 +897,7 @@ class Solution:
     Output: 7, nums = [0,0,1,1,2,3,3,_,_]
     Explanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.
     """
+    #  Solution01: easier to read, but more lines.
     def removeDuplicates02(self, nums: List[int]) -> int:
         j = -1
         #  flag == 1 indicates we can get more the same elements.
@@ -914,23 +915,24 @@ class Solution:
         return j + 1
 
 
-    # def removeDuplicates02(self, nums: List[int]) -> int:
-    #     i = 0
-    #     for n in nums:
-    #         if i < 2 or n > nums[i - 2]:
-    #             nums[i] = n
-    #             i += 1
-    #     return i
+    #  Solution02: fewer lines.
+    def removeDuplicates02_beta(self, nums:List[int]) -> int:
+        k = -1
+        for i, num in enumerate(nums):
+            if i < 2 or num != nums[k] or num != nums[k - 1]:
+                k += 1
+                nums[k] = num
+        return  k + 1
 
 
-    # def removeDuplicates02(self, nums: List[int]) -> int:
-    #     tail = 0
-    #     for num in nums:
-    #         if tail < 2 or num != nums[tail - 1] or num != nums[tail - 2]:
-    #             nums[tail] = num
-    #             tail += 1
-    #     return tail
-
+    #  Solution03: more tricky constrain.
+    def removeDuplicates02_theta(self, nums:List[int]) -> int:
+        k = -1
+        for i in range(len(nums)):
+            if i < 2 or nums[i] > nums[k - 1]:
+                k += 1
+                nums[k] = nums[i]
+        return k + 1
 
 
 #  Drive code.
@@ -1003,5 +1005,8 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.reverseList(linkedlist01)))  # leetcode 206
     print(linkedlist2Array(S.reverseList_iter(linkedlist02)))  # leetcode 206
     print(S.removeDuplicates(l17))  # leetcode 26
+    print(S.removeDuplicates02([1,1,1,2,2,3]))  # leetcode 80
+    print(S.removeDuplicates02_beta(l18))  # leetcode 80
+    print(S.removeDuplicates02_theta(l19))  # leetcode 80
     print("--------------------------------")
-    print(S.removeDuplicates02(l19))
+
