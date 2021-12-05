@@ -855,7 +855,7 @@ class Solution:
 
 
     """
-    26. Remove Duplicates from Sorted Array(Medium)
+    26. Remove Duplicates from Sorted Array(Easy)
     
     Given an integer array nums sorted in non-decreasing order, 
     remove the duplicates in-place such that each unique element appears only once. 
@@ -880,20 +880,56 @@ class Solution:
         return j + 1
 
 
+    """
+    80. Remove Duplicates from Sorted Array II(Medium)
+    
+    Given an integer array nums sorted in non-decreasing order, 
+    remove some duplicates in-place such that each unique element appears at most twice. 
+    The relative order of the elements should be kept the same.
+    
+    Example1:
+    Input: nums = [1,1,1,2,2,3]
+    Output: 5, nums = [1,1,2,2,3,_]
+    Explanation: Your function should return k = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.
+    
+    Example2:
+    Input: nums = [0,0,1,1,1,1,2,3,3]
+    Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+    Explanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.
+    """
+    def removeDuplicates02(self, nums: List[int]) -> int:
+        j = -1
+        #  flag == 1 indicates we can get more the same elements.
+        #  flag == 0 indicates no more duplicate elements.
+        flag = 1
+        for i in range(len(nums)):
+            if j < 0 or nums[i] != nums[j]:
+                j += 1
+                flag = 1
+                nums[j] = nums[i]
+            elif flag:  #  nums[i] == nums[j]
+                j += 1
+                nums[j] = nums[i]
+                flag = 0
+        return j + 1
 
 
+    # def removeDuplicates02(self, nums: List[int]) -> int:
+    #     i = 0
+    #     for n in nums:
+    #         if i < 2 or n > nums[i - 2]:
+    #             nums[i] = n
+    #             i += 1
+    #     return i
 
 
-
-
-
-
-
-
-
-
-
-
+    # def removeDuplicates02(self, nums: List[int]) -> int:
+    #     tail = 0
+    #     for num in nums:
+    #         if tail < 2 or num != nums[tail - 1] or num != nums[tail - 2]:
+    #             nums[tail] = num
+    #             tail += 1
+    #     return tail
 
 
 
@@ -932,6 +968,8 @@ if __name__ == "__main__":
     l15 = [1, 2]
     l16 = [1,1,2]
     l17 = [0,0,1,1,1,2,2,3,3,4]
+    l18 = [1,1,1,2,2,3]
+    l19 = [0,0,1,1,1,1,2,3,3]
 
     height01 = [1, 1]
     height02 = [4, 3, 2, 1, 4]
@@ -963,6 +1001,7 @@ if __name__ == "__main__":
     print(S.climbStairs(3))  # Leetcode 70
     print(S.threeSum(l13))  # leetcode 15
     print(linkedlist2Array(S.reverseList(linkedlist01)))  # leetcode 206
-    print(linkedlist2Array(S.reverseList_iter(linkedlist02)))  #  # leetcode 206
+    print(linkedlist2Array(S.reverseList_iter(linkedlist02)))  # leetcode 206
+    print(S.removeDuplicates(l17))  # leetcode 26
     print("--------------------------------")
-    print(S.removeDuplicates(l17))
+    print(S.removeDuplicates02(l19))
