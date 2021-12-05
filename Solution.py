@@ -870,6 +870,8 @@ class Solution:
 
     def removeDuplicates(self, nums: List[int]) -> int:
         #  j represents the index where nums[...j] are distinct elements.
+        #  nums[...j] is the loop invariant.
+        #  for each loop we maintain nums[...j] is true, and return the length of nums[...j].
         j = -1
         for i in range(len(nums)):
             if nums[i] != nums[j] or j < 0:
