@@ -68,6 +68,12 @@ if __name__ == "__main__":
     printLinkedlist(head)
 
 
+    pointer = ListNode(0)
+    p1 = ListNode(4, pointer)
+    p2 = ListNode(2, pointer)
+    print( p1.next == p2.next )
+
+
 
 
 

@@ -935,6 +935,41 @@ class Solution:
         return k + 1
 
 
+    """
+    83. Remove Duplicates from Sorted List(Easy)
+
+    Given the head of a sorted linked list, delete all duplicates such that each element appears only once. 
+    Return the linked list sorted as well..
+
+    Example1:
+    Input: head = [1,1,2,3,3]
+    Output: [1,2,3]
+    """
+    #  Solution01: the recursive version.
+    def deleteDuplicates_recur(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+        if not head:
+            return
+        cur = head
+        #  Find the first node that is not the same as head.
+        while cur.next:
+            if cur.val == cur.next.val:
+                cur = cur.next
+            else:
+                #  Find the next different node.
+                next = cur.next
+                break
+        else:
+            #  There is no next different node.
+            next = None
+        #  Link head to next.
+        head.next = next
+        #  Do the same process from next recursively.
+        self.deleteDuplicates_recur( next )
+        return head
+
+
+
 #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
@@ -986,6 +1021,8 @@ if __name__ == "__main__":
     l2 = array2Linkedlist(l2_list)
     linkedlist01 = array2Linkedlist( l14 )
     linkedlist02 = array2Linkedlist( l13 )
+    linkedlist03 = array2Linkedlist([1,1,2])
+    linkedlist04 = array2Linkedlist([1,1,2,3,3])
 
     print(S.twoSum03(l0, 9))  # Leetcode, 01
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  # Leetcode, 02
@@ -1009,4 +1046,5 @@ if __name__ == "__main__":
     print(S.removeDuplicates02_beta(l18))  # leetcode 80
     print(S.removeDuplicates02_theta(l19))  # leetcode 80
     print("--------------------------------")
+    print(linkedlist2Array(S.deleteDuplicates_recur( linkedlist04 )))  #  Leetcode 83.
 
