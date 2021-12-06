@@ -969,7 +969,8 @@ class Solution:
         return head
 
 
-    #  Solution02: the iterative version.
+    #  Solution02: the iterative version using while-else.
+    #  idea: link the previous distinct node to he next distinct node.
     def deleteDuplicates_iter(self, head: Optional[ListNode]) -> Optional[ListNode]:
 
         distinct = head
@@ -991,6 +992,29 @@ class Solution:
             distinct.next = next
             distinct = distinct.next
 
+        return head
+
+
+    #  Solution03: the iterative version with one while loop.
+    #  idea: 1. if the next node is the same as the previous one, we link to the one after next node.
+    #        2. if the next node is distinct, we move the pointer to the new one.
+    def deleteDuplicates_iter02(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur = head
+        while cur:
+            if cur.next and cur.val == cur.next.val:
+                cur.next = cur.next.next
+            else:
+                cur = cur.next
+        return head
+
+
+    #  Solution04: the iterative version with one while loop.
+    def deleteDuplicates_iter03(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur = head
+        while cur:
+            while cur.next and cur.val == cur.next.val:
+                cur.next = cur.next.next
+            cur = cur.next
         return head
 
 
