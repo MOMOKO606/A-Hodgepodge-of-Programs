@@ -939,7 +939,7 @@ class Solution:
     83. Remove Duplicates from Sorted List(Easy)
 
     Given the head of a sorted linked list, delete all duplicates such that each element appears only once. 
-    Return the linked list sorted as well..
+    Return the linked list sorted as well.
 
     Example1:
     Input: head = [1,1,2,3,3]
@@ -1018,9 +1018,46 @@ class Solution:
         return head
 
 
+    """
+    82. Remove Duplicates from Sorted List II(Medium)
+    
+    Given the head of a sorted linked list, delete all nodes that have duplicate numbers, 
+    leaving only distinct numbers from the original list. Return the linked list sorted as well.
 
+    Example1:
+    Input: head = [1,2,3,3,4,4,5]
+    Output: [1,2,5]
+    """
+    def deleteDuplicates02(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev = None
+        cur = head
+        #  flag = 1 means this node and nodes with the same value should be delete.
+        #  flag = 0 means we keep the node.
+        flag = 0
 
+        while cur:
+            #  Search nodes with the same value.
+            if cur.next and cur.val == cur.next.val:
+                cur.next = cur.next.next
+                flag = 1
+                continue
 
+            #  When flag == 1
+            if flag:
+                #  Connect prev -> cur.next
+                if prev:
+                    prev.next = cur.next
+                #  If prev doesn't exit, cur.next is the new head.
+                else:
+                    head = cur.next
+            #  When flag == 0, we move prev
+            else: prev = cur
+
+            #  Move cur and reset flag.
+            cur = cur.next
+            flag = 0
+
+        return head
 
 
 #  Drive code.
@@ -1076,6 +1113,9 @@ if __name__ == "__main__":
     linkedlist02 = array2Linkedlist( l13 )
     linkedlist03 = array2Linkedlist([1,1,2])
     linkedlist04 = array2Linkedlist([1,1,2,3,3])
+    linkedlist05 = array2Linkedlist([1,2,3,3,4,4,5])
+    linkedlist06 = array2Linkedlist([1,1,1,2,3])
+
 
     print(S.twoSum03(l0, 9))  # Leetcode, 01
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  # Leetcode, 02
@@ -1098,6 +1138,7 @@ if __name__ == "__main__":
     print(S.removeDuplicates02([1,1,1,2,2,3]))  # leetcode 80
     print(S.removeDuplicates02_beta(l18))  # leetcode 80
     print(S.removeDuplicates02_theta(l19))  # leetcode 80
- #   print(linkedlist2Array(S.deleteDuplicates_recur( linkedlist04 )))  #  Leetcode 83
-    print("--------------------------------")
+    print(linkedlist2Array(S.deleteDuplicates_recur( linkedlist03 )))  #  Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates_iter(linkedlist04)))  # Leetcode 83
+    print("--------------------------------")
+    print(linkedlist2Array(S.deleteDuplicates02( linkedlist06 )))  #  Leetcode 82
