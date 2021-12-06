@@ -1028,6 +1028,7 @@ class Solution:
     Input: head = [1,2,3,3,4,4,5]
     Output: [1,2,5]
     """
+    #  Solution01
     def deleteDuplicates02(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev = None
         cur = head
@@ -1058,6 +1059,23 @@ class Solution:
             flag = 0
 
         return head
+
+
+    #  Solution02: short version with dummy head.
+    def deleteDuplicates02_short(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode()
+        dummy.next = head
+        prev, cur = dummy, head
+        while cur:
+            while cur.next and cur.val == cur.next.val:
+                cur = cur.next
+            if prev.next != cur:
+                prev.next = cur.next
+            else:
+                prev = cur
+            cur = cur.next
+        return dummy.next
+
 
 
 #  Drive code.
@@ -1141,4 +1159,4 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.deleteDuplicates_recur( linkedlist03 )))  #  Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates_iter(linkedlist04)))  # Leetcode 83
     print("--------------------------------")
-    print(linkedlist2Array(S.deleteDuplicates02( linkedlist06 )))  #  Leetcode 82
+    print(linkedlist2Array(S.deleteDuplicates02_short( linkedlist05 )))  #  Leetcode 82
