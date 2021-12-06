@@ -30,7 +30,7 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
     return res
 
 
-def printLinkedlist( head: Optional[ListNode] ) -> None:
+def printLinkedlist(head: Optional[ListNode]) -> None:
     print(linkedlist2Array(head))
 
 
@@ -577,7 +577,6 @@ class Solution:
                 j -= 1
         return max_area
 
-
     """
     70. Climbing Stairs(Easy)
     
@@ -592,6 +591,7 @@ class Solution:
     1. 1 step + 1 step
     2. 2 steps
     """
+
     #  Solution01: the naive recursive algorithm.
     def climbStairs_naive(self, n: int) -> int:
         if n == 1:
@@ -599,7 +599,6 @@ class Solution:
         if n == 2:
             return 2
         return self.climbStairs_naive(n - 1) + self.climbStairs_naive(n - 2)
-
 
     #  Solution02: the recursive algorithm with memo.
     def climbStairs_memo(self, n: int) -> int:
@@ -615,10 +614,8 @@ class Solution:
                 return 2
             return climbStairs_aux(n - 1, memo) + climbStairs_aux(n - 2, memo)
 
-
         memo = [0] * (n + 1)
         return climbStairs_aux(n, memo)
-
 
     #  Solution03: the dynamic algoritm.
     def climbStairs(self, n: int) -> int:
@@ -633,7 +630,6 @@ class Solution:
             ans[i] = ans[i - 1] + ans[i - 2]
         return ans[n]
 
-
     #  Solution04: optimized algorithm.
     def climbStairs_opt(self, n: int) -> int:
         if n <= 2: return n
@@ -643,7 +639,6 @@ class Solution:
             f1 = f2
             f2 = f3
         return f3
-
 
     """
     15. threeSum(Medium)
@@ -655,11 +650,12 @@ class Solution:
     Input: nums = [-1,0,1,2,-1,-4]
     Output: [[-1,-1,2],[-1,0,1]]
     """
+
     #  Solution01: brute force - O(n^3).
     def threeSum_naive(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
         ans = []
-        for i in range( n - 2 ):
+        for i in range(n - 2):
             key = 0 - nums[i]
             for j in range(i + 1, n - 1):
                 pivot = key - nums[j]
@@ -670,11 +666,10 @@ class Solution:
                             ans.append(l)
         return ans
 
-
     #  Solution02: Hash table - O(n^2)
-    def threeSum_hash(self, nums: List[int] ) -> List[int]:
+    def threeSum_hash(self, nums: List[int]) -> List[int]:
 
-        def twoSum( nums, i, key ):
+        def twoSum(nums, i, key):
             hashmap = {}
             result = []
             for j in range(len(nums)):
@@ -700,7 +695,6 @@ class Solution:
                         ans.append(l)
         return ans
 
-
     #  Solution03: sort and use 2 pointers - O(nlgn).
     def threeSum(self, nums: List[int]) -> List[int]:
 
@@ -717,7 +711,7 @@ class Solution:
             while l < r:
                 total = nums[l] + nums[r] + nums[i]
                 if total == 0:
-                    ans.append( [nums[l], nums[r], nums[i]] )
+                    ans.append([nums[l], nums[r], nums[i]])
                     l += 1
                     r -= 1
                     #  Sentinels, avoid duplicate answer.
@@ -731,7 +725,6 @@ class Solution:
                     r -= 1
         return ans
 
-
     """
     206. Reverse Linked List(Easy)
     Given the head of a singly linked list, reverse the list, and return the reversed list.
@@ -740,6 +733,7 @@ class Solution:
     Input: head = [1,2,3,4,5]
     Output: [5,4,3,2,1]
     """
+
     #  Solution01: recursive algorithm.
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
 
@@ -757,7 +751,6 @@ class Solution:
         head, _ = reverseList_aux(head)
         return head
 
-
     #  Solution02: iterative algorithm.
     def reverseList_iter(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev, cur = None, head
@@ -772,7 +765,6 @@ class Solution:
             cur = next
 
         return prev
-
 
     """
     141. Linked List Cycle(Easy)
@@ -789,6 +781,7 @@ class Solution:
     Output: true
     Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
     """
+
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         slow = fast = head
         while fast and fast.next:
@@ -797,7 +790,6 @@ class Solution:
             if slow == fast:
                 return True
         return False
-
 
     """
     142. c(Medium)
@@ -813,6 +805,7 @@ class Solution:
     Output: tail connects to node index 1
     Explanation: There is a cycle in the linked list, where tail connects to the second node.
     """
+
     def detectCycle(self, head: ListNode) -> ListNode:
         #  Stage1. Find the node that fast and slow meet each other or there is no cycle.
         slow = fast = head
@@ -829,7 +822,6 @@ class Solution:
                     p2 = p2.next
                 return p1
         return None
-
 
     # The while-else version
 
@@ -852,7 +844,6 @@ class Solution:
     #         head = head.next
     #         slow = slow.next
     #     return head
-
 
     """
     26. Remove Duplicates from Sorted Array(Easy)
@@ -879,7 +870,6 @@ class Solution:
                 nums[j] = nums[i]
         return j + 1
 
-
     """
     80. Remove Duplicates from Sorted Array II(Medium)
     
@@ -897,6 +887,7 @@ class Solution:
     Output: 7, nums = [0,0,1,1,2,3,3,_,_]
     Explanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.
     """
+
     #  Solution01: easier to read, but more lines.
     def removeDuplicates02(self, nums: List[int]) -> int:
         j = -1
@@ -908,32 +899,29 @@ class Solution:
                 j += 1
                 flag = 1
                 nums[j] = nums[i]
-            elif flag:  #  nums[i] == nums[j]
+            elif flag:  # nums[i] == nums[j]
                 j += 1
                 nums[j] = nums[i]
                 flag = 0
         return j + 1
 
-
     #  Solution02: fewer lines.
-    def removeDuplicates02_beta(self, nums:List[int]) -> int:
+    def removeDuplicates02_beta(self, nums: List[int]) -> int:
         k = -1
         for i, num in enumerate(nums):
             if i < 2 or num != nums[k] or num != nums[k - 1]:
                 k += 1
                 nums[k] = num
-        return  k + 1
-
+        return k + 1
 
     #  Solution03: more tricky constrain.
-    def removeDuplicates02_theta(self, nums:List[int]) -> int:
+    def removeDuplicates02_theta(self, nums: List[int]) -> int:
         k = -1
         for i in range(len(nums)):
             if i < 2 or nums[i] > nums[k - 1]:
                 k += 1
                 nums[k] = nums[i]
         return k + 1
-
 
     """
     83. Remove Duplicates from Sorted List(Easy)
@@ -945,6 +933,7 @@ class Solution:
     Input: head = [1,1,2,3,3]
     Output: [1,2,3]
     """
+
     #  Solution01: the recursive version.
     def deleteDuplicates_recur(self, head: Optional[ListNode]) -> Optional[ListNode]:
 
@@ -965,9 +954,8 @@ class Solution:
         #  Link head to next.
         head.next = next
         #  Do the same process from next recursively.
-        self.deleteDuplicates_recur( next )
+        self.deleteDuplicates_recur(next)
         return head
-
 
     #  Solution02: the iterative version using while-else.
     #  idea: link the previous distinct node to he next distinct node.
@@ -994,7 +982,6 @@ class Solution:
 
         return head
 
-
     #  Solution03: the iterative version with one while loop.
     #  idea: 1. if the next node is the same as the previous one, we link to the one after next node.
     #        2. if the next node is distinct, we move the pointer to the new one.
@@ -1007,7 +994,6 @@ class Solution:
                 cur = cur.next
         return head
 
-
     #  Solution04: the iterative version with one while loop.
     def deleteDuplicates_iter03(self, head: Optional[ListNode]) -> Optional[ListNode]:
         cur = head
@@ -1017,17 +1003,17 @@ class Solution:
             cur = cur.next
         return head
 
-
     """
     82. Remove Duplicates from Sorted List II(Medium)
     
     Given the head of a sorted linked list, delete all nodes that have duplicate numbers, 
     leaving only distinct numbers from the original list. Return the linked list sorted as well.
 
-    Example1:
+    Example:
     Input: head = [1,2,3,3,4,4,5]
     Output: [1,2,5]
     """
+
     #  Solution01
     def deleteDuplicates02(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev = None
@@ -1052,14 +1038,14 @@ class Solution:
                 else:
                     head = cur.next
             #  When flag == 0, we move prev
-            else: prev = cur
+            else:
+                prev = cur
 
             #  Move cur and reset flag.
             cur = cur.next
             flag = 0
 
         return head
-
 
     #  Solution02: short version with dummy head.
     def deleteDuplicates02_short(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -1076,6 +1062,61 @@ class Solution:
             cur = cur.next
         return dummy.next
 
+    """
+    189. Rotate Array(Medium)
+    
+    Given an array, rotate the array to the right by k steps, where k is non-negative.
+    
+    Example1:
+    Input: [1,2,3,4,5,6,7], k = 3 
+    Output: [5,6,7,1,2,3,4]
+    Explanation:
+    rotate 1 steps to the right: [7,1,2,3,4,5,6]
+    rotate 2 steps to the right: [6,7,1,2,3,4,5]
+    rotate 3 steps to the right: [5,6,7,1,2,3,4]
+    
+    Example2:
+    Input: nums = [-1,-100,3,99], k = 2
+    Output: [3,99,-1,-100]
+    Explanation: 
+    rotate 1 steps to the right: [99,-1,-100,3]
+    rotate 2 steps to the right: [3,99,-1,-100]
+    """
+
+    #  Solution01: 约瑟夫问题。
+    def rotate01(self, nums: List[int], k: int) -> List[int]:
+        old_node, cur = nums[0], 0
+        count = 0
+        n = len(nums)
+        while count < n:
+            #  next index after index cur rotated
+            next = (cur + k) % n
+
+            #  store the element that will be replaced.
+            potential = nums[next]
+            #  Reset the element after rotated from index cur.
+            nums[next] = old_node
+            #  The replaced element will find its position next round.
+            old_node = potential
+
+            cur = next
+
+            count += 1
+
+    #  Solution02: the classic three rotation.
+    def rotate(self, nums: List[int], k: int) -> None:
+
+        def reverseList(nums: List[int], p: int, q: int) -> None:
+            while p <= q:
+                nums[p], nums[q] = nums[q], nums[p]
+                p += 1
+                q -= 1
+
+        n = len(nums)
+        k = k % n
+        reverseList(nums, 0, len(nums) - 1)
+        reverseList(nums, 0, k - 1)
+        reverseList(nums, k, n - 1)
 
 
 #  Drive code.
@@ -1108,13 +1149,13 @@ if __name__ == "__main__":
     l10 = []
     l11 = [0]
     l12 = [-1, 0, 1, 2, -1, -4]
-    l13 = [-1,0,1,2,-1,-4,-2,-3,3,0,4]
+    l13 = [-1, 0, 1, 2, -1, -4, -2, -3, 3, 0, 4]
     l14 = [1, 2, 3, 4, 5]
     l15 = [1, 2]
-    l16 = [1,1,2]
-    l17 = [0,0,1,1,1,2,2,3,3,4]
-    l18 = [1,1,1,2,2,3]
-    l19 = [0,0,1,1,1,1,2,3,3]
+    l16 = [1, 1, 2]
+    l17 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+    l18 = [1, 1, 1, 2, 2, 3]
+    l19 = [0, 0, 1, 1, 1, 1, 2, 3, 3]
 
     height01 = [1, 1]
     height02 = [4, 3, 2, 1, 4]
@@ -1127,13 +1168,12 @@ if __name__ == "__main__":
     #  Data: Linked lists.
     l1 = array2Linkedlist(l1_list)
     l2 = array2Linkedlist(l2_list)
-    linkedlist01 = array2Linkedlist( l14 )
-    linkedlist02 = array2Linkedlist( l13 )
-    linkedlist03 = array2Linkedlist([1,1,2])
-    linkedlist04 = array2Linkedlist([1,1,2,3,3])
-    linkedlist05 = array2Linkedlist([1,2,3,3,4,4,5])
-    linkedlist06 = array2Linkedlist([1,1,1,2,3])
-
+    linkedlist01 = array2Linkedlist(l14)
+    linkedlist02 = array2Linkedlist(l13)
+    linkedlist03 = array2Linkedlist([1, 1, 2])
+    linkedlist04 = array2Linkedlist([1, 1, 2, 3, 3])
+    linkedlist05 = array2Linkedlist([1, 2, 3, 3, 4, 4, 5])
+    linkedlist06 = array2Linkedlist([1, 1, 1, 2, 3])
 
     print(S.twoSum03(l0, 9))  # Leetcode, 01
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  # Leetcode, 02
@@ -1153,10 +1193,12 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.reverseList(linkedlist01)))  # leetcode 206
     print(linkedlist2Array(S.reverseList_iter(linkedlist02)))  # leetcode 206
     print(S.removeDuplicates(l17))  # leetcode 26
-    print(S.removeDuplicates02([1,1,1,2,2,3]))  # leetcode 80
+    print(S.removeDuplicates02([1, 1, 1, 2, 2, 3]))  # leetcode 80
     print(S.removeDuplicates02_beta(l18))  # leetcode 80
     print(S.removeDuplicates02_theta(l19))  # leetcode 80
-    print(linkedlist2Array(S.deleteDuplicates_recur( linkedlist03 )))  #  Leetcode 83
+    print(linkedlist2Array(S.deleteDuplicates_recur(linkedlist03)))  # Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates_iter(linkedlist04)))  # Leetcode 83
+    print(linkedlist2Array(S.deleteDuplicates02_short(linkedlist05)))  # Leetcode 82
     print("--------------------------------")
-    print(linkedlist2Array(S.deleteDuplicates02_short( linkedlist05 )))  #  Leetcode 82
+    print(S.rotate([1,2,3,4,5,6,7], 3))
+    print(S.rotate([-1, -100, 3, 99], 2))
