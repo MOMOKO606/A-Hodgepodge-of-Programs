@@ -969,6 +969,35 @@ class Solution:
         return head
 
 
+    #  Solution02: the iterative version.
+    def deleteDuplicates_iter(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+        distinct = head
+
+        while distinct:
+
+            cur = distinct
+
+            while cur.next:
+
+                if cur.val == cur.next.val:
+                    cur = cur.next
+                else:
+                    next = cur.next
+                    break
+            else:
+                next = None
+
+            distinct.next = next
+            distinct = distinct.next
+
+        return head
+
+
+
+
+
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -1045,6 +1074,6 @@ if __name__ == "__main__":
     print(S.removeDuplicates02([1,1,1,2,2,3]))  # leetcode 80
     print(S.removeDuplicates02_beta(l18))  # leetcode 80
     print(S.removeDuplicates02_theta(l19))  # leetcode 80
+ #   print(linkedlist2Array(S.deleteDuplicates_recur( linkedlist04 )))  #  Leetcode 83
     print("--------------------------------")
-    print(linkedlist2Array(S.deleteDuplicates_recur( linkedlist04 )))  #  Leetcode 83.
-
+    print(linkedlist2Array(S.deleteDuplicates_iter(linkedlist04)))  # Leetcode 83
