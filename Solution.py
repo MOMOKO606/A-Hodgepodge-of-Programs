@@ -1084,24 +1084,32 @@ class Solution:
     """
 
     #  Solution01: 约瑟夫问题。
-    def rotate01(self, nums: List[int], k: int) -> List[int]:
-        old_node, cur = nums[0], 0
-        count = 0
+    def rotate01(self, nums: List[int], k: int) -> None:
+        #  Sentinel for empty input.
+        if not nums:
+            return
+        # Pointer start & cur are used to avoid the infinite loop.
+        # When start == cur for the second time,
+        # either we've checked all elements or we encountered an infinite loop
+        # in which case we have to move on to pick another element.
         n = len(nums)
+        count = start = 0
         while count < n:
-            #  next index after index cur rotated
-            next = (cur + k) % n
+            cur = start
+            prev = nums[start]
+            #  Keep replacing elements after rotated.
+            #  Replace nums[next] with nums[cur].
+            #  Then move cur to next.
+            while True:
+                next = (cur + k) % n
+                prev, nums[next] = nums[next], prev  # the pythonic way to swap.
+                cur = next
+                count += 1
+                if start == cur:
+                    break
 
-            #  store the element that will be replaced.
-            potential = nums[next]
-            #  Reset the element after rotated from index cur.
-            nums[next] = old_node
-            #  The replaced element will find its position next round.
-            old_node = potential
+            start += 1
 
-            cur = next
-
-            count += 1
 
     #  Solution02: the classic three rotation.
     def rotate(self, nums: List[int], k: int) -> None:
@@ -1200,5 +1208,5 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.deleteDuplicates_iter(linkedlist04)))  # Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates02_short(linkedlist05)))  # Leetcode 82
     print("--------------------------------")
-    print(S.rotate([1,2,3,4,5,6,7], 3))
-    print(S.rotate([-1, -100, 3, 99], 2))
+#    print(S.rotate01([1,2,3,4,5,6,7], 3))
+    print(S.rotate01([-1, -100, 3, 99], 2))
