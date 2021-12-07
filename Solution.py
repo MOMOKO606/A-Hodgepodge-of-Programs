@@ -1154,10 +1154,22 @@ class Solution:
 
     #  Solution02: the recursive version.
     def mergeTwoLists_recur(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        pass
+        #  Base case:
+        #  if list1 or list2 is empty, return the one is not empty.
+        if not list1 or not list2:
+            return list1 or list2
+
+        if list1.val < list2.val:
+            list1.next = self.mergeTwoLists_recur(list1.next, list2)
+            return list1
+        else:
+            list2.next = self.mergeTwoLists_recur(list1, list2.next)
+            return list2
 
 
-#  Drive code.
+
+
+    #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
     S = Solution()
@@ -1241,5 +1253,5 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.deleteDuplicates02_short(linkedlist05)))  # Leetcode 82
     print(S.rotate([1, 2, 3, 4, 5, 6, 7], 3))  # Leetcode 189
     print(S.rotate01([-1, -100, 3, 99], 2))  # Leetcode 189
-    print("--------------------------------")
     print(linkedlist2Array(S.mergeTwoLists(linkedlist07, linkedlist08)))  # Leetcode 21
+    print("--------------------------------")
