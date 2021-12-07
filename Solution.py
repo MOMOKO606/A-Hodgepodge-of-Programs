@@ -1110,7 +1110,6 @@ class Solution:
 
             start += 1
 
-
     #  Solution02: the classic three rotation.
     def rotate(self, nums: List[int], k: int) -> None:
 
@@ -1125,6 +1124,37 @@ class Solution:
         reverseList(nums, 0, len(nums) - 1)
         reverseList(nums, 0, k - 1)
         reverseList(nums, k, n - 1)
+
+    """
+    21. Merge Two Sorted Lists(Easy)
+    
+    You are given the heads of two sorted linked lists list1 and list2.
+    Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
+    Return the head of the merged linked list.
+    
+    Example:
+    Input: list1 = [1,2,4], list2 = [1,3,4]
+    Output: [1,1,2,3,4,4]
+    """
+
+    #  Solution01: the iterative version.
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = cur = ListNode()
+        while list1 and list2:
+            if list1.val < list2.val:
+                cur.next = list1
+                list1 = list1.next
+            else:
+                cur.next = list2
+                list2 = list2.next
+            cur = cur.next
+        cur.next = list1 or list2
+        return dummy.next
+
+
+    #  Solution02: the recursive version.
+    def mergeTwoLists_recur(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        pass
 
 
 #  Drive code.
@@ -1182,6 +1212,8 @@ if __name__ == "__main__":
     linkedlist04 = array2Linkedlist([1, 1, 2, 3, 3])
     linkedlist05 = array2Linkedlist([1, 2, 3, 3, 4, 4, 5])
     linkedlist06 = array2Linkedlist([1, 1, 1, 2, 3])
+    linkedlist07 = array2Linkedlist([1, 2, 4])
+    linkedlist08 = array2Linkedlist([1, 3, 4])
 
     print(S.twoSum03(l0, 9))  # Leetcode, 01
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  # Leetcode, 02
@@ -1207,6 +1239,7 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.deleteDuplicates_recur(linkedlist03)))  # Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates_iter(linkedlist04)))  # Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates02_short(linkedlist05)))  # Leetcode 82
+    print(S.rotate([1, 2, 3, 4, 5, 6, 7], 3))  # Leetcode 189
+    print(S.rotate01([-1, -100, 3, 99], 2))  # Leetcode 189
     print("--------------------------------")
-#    print(S.rotate01([1,2,3,4,5,6,7], 3))
-    print(S.rotate01([-1, -100, 3, 99], 2))
+    print(linkedlist2Array(S.mergeTwoLists(linkedlist07, linkedlist08)))  # Leetcode 21
