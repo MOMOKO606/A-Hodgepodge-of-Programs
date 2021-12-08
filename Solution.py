@@ -1136,6 +1136,7 @@ class Solution:
     Input: list1 = [1,2,4], list2 = [1,3,4]
     Output: [1,1,2,3,4,4]
     """
+
     #  Solution01: the iterative version.
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = cur = ListNode()
@@ -1150,7 +1151,6 @@ class Solution:
         cur.next = list1 or list2
         return dummy.next
 
-
     #  Solution02: the recursive version.
     def mergeTwoLists_recur(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         #  Base case:
@@ -1164,7 +1164,6 @@ class Solution:
         else:
             list2.next = self.mergeTwoLists_recur(list1, list2.next)
             return list2
-
 
     """
     88. Merge Sorted Array(Easy)
@@ -1183,10 +1182,11 @@ class Solution:
     Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
     The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
     """
+
     def merge(self, nums1, m, nums2, n):
         while m and n:
             if nums1[m - 1] > nums2[n - 1]:
-                nums1[ m + n - 1 ] = nums1[m - 1]
+                nums1[m + n - 1] = nums1[m - 1]
                 m -= 1
             else:
                 nums1[m + n - 1] = nums2[n - 1]
@@ -1194,8 +1194,38 @@ class Solution:
         nums1[:n] = nums2[:n]
 
 
+    """
+    66. Plus one(Easy)
+    You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer.
+    The digits are ordered from most significant to least significant in left-to-right order. 
+    The large integer does not contain any leading 0's.
 
+    Increment the large integer by one and return the resulting array of digits.
+    
+    Example1:
+    Input: digits = [1,2,3]
+    Output: [1,2,4]
+    Explanation: The array represents the integer 123.
+    Incrementing by one gives 123 + 1 = 124.
+    Thus, the result should be [1,2,4].
+    """
 
+    def plusOne(self, digits: List[int]) -> List[int]:
+
+        flag = 1
+        j = len(digits) - 1
+
+        while j >= 0 and flag + digits[j] > 9:
+            flag = 1
+            digits[j] = 0
+            j -= 1
+
+        if j >= 0:
+            digits[j] += 1
+        else:
+            digits = [1] + digits
+
+        return digits
 
 
 
@@ -1236,6 +1266,11 @@ if __name__ == "__main__":
     l17 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
     l18 = [1, 1, 1, 2, 2, 3]
     l19 = [0, 0, 1, 1, 1, 1, 2, 3, 3]
+
+    digits01 = [1, 2, 3]
+    digits02 = [4, 3, 2, 1]
+    digits03 = [0]
+    digits04 = [9]
 
     height01 = [1, 1]
     height02 = [4, 3, 2, 1, 4]
@@ -1284,6 +1319,6 @@ if __name__ == "__main__":
     print(S.rotate([1, 2, 3, 4, 5, 6, 7], 3))  # Leetcode 189
     print(S.rotate01([-1, -100, 3, 99], 2))  # Leetcode 189
     print(linkedlist2Array(S.mergeTwoLists(linkedlist07, linkedlist08)))  # Leetcode 21
+    print(S.merge([2, 0], 1, [1], 1))
     print("--------------------------------")
-   # print(S.merge([1,2,3,0,0,0], 3, [2,5,6], 3))
-    print(S.merge([2,0], 1, [1], 1))
+    print(S.plusOne(digits04))

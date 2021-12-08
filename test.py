@@ -52,6 +52,27 @@ class Solution:
         return head
 
 
+    def twoSum( self, nums, target ):
+        map = {}
+        for i, num in enumerate(nums):
+            key = target - num
+            if key in map:
+                return [map[key], i]
+            else:
+                map[num] = i
+
+
+    def moveZeros(self, nums):
+        j = -1
+        for i in range(len(nums)):
+            if nums[i]:
+                j += 1
+                if i != j:
+                    nums[i], nums[j] = nums[j], nums[i]
+        return nums
+
+
+
 
 if __name__ == "__main__":
     l00 = []
@@ -72,6 +93,11 @@ if __name__ == "__main__":
     p1 = ListNode(4, pointer)
     p2 = ListNode(2, pointer)
     print( p1.next == p2.next )
+    print( S.twoSum([2,7,11,15], 9) )
+    print(S.twoSum([3,2,4], 6))
+    print(S.twoSum([3,3], 6))
+    print(S.moveZeros([0,1,0,3,12]))
+    print(S.moveZeros([0]))
 
 
 
