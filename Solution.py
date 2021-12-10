@@ -13,11 +13,11 @@ class ListNode:
 
 #  Transfer an array to a linked list.
 def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
-    head = cur = ListNode(nums[0])
-    for i in range(1, len(nums)):
-        cur.next = ListNode(nums[i])
+    dummy = cur = ListNode()
+    for num in nums:
+        cur.next = ListNode(num)
         cur = cur.next
-    return head
+    return dummy.next
 
 
 #  Transfer a linked list to an array.
@@ -66,7 +66,6 @@ class Solution:
     Output: [0,1]
     Output: Because nums[0] + nums[1] == 9, we return [0, 1].
     """
-
     def twoSum01(self, nums: List[int], target: int) -> List[int]:
         for i in range(len(nums)):
             x = target - nums[i]
@@ -1232,7 +1231,7 @@ class Solution:
     def plusOne_iter(self, digits: List[int] ) -> List[int]:
         digits[-1] += 1
         for i in reversed( range( 1, len(digits) ) ):
-            if digits[i] < 9:
+            if digits[i] < 10:
                 break
             digits[i] = 0
             digits[i - 1] += 1
@@ -1241,6 +1240,21 @@ class Solution:
             digits[0] = 0
             return [1] + digits
         return digits
+
+
+    #  Solution03: the recursive version.
+    def plusOne_recur(self, digits:List[int]) -> List[int]:
+        if len(digits) == 0:
+            return [1]
+
+        digits[-1] += 1
+        if digits[-1] < 10:
+            return digits
+        else:
+            digits[-1] = 0
+            return self.plusOne_recur( digits[:-1] ) + [0]
+
+
 
 
 
@@ -1341,4 +1355,4 @@ if __name__ == "__main__":
     print(S.merge([2, 0], 1, [1], 1))
     print("--------------------------------")
  #   print(S.plusOne(digits04))  #  Leetcode 66
-    print(S.plusOne_iter(digits01))  # Leetcode 66
+    print(S.plusOne_recur(digits01))  # Leetcode 66
