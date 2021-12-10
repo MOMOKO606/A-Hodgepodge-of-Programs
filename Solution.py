@@ -538,7 +538,7 @@ class Solution:
                 j += 1
 
     """
-    8. Container with most water(Medium)
+    11. Container with most water(Medium)
     
     Given n non-negative integers a1, a2, ..., an , where each represents a point at coordinate (i, ai). 
     n vertical lines are drawn such that the two endpoints of the line i is at (i, ai) and (i, 0). 
@@ -1337,7 +1337,7 @@ if __name__ == "__main__":
     print(S.isPalindrome02(".,"))  # Leetcode, 125
     S.moveZeroes03(l8)
     print(l8)  # Leetcode 283
-    print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 8
+    print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 11
     print(S.climbStairs(3))  # Leetcode 70
     print(S.threeSum(l13))  # leetcode 15
     print(linkedlist2Array(S.reverseList(linkedlist01)))  # leetcode 206

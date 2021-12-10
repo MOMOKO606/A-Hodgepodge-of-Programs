@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -37,6 +38,7 @@ class Solution:
                 return [map[key], i]
             map[num] = i
 
+
     # def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
     #
     #     def ll2ReverseNum(head: Optional[ListNode]) -> int:
@@ -62,6 +64,7 @@ class Solution:
     #     num1 = ll2ReverseNum(l1)
     #     num2 = ll2ReverseNum(l2)
     #     return num2Reversell(num1 + num2)
+
 
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = cur = ListNode()
@@ -95,15 +98,15 @@ class Solution:
     def maxArea(self, height: List[int]) -> int:
         area, i, j = 0, 0, len(height) - 1
         while i < j:
-            area = max( area, min(height[i], height[j]) * (j - i))
+            area = max(area, min(height[i], height[j]) * (j - i))
             if height[i] < height[j]:
                 i += 1
-            else: j -= 1
-        return  area
+            else:
+                j -= 1
+        return area
 
 
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-
         nums.sort()
         n = len(nums)
         ans = []
@@ -130,10 +133,30 @@ class Solution:
         return ans
 
 
+    # def mergeTwoLists(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+    #     dummy = cur = ListNode()
+    #     while l1 and l2:
+    #         if l1.val < l2.val:
+    #             cur.next = l1
+    #             l1 = l1.next
+    #         else:
+    #             cur.next = l2
+    #             l2 = l2.next
+    #         cur = cur.next
+    #
+    #     cur.next = l1 or l2
+    #     return dummy.next
 
 
-
-
+    def mergeTwoLists(self, l1:Optional[ListNode], l2:Optional[ListNode]) -> Optional[ListNode]:
+        if not l1 or not l2:
+            return l1 or l2
+        if l1.val < l2.val:
+            l1.next = self.mergeTwoLists( l1.next, l2)
+            return l1
+        else:
+            l2.next = self.mergeTwoLists( l1, l2.next)
+            return l2
 
 #  Drive code.
 if __name__ == "__main__":
@@ -145,15 +168,21 @@ if __name__ == "__main__":
     print(S.twoSum([3, 3], 6))
 
     #  Leetcode 02
-    l1 = array2Linkedlist([2,4,3])
-    l2 = array2Linkedlist([5,6,4])
+    l1 = array2Linkedlist([2, 4, 3])
+    l2 = array2Linkedlist([5, 6, 4])
     printLinkedlist(S.addTwoNumbers(l1, l2))
 
     #  Leetcode 03
     print(S.lengthOfLongestSubstring(""))
 
     #  Leetcode 11
-    print(S.maxArea([1,2,1]))
+    print(S.maxArea([1, 2, 1]))
 
     #  Leetcode 15
     print(S.threeSum([0]))
+
+    print("---------------------------------")
+    #  Leetcode 21
+    l1 = array2Linkedlist([1,2,4])
+    l2 = array2Linkedlist([1,3,4])
+    printLinkedlist(S.mergeTwoLists(l1, l2))
