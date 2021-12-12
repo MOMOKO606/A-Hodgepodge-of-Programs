@@ -385,6 +385,20 @@ class Solution:
 
         return canJump_Aux(nums, len(nums) - 1)
 
+
+    # def canJump_recur(self, nums:List[int]) -> bool:
+    #     n = len(nums)
+    #     #  Base case:
+    #     if n == 1:
+    #         return True
+    #
+    #     for i in range(n - 1):
+    #         if self.canJump_recur( nums[:i + 1] ):
+    #             if nums[i] + i >= n - 1:
+    #                 return True
+    #     return False
+
+
     #  Solution2: the recursive algorithm with memo.
     def canJump_recur_memo(self, nums: List[int]) -> bool:
 
@@ -409,6 +423,28 @@ class Solution:
         memo = [0] * len(nums)
         return canJump_Aux(nums, len(nums) - 1, memo)
 
+
+    # def canJump_recur_memo(self, nums:List[int]) -> bool:
+    #
+    #     def _canJump(nums: List[int], memo: List[int]) -> bool:
+    #         n = len(nums)
+    #         #  Base case:
+    #         if type(memo[n - 1]) is bool:
+    #             return memo[n - 1]
+    #
+    #         for i in range(n - 1):
+    #             if nums[i] + i >= n - 1:
+    #                 if _canJump(nums[:i + 1], memo):
+    #                     memo[n - 1] = True
+    #                     return True
+    #         memo[n - 1] = True
+    #         return False
+    #
+    #     memo = [0] * len(nums)
+    #     memo[0] = True
+    #     return _canJump( nums, memo)
+
+
     #  Solution3: the iterative dynamic programming algorithm.
     def canJump_iter(self, nums: List[int]) -> bool:
         n = len(nums)
@@ -421,6 +457,8 @@ class Solution:
                     break
         return ans[n - 1]
 
+
+
     #  Solution4: the greedy algorithm.
     def canJump_greedy(self, nums: List[int]) -> bool:
         reach = 0
@@ -431,6 +469,17 @@ class Solution:
             if reach >= n - 1:
                 return True
         return False
+
+
+    # def canJump_greedy(self, nums: List[int]) -> bool:
+    #     n = len(nums)
+    #     reach = 0
+    #     for j in range(n):
+    #         if j > reach:
+    #             return False
+    #         if reach >= n - 1:
+    #             return True
+    #         reach = max(reach, j + nums[j])
 
     """
     125.Valid Palindrome(Easy)

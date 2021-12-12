@@ -38,7 +38,6 @@ class Solution:
                 return [map[key], i]
             map[num] = i
 
-
     # def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
     #
     #     def ll2ReverseNum(head: Optional[ListNode]) -> int:
@@ -65,7 +64,6 @@ class Solution:
     #     num2 = ll2ReverseNum(l2)
     #     return num2Reversell(num1 + num2)
 
-
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = cur = ListNode()
         carry = 0
@@ -83,7 +81,6 @@ class Solution:
             carry //= 10
         return dummy.next
 
-
     def lengthOfLongestSubstring(self, s: str) -> int:
         l, max_count, usedchar = -1, 0, {}
         for r in range(len(s)):
@@ -94,7 +91,6 @@ class Solution:
             usedchar[s[r]] = r
         return max_count
 
-
     def maxArea(self, height: List[int]) -> int:
         area, i, j = 0, 0, len(height) - 1
         while i < j:
@@ -104,7 +100,6 @@ class Solution:
             else:
                 j -= 1
         return area
-
 
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
@@ -132,7 +127,6 @@ class Solution:
                     r -= 1
         return ans
 
-
     # def mergeTwoLists(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
     #     dummy = cur = ListNode()
     #     while l1 and l2:
@@ -147,16 +141,74 @@ class Solution:
     #     cur.next = l1 or l2
     #     return dummy.next
 
-
-    def mergeTwoLists(self, l1:Optional[ListNode], l2:Optional[ListNode]) -> Optional[ListNode]:
+    def mergeTwoLists(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         if not l1 or not l2:
             return l1 or l2
         if l1.val < l2.val:
-            l1.next = self.mergeTwoLists( l1.next, l2)
+            l1.next = self.mergeTwoLists(l1.next, l2)
             return l1
         else:
-            l2.next = self.mergeTwoLists( l1, l2.next)
+            l2.next = self.mergeTwoLists(l1, l2.next)
             return l2
+
+    def removeDuplicates(self, nums: List[int]) -> int:
+        j = -1
+        for i in range(len(nums)):
+            if nums[i] != nums[i - 1] or j < 0:
+                j += 1
+                nums[j] = nums[i]
+        return j + 1
+
+
+    # def canJump(self, nums: List[int]) -> bool:
+    #     n = len(nums)
+    #     reach = 0
+    #     for j in range(n):
+    #         if j > reach:
+    #             return False
+    #         if reach >= n - 1:
+    #             return True
+    #         reach = max(reach, j + nums[j])
+
+
+    # def canJump(self, nums:List[int]) -> bool:
+    #
+    #     def _canJump(nums: List[int], memo: List[int]) -> bool:
+    #         n = len(nums)
+    #         #  Base case:
+    #         if type(memo[n - 1]) is bool:
+    #             return memo[n - 1]
+    #
+    #         for i in range(n - 1):
+    #             if nums[i] + i >= n - 1:
+    #                 if _canJump(nums[:i + 1], memo):
+    #                     memo[n - 1] = True
+    #                     return True
+    #         memo[n - 1] = True
+    #         return False
+    #
+    #     memo = [0] * len(nums)
+    #     memo[0] = True
+    #     return _canJump( nums, memo)
+
+
+    def canJump(self, nums:List[int]) -> bool:
+        n = len(nums)
+        ans = [False] * n
+        ans[0] = True
+        for i in range(1, n):
+            for j in range(i):
+                if i - j <= nums[j] and ans[j] is True:
+                    ans[i] = True
+                    break
+        return ans[n - 1]
+
+
+
+
+
+
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -181,8 +233,11 @@ if __name__ == "__main__":
     #  Leetcode 15
     print(S.threeSum([0]))
 
-    print("---------------------------------")
     #  Leetcode 21
-    l1 = array2Linkedlist([1,2,4])
-    l2 = array2Linkedlist([1,3,4])
+    l1 = array2Linkedlist([1, 2, 4])
+    l2 = array2Linkedlist([1, 3, 4])
     printLinkedlist(S.mergeTwoLists(l1, l2))
+
+    print("---------------------------------")
+    #  Leetcode 55
+    print(S.canJump([2,3,1,1,4]))
