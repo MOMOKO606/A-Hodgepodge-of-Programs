@@ -458,7 +458,6 @@ class Solution:
         return ans[n - 1]
 
 
-
     #  Solution4: the greedy algorithm.
     def canJump_greedy(self, nums: List[int]) -> bool:
         reach = 0
