@@ -204,20 +204,35 @@ class Solution:
         return ans[n - 1]
 
 
-    def uniquePaths(self, m: int, n:int) -> int:
+    #  Recursive version with a memo.
+    # def uniquePaths(self, m: int, n:int) -> int:
+    #
+    #     def _uniquePaths( m: int, n: int, memo:List[List[int]]) -> int:
+    #         if memo[m - 1][n - 1] > 0:
+    #             return memo[m - 1][n - 1]
+    #
+    #         if m == 1 or n == 1:
+    #             memo[m - 1][n - 1] = 1
+    #             return 1
+    #
+    #         return _uniquePaths( m - 1, n, memo) + _uniquePaths( m, n - 1, memo)
+    #
+    #     memo = [[0 for j in range(n)] for i in range(m)]
+    #     return _uniquePaths(m, n, memo)
 
-        def _uniquePaths( m: int, n: int, memo:List[List[int]]) -> int:
-            if memo[m - 1][n - 1] > 0:
-                return memo[m - 1][n - 1]
 
-            if m == 1 or n == 1:
-                memo[m - 1][n - 1] = 1
-                return 1
+    def uniquePaths(self, m: int, n: int) -> int:
+        ans = [[1 for j in range(n)] for i in range(m)]
+        for i in range(1, m):
+            for j in range(1, n):
+                ans[i][j] = ans[i - 1][j] + ans[i][j - 1]
+        return ans[m - 1][n - 1]
 
-            return _uniquePaths( m - 1, n, memo) + _uniquePaths( m, n - 1, memo)
 
-        memo = [[0 for j in range(n)] for i in range(m)]
-        return _uniquePaths(m, n, memo)
+
+
+
+
 
 
 
@@ -252,7 +267,8 @@ if __name__ == "__main__":
     #  Leetcode 55
     print(S.canJump([2,3,1,1,4]))
 
+    #  Leetcode 42
+    print( S.uniquePaths(3, 7))
+
 
     print("---------------------------------")
-    #  Leetcode 42
-    print( S.uniquePaths(3, 3))
