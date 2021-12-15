@@ -229,10 +229,14 @@ class Solution:
         return ans[m - 1][n - 1]
 
 
-
-
-
-
+    #  Leetcode 66
+    def plusOne(self, digits: List[int]) -> List[int]:
+        for j in reversed(range(len(digits))):
+            if digits[j] + 1 < 10:
+                digits[j] += 1
+                return digits
+            digits[j] = 0
+        return [1] + digits
 
 
 
@@ -272,3 +276,5 @@ if __name__ == "__main__":
 
 
     print("---------------------------------")
+    #  Leetcode 66
+    print(S.plusOne([9]))
