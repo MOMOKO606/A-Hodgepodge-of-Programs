@@ -304,7 +304,6 @@ class Solution:
             cur = cur.next
         return dummy.next
 
-
     #  Leetcode 83
     def deleteDuplicates03(self, head: Optional[ListNode]) -> Optional[ListNode]:
         cur = head
@@ -318,11 +317,61 @@ class Solution:
     def merge(self, nums01: List[int], nums02: List[int], m: int, n: int) -> None:
         while m and n:
             if nums01[m - 1] > nums02[n - 1]:
-                nums01[ m + n - 1] = nums01[m - 1]
+                nums01[m + n - 1] = nums01[m - 1]
                 m -= 1
             else:
                 nums01[m + n - 1] = nums02[n - 1]
+                n -= 1
         nums01[:n] = nums02[:n]
+
+    #  Leetcode 125
+    def isPalindrome(self, s: str) -> bool:
+        s = s.lower()
+        i, j = 0, len(s) - 1
+        while i < j:
+            if not s[i].isalpha():
+                i += 1
+                continue
+            if not s[j].isalpha():
+                j -= 1
+                continue
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
+
+
+    #  Leetcode 141
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        p1 = p2 = head
+        while p1 and p2:
+            p1 = p1.next
+            p2 = p2.next.next
+            if p1 == p2:
+                return True
+        return False
+
+
+    #  Leetcode 142
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        p1 = p2 = head
+        #  We can use p1 and p2 and p2.next as the while condition
+        #  Also, we just need to make sure the faster pointer is legal
+        #  which means the while condition can be simplified as while p2 and p2.next.
+        #  Tricky!
+        while p2 and p2.next:
+            p1 = p1.next
+            p2 = p2.next.next
+            if p1 == p2:
+                break
+        else:
+            return None
+        p1 = head
+        while p1 != p2:
+            p1 = p1.next
+            p2 = p2.next
+        return p1
 
 
 
@@ -384,12 +433,19 @@ if __name__ == "__main__":
     printLinkedlist(S.deleteDuplicates03(l1))
     printLinkedlist(S.deleteDuplicates03(l2))
 
-    #  leetcode 88
-    print("---------------------------------")
-    nums01,nums02 = [1,2,3,0,0,0], [2,5,6]
+    #  Leetcode 88
+    nums01, nums02 = [1, 2, 3, 0, 0, 0], [2, 5, 6]
     S.merge(nums01, nums02, 3, 3)
     print(nums01)
-
     nums01, nums02 = [0], [1]
     S.merge(nums01, nums02, 0, 1)
     print(nums01)
+
+    #  Leetcode 125
+    print(S.isPalindrome("A man, a plan, a canal: Panama"))
+    print(S.isPalindrome("race a car"))
+    print(S.isPalindrome(""))
+
+    #  Leetcode 141 passed.
+    print("---------------------------------")
+
