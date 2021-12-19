@@ -28,6 +28,9 @@ def printLinkedlist(head: Optional[ListNode]) -> None:
     print(linkedlist2Array(head))
 
 
+
+
+
 class Solution:
 
     #  Leetcode 01
@@ -373,6 +376,47 @@ class Solution:
             p2 = p2.next
         return p1
 
+    #  Leetcode 189
+    def rotate(self, nums: List[int], k: int) -> None:
+
+        def _reverselist( arr: List[int] ) -> List[int]:
+            i = 0
+            j = len(arr) - 1
+            while i < j:
+                arr[i], arr[j] = arr[j], arr[i]
+                i += 1
+                j -= 1
+            return arr
+
+        k = k % len(nums)
+        nums = _reverselist(nums)
+        nums[:k] = _reverselist(nums[:k])
+        nums[k:] = _reverselist(nums[k:])
+
+    #  Joseph-like method.
+    # def rotate(self, nums: List[int], k: int) -> None:
+    #     count = start = 0
+    #     n = len(nums)
+    #     while count < n:
+    #         cur = start
+    #         cur_val = nums[cur]
+    #         while True:
+    #             cur = (cur + k) % n
+    #             tmp = nums[cur]
+    #             nums[cur] = cur_val
+    #             cur_val = tmp
+    #             count += 1
+    #             if count == n:
+    #                 return
+    #             if cur == start:
+    #                 start += 1
+    #                 break
+
+
+
+
+
+
 
 
 #  Drive code.
@@ -447,5 +491,14 @@ if __name__ == "__main__":
     print(S.isPalindrome(""))
 
     #  Leetcode 141 passed.
+    #  Leetcode 142 passed.
     print("---------------------------------")
+    #  Leetcode 189
+    nums01 = [1,2,3,4,5,6,7]
+    nums02 = [-1,-100,3,99]
+    S.rotate(nums01, 3)
+    print( nums01 )
+    S.rotate(nums02, 2)
+    print( nums02 )
+
 
