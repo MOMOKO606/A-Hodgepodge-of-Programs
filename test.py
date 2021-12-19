@@ -376,6 +376,7 @@ class Solution:
             p2 = p2.next
         return p1
 
+
     #  Leetcode 189
     def rotate(self, nums: List[int], k: int) -> None:
 
@@ -410,9 +411,31 @@ class Solution:
     #                 break
     #         start += 1
 
+    #  Leetcode 206
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev, cur = None, head
+        while cur:
+            next = cur.next
+            cur.next = prev
+            prev = cur
+            cur = next
+        return prev
 
 
-
+    # def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    #
+    #     def _reverseList( head: Optional[ListNode]):
+    #         #  Base case
+    #         if not head or not head.next:
+    #             return head, head
+    #
+    #         new_head, tail = _reverseList( head.next )
+    #         tail.next = head
+    #         head.next = None
+    #         return new_head, head
+    #
+    #     new_head, _ = _reverseList(head)
+    #     return new_head
 
 
 
@@ -490,7 +513,7 @@ if __name__ == "__main__":
 
     #  Leetcode 141 passed.
     #  Leetcode 142 passed.
-    print("---------------------------------")
+
     #  Leetcode 189
     nums01 = [1,2,3,4,5,6,7]
     nums02 = [-1,-100,3,99]
@@ -498,5 +521,14 @@ if __name__ == "__main__":
     print( nums01 )
     S.rotate(nums02, 2)
     print( nums02 )
+
+    print("---------------------------------")
+    #  Leetcode 206
+    l1 = array2Linkedlist([1, 2, 3, 4, 5])
+    l2 = array2Linkedlist([1, 2])
+    l3 = array2Linkedlist([])
+    printLinkedlist(S.reverseList(l1))
+    printLinkedlist(S.reverseList(l2))
+    printLinkedlist(S.reverseList(l3))
 
 
