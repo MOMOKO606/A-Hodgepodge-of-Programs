@@ -1397,8 +1397,8 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.deleteDuplicates_recur(linkedlist03)))  # Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates_iter(linkedlist04)))  # Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates02_short(linkedlist05)))  # Leetcode 82
-    print(S.rotate([1, 2, 3, 4, 5, 6, 7], 3))  # Leetcode 189
-    print(S.rotate01([-1, -100, 3, 99], 2))  # Leetcode 189
+    print(S.rotate([-1, -100, 3, 99], 2))  # Leetcode 189
+    print(S.rotate01([1, 2, 3, 4, 5, 6, 7], 3))  # Leetcode 189
     print(linkedlist2Array(S.mergeTwoLists(linkedlist07, linkedlist08)))  # Leetcode 21
     print(S.merge([2, 0], 1, [1], 1))
     print("--------------------------------")

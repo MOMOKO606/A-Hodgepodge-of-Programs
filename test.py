@@ -406,11 +406,9 @@ class Solution:
     #             nums[cur] = cur_val
     #             cur_val = tmp
     #             count += 1
-    #             if count == n:
-    #                 return
     #             if cur == start:
-    #                 start += 1
     #                 break
+    #         start += 1
 
 
 
