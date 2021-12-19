@@ -1,4 +1,5 @@
 from typing import List, Optional
+import bisect
 
 
 class ListNode:
@@ -437,6 +438,55 @@ class Solution:
     #     new_head, _ = _reverseList(head)
     #     return new_head
 
+    #  Leetcode 300
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        lis = []
+        for i in range(len(nums)):
+            index = bisect.bisect_left( lis, nums[i] )
+            if index > len(lis) - 1:
+                lis.append( nums[i])
+            else: lis[index] = nums[i]
+        return len(lis)
+
+
+    #  Recursive version with memo.
+    # def lengthOfLIS(self, nums: List[int]) -> int:
+    #
+    #     def _lengthOfLIS( nums: List[int], memo: List[int],k: int ) -> int:
+    #         if memo[k]:
+    #             return memo[k]
+    #         if k == 0:
+    #             memo[k] = 1
+    #             return 1
+    #         memo[k] = 1
+    #         for j in range(k):
+    #             if nums[j] < nums[k]:
+    #                 memo[k] = max( memo[k], _lengthOfLIS(nums, memo, j) + 1)
+    #         return memo[k]
+    #
+    #     n = len(nums)
+    #     memo = [0] * n
+    #     ans = 0
+    #     for i in reversed(range(n)):
+    #         ans = max(ans, _lengthOfLIS( nums, memo, i ))
+    #     return ans
+
+
+    #  The dynamic programming version.
+    # def lengthOfLIS(self, nums: List[int] ) -> int:
+    #     n = len( nums )
+    #     memo = [1] * n
+    #     for i in range(1, n):
+    #         for j in range(i):
+    #             if nums[j] < nums[i]:
+    #                 memo[i] = max( memo[i], memo[j] + 1)
+    #     return max(memo)
+
+
+
+
+
+
 
 
 
@@ -522,7 +572,6 @@ if __name__ == "__main__":
     S.rotate(nums02, 2)
     print( nums02 )
 
-    print("---------------------------------")
     #  Leetcode 206
     l1 = array2Linkedlist([1, 2, 3, 4, 5])
     l2 = array2Linkedlist([1, 2])
@@ -530,5 +579,11 @@ if __name__ == "__main__":
     printLinkedlist(S.reverseList(l1))
     printLinkedlist(S.reverseList(l2))
     printLinkedlist(S.reverseList(l3))
+
+    #  Leetcode 300
+    print("---------------------------------")
+    print( S.lengthOfLIS([10,9,2,5,3,7,101,18]))
+    print(S.lengthOfLIS([0,1,0,3,2,3]))
+    print(S.lengthOfLIS([7,7,7,7,7,7,7]))
 
 
