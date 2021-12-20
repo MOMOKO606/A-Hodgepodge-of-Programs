@@ -29,9 +29,6 @@ def printLinkedlist(head: Optional[ListNode]) -> None:
     print(linkedlist2Array(head))
 
 
-
-
-
 class Solution:
 
     #  Leetcode 01
@@ -345,7 +342,6 @@ class Solution:
             j -= 1
         return True
 
-
     #  Leetcode 141
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         p1 = p2 = head
@@ -355,7 +351,6 @@ class Solution:
             if p1 == p2:
                 return True
         return False
-
 
     #  Leetcode 142
     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -377,11 +372,10 @@ class Solution:
             p2 = p2.next
         return p1
 
-
     #  Leetcode 189
     def rotate(self, nums: List[int], k: int) -> None:
 
-        def _reverselist( arr: List[int] ) -> List[int]:
+        def _reverselist(arr: List[int]) -> List[int]:
             i = 0
             j = len(arr) - 1
             while i < j:
@@ -422,7 +416,6 @@ class Solution:
             cur = next
         return prev
 
-
     # def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
     #
     #     def _reverseList( head: Optional[ListNode]):
@@ -442,12 +435,12 @@ class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         lis = []
         for i in range(len(nums)):
-            index = bisect.bisect_left( lis, nums[i] )
+            index = bisect.bisect_left(lis, nums[i])
             if index > len(lis) - 1:
-                lis.append( nums[i])
-            else: lis[index] = nums[i]
+                lis.append(nums[i])
+            else:
+                lis[index] = nums[i]
         return len(lis)
-
 
     #  Recursive version with memo.
     # def lengthOfLIS(self, nums: List[int]) -> int:
@@ -471,7 +464,6 @@ class Solution:
     #         ans = max(ans, _lengthOfLIS( nums, memo, i ))
     #     return ans
 
-
     #  The dynamic programming version.
     # def lengthOfLIS(self, nums: List[int] ) -> int:
     #     n = len( nums )
@@ -483,11 +475,43 @@ class Solution:
     #     return max(memo)
 
 
+    #  Leetcode 322
+    def coinChange(self, nums: List[int], amount: int) -> int:
+        ans = [float("inf")] * (amount + 1)
+        ans[0] = 0
+        for num in nums:
+            if num <= amount:
+                ans[num] = 1
 
+        for i in range(1, len(ans)):
+            for num in nums:
+                if i - num >= 0:
+                    ans[i] = min(ans[i], ans[ i - num ] + 1)
 
+        ans = [ans[i] if ans[i] < float("inf") else -1 for i in range(len(ans)) ]
+        return ans[amount]
 
-
-
+    # def coinChange(self, nums: List[int], amount: int) -> int:
+    #
+    #     def _coinChange( nums: List[int], memo: List[float], amount: int) -> int:
+    #         if memo[amount] < float("inf"):
+    #             return int(memo[amount])
+    #         if not amount:
+    #             memo[amount] = 0
+    #             return 0
+    #         least_coins = float("inf")
+    #         for num in nums:
+    #             if amount - num >= 0:
+    #                 least_coins = min(least_coins, _coinChange(nums, memo, amount - num) + 1)
+    #         return least_coins
+    #
+    #     memo = [float("inf")] * (amount + 1)
+    #     memo[0] = 0
+    #     for num in nums:
+    #         if num < len(nums):
+    #             memo[num] = 1
+    #     ans = _coinChange( nums, memo, amount )
+    #     return ans if ans < float("inf")  else -1
 
 
 #  Drive code.
@@ -565,12 +589,12 @@ if __name__ == "__main__":
     #  Leetcode 142 passed.
 
     #  Leetcode 189
-    nums01 = [1,2,3,4,5,6,7]
-    nums02 = [-1,-100,3,99]
+    nums01 = [1, 2, 3, 4, 5, 6, 7]
+    nums02 = [-1, -100, 3, 99]
     S.rotate(nums01, 3)
-    print( nums01 )
+    print(nums01)
     S.rotate(nums02, 2)
-    print( nums02 )
+    print(nums02)
 
     #  Leetcode 206
     l1 = array2Linkedlist([1, 2, 3, 4, 5])
@@ -581,9 +605,13 @@ if __name__ == "__main__":
     printLinkedlist(S.reverseList(l3))
 
     #  Leetcode 300
+    print(S.lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]))
+    print(S.lengthOfLIS([0, 1, 0, 3, 2, 3]))
+    print(S.lengthOfLIS([7, 7, 7, 7, 7, 7, 7]))
+
+    #  Leetcode 322
+    print(S.coinChange([1,2,5], 11))
+    print(S.coinChange([2], 3))
+    print(S.coinChange([1], 0))
+
     print("---------------------------------")
-    print( S.lengthOfLIS([10,9,2,5,3,7,101,18]))
-    print(S.lengthOfLIS([0,1,0,3,2,3]))
-    print(S.lengthOfLIS([7,7,7,7,7,7,7]))
-
-
