@@ -1303,6 +1303,36 @@ class Solution:
             return self.plusOne_recur( digits[:-1] ) + [0]
 
 
+    """
+    20. Valid Parentheses(Easy)
+    Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', 
+    determine if the input string is valid.
+
+    An input string is valid if:
+    Open brackets must be closed by the same type of brackets.
+    Open brackets must be closed in the correct order.
+    
+    Example1:
+    Input: s = "()[]{}"
+    Output: true
+    
+    Example2:
+    Input: s = "(]"
+    Output: false
+    """
+    def isValid(self, s: str) -> bool:
+        hashmap = {"(":")", "[":"]","{":"}"}
+        ans = []
+        for char in s:
+            if char in hashmap.keys():
+                ans.append( hashmap[char] )
+            #  Implied char in hashmap.values()
+            elif not ans or ans.pop() != char:
+                return False
+        return ans == []
+
+
+
 
 
 
@@ -1374,33 +1404,58 @@ if __name__ == "__main__":
     linkedlist08 = array2Linkedlist([1, 3, 4])
 
     print(S.twoSum03(l0, 9))  # Leetcode, 01
+
     print(linkedlist2Array(S.addTwoNumbers02(l1, l2)))  # Leetcode, 02
+
     print(S.lengthOfLongestSubstring(string01))  # Leetcode, 03
+
     print(S.lengthOfLIS(l3))  # Leetcode, 300
     print(S.lengthOfLIS_greedy(l5))  # Leetcode, 300
+
     print(S.coinChange_iter([2], 3))  # Leetcode, 322
+
     print(S.uniquePaths(7, 3))  # Leetcode, 62
+
     print(S.canJump_greedy([1]))  # Leetcode, 55
+
     print(S.isPalindrome01(string08))  # Leetcode, 125
     print(S.isPalindrome02(".,"))  # Leetcode, 125
+
     S.moveZeroes03(l8)
     print(l8)  # Leetcode 283
+
     print(S.maxArea([2, 3, 4, 5, 18, 17, 6]))  # leetcode 11
+
     print(S.climbStairs(3))  # Leetcode 70
+
     print(S.threeSum(l13))  # leetcode 15
+
     print(linkedlist2Array(S.reverseList(linkedlist01)))  # leetcode 206
     print(linkedlist2Array(S.reverseList_iter(linkedlist02)))  # leetcode 206
+
     print(S.removeDuplicates(l17))  # leetcode 26
+
     print(S.removeDuplicates02([1, 1, 1, 2, 2, 3]))  # leetcode 80
     print(S.removeDuplicates02_beta(l18))  # leetcode 80
     print(S.removeDuplicates02_theta(l19))  # leetcode 80
+
     print(linkedlist2Array(S.deleteDuplicates_recur(linkedlist03)))  # Leetcode 83
     print(linkedlist2Array(S.deleteDuplicates_iter(linkedlist04)))  # Leetcode 83
+
     print(linkedlist2Array(S.deleteDuplicates02_short(linkedlist05)))  # Leetcode 82
+
     print(S.rotate([-1, -100, 3, 99], 2))  # Leetcode 189
     print(S.rotate01([1, 2, 3, 4, 5, 6, 7], 3))  # Leetcode 189
+
     print(linkedlist2Array(S.mergeTwoLists(linkedlist07, linkedlist08)))  # Leetcode 21
-    print(S.merge([2, 0], 1, [1], 1))
-    print("--------------------------------")
- #   print(S.plusOne(digits04))  #  Leetcode 66
+
+    print(S.merge([2, 0], 1, [1], 1))  # Leetcode 21
+
+    print(S.plusOne(digits04))  #  Leetcode 66
     print(S.plusOne_recur(digits01))  # Leetcode 66
+
+    print("--------------------------------")
+    print(S.isValid("()") )
+    print(S.isValid("()[]{}"))
+    print(S.isValid("(]"))
+    print(S.isValid("]"))
