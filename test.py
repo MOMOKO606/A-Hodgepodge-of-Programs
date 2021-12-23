@@ -476,20 +476,19 @@ class Solution:
 
 
     #  Leetcode 322
+    #  Greedy algorithm doesn't work on coinChange.
+    #  Example:
+    #  Coins = [2, 3, 6, 7] and Amount = 12,
+    #  Greedy takes [2, 3, 7] and the optimal choice is [6, 6].
     def coinChange(self, nums: List[int], amount: int) -> int:
-        ans = [float("inf")] * (amount + 1)
+        ans = [amount + 1] * (amount + 1)
         ans[0] = 0
-        for num in nums:
-            if num <= amount:
-                ans[num] = 1
-
-        for i in range(1, len(ans)):
+        for i in range( len(ans) ):
             for num in nums:
                 if i - num >= 0:
                     ans[i] = min(ans[i], ans[ i - num ] + 1)
+        return ans[amount] if ans[amount] < amount + 1 else -1
 
-        ans = [ans[i] if ans[i] < float("inf") else -1 for i in range(len(ans)) ]
-        return ans[amount]
 
     # def coinChange(self, nums: List[int], amount: int) -> int:
     #
@@ -610,8 +609,11 @@ if __name__ == "__main__":
     print(S.lengthOfLIS([7, 7, 7, 7, 7, 7, 7]))
 
     #  Leetcode 322
+    print("---------------------------------")
     print(S.coinChange([1,2,5], 11))
     print(S.coinChange([2], 3))
     print(S.coinChange([1], 0))
+    print(S.coinChange([2,5,10,1], 27))
+    print(S.coinChange([186,419,83,408],6249))
 
-    print("---------------------------------")
+

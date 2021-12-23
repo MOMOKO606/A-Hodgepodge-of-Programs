@@ -2,6 +2,10 @@ from typing import Optional, List
 import bisect
 import math
 
+class DLLNode:
+    def __init__(self, val = 0):
+        self.val = val
+        self.prev = self.next = None
 
 #  Auxiliary functions and classes.
 #  Definition for singly-linked list.
@@ -51,6 +55,119 @@ def num2list_rever(num: [int]) -> List[int]:
         res.append(num % 10)
         num //= 10
     return res
+
+"""
+641. Design Circular Deque(Medium)
+Design your implementation of the circular double-ended queue (deque).
+
+Implement the MyCircularDeque class:
+MyCircularDeque(int k) Initializes the deque with a maximum size of k.
+boolean insertFront() Adds an item at the front of Deque. Returns true if the operation is successful, or false otherwise.
+boolean insertLast() Adds an item at the rear of Deque. Returns true if the operation is successful, or false otherwise.
+boolean deleteFront() Deletes an item from the front of Deque. Returns true if the operation is successful, or false otherwise.
+boolean deleteLast() Deletes an item from the rear of Deque. Returns true if the operation is successful, or false otherwise.
+int getFront() Returns the front item from the Deque. Returns -1 if the deque is empty.
+int getRear() Returns the last item from Deque. Returns -1 if the deque is empty.
+boolean isEmpty() Returns true if the deque is empty, or false otherwise.
+boolean isFull() Returns true if the deque is full, or false otherwise.
+"""
+#  Method 1. circular deque using list.
+class MyCircularDeque:
+
+    def __init__(self, k: int):
+        self.capacity = k
+        self.size = 0
+        self.front, self.rear = k - 1, 0
+        self.deque = [0] * k
+
+    def insertFront(self, value: int) -> bool:
+        if self.isFull(): return False
+        self.deque[self.front] = value
+        self.front = (self.front - 1) % self.capacity
+        self.size += 1
+        return True
+
+    def insertLast(self, value: int) -> bool:
+        if self.isFull(): return False
+        self.deque[self.rear] = value
+        self.rear = (self.rear + 1) % self.capacity
+        self.size += 1
+        return True
+
+    def deleteFront(self) -> bool:
+        if self.isEmpty(): return False
+        self.front = (self.front + 1) % self.capacity
+        self.size -= 1
+        return True
+
+    def deleteLast(self) -> bool:
+        if self.isEmpty(): return False
+        self.rear = (self.rear - 1) % self.capacity
+        self.size -= 1
+        return True
+
+    def getFront(self) -> int:
+        if self.isEmpty(): return -1
+        return self.deque[(self.front + 1) % self.capacity]
+
+    def getRear(self) -> int:
+        if self.isEmpty(): return -1
+        return  self.deque[(self.rear - 1) % self.capacity]
+
+    def isEmpty(self) -> bool:
+        return self.size == 0
+
+    def isFull(self) -> bool:
+        return self.size == self.capacity
+
+
+"""
+155. Min Stack(Easy)
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+Implement the MinStack class:
+
+MinStack() initializes the stack object.
+void push(int val) pushes the element val onto the stack.
+void pop() removes the element on the top of the stack.
+int top() gets the top element of the stack.
+int getMin() retrieves the minimum element in the stack.
+
+Example:
+Input
+["MinStack","push","push","push","getMin","pop","top","getMin"]
+[[],[-2],[0],[-3],[],[],[],[]]
+
+Output
+[null,null,null,null,-3,null,0,-2]
+"""
+class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.minstack = []
+
+    def push(self, val: int) -> None:
+
+        mintop = self.getMin()
+
+        if mintop == [] or val < mintop:
+            self.minstack.append(val)
+        else:
+            self.minstack.append(mintop)
+        self.stack.append(val)
+
+    def pop(self) -> None:
+        self.stack.pop()
+        self.minstack.pop()
+
+    def top(self) -> int:
+        if self.stack:
+            return self.stack[-1]
+        return []
+
+    def getMin(self) -> int:
+        if self.minstack:
+            return self.minstack[-1]
+        return []
 
 
 class Solution:
@@ -1340,6 +1457,7 @@ class Solution:
 
 
 
+
 #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
@@ -1454,8 +1572,44 @@ if __name__ == "__main__":
     print(S.plusOne(digits04))  #  Leetcode 66
     print(S.plusOne_recur(digits01))  # Leetcode 66
 
+    print(S.isValid("()") )  # Leetcode 20
+    print(S.isValid("()[]{}"))  # Leetcode 20
+    print(S.isValid("(]"))  # Leetcode 20
+    print(S.isValid("]"))  # Leetcode 20
+
+    #  Leetcode 155
+    # Your MinStack object will be instantiated and called as such:
+    obj = MinStack()
+    obj.push(0)
+    obj.push(1)
+    obj.push(0)
+    param01 = obj.getMin()
+    # param02 = obj.top()
+    obj.pop()
+    param03 = obj.getMin()
+    print(param01,  param03)
+
     print("--------------------------------")
-    print(S.isValid("()") )
-    print(S.isValid("()[]{}"))
-    print(S.isValid("(]"))
-    print(S.isValid("]"))
+    # Your MyCircularDeque object will be instantiated and called as such:
+    obj = MyCircularDeque(5)
+    # param01 = obj.insertLast(1)
+    # param02 = obj.insertLast(2)
+    # param03 = obj.insertFront(3)
+    # param04 = obj.insertFront(4)
+    # param05 = obj.getRear()
+    # param06 = obj.isFull()
+    # param07 = obj.deleteLast()
+    # param08 = obj.insertFront(4)
+    # param09 = obj.getFront()
+    # print( param01, param02, param03, param04, param05, param06, param07, param08, param09)
+    print(obj.insertFront(7), obj.insertLast(0), obj.getFront(), obj.insertLast(3), obj.getFront(), obj.insertFront(9),
+ obj.getRear(),obj.getFront(), obj.deleteLast(), obj.getRear())
+
+
+
+
+
+
+
+
+
