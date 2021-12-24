@@ -120,6 +120,64 @@ class MyCircularDeque:
     def isFull(self) -> bool:
         return self.size == self.capacity
 
+#  Method 2. circular deque using double linked list (= deque) .
+# class MyCircularDeque:
+#
+#     def __init__(self, k: int):
+#         self.size, self.capacity = 0, k
+#         self.front =  DLLNode()
+#         self.rear = DLLNode()
+#         self.front.next = self.rear
+#         self.rear.prev = self.front
+#
+#     def insertFront(self, value: int) -> bool:
+#         if self.isFull(): return False
+#         self.front.val = value
+#         if not self.front.prev:
+#             new = DLLNode()
+#             new.next = self.front
+#             self.front.prev = new
+#         self.front = self.front.prev
+#         self.size += 1
+#         return True
+#
+#     def insertLast(self, value: int) -> bool:
+#         if self.isFull(): return False
+#         self.rear.val = value
+#         if not self.rear.next:
+#             new = DLLNode()
+#             new.prev = self.rear
+#             self.rear.next = new
+#         self.rear = self.rear.next
+#         self.size += 1
+#         return True
+#
+#     def deleteFront(self) -> bool:
+#         if self.isEmpty(): return False
+#         self.front = self.front.next
+#         self.size -= 1
+#         return True
+#
+#     def deleteLast(self) -> bool:
+#         if self.isEmpty(): return False
+#         self.rear = self.rear.prev
+#         self.size -= 1
+#         return True
+#
+#     def getFront(self) -> int:
+#         if self.isEmpty(): return -1
+#         return self.front.next.val
+#
+#     def getRear(self) -> int:
+#         if self.isEmpty(): return -1
+#         return self.rear.prev.val
+#
+#     def isEmpty(self) -> bool:
+#         return self.size == 0
+#
+#     def isFull(self) -> bool:
+#         return self.size == self.capacity
+
 
 """
 155. Min Stack(Easy)
@@ -1589,22 +1647,20 @@ if __name__ == "__main__":
     param03 = obj.getMin()
     print(param01,  param03)
 
-    print("--------------------------------")
-    # Your MyCircularDeque object will be instantiated and called as such:
-    obj = MyCircularDeque(5)
-    # param01 = obj.insertLast(1)
-    # param02 = obj.insertLast(2)
-    # param03 = obj.insertFront(3)
-    # param04 = obj.insertFront(4)
-    # param05 = obj.getRear()
-    # param06 = obj.isFull()
-    # param07 = obj.deleteLast()
-    # param08 = obj.insertFront(4)
-    # param09 = obj.getFront()
-    # print( param01, param02, param03, param04, param05, param06, param07, param08, param09)
-    print(obj.insertFront(7), obj.insertLast(0), obj.getFront(), obj.insertLast(3), obj.getFront(), obj.insertFront(9),
- obj.getRear(),obj.getFront(), obj.deleteLast(), obj.getRear())
+    # Leetcode 641
+    obj = MyCircularDeque(3)
+    param01 = obj.insertLast(1)
+    param02 = obj.insertLast(2)
+    param03 = obj.insertFront(3)
+    param04 = obj.insertFront(4)
+    param05 = obj.getRear()
+    param06 = obj.isFull()
+    param07 = obj.deleteLast()
+    param08 = obj.insertFront(4)
+    param09 = obj.getFront()
+    print( param01, param02, param03, param04, param05, param06, param07, param08, param09)
 
+    print("--------------------------------")
 
 
 
