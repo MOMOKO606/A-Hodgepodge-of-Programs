@@ -120,7 +120,7 @@ class MyCircularDeque:
     def isFull(self) -> bool:
         return self.size == self.capacity
 
-#  Method 2. circular deque using double linked list (= deque) .
+#  Method 2. circular deque using double linked list (= deque when use linked list) .
 # class MyCircularDeque:
 #
 #     def __init__(self, k: int):
@@ -1507,12 +1507,28 @@ class Solution:
         return ans == []
 
 
-
-
-
-
-
-
+    """
+    84.Largest Rectangle in Histogram(Hard)
+    Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, 
+    return the area of the largest rectangle in the histogram.
+    
+    Example
+    Input: heights = [2,1,5,6,2,3]
+    Output: 10
+    Explanation: The above is a histogram where width of each bar is 1.
+    The largest rectangle is shown in the red area, which has an area = 10 units.
+    """
+    #  Brute-force algorithm.
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        largest_area = 0
+        for i, num in enumerate(heights):
+            l = r = i
+            while l >= 0 and heights[l] >= num:
+                l -= 1
+            while r < len(heights) and heights[r] >= num:
+                r += 1
+            largest_area = max( largest_area, (r - l - 1) * num)
+        return largest_area
 
 
 
@@ -1661,6 +1677,10 @@ if __name__ == "__main__":
     print( param01, param02, param03, param04, param05, param06, param07, param08, param09)
 
     print("--------------------------------")
+    #  Leetcode 84
+    print(S.largestRectangleArea([2,1,5,6,2,3]))
+    print(S.largestRectangleArea([2, 4]))
+
 
 
 
