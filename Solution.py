@@ -1518,17 +1518,31 @@ class Solution:
     Explanation: The above is a histogram where width of each bar is 1.
     The largest rectangle is shown in the red area, which has an area = 10 units.
     """
-    #  Brute-force algorithm.
+    #  Algorithm by using stack.
     def largestRectangleArea(self, heights: List[int]) -> int:
-        largest_area = 0
-        for i, num in enumerate(heights):
-            l = r = i
-            while l >= 0 and heights[l] >= num:
-                l -= 1
-            while r < len(heights) and heights[r] >= num:
-                r += 1
-            largest_area = max( largest_area, (r - l - 1) * num)
-        return largest_area
+        stack = [(-1, -1)]  # (index, value)
+        i, area, count, n = 0, 0, 0, len(heights)
+        while count < n:
+            if i < n and heights[i] > stack[-1][1]:
+                stack.append((i,heights[i]))
+                i += 1
+            else:
+                area = max(area, stack.pop()[1] * (i - stack[-1][0] -1))
+                count += 1
+        return area
+
+
+    # #  Brute-force algorithm.
+    # def largestRectangleArea(self, heights: List[int]) -> int:
+    #     largest_area = 0
+    #     for i, num in enumerate(heights):
+    #         l = r = i
+    #         while l >= 0 and heights[l] >= num:
+    #             l -= 1
+    #         while r < len(heights) and heights[r] >= num:
+    #             r += 1
+    #         largest_area = max( largest_area, (r - l - 1) * num)
+    #     return largest_area
 
 
 
