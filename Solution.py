@@ -1,6 +1,7 @@
 from typing import Optional, List
 import bisect
 import math
+import collections
 
 
 class DLLNode:
@@ -1544,7 +1545,6 @@ class Solution:
     #         largest_area = max( largest_area, (r - l - 1) * num)
     #     return largest_area
 
-
     """
     42. Trapping Rain Water(Hard)
     Given n non-negative integers representing an elevation map where the width of each bar is 1, 
@@ -1556,6 +1556,7 @@ class Solution:
     Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. 
     In this case, 6 units of rain water (blue section) are being trapped.
     """
+
     #  Optimized version using two pointers
     def trap(self, heights: List[int]) -> int:
         n = len(heights)
@@ -1566,16 +1567,17 @@ class Solution:
                 tmp = maxLeft - heights[l]
                 if tmp > 0:
                     ans += tmp
-                else: maxLeft = heights[l]
+                else:
+                    maxLeft = heights[l]
                 l += 1
             else:
                 tmp = maxRight - heights[r]
                 if tmp > 0:
                     ans += tmp
-                else: maxRight = heights[r]
+                else:
+                    maxRight = heights[r]
                 r -= 1
         return ans
-
 
     # #  The algorithm using a stack.
     # def trap(self, heights: List[int]) -> int:
@@ -1589,7 +1591,6 @@ class Solution:
     #             if len(stack):
     #                 ans += (min(heights[i], heights[stack[-1]]) - h) * (i - stack[-1] -1)
     #     return ans
-
 
     # #  Optimized version using arrays.
     # def trap(self, heights:List[int]) -> int:
@@ -1606,7 +1607,6 @@ class Solution:
     #             ans += temp - heights[i]
     #     return ans
 
-
     # #  The brute-force
     # def trap(self, heights: List[int]) -> int:
     #     ans = 0
@@ -1622,7 +1622,6 @@ class Solution:
     #         if temp > 0:
     #             ans += temp
     #     return ans
-
 
     # #  The algorithm that mimics the fill and drain water.
     # def trap(self, heights:List[int]) -> int:
@@ -1642,6 +1641,49 @@ class Solution:
     #             ans[i] = 0
     #         maxRight = max( maxRight, h)
     #     return sum(ans)
+
+
+    """
+    239. Sliding Window Maximum( Hard )
+    You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of 
+    the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right 
+    by one position.
+    Return the max sliding window.
+    
+    Example:
+    Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
+    Output: [3,3,5,5,6,7]
+    Explanation: 
+    Window position                Max
+    ---------------               -----
+    [1  3  -1] -3  5  3  6  7       3
+     1 [3  -1  -3] 5  3  6  7       3
+     1  3 [-1  -3  5] 3  6  7       5
+     1  3  -1 [-3  5  3] 6  7       5
+     1  3  -1  -3 [5  3  6] 7       6
+     1  3  -1  -3  5 [3  6  7]      7
+    """
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        ans = []
+        deque = collections.deque()
+        for i, num in enumerate(nums):
+            #  Insert new element.
+            while deque and num > nums[deque[-1]]:
+                deque.pop()
+            deque += [i]
+            #  If the windows has passed the element on the most left in the deque.
+            if deque[0] < i - k + 1:
+                deque.popleft()
+            #  Initialize the k-window.
+            if i >= k - 1:
+                ans += [nums[deque[0]]]
+        return ans
+
+
+
+
+
+        pass
 
 
 #  Drive code.
@@ -1792,7 +1834,33 @@ if __name__ == "__main__":
     print(S.largestRectangleArea([2, 1, 5, 6, 2, 3]))
     print(S.largestRectangleArea([2, 4]))
 
-    print("--------------------------------")
     #  Leetcode 42
     print(S.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
     print(S.trap([4, 2, 0, 3, 2, 5]))
+
+    #  Leetcode 239
+    print("--------------------------------")
+    print(S.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3))
+    print(S.maxSlidingWindow([1], 1))
+
+"""
+                        _oo0oo_
+                       o8888888o
+                       88" . "88
+                       (| -_- |)
+                       0\  =  /0
+                     ___/`---'\___
+                   .' \\|     |// '.
+                  / \\|||  :  |||// \
+                 / _||||| -卍-|||||- \
+                |   | \\\  -  /// |   |
+                | \_|  ''\---/''  |_/ |
+                \  .-\__  '-'  ___/-. /
+              ___'. .'  /--.--\  `. .'___
+           ."" '<  `.___\_<|>_/___.' >' "".
+          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+          \  \ `_.   \_ __\ /__ _/   .-` /  /
+      =====`-.____`.___ \_____/___.-`___.-'=====
+                        `=---='                       
+ ..................佛祖开光 ,永无BUG...................
+"""
