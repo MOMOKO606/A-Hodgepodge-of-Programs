@@ -2,10 +2,12 @@ from typing import Optional, List
 import bisect
 import math
 
+
 class DLLNode:
-    def __init__(self, val = 0):
+    def __init__(self, val=0):
         self.val = val
         self.prev = self.next = None
+
 
 #  Auxiliary functions and classes.
 #  Definition for singly-linked list.
@@ -56,6 +58,7 @@ def num2list_rever(num: [int]) -> List[int]:
         num //= 10
     return res
 
+
 """
 641. Design Circular Deque(Medium)
 Design your implementation of the circular double-ended queue (deque).
@@ -71,6 +74,8 @@ int getRear() Returns the last item from Deque. Returns -1 if the deque is empty
 boolean isEmpty() Returns true if the deque is empty, or false otherwise.
 boolean isFull() Returns true if the deque is full, or false otherwise.
 """
+
+
 #  Method 1. circular deque using list.
 class MyCircularDeque:
 
@@ -112,13 +117,14 @@ class MyCircularDeque:
 
     def getRear(self) -> int:
         if self.isEmpty(): return -1
-        return  self.deque[(self.rear - 1) % self.capacity]
+        return self.deque[(self.rear - 1) % self.capacity]
 
     def isEmpty(self) -> bool:
         return self.size == 0
 
     def isFull(self) -> bool:
         return self.size == self.capacity
+
 
 #  Method 2. circular deque using double linked list (= deque when use linked list) .
 # class MyCircularDeque:
@@ -198,6 +204,8 @@ Input
 Output
 [null,null,null,null,-3,null,0,-2]
 """
+
+
 class MinStack:
     def __init__(self):
         self.stack = []
@@ -241,6 +249,7 @@ class Solution:
     Output: [0,1]
     Output: Because nums[0] + nums[1] == 9, we return [0, 1].
     """
+
     def twoSum01(self, nums: List[int], target: int) -> List[int]:
         for i in range(len(nums)):
             x = target - nums[i]
@@ -560,7 +569,6 @@ class Solution:
 
         return canJump_Aux(nums, len(nums) - 1)
 
-
     # def canJump_recur(self, nums:List[int]) -> bool:
     #     n = len(nums)
     #     #  Base case:
@@ -572,7 +580,6 @@ class Solution:
     #             if nums[i] + i >= n - 1:
     #                 return True
     #     return False
-
 
     #  Solution2: the recursive algorithm with memo.
     def canJump_recur_memo(self, nums: List[int]) -> bool:
@@ -598,7 +605,6 @@ class Solution:
         memo = [0] * len(nums)
         return canJump_Aux(nums, len(nums) - 1, memo)
 
-
     # def canJump_recur_memo(self, nums:List[int]) -> bool:
     #
     #     def _canJump(nums: List[int], memo: List[int]) -> bool:
@@ -619,7 +625,6 @@ class Solution:
     #     memo[0] = True
     #     return _canJump( nums, memo)
 
-
     #  Solution3: the iterative dynamic programming algorithm.
     def canJump_iter(self, nums: List[int]) -> bool:
         n = len(nums)
@@ -632,7 +637,6 @@ class Solution:
                     break
         return ans[n - 1]
 
-
     #  Solution4: the greedy algorithm.
     def canJump_greedy(self, nums: List[int]) -> bool:
         reach = 0
@@ -643,7 +647,6 @@ class Solution:
             if reach >= n - 1:
                 return True
         return False
-
 
     # def canJump_greedy(self, nums: List[int]) -> bool:
     #     n = len(nums)
@@ -1415,7 +1418,6 @@ class Solution:
                 n -= 1
         nums1[:n] = nums2[:n]
 
-
     """
     66. Plus one(Easy)
     You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer.
@@ -1431,6 +1433,7 @@ class Solution:
     Incrementing by one gives 123 + 1 = 124.
     Thus, the result should be [1,2,4].
     """
+
     #  Solution01: the iterative version using while loop.
     def plusOne(self, digits: List[int]) -> List[int]:
 
@@ -1449,11 +1452,10 @@ class Solution:
 
         return digits
 
-
     #  Solution02: the iterative version using for loop.
-    def plusOne_iter(self, digits: List[int] ) -> List[int]:
+    def plusOne_iter(self, digits: List[int]) -> List[int]:
         digits[-1] += 1
-        for i in reversed( range( 1, len(digits) ) ):
+        for i in reversed(range(1, len(digits))):
             if digits[i] < 10:
                 break
             digits[i] = 0
@@ -1464,9 +1466,8 @@ class Solution:
             return [1] + digits
         return digits
 
-
     #  Solution03: the recursive version.
-    def plusOne_recur(self, digits:List[int]) -> List[int]:
+    def plusOne_recur(self, digits: List[int]) -> List[int]:
         if len(digits) == 0:
             return [1]
 
@@ -1475,8 +1476,7 @@ class Solution:
             return digits
         else:
             digits[-1] = 0
-            return self.plusOne_recur( digits[:-1] ) + [0]
-
+            return self.plusOne_recur(digits[:-1]) + [0]
 
     """
     20. Valid Parentheses(Easy)
@@ -1495,17 +1495,17 @@ class Solution:
     Input: s = "(]"
     Output: false
     """
+
     def isValid(self, s: str) -> bool:
-        hashmap = {"(":")", "[":"]","{":"}"}
+        hashmap = {"(": ")", "[": "]", "{": "}"}
         ans = []
         for char in s:
             if char in hashmap.keys():
-                ans.append( hashmap[char] )
+                ans.append(hashmap[char])
             #  Implied char in hashmap.values()
             elif not ans or ans.pop() != char:
                 return False
         return ans == []
-
 
     """
     84.Largest Rectangle in Histogram(Hard)
@@ -1518,19 +1518,19 @@ class Solution:
     Explanation: The above is a histogram where width of each bar is 1.
     The largest rectangle is shown in the red area, which has an area = 10 units.
     """
+
     #  Algorithm by using stack.
     def largestRectangleArea(self, heights: List[int]) -> int:
         stack = [(-1, -1)]  # (index, value)
         i, area, count, n = 0, 0, 0, len(heights)
         while count < n:
             if i < n and heights[i] > stack[-1][1]:
-                stack.append((i,heights[i]))
+                stack.append((i, heights[i]))
                 i += 1
             else:
-                area = max(area, stack.pop()[1] * (i - stack[-1][0] -1))
+                area = max(area, stack.pop()[1] * (i - stack[-1][0] - 1))
                 count += 1
         return area
-
 
     # #  Brute-force algorithm.
     # def largestRectangleArea(self, heights: List[int]) -> int:
@@ -1544,6 +1544,70 @@ class Solution:
     #         largest_area = max( largest_area, (r - l - 1) * num)
     #     return largest_area
 
+
+    """
+    42. Trapping Rain Water(Hard)
+    Given n non-negative integers representing an elevation map where the width of each bar is 1, 
+    compute how much water it can trap after raining.
+    
+    Example
+    Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+    Output: 6
+    Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. 
+    In this case, 6 units of rain water (blue section) are being trapped.
+    """
+
+
+
+    # #  Optimized version using arrays.
+    # def trap(self, heights:List[int]) -> int:
+    #     max_left = [0] * len(heights)
+    #     max_right = [0] * len(heights)
+    #     ans = 0
+    #     for i in range(1, len(heights)):
+    #         max_left[i] = max(max_left[i - 1], heights[i - 1])
+    #     for i in range(len(heights) - 2, -1, -1):
+    #         max_right[i] = max(max_right[i + 1], heights[i + 1])
+    #     for i in range(len(heights)):
+    #         temp = min(max_left[i], max_right[i])
+    #         if heights[i] < temp:
+    #             ans += temp - heights[i]
+    #     return ans
+
+    # #  The brute-force
+    # def trap(self, heights: List[int]) -> int:
+    #     ans = 0
+    #     for i in range(len(heights)):
+    #         max_left = 0
+    #         for l in reversed(range(i)):
+    #             max_left = max(max_left, heights[l])
+    #         max_right = 0
+    #         for r in range(i, len(heights)):
+    #             max_right = max(max_right, heights[r])
+    #
+    #         temp = min(max_left, max_right) - heights[i]
+    #         if temp > 0:
+    #             ans += temp
+    #     return ans
+
+    # #  The algorithm that mimics the fill and drain water.
+    # def trap(self, heights:List[int]) -> int:
+    #     maxLeft = maxRight  = -1
+    #     ans = []
+    #     #  Over-fill water depends on the leftMax bar.
+    #     for h in heights:
+    #         ans.append( maxLeft - h ) if h < maxLeft else ans.append(0)
+    #         maxLeft = max( maxLeft, h )
+    #
+    #     #  Drain water depends on the rightMax bar.
+    #     for i,h in reversed(list(enumerate(heights))):
+    #         #  Re-calculate the amount of water depends on the rightMax bar.
+    #         if maxRight > h:
+    #             ans[i] = min( ans[i], maxRight - h)
+    #         else:  #  No bars on the right to hold water.
+    #             ans[i] = 0
+    #         maxRight = max( maxRight, h)
+    #     return sum(ans)
 
 
 #  Drive code.
@@ -1657,10 +1721,10 @@ if __name__ == "__main__":
 
     print(S.merge([2, 0], 1, [1], 1))  # Leetcode 21
 
-    print(S.plusOne(digits04))  #  Leetcode 66
+    print(S.plusOne(digits04))  # Leetcode 66
     print(S.plusOne_recur(digits01))  # Leetcode 66
 
-    print(S.isValid("()") )  # Leetcode 20
+    print(S.isValid("()"))  # Leetcode 20
     print(S.isValid("()[]{}"))  # Leetcode 20
     print(S.isValid("(]"))  # Leetcode 20
     print(S.isValid("]"))  # Leetcode 20
@@ -1675,7 +1739,7 @@ if __name__ == "__main__":
     # param02 = obj.top()
     obj.pop()
     param03 = obj.getMin()
-    print(param01,  param03)
+    print(param01, param03)
 
     # Leetcode 641
     obj = MyCircularDeque(3)
@@ -1688,18 +1752,13 @@ if __name__ == "__main__":
     param07 = obj.deleteLast()
     param08 = obj.insertFront(4)
     param09 = obj.getFront()
-    print( param01, param02, param03, param04, param05, param06, param07, param08, param09)
+    print(param01, param02, param03, param04, param05, param06, param07, param08, param09)
 
-    print("--------------------------------")
     #  Leetcode 84
-    print(S.largestRectangleArea([2,1,5,6,2,3]))
+    print(S.largestRectangleArea([2, 1, 5, 6, 2, 3]))
     print(S.largestRectangleArea([2, 4]))
 
-
-
-
-
-
-
-
-
+    print("--------------------------------")
+    #  Leetcode 42
+    print(S.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
+    print(S.trap([4, 2, 0, 3, 2, 5]))
