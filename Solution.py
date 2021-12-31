@@ -1556,7 +1556,6 @@ class Solution:
     Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. 
     In this case, 6 units of rain water (blue section) are being trapped.
     """
-
     #  Optimized version using two pointers
     def trap(self, heights: List[int]) -> int:
         n = len(heights)
@@ -1578,7 +1577,18 @@ class Solution:
         return ans
 
 
-
+    # #  The algorithm using a stack.
+    # def trap(self, heights: List[int]) -> int:
+    #     i, ans, stack = 0, 0, []
+    #     while i < len(heights):
+    #         if len(stack) == 0 or heights[stack[-1]] > heights[i]:
+    #             stack += [i]
+    #             i += 1
+    #         else:
+    #             h = heights[stack.pop()]
+    #             if len(stack):
+    #                 ans += (min(heights[i], heights[stack[-1]]) - h) * (i - stack[-1] -1)
+    #     return ans
 
 
     # #  Optimized version using arrays.
