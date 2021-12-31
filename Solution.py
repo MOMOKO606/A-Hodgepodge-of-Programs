@@ -1557,6 +1557,28 @@ class Solution:
     In this case, 6 units of rain water (blue section) are being trapped.
     """
 
+    #  Optimized version using two pointers
+    def trap(self, heights: List[int]) -> int:
+        n = len(heights)
+        maxLeft, maxRight, l, r = heights[0], heights[n - 1], 1, n - 2
+        ans = 0
+        while l <= r:
+            if maxLeft < maxRight:
+                tmp = maxLeft - heights[l]
+                if tmp > 0:
+                    ans += tmp
+                else: maxLeft = heights[l]
+                l += 1
+            else:
+                tmp = maxRight - heights[r]
+                if tmp > 0:
+                    ans += tmp
+                else: maxRight = heights[r]
+                r -= 1
+        return ans
+
+
+
 
 
     # #  Optimized version using arrays.
@@ -1574,6 +1596,7 @@ class Solution:
     #             ans += temp - heights[i]
     #     return ans
 
+
     # #  The brute-force
     # def trap(self, heights: List[int]) -> int:
     #     ans = 0
@@ -1589,6 +1612,7 @@ class Solution:
     #         if temp > 0:
     #             ans += temp
     #     return ans
+
 
     # #  The algorithm that mimics the fill and drain water.
     # def trap(self, heights:List[int]) -> int:
