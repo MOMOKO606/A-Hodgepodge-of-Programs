@@ -1680,6 +1680,36 @@ class Solution:
         return ans
 
 
+    """
+    242. Valid Anagram(Easy)
+    Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+    
+    Example 1:
+    Input: s = "anagram", t = "nagaram"
+    Output: true
+    
+    Example 2:
+    Input: s = "rat", t = "car"
+    Output: false
+    """
+    def isAnagram(self, s: str, t: str) -> bool:
+        checklist = {}
+        for char in s:
+            if char in checklist.keys():
+                checklist[char] += 1
+            else: checklist[char] = 1
+
+        for char in t:
+            if char not in checklist.keys():
+                return False
+            else:
+                checklist[char] -= 1
+                if checklist[char] == 0:
+                    checklist.pop(char)
+
+        return not len(checklist)
+
+
 #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
@@ -1833,9 +1863,13 @@ if __name__ == "__main__":
     print(S.trap([4, 2, 0, 3, 2, 5]))
 
     #  Leetcode 239
-    print("--------------------------------")
     print(S.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3))
     print(S.maxSlidingWindow([1], 1))
+
+    print("--------------------------------")
+    #  Leetcode 242
+    print(S.isAnagram("anagram","nagaram"))
+    print(S.isAnagram("rat", "car"))
 
 """
 ..................佛祖开光 ,永无BUG...................
