@@ -1642,7 +1642,6 @@ class Solution:
     #         maxRight = max( maxRight, h)
     #     return sum(ans)
 
-
     """
     239. Sliding Window Maximum( Hard )
     You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of 
@@ -1663,6 +1662,7 @@ class Solution:
      1  3  -1  -3 [5  3  6] 7       6
      1  3  -1  -3  5 [3  6  7]      7
     """
+
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         ans = []
         deque = collections.deque()
@@ -1679,7 +1679,6 @@ class Solution:
                 ans += [nums[deque[0]]]
         return ans
 
-
     """
     242. Valid Anagram(Easy)
     Given two strings s and t, return true if t is an anagram of s, and false otherwise.
@@ -1692,22 +1691,46 @@ class Solution:
     Input: s = "rat", t = "car"
     Output: false
     """
+
     def isAnagram(self, s: str, t: str) -> bool:
         checklist = {}
         for char in s:
-            if char in checklist.keys():
+            if char in checklist:
                 checklist[char] += 1
-            else: checklist[char] = 1
+            else:
+                checklist[char] = 1
 
         for char in t:
-            if char not in checklist.keys():
+            if char not in checklist:
                 return False
             else:
                 checklist[char] -= 1
-                if checklist[char] == 0:
-                    checklist.pop(char)
+
+        for value in checklist.values():
+            if value != 0:
+                return False
+        return True
 
         return not len(checklist)
+
+
+    """
+    49. Group Anagrams
+    Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+    An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, 
+    typically using all the original letters exactly once.
+    
+    Example:
+    Input: strs = ["eat","tea","tan","ate","nat","bat"]
+    Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+    """
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        ans = {}
+        for word in strs:
+            key = "".join(sorted(word))
+            ans[key] = ans.get( key, []) + [word]
+        return list(ans.values())
+
 
 
 #  Drive code.
@@ -1866,10 +1889,14 @@ if __name__ == "__main__":
     print(S.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3))
     print(S.maxSlidingWindow([1], 1))
 
-    print("--------------------------------")
     #  Leetcode 242
-    print(S.isAnagram("anagram","nagaram"))
+    print(S.isAnagram("anagram", "nagaram"))
     print(S.isAnagram("rat", "car"))
+
+    #  Leetcode 49
+    print(S.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+    print(S.groupAnagrams([""]))
+    print(S.groupAnagrams(["a"]))
 
 """
 ..................佛祖开光 ,永无BUG...................
