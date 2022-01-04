@@ -1718,7 +1718,6 @@ class Solution:
                 return False
         return True
 
-
     """
     49. Group Anagrams
     Given an array of strings strs, group the anagrams together. You can return the answer in any order.
@@ -1729,13 +1728,13 @@ class Solution:
     Input: strs = ["eat","tea","tan","ate","nat","bat"]
     Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
     """
+
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         ans = {}
         for word in strs:
             key = "".join(sorted(word))
-            ans[key] = ans.get( key, []) + [word]
+            ans[key] = ans.get(key, []) + [word]
         return list(ans.values())
-
 
     """
     94. Binary Tree Inorder Traversal (Easy)
@@ -1745,39 +1744,65 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [1,3,2]
     """
-    # #  Recursive algorithm.
-    # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-    #
-    #     def _inorderTraversal( root: Optional[TreeNode], ans: List[int]) -> None:
-    #         if root:
-    #             _inorderTraversal( root.left, ans )
-    #             ans += [root.val]
-    #             _inorderTraversal( root.right, ans)
-    #
-    #     ans = []
-    #     _inorderTraversal( root, ans )
-    #     return ans
-
-
-    #  Using a stack.
+    #  Recursive algorithm.
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        stack, ans = [], []
-        while stack or root:
+
+        def _inorderTraversal( root: Optional[TreeNode], ans: List[int]) -> None:
             if root:
-                stack.append( root )
-                root = root.left
-            else:
-                root = stack.pop()
+                _inorderTraversal( root.left, ans )
                 ans += [root.val]
-                root = root.right
+                _inorderTraversal( root.right, ans)
+
+        ans = []
+        _inorderTraversal( root, ans )
         return ans
 
 
+    # #  Using a stack.
+    # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    #     stack, ans = [], []
+    #     while stack or root:
+    #         if root:
+    #             stack.append(root)
+    #             root = root.left
+    #         else:
+    #             root = stack.pop()
+    #             ans += [root.val]
+    #             root = root.right
+    #     return ans
 
 
+    """
+    144. Binary Tree Preorder Traversal(Easy)
+    Given the root of a binary tree, return the preorder traversal of its nodes' values.
+    
+    Example:
+    Input: root = [1,null,2,3]
+    Output: [1,2,3]
+    """
+    # #  The recursive version.
+    # def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+    #     def _preorderTraversal(root: Optional[TreeNode], ans: List[int]) -> None:
+    #         if root:
+    #             ans += [root.val]
+    #             _preorderTraversal(root.left, ans)
+    #             _preorderTraversal(root.right, ans)
+    #
+    #     ans = []
+    #     _preorderTraversal(root, ans)
+    #     return ans
 
 
-
+    #  Using a stack
+    def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+        stack, ans = [root], []
+        while stack:
+            root = stack.pop()
+            if root:
+                ans += [root.val]
+                stack.append( root.right )
+                stack.append( root.left )
+        return ans
 
 
 
@@ -1947,10 +1972,14 @@ if __name__ == "__main__":
     print(S.groupAnagrams([""]))
     print(S.groupAnagrams(["a"]))
 
+
+
+    r = TreeNode(1, None, TreeNode(2, TreeNode(3), None))
     #  Leetcode 94
+    print(S.inorderTraversal(r))
     print("--------------------------------------------")
-    r =TreeNode( 1, None, TreeNode(2, TreeNode(3), None))
-    print( S.inorderTraversal( r ))
+    #  Leetcode 144
+    print(S.preorderTraversal(r))
 
 
 """
