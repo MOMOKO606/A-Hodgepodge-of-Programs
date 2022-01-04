@@ -4,6 +4,13 @@ import math
 import collections
 
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class DLLNode:
     def __init__(self, val=0):
         self.val = val
@@ -1711,8 +1718,6 @@ class Solution:
                 return False
         return True
 
-        return not len(checklist)
-
 
     """
     49. Group Anagrams
@@ -1730,6 +1735,29 @@ class Solution:
             key = "".join(sorted(word))
             ans[key] = ans.get( key, []) + [word]
         return list(ans.values())
+
+
+    """
+    94. Binary Tree Inorder Traversal (Easy)
+    Given the root of a binary tree, return the inorder traversal of its nodes' values.
+    
+    Example:
+    Input: root = [1,null,2,3]
+    Output: [1,3,2]
+    """
+    #  Recursive algorithm.
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+
+        def _inorderTraversal( root: Optional[TreeNode], ans: List[int]) -> None:
+            if root:
+                _inorderTraversal( root.left, ans )
+                ans += [root.val]
+                _inorderTraversal( root.right, ans)
+
+        ans = []
+        _inorderTraversal( root, ans )
+        return ans
+
 
 
 
@@ -1897,6 +1925,12 @@ if __name__ == "__main__":
     print(S.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
     print(S.groupAnagrams([""]))
     print(S.groupAnagrams(["a"]))
+
+    #  Leetcode 94
+    print("--------------------------------------------")
+    r =TreeNode( 1, None, TreeNode(2, TreeNode(3), None))
+    print( S.inorderTraversal( r ))
+
 
 """
 ..................佛祖开光 ,永无BUG...................
