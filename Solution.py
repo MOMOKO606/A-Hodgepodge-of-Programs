@@ -1745,18 +1745,39 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [1,3,2]
     """
-    #  Recursive algorithm.
+    # #  Recursive algorithm.
+    # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    #
+    #     def _inorderTraversal( root: Optional[TreeNode], ans: List[int]) -> None:
+    #         if root:
+    #             _inorderTraversal( root.left, ans )
+    #             ans += [root.val]
+    #             _inorderTraversal( root.right, ans)
+    #
+    #     ans = []
+    #     _inorderTraversal( root, ans )
+    #     return ans
+
+
+    #  Using a stack.
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-
-        def _inorderTraversal( root: Optional[TreeNode], ans: List[int]) -> None:
+        stack, ans = [], []
+        while stack or root:
             if root:
-                _inorderTraversal( root.left, ans )
+                stack.append( root )
+                root = root.left
+            else:
+                root = stack.pop()
                 ans += [root.val]
-                _inorderTraversal( root.right, ans)
-
-        ans = []
-        _inorderTraversal( root, ans )
+                root = root.right
         return ans
+
+
+
+
+
+
+
 
 
 
