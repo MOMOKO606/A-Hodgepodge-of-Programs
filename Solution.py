@@ -1686,6 +1686,7 @@ class Solution:
                 ans += [nums[deque[0]]]
         return ans
 
+
     """
     242. Valid Anagram(Easy)
     Given two strings s and t, return true if t is an anagram of s, and false otherwise.
@@ -1718,8 +1719,9 @@ class Solution:
                 return False
         return True
 
+
     """
-    49. Group Anagrams
+    49. Group Anagrams(Medium)
     Given an array of strings strs, group the anagrams together. You can return the answer in any order.
     An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, 
     typically using all the original letters exactly once.
@@ -1735,6 +1737,7 @@ class Solution:
             key = "".join(sorted(word))
             ans[key] = ans.get(key, []) + [word]
         return list(ans.values())
+
 
     """
     94. Binary Tree Inorder Traversal (Easy)
@@ -1780,31 +1783,50 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [1,2,3]
     """
-    # #  The recursive version.
-    # def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
-    #     def _preorderTraversal(root: Optional[TreeNode], ans: List[int]) -> None:
-    #         if root:
-    #             ans += [root.val]
-    #             _preorderTraversal(root.left, ans)
-    #             _preorderTraversal(root.right, ans)
-    #
-    #     ans = []
-    #     _preorderTraversal(root, ans)
-    #     return ans
-
-
-    #  Using a stack
+    #  The recursive version.
     def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
-        stack, ans = [root], []
-        while stack:
-            root = stack.pop()
+        def _preorderTraversal(root: Optional[TreeNode], ans: List[int]) -> None:
             if root:
                 ans += [root.val]
-                stack.append( root.right )
-                stack.append( root.left )
+                _preorderTraversal(root.left, ans)
+                _preorderTraversal(root.right, ans)
+
+        ans = []
+        _preorderTraversal(root, ans)
         return ans
 
 
+    # #  Using a stack
+    # def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+    #     stack, ans = [root], []
+    #     while stack:
+    #         root = stack.pop()
+    #         if root:
+    #             ans += [root.val]
+    #             stack.append( root.right )
+    #             stack.append( root.left )
+    #     return ans
+
+
+    """
+    145. Binary Tree Postorder Traversal(Easy)
+    Given the root of a binary tree, return the postorder traversal of its nodes' values.
+    
+    Example:
+    Input: root = [1,null,2,3]
+    Output: [3,2,1]
+    """
+    #  The recursive algorithm.
+    def postorderTravelsal(self, root:Optional[TreeNode]) -> List[int]:
+        def _postorderTravelsal( root:Optional[TreeNode], ans:List[int]) -> None:
+            if root:
+                _postorderTravelsal( root.left, ans )
+                _postorderTravelsal( root.right, ans )
+                ans += [root.val]
+
+        ans = []
+        _postorderTravelsal( root, ans )
+        return ans
 
 
 #  Drive code.
@@ -1977,9 +1999,12 @@ if __name__ == "__main__":
     r = TreeNode(1, None, TreeNode(2, TreeNode(3), None))
     #  Leetcode 94
     print(S.inorderTraversal(r))
-    print("--------------------------------------------")
+
     #  Leetcode 144
     print(S.preorderTraversal(r))
+
+    #  Leetcode 145
+    print(S.postorderTravelsal(r))
 
 
 """
