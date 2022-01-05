@@ -4,6 +4,12 @@ import math
 import collections
 
 
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -1768,7 +1774,7 @@ class Solution:
     #     return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
 
 
-    # #  Using a stack.
+    # #  Using a stack without flags..
     # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
     #     stack, ans = [], []
     #     while stack or root:
@@ -1810,7 +1816,7 @@ class Solution:
     #     return [root.val] + self.preorderTraversal(root.left) + self.preorderTraversal(root.right)
 
 
-    # #  Using a stack
+    # #  Using a stack without flags.
     # def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
     #     stack, ans = [root], []
     #     while stack:
@@ -1830,17 +1836,17 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [3,2,1]
     """
-    # #  The recursive version01.
-    # def postorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
-    #     def _postorderTraversal( root:Optional[TreeNode], ans:List[int]) -> None:
-    #         if root:
-    #             _postorderTraversal( root.left, ans )
-    #             _postorderTraversal( root.right, ans )
-    #             ans += [root.val]
-    #
-    #     ans = []
-    #     _postorderTraversal( root, ans )
-    #     return ans
+    #  The recursive version01.
+    def postorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+        def _postorderTraversal( root:Optional[TreeNode], ans:List[int]) -> None:
+            if root:
+                _postorderTraversal( root.left, ans )
+                _postorderTraversal( root.right, ans )
+                ans += [root.val]
+
+        ans = []
+        _postorderTraversal( root, ans )
+        return ans
 
 
     # #  The recursive version02.
@@ -1863,20 +1869,59 @@ class Solution:
     #     return ans[::-1]
 
 
-    #  Using a stack with flags.
-    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        ans, stack = [], [ (root, False) ]
-        while stack:
-            root, visited = stack.pop()
-            if not root:
-                continue
-            if visited:
-                ans += [root.val]
-            else:
-                stack.append( (root, True) )
-                stack.append( (root.right, False) )
-                stack.append( (root.left, False) )
+    # #  Using a stack with flags.
+    # def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    #     ans, stack = [], [ (root, False) ]
+    #     while stack:
+    #         root, visited = stack.pop()
+    #         if not root:
+    #             continue
+    #         if visited:
+    #             ans += [root.val]
+    #         else:
+    #             stack.append( (root, True) )
+    #             stack.append( (root.right, False) )
+    #             stack.append( (root.left, False) )
+    #     return ans
+
+
+    """
+    589. N-ary Tree Preorder Traversal(Easy)
+    Given the root of an n-ary tree, return the preorder traversal of its nodes' values.
+    Nary-Tree input serialization is represented in their level order traversal. 
+    Each group of children is separated by the null value (See examples)
+    
+    Input: root = [1,null,3,2,4,null,5,6]
+    Output: [1,3,5,6,2,4]
+    """
+    #  The recursive version.
+    def preorder(self, root: 'Node') -> List[int]:
+        if not root:
+            return []
+        ans = [root.val]
+        for child in root.children:
+            ans += self.preorder(child)
         return ans
+
+
+    # #  The iterative version.
+    # def preorder(self, root: 'Node') -> List[int]:
+    #     ans, stack = [], [root]
+    #     while stack:
+    #         root = stack.pop()
+    #         if root:
+    #             ans += [root.val]
+    #             for child in reversed(root.children):
+    #                 stack += [child]
+    #     return ans
+
+
+
+
+
+
+
+
 
 
 
@@ -2051,8 +2096,6 @@ if __name__ == "__main__":
     print(S.groupAnagrams([""]))
     print(S.groupAnagrams(["a"]))
 
-
-
     r = TreeNode(1, None, TreeNode(2, TreeNode(3), None))
     #  Leetcode 94
     print(S.inorderTraversal(r))
@@ -2062,6 +2105,8 @@ if __name__ == "__main__":
 
     #  Leetcode 145
     print(S.postorderTraversal(r))
+
+
 
 
 """
