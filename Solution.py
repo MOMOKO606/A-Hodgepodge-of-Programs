@@ -1949,19 +1949,26 @@ class Solution:
     #     return ans[::-1]
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    """
+    429. N-ary Tree Level Order Traversal( Medium )
+    Given an n-ary tree, return the level order traversal of its nodes' values.
+    
+    Example:
+    Input: root = [1,null,3,2,4,null,5,6]
+    Output: [[1],[3,2,4],[5,6]]
+    """
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        if not root: return []
+        ans, deque = [], collections.deque([root])
+        while deque:
+            line = []
+            for i in range(len(deque)):
+                node = deque.popleft()
+                for child in node.children:
+                    deque.append(child)
+                line += [node.val]
+            ans += [line]
+        return ans
 
 
 
@@ -2143,6 +2150,7 @@ if __name__ == "__main__":
     #  Leetcode 145
     print(S.postorderTraversal(r))
 
+    print(S.levelOrder([]))
 
 
 
