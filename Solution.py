@@ -1747,7 +1747,7 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [1,3,2]
     """
-    #  Recursive algorithm.
+    #  The recursive version01.
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
 
         def _inorderTraversal( root: Optional[TreeNode], ans: List[int]) -> None:
@@ -1759,6 +1759,13 @@ class Solution:
         ans = []
         _inorderTraversal( root, ans )
         return ans
+
+
+    # #  The recursive version02.
+    # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    #     if not root:
+    #         return []
+    #     return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
 
 
     # #  Using a stack.
@@ -1783,7 +1790,7 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [1,2,3]
     """
-    #  The recursive version.
+    #  The recursive version01.
     def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
         def _preorderTraversal(root: Optional[TreeNode], ans: List[int]) -> None:
             if root:
@@ -1794,6 +1801,13 @@ class Solution:
         ans = []
         _preorderTraversal(root, ans)
         return ans
+
+
+    #  The recursive version02.
+    # def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+    #     if not root:
+    #         return []
+    #     return [root.val] + self.preorderTraversal(root.left) + self.preorderTraversal(root.right)
 
 
     # #  Using a stack
@@ -1816,17 +1830,60 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [3,2,1]
     """
-    #  The recursive algorithm.
-    def postorderTravelsal(self, root:Optional[TreeNode]) -> List[int]:
-        def _postorderTravelsal( root:Optional[TreeNode], ans:List[int]) -> None:
-            if root:
-                _postorderTravelsal( root.left, ans )
-                _postorderTravelsal( root.right, ans )
-                ans += [root.val]
+    # #  The recursive version01.
+    # def postorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+    #     def _postorderTraversal( root:Optional[TreeNode], ans:List[int]) -> None:
+    #         if root:
+    #             _postorderTraversal( root.left, ans )
+    #             _postorderTraversal( root.right, ans )
+    #             ans += [root.val]
+    #
+    #     ans = []
+    #     _postorderTraversal( root, ans )
+    #     return ans
 
-        ans = []
-        _postorderTravelsal( root, ans )
+
+    # #  The recursive version02.
+    # def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    #     if not root:
+    #         return []
+    #     return self.postorderTraversal(root.left) + self.postorderTraversal(root.right) + [root.val]
+
+
+    # #  Using a stack without flags.
+    # # [left, right, root] = reversed([root, right, left])
+    # def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+    #     stack, ans = [root], []
+    #     while stack:
+    #         root = stack.pop()
+    #         if root:
+    #             ans += [root.val]
+    #             stack.append( root.left )
+    #             stack.append( root.right )
+    #     return ans[::-1]
+
+
+    #  Using a stack with flags.
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        ans, stack = [], [ (root, False) ]
+        while stack:
+            root, visited = stack.pop()
+            if not root:
+                continue
+            if visited:
+                ans += [root.val]
+            else:
+                stack.append( (root, True) )
+                stack.append( (root.right, False) )
+                stack.append( (root.left, False) )
         return ans
+
+
+
+
+
+
+
 
 
 #  Drive code.
@@ -2004,7 +2061,7 @@ if __name__ == "__main__":
     print(S.preorderTraversal(r))
 
     #  Leetcode 145
-    print(S.postorderTravelsal(r))
+    print(S.postorderTraversal(r))
 
 
 """
