@@ -1957,6 +1957,7 @@ class Solution:
     Input: root = [1,null,3,2,4,null,5,6]
     Output: [[1],[3,2,4],[5,6]]
     """
+    #  Algorithm using a deque.
     def levelOrder(self, root: 'Node') -> List[List[int]]:
         if not root: return []
         ans, deque = [], collections.deque([root])
@@ -1969,6 +1970,19 @@ class Solution:
                 line += [node.val]
             ans += [line]
         return ans
+
+
+    # #  Algorithm using two lists.
+    # def levelOrder(self, root: 'Node') -> List[List[int]]:
+    #     if not root: return []
+    #     ans, level = [], [root]
+    #     while level:
+    #         ans.append([node.val for node in level])
+    #         level = [child for node in level for child in node.children]
+    #     return ans
+
+
+
 
 
 
