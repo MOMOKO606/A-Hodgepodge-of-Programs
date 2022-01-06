@@ -1982,11 +1982,31 @@ class Solution:
     #     return ans
 
 
+    """
+    22. Generate Parentheses(Medium)
+    Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+    
+    Example1:
+    Input: n = 1
+    Output: ["()"]
+    
+    Example2:
+    Input: n = 3
+    Output: ["((()))","(()())","(())()","()(())","()()()"]
+    """
+    def generateParenthesis(self, n: int) -> List[str]:
 
+        def _generateParenthesis( left: int, right: int, s: str, ans: List[str]) -> None:
+            if left == 0 and right == 0:
+                ans += [s]
+            if left > 0:
+                _generateParenthesis( left - 1, right, s + "(", ans)
+            if right > left:
+                _generateParenthesis( left, right - 1, s + ")", ans)
 
-
-
-
+        ans = []
+        _generateParenthesis(n, n, "", ans)
+        return ans
 
 
 #  Drive code.
@@ -2164,7 +2184,11 @@ if __name__ == "__main__":
     #  Leetcode 145
     print(S.postorderTraversal(r))
 
-    print(S.levelOrder([]))
+    print("--------------------------------------")
+    #  Leetcode 22
+    print(S.generateParenthesis(1))
+    print(S.generateParenthesis(2))
+    print(S.generateParenthesis(3))
 
 
 
