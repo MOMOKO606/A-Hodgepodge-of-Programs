@@ -2055,6 +2055,26 @@ class Solution:
         return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
 
 
+    """
+    111. Minimum Depth of Binary Tree(Easy)
+    Given a binary tree, find its minimum depth.
+    The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+    Example:
+    Input: root = [3,9,20,null,null,15,7]
+    Output: 2
+    """
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+
+        def _minDepth(root: Optional[TreeNode]) -> float:
+            if not root: return float("inf")
+            if not root.left and not root.right: return 1
+            return min( _minDepth(root.left), _minDepth(root.right) ) + 1
+
+        ans = _minDepth(root)
+        return int(ans) if ans < float("inf") else 0
+
+
 #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
