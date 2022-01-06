@@ -2064,15 +2064,26 @@ class Solution:
     Input: root = [3,9,20,null,null,15,7]
     Output: 2
     """
+    #  The recursive version02.
     def minDepth(self, root: Optional[TreeNode]) -> int:
+        if not root: return 0
+        if not root.left:
+            return self.minDepth( root.right ) + 1
+        if not root.right:
+            return self.minDepth( root.left ) + 1
+        return min( self.minDepth( root.left), self.minDepth(root.right)) + 1
 
-        def _minDepth(root: Optional[TreeNode]) -> float:
-            if not root: return float("inf")
-            if not root.left and not root.right: return 1
-            return min( _minDepth(root.left), _minDepth(root.right) ) + 1
 
-        ans = _minDepth(root)
-        return int(ans) if ans < float("inf") else 0
+    # #  The recursive version01.
+    # def minDepth(self, root: Optional[TreeNode]) -> int:
+    #
+    #     def _minDepth(root: Optional[TreeNode]) -> float:
+    #         if not root: return float("inf")
+    #         if not root.left and not root.right: return 1
+    #         return min( _minDepth(root.left), _minDepth(root.right) ) + 1
+    #
+    #     ans = _minDepth(root)
+    #     return int(ans) if ans < float("inf") else 0
 
 
 #  Drive code.
