@@ -2040,6 +2040,21 @@ class Solution:
         return root
 
 
+    """
+    104. Maximum Depth of Binary Tree (Easy)
+    Given the root of a binary tree, return its maximum depth.
+    A binary tree's maximum depth is the number of nodes along the longest path from the root node down to 
+    the farthest leaf node.
+    
+    Example:
+    Input: root = [3,9,20,null,null,15,7]
+    Output: 3
+    """
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root: return 0
+        return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
+
+
 #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
