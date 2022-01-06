@@ -1994,6 +1994,7 @@ class Solution:
     Input: n = 3
     Output: ["((()))","(()())","(())()","()(())","()()()"]
     """
+    #  Version01.
     def generateParenthesis(self, n: int) -> List[str]:
 
         def _generateParenthesis( left: int, right: int, s: str, ans: List[str]) -> None:
@@ -2007,6 +2008,36 @@ class Solution:
         ans = []
         _generateParenthesis(n, n, "", ans)
         return ans
+
+
+    # #  Version02.
+    # def generateParenthesis(self, n: int) -> List[str]:
+    #
+    #     def _generateParenthesis( left: int, right: int, s: str, ans: List[str]) -> None:
+    #         if left == 0 and right == 0:
+    #             ans += [s]
+    #         if left < 0 or right < left:
+    #             return
+    #         _generateParenthesis( left - 1, right, s + "(", ans)
+    #         _generateParenthesis( left, right - 1, s + ")", ans)
+    #
+    #     ans = []
+    #     _generateParenthesis(n, n, "", ans)
+    #     return ans
+
+
+    """
+    226. Invert Binary Tree (Easy)
+    Given the root of a binary tree, invert the tree, and return its root.
+    
+    Example:
+    Input: root = [4,2,7,1,3,6,9]
+    Output: [4,7,2,9,6,3,1]
+    """
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if root:
+            root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
+        return root
 
 
 #  Drive code.
