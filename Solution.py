@@ -2126,6 +2126,19 @@ class Solution:
     #     return _isValidBST( root )[0]
 
 
+    #  The iterative version
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        stack = [[root, -math.inf, math.inf]]
+        while stack:
+            [root, leftLimit, rightLimit] = stack.pop()
+            if root:
+                if leftLimit >= root.val or root.val >= rightLimit:
+                    return False
+                stack.append( [root.right, root.val, rightLimit])
+                stack.append( [root.left, leftLimit, root.val])
+        return True
+
+
 
 
 
