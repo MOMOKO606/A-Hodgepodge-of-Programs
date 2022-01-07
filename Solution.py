@@ -2086,6 +2086,52 @@ class Solution:
     #     return int(ans) if ans < float("inf") else 0
 
 
+    """
+    98. Validate Binary Search Tree( Medium )
+    Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+    
+    Example:
+    Input: root = [2,1,3]
+    Output: true
+    """
+    # #  The recursive version01: the smarter one.
+    # def isValidBST(self, root: Optional[TreeNode]) -> bool:
+    #
+    #     def _isValidBST( root: Optional[TreeNode], leftmax = -math.inf, rightmin = math.inf ) -> bool:
+    #         if not root: return True
+    #         if leftmax >= root.val or rightmin <= root.val:
+    #             return False
+    #         return _isValidBST( root.left, leftmax, root.val) and _isValidBST(root.right, root.val, rightmin)
+    #
+    #     return _isValidBST( root )
+
+
+    # # The recursive version02: the naive one.
+    # def isValidBST(self, root: Optional[TreeNode]) -> bool:
+    #
+    #     def _isValidBST( root: Optional[TreeNode] ) -> List[bool, int]:
+    #         if not root: return [True, math.inf, -math.inf]
+    #
+    #         [ leftTree, leftMin, leftMax] = _isValidBST( root.left )
+    #         if leftTree is False: return [False, 0, 0]
+    #
+    #         [rightTree, rightMin, rightMax] = _isValidBST( root.right )
+    #         if rightTree is False: return [False, 0, 0]
+    #
+    #         flag = leftMax < root.val and root.val < rightMin
+    #         curMin = leftMin if leftMin != math.inf else root.val
+    #         curMax = rightMax if rightMax != -math.inf else root.val
+    #         return [flag, curMin, curMax]
+    #
+    #     return _isValidBST( root )[0]
+
+
+
+
+
+
+
+
 #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
