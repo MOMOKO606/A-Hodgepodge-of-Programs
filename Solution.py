@@ -137,27 +137,18 @@ class Codec:
 
 
     #  The deserialize algorithm without using "^".
-    def deserialize(self, data: str ) -> Optional[TreeNode]:
+    def deserialize(self, data: str) -> Optional[TreeNode]:
 
-        def _deserialize( data, leftLimit: float, rigjtLimit: float) -> Optional[TreeNode]:
-            if not data: return
-
-            val = data.popleft()
-            if not val:
-                return
-            val = int(val)
-
-            if leftLimit < val and val < rigjtLimit:
+        def _deserialize(data, leftLimit: float, rigjtLimit: float) -> Optional[TreeNode]:
+            if data and leftLimit < data[0] < rigjtLimit:
+                val = data.popleft()
                 root = TreeNode(val)
-                root.left = _deserialize( data, leftLimit, val)
-                root.right = _deserialize( data, val, rigjtLimit )
+                root.left = _deserialize(data, leftLimit, val)
+                root.right = _deserialize(data, val, rigjtLimit)
                 return root
-            else:
-                data.appendleft( str(val))
-                return
 
-        data = collections.deque( data.split(" ") )
-        return _deserialize( data, -math.inf, math.inf )
+        data = collections.deque(map(int, data.split()))
+        return _deserialize(data, -math.inf, math.inf)
 
 
     # #  The serialize algorithm using "^".
@@ -2448,7 +2439,8 @@ if __name__ == "__main__":
     print(S.generateParenthesis(3))
 
     #  Leetcode 449
-    root = deserialize('[41,37,44,24,39,42,48,1,35,38,40,null,43,46,49,0,2,30,36,null,null,null,null,null,null,45,47,null,null,null,null,null,4,29,32,null,null,null,null,null,null,3,9,26,null,31,34,null,null,7,11,25,27,null,null,33,null,6,8,10,16,null,null,null,28,null,null,5,null,null,null,null,null,15,19,null,null,null,null,12,null,18,20,null,13,17,null,null,22,null,14,null,null,21,23]')
+    #root = deserialize('[41,37,44,24,39,42,48,1,35,38,40,null,43,46,49,0,2,30,36,null,null,null,null,null,null,45,47,null,null,null,null,null,4,29,32,null,null,null,null,null,null,3,9,26,null,31,34,null,null,7,11,25,27,null,null,33,null,6,8,10,16,null,null,null,28,null,null,5,null,null,null,null,null,15,19,null,null,null,null,12,null,18,20,null,13,17,null,null,22,null,14,null,null,21,23]')
+    root = None
     ser = Codec()
     deser = Codec()
     tree = ser.serialize(root)
