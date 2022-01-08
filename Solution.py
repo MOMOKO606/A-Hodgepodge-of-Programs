@@ -16,6 +16,51 @@ class TreeNode:
         self.left = left
         self.right = right
 
+    def __repr__(self):
+        return 'TreeNode({})'.format(self.val)
+
+#  Tool made by StefanPochmann
+#  Transfer [1,2,3,null,null,4,null,null,5] to a root.
+#  For example deserialize('[1,2,3,null,null,4,null,null,5]')
+#  https://leetcode.com/problems/recover-binary-search-tree/discuss/32539/Tree-Deserializer-and-Visualizer-for-Python
+def deserialize(string):
+    if string == '{}':
+        return None
+    nodes = [None if val == 'null' else TreeNode(int(val))
+             for val in string.strip('[]{}').split(',')]
+    kids = nodes[::-1]
+    root = kids.pop()
+    for node in nodes:
+        if node:
+            if kids: node.left  = kids.pop()
+            if kids: node.right = kids.pop()
+    return root
+
+
+def drawtree(root):
+    def height(root):
+        return 1 + max(height(root.left), height(root.right)) if root else -1
+    def jumpto(x, y):
+        t.penup()
+        t.goto(x, y)
+        t.pendown()
+    def draw(node, x, y, dx):
+        if node:
+            t.goto(x, y)
+            jumpto(x, y-20)
+            t.write(node.val, align='center', font=('Arial', 12, 'normal'))
+            draw(node.left, x-dx, y-60, dx/2)
+            jumpto(x, y-20)
+            draw(node.right, x+dx, y-60, dx/2)
+    import turtle
+    t = turtle.Turtle()
+    t.speed(0); turtle.delay(0)
+    h = height(root)
+    jumpto(0, 30*h)
+    draw(root, 0, 30*h, 40*h)
+    t.hideturtle()
+    turtle.mainloop()
+
 
 class DLLNode:
     def __init__(self, val=0):
@@ -75,17 +120,70 @@ def num2list_rever(num: [int]) -> List[int]:
 
 """
 449. Serialize and Deserialize BST (Medium)
+Design an algorithm to serialize and deserialize a binary search tree. 
+There is no restriction on how your serialization/deserialization algorithm should work. 
+You need to ensure that a binary search tree can be serialized to a string, 
+and this string can be deserialized to the original tree structure.
 
+The encoded string should be as compact as possible.
 """
 class Codec:
-
+    #  The serialize algorithm without using "^".
     def serialize(self, root: Optional[TreeNode]) -> str:
-        """Encodes a tree to a single string.
-        """
+        def _serialize(root:Optional[TreeNode]) -> List[int]:
+            if not root: return []
+            return [root.val] + _serialize(root.left) + _serialize(root.right)
+        return " ".join( map(str, _serialize(root)) )
 
-    def deserialize(self, data: str) -> Optional[TreeNode]:
-        """Decodes your encoded data to tree.
-        """
+
+    #  The deserialize algorithm without using "^".
+    def deserialize(self, data: str ) -> Optional[TreeNode]:
+
+        def _deserialize( data, leftLimit: float, rigjtLimit: float) -> Optional[TreeNode]:
+            if not data: return
+
+            val = data.popleft()
+            if not val:
+                return
+            val = int(val)
+
+            if leftLimit < val and val < rigjtLimit:
+                root = TreeNode(val)
+                root.left = _deserialize( data, leftLimit, val)
+                root.right = _deserialize( data, val, rigjtLimit )
+                return root
+            else:
+                data.appendleft( str(val))
+                return
+
+        data = collections.deque( data.split(" ") )
+        return _deserialize( data, -math.inf, math.inf )
+
+
+    # #  The serialize algorithm using "^".
+    # def serialize(self, root: Optional[TreeNode]) -> str:
+    #     """Encodes a tree to a single string.
+    #     """
+    #     if not root: return "^"
+    #     #  We must add " " to distinguish  "1" "2" from "12".
+    #     return str(root.val) + " " +  self.serialize( root.left ) + " " + self.serialize(root.right)
+    #
+    #
+    # #  The deserialize algorithm using "^".
+    # def deserialize(self, data: str) -> Optional[TreeNode]:
+    #     """Decodes your encoded data to tree.
+    #     """
+    #     def _deserialize( data ) -> Optional[TreeNode]:
+    #         val = data.popleft()
+    #         if val == "^": return None
+    #         root = TreeNode(int(val))
+    #         root.left = _deserialize( data )
+    #         root.right = _deserialize( data )
+    #         return root
+    #
+    #     data = collections.deque( data.split(" "))
+    #     return _deserialize( data )
+
 
 """
 641. Design Circular Deque(Medium)
@@ -2169,7 +2267,6 @@ class Solution:
 
 
 
-
 #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
@@ -2345,11 +2442,24 @@ if __name__ == "__main__":
     #  Leetcode 145
     print(S.postorderTraversal(r))
 
-    print("--------------------------------------")
     #  Leetcode 22
     print(S.generateParenthesis(1))
     print(S.generateParenthesis(2))
     print(S.generateParenthesis(3))
+
+    #  Leetcode 449
+    root = deserialize('[41,37,44,24,39,42,48,1,35,38,40,null,43,46,49,0,2,30,36,null,null,null,null,null,null,45,47,null,null,null,null,null,4,29,32,null,null,null,null,null,null,3,9,26,null,31,34,null,null,7,11,25,27,null,null,33,null,6,8,10,16,null,null,null,28,null,null,5,null,null,null,null,null,15,19,null,null,null,null,12,null,18,20,null,13,17,null,null,22,null,14,null,null,21,23]')
+    ser = Codec()
+    deser = Codec()
+    tree = ser.serialize(root)
+    print(tree)
+    deser.deserialize(tree)
+
+    print("--------------------------------------")
+
+
+
+
 
 
 
