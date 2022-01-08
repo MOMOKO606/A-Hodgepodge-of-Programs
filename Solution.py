@@ -74,6 +74,20 @@ def num2list_rever(num: [int]) -> List[int]:
 
 
 """
+449. Serialize and Deserialize BST (Medium)
+
+"""
+class Codec:
+
+    def serialize(self, root: Optional[TreeNode]) -> str:
+        """Encodes a tree to a single string.
+        """
+
+    def deserialize(self, data: str) -> Optional[TreeNode]:
+        """Decodes your encoded data to tree.
+        """
+
+"""
 641. Design Circular Deque(Medium)
 Design your implementation of the circular double-ended queue (deque).
 
@@ -88,8 +102,6 @@ int getRear() Returns the last item from Deque. Returns -1 if the deque is empty
 boolean isEmpty() Returns true if the deque is empty, or false otherwise.
 boolean isFull() Returns true if the deque is full, or false otherwise.
 """
-
-
 #  Method 1. circular deque using list.
 class MyCircularDeque:
 
@@ -2094,16 +2106,16 @@ class Solution:
     Input: root = [2,1,3]
     Output: true
     """
-    # #  The recursive version01: the smarter one.
-    # def isValidBST(self, root: Optional[TreeNode]) -> bool:
-    #
-    #     def _isValidBST( root: Optional[TreeNode], leftmax = -math.inf, rightmin = math.inf ) -> bool:
-    #         if not root: return True
-    #         if leftmax >= root.val or rightmin <= root.val:
-    #             return False
-    #         return _isValidBST( root.left, leftmax, root.val) and _isValidBST(root.right, root.val, rightmin)
-    #
-    #     return _isValidBST( root )
+    #  The recursive version01: the smarter one.
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+
+        def _isValidBST( root: Optional[TreeNode], leftmax = -math.inf, rightmin = math.inf ) -> bool:
+            if not root: return True
+            if leftmax >= root.val or rightmin <= root.val:
+                return False
+            return _isValidBST( root.left, leftmax, root.val) and _isValidBST(root.right, root.val, rightmin)
+
+        return _isValidBST( root )
 
 
     # # The recursive version02: the naive one.
@@ -2126,17 +2138,30 @@ class Solution:
     #     return _isValidBST( root )[0]
 
 
-    #  The iterative version
-    def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        stack = [[root, -math.inf, math.inf]]
-        while stack:
-            [root, leftLimit, rightLimit] = stack.pop()
-            if root:
-                if leftLimit >= root.val or root.val >= rightLimit:
-                    return False
-                stack.append( [root.right, root.val, rightLimit])
-                stack.append( [root.left, leftLimit, root.val])
-        return True
+    # #  The iterative version
+    # def isValidBST(self, root: Optional[TreeNode]) -> bool:
+    #     stack = [[root, -math.inf, math.inf]]
+    #     while stack:
+    #         [root, leftLimit, rightLimit] = stack.pop()
+    #         if root:
+    #             if leftLimit >= root.val or root.val >= rightLimit:
+    #                 return False
+    #             stack.append( [root.right, root.val, rightLimit])
+    #             stack.append( [root.left, leftLimit, root.val])
+    #     return True
+
+    # #  The recursive version using inorder traversal.
+    # def isValidBST(self, root: Optional[TreeNode]) -> bool:
+    #
+    #     def _isValidBST( root: Optional[TreeNode]) -> bool:
+    #         if not root: return True
+    #         if not _isValidBST( root.left): return False
+    #         if root.val <= self.prev: return False
+    #         self.prev = root.val
+    #         return _isValidBST( root.right )
+    #
+    #     self.prev = -math.inf
+    #     return _isValidBST( root )
 
 
 
