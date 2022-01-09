@@ -2342,10 +2342,8 @@ class Solution:
             return root
         left = self.lowestCommonAncestor_naive( root.left, p, q )
         right = self.lowestCommonAncestor_naive( root.right, p, q)
-        if not left and not right: return None
-        elif left and not right: return left
-        elif not left and right: return right
-        else: return root
+        if left and right: return root
+        return left or right
 
 
 
