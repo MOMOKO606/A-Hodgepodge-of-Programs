@@ -2270,16 +2270,38 @@ class Solution:
     """
     #  The recursive algorithm.
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        if preorder and inorder:
-            for i in range(len(inorder)):
-                if inorder[i] == preorder[0]:
-                    r = i
-                    break
+        if preorder:
+            r = inorder.index(preorder[0])
             root = TreeNode(inorder[r])
             root.left = self.buildTree( preorder[1: r + 1], inorder[:r])
             root.right = self.buildTree( preorder[r + 1:], inorder[r + 1:])
             return root
 
+
+    """
+    235. Lowest Common Ancestor of a Binary Search Tree(Easy)
+    Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+    
+    Example1:
+    Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+    Output: 6
+    Explanation: The LCA of nodes 2 and 8 is 6.
+    
+    Example2:
+    Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+    Output: 2
+    Explanation: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+    
+    Example3:
+    Input: root = [2,1], p = 2, q = 1
+    Output: 2
+    """
+    #  The recursive solution.
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if root:
+            if (root.val - p.val) * (root.val - q.val) > 0:
+                return self.lowestCommonAncestor( (root.left, root.right)[root.val < p.val], p, q)
+        return root
 
 
 
