@@ -2296,12 +2296,21 @@ class Solution:
     Input: root = [2,1], p = 2, q = 1
     Output: 2
     """
-    #  The recursive solution.
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        if root:
-            if (root.val - p.val) * (root.val - q.val) > 0:
-                return self.lowestCommonAncestor( (root.left, root.right)[root.val < p.val], p, q)
+    # #  The recursive solution.
+    # def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+    #     if root:
+    #         if (root.val - p.val) * (root.val - q.val) > 0:
+    #             return self.lowestCommonAncestor( (root.left, root.right)[root.val < p.val], p, q)
+    #     return root
+
+    #  The iterative solution.
+    def lowestCommonAncestor(self, root: 'TreeNode', p:'TreeNode', q:'TreeNode') -> 'TreeNode':
+        while root:
+            if (root.val - p.val) * ( root.val - q.val) > 0:
+                root = (root.left, root.right)[root.val < p.val]
+            else: break
         return root
+
 
 
 
