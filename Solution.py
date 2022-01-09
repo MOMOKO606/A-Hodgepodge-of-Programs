@@ -2296,20 +2296,56 @@ class Solution:
     Input: root = [2,1], p = 2, q = 1
     Output: 2
     """
-    # #  The recursive solution.
-    # def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-    #     if root:
-    #         if (root.val - p.val) * (root.val - q.val) > 0:
-    #             return self.lowestCommonAncestor( (root.left, root.right)[root.val < p.val], p, q)
+    #  The recursive solution.
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if root:
+            if (root.val - p.val) * (root.val - q.val) > 0:
+                return self.lowestCommonAncestor( (root.left, root.right)[root.val < p.val], p, q)
+        return root
+
+    # #  The iterative solution.
+    # def lowestCommonAncestor(self, root: 'TreeNode', p:'TreeNode', q:'TreeNode') -> 'TreeNode':
+    #     while root:
+    #         if (root.val - p.val) * ( root.val - q.val) > 0:
+    #             root = (root.left, root.right)[root.val < p.val]
+    #         else: break
     #     return root
 
-    #  The iterative solution.
-    def lowestCommonAncestor(self, root: 'TreeNode', p:'TreeNode', q:'TreeNode') -> 'TreeNode':
-        while root:
-            if (root.val - p.val) * ( root.val - q.val) > 0:
-                root = (root.left, root.right)[root.val < p.val]
-            else: break
-        return root
+
+    """
+    236. Lowest Common Ancestor of a Binary Tree (Medium)
+    Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+    
+    Example1:
+    Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+    Output: 3
+    Explanation: The LCA of nodes 5 and 1 is 3.
+    
+    Example2:
+    Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+    Output: 5
+    Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the 
+    LCA definition.
+    
+    Example3:
+    Input: root = [1,2], p = 1, q = 2
+    Output: 1
+    """
+    #  The common recursive algorithm.
+    #  return the Lowest Common Ancestor if p and q are in the tree of root.
+    #  return None if none of p and q are in the tree of root.
+    #  return p if p is in the tree, q is not.
+    #  return q if q is in the tree, p is not.
+    def lowestCommonAncestor_naive(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        #  Base case.
+        if not root or root == p or root == q:
+            return root
+        left = self.lowestCommonAncestor_naive( root.left, p, q )
+        right = self.lowestCommonAncestor_naive( root.right, p, q)
+        if not left and not right: return None
+        elif left and not right: return left
+        elif not left and right: return right
+        else: return root
 
 
 
@@ -2507,9 +2543,11 @@ if __name__ == "__main__":
     tree = ser.serialize(root)
     deser.deserialize(tree)
 
-    print("--------------------------------------")
     #  Leetcode 105
     print(S.buildTree([3,9,20,15,7], [9,3,15,20,7]))
+
+    print("--------------------------------------")
+
 
 
 
