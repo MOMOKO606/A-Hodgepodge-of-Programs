@@ -119,7 +119,8 @@ def num2list_rever(num: [int]) -> List[int]:
 
 
 """
-449. Serialize and Deserialize BST (Medium)
+449. Serialize and Deserialize BST (Medium) 
+297. Serialize and Deserialize Binary Tree (Hard)
 Design an algorithm to serialize and deserialize a binary search tree. 
 There is no restriction on how your serialization/deserialization algorithm should work. 
 You need to ensure that a binary search tree can be serialized to a string, 
@@ -2239,6 +2240,7 @@ class Solution:
     #             stack.append( [root.left, leftLimit, root.val])
     #     return True
 
+
     # #  The recursive version using inorder traversal.
     # def isValidBST(self, root: Optional[TreeNode]) -> bool:
     #
@@ -2251,6 +2253,34 @@ class Solution:
     #
     #     self.prev = -math.inf
     #     return _isValidBST( root )
+
+
+    """
+    105. Construct Binary Tree from Preorder and Inorder Traversal (Medium)
+    Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree 
+    and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+    
+    Example1:
+    Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+    Output: [3,9,20,null,null,15,7]
+    
+    Example2:
+    Input: preorder = [-1], inorder = [-1]
+    Output: [-1]
+    """
+    #  The recursive algorithm.
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        if preorder and inorder:
+            for i in range(len(inorder)):
+                if inorder[i] == preorder[0]:
+                    r = i
+                    break
+            root = TreeNode(inorder[r])
+            root.left = self.buildTree( preorder[1: r + 1], inorder[:r])
+            root.right = self.buildTree( preorder[r + 1:], inorder[r + 1:])
+            return root
+
+
 
 
 
@@ -2439,15 +2469,18 @@ if __name__ == "__main__":
     print(S.generateParenthesis(3))
 
     #  Leetcode 449
-    #root = deserialize('[41,37,44,24,39,42,48,1,35,38,40,null,43,46,49,0,2,30,36,null,null,null,null,null,null,45,47,null,null,null,null,null,4,29,32,null,null,null,null,null,null,3,9,26,null,31,34,null,null,7,11,25,27,null,null,33,null,6,8,10,16,null,null,null,28,null,null,5,null,null,null,null,null,15,19,null,null,null,null,12,null,18,20,null,13,17,null,null,22,null,14,null,null,21,23]')
-    root = None
+    root = deserialize('[41,37,44,24,39,42,48,1,35,38,40,null,43,46,49,0,2,30,36,null,null,null,null,null,null,45,47,null,null,null,null,null,4,29,32,null,null,null,null,null,null,3,9,26,null,31,34,null,null,7,11,25,27,null,null,33,null,6,8,10,16,null,null,null,28,null,null,5,null,null,null,null,null,15,19,null,null,null,null,12,null,18,20,null,13,17,null,null,22,null,14,null,null,21,23]')
+    #  root = None
     ser = Codec()
     deser = Codec()
     tree = ser.serialize(root)
-    print(tree)
     deser.deserialize(tree)
 
     print("--------------------------------------")
+    #  Leetcode 105
+    print(S.buildTree([3,9,20,15,7], [9,3,15,20,7]))
+
+
 
 
 
