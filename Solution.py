@@ -2412,6 +2412,12 @@ class Solution:
         if not nums: return [[]]
         return [ [nums[i] ] + l for i in range(len(nums)) for l in self.permute(nums[:i] + nums[i + 1:]) ]
 
+
+    # #  The trick solution using library.
+    # def permute(self, nums: List[int]):
+    #     return list(itertools.permutations( nums ))
+
+
     # #  The easier understand recursive solution.
     # def permute(self, nums: List[int]) -> List[List[int]]:
     #     #  Make sure the items in the result of recursive functions are iterable.
