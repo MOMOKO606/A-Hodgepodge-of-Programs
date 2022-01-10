@@ -1,7 +1,6 @@
 from typing import Optional, List
-import bisect
-import math
-import collections
+import bisect, math, collections, itertools
+
 
 
 class Node:
@@ -2358,12 +2357,18 @@ class Solution:
     Output: [[1]]
     """
 
-    #  The concise recursive version.
-    def combine(self, n, k):
-        if k == 0:
-            return [[]]  # if we just return [] the for loop in 2375 might not start since it's empty.
+    # #  The tricky solution using the library, very efficient.
+    # def combine(self, n: int, k: int):
+    #     return list(itertools.combinations(range(1, n + 1), k))
 
-        return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
+
+    # #  The concise recursive version.
+    # def combine(self, n, k):
+    #     if k == 0:
+    #         return [[]]  # if we just return [] the for loop in 2375 might not start since it's empty.
+    #
+    #     return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
+
 
     # #  Backtracking recursive solution.
     # #  The idea is to use a position in n,
@@ -2401,7 +2406,6 @@ class Solution:
     Input: nums = [1]
     Output: [[1]]
     """
-
     def permute(self, nums: List[int]) -> List[List[int]]:
         #  Make sure the items in the result of recursive functions are iterable.
         if not nums: return [[]]
