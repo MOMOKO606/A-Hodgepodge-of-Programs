@@ -2370,12 +2370,60 @@ class Solution:
     #  The concise recursive version.
     def combine(self, n, k):
         if k == 0:
-            return [[]]  #  if we just return [] the for loop in 2374 might not start since it's empty.
+            return [[]]  #  if we just return [] the for loop in 2375 might not start since it's empty.
 
         return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine( i - 1, k - 1)]
 
 
-    #  Backtracking recursive solution.
+    # #  Backtracking recursive solution.
+    # #  The idea is to use a position in n,
+    # #  to place all the possible numbers from [pos, ..., n] at the first index of pair.
+    # #  When the length of pair reaches k, it's a valid combination. Put it into the ans.
+    # def combine(self, n: int, k: int) -> List[List[int]]:
+    #     def backtracking(n, k, pos) -> None:
+    #         #  Base case
+    #         if len(pair) == k:
+    #             ans.append(pair[:])
+    #             return
+    #         for i in range(pos, n + 1):
+    #             pair.append( i )
+    #             backtracking(n, k, i + 1)
+    #             pair.pop()
+    #         return
+    #     pair, ans = [], []
+    #     backtracking(n, k, 1)
+    #     return ans
+
+
+    """
+    46. Permutations (Medium)
+    Given an array nums of distinct integers, return all the possible permutations. 
+    You can return the answer in any order.
+    
+    Example1:
+    Input: nums = [1,2,3]
+    Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+    
+    Example2:
+    Input: nums = [0,1]
+    Output: [[0,1],[1,0]]
+    
+    Example3:
+    Input: nums = [1]
+    Output: [[1]]
+    """
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        #  Make sure the items in the result of recursive functions are iterable.
+        if not nums: return [[]]
+        ans = []
+        for i in range(len(nums)):
+            nums[i], nums[0] = nums[0], nums[i]
+            for item in self.permute( nums[1:] ):
+                #  Notice, we can only add [] + [], cannot add int + []
+                #  Notice, ans is list of list -- [[]]
+                ans += [[nums[0]]+ item]
+        return ans
+
 
 
 
@@ -2579,9 +2627,12 @@ if __name__ == "__main__":
     #  Leetcode 105
     print(S.buildTree([3,9,20,15,7], [9,3,15,20,7]))
 
-    print("--------------------------------------")
     #  Leetcode 77
     print(S.combine(4, 2))
+
+    print("-------------------")
+    #  Leetcode 46
+    print(S.permute([1,2,3]))
 
 
 
