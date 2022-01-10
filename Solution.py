@@ -19,6 +19,7 @@ class TreeNode:
     def __repr__(self):
         return 'TreeNode({})'.format(self.val)
 
+
 #  Tool made by StefanPochmann
 #  Transfer [1,2,3,null,null,4,null,null,5] to a root.
 #  For example deserialize('[1,2,3,null,null,4,null,null,5]')
@@ -32,7 +33,7 @@ def deserialize(string):
     root = kids.pop()
     for node in nodes:
         if node:
-            if kids: node.left  = kids.pop()
+            if kids: node.left = kids.pop()
             if kids: node.right = kids.pop()
     return root
 
@@ -40,24 +41,28 @@ def deserialize(string):
 def drawtree(root):
     def height(root):
         return 1 + max(height(root.left), height(root.right)) if root else -1
+
     def jumpto(x, y):
         t.penup()
         t.goto(x, y)
         t.pendown()
+
     def draw(node, x, y, dx):
         if node:
             t.goto(x, y)
-            jumpto(x, y-20)
+            jumpto(x, y - 20)
             t.write(node.val, align='center', font=('Arial', 12, 'normal'))
-            draw(node.left, x-dx, y-60, dx/2)
-            jumpto(x, y-20)
-            draw(node.right, x+dx, y-60, dx/2)
+            draw(node.left, x - dx, y - 60, dx / 2)
+            jumpto(x, y - 20)
+            draw(node.right, x + dx, y - 60, dx / 2)
+
     import turtle
     t = turtle.Turtle()
-    t.speed(0); turtle.delay(0)
+    t.speed(0);
+    turtle.delay(0)
     h = height(root)
-    jumpto(0, 30*h)
-    draw(root, 0, 30*h, 40*h)
+    jumpto(0, 30 * h)
+    draw(root, 0, 30 * h, 40 * h)
     t.hideturtle()
     turtle.mainloop()
 
@@ -128,14 +133,16 @@ and this string can be deserialized to the original tree structure.
 
 The encoded string should be as compact as possible.
 """
+
+
 class Codec:
     #  The serialize algorithm without using "^".
     def serialize(self, root: Optional[TreeNode]) -> str:
-        def _serialize(root:Optional[TreeNode]) -> List[int]:
+        def _serialize(root: Optional[TreeNode]) -> List[int]:
             if not root: return []
             return [root.val] + _serialize(root.left) + _serialize(root.right)
-        return " ".join( map(str, _serialize(root)) )
 
+        return " ".join(map(str, _serialize(root)))
 
     #  The deserialize algorithm without using "^".
     def deserialize(self, data: str) -> Optional[TreeNode]:
@@ -150,7 +157,6 @@ class Codec:
 
         data = collections.deque(map(int, data.split()))
         return _deserialize(data, -math.inf, math.inf)
-
 
     # #  The serialize algorithm using "^".
     # def serialize(self, root: Optional[TreeNode]) -> str:
@@ -192,6 +198,8 @@ int getRear() Returns the last item from Deque. Returns -1 if the deque is empty
 boolean isEmpty() Returns true if the deque is empty, or false otherwise.
 boolean isFull() Returns true if the deque is full, or false otherwise.
 """
+
+
 #  Method 1. circular deque using list.
 class MyCircularDeque:
 
@@ -1794,7 +1802,6 @@ class Solution:
                 ans += [nums[deque[0]]]
         return ans
 
-
     """
     242. Valid Anagram(Easy)
     Given two strings s and t, return true if t is an anagram of s, and false otherwise.
@@ -1827,7 +1834,6 @@ class Solution:
                 return False
         return True
 
-
     """
     49. Group Anagrams(Medium)
     Given an array of strings strs, group the anagrams together. You can return the answer in any order.
@@ -1846,7 +1852,6 @@ class Solution:
             ans[key] = ans.get(key, []) + [word]
         return list(ans.values())
 
-
     """
     94. Binary Tree Inorder Traversal (Easy)
     Given the root of a binary tree, return the inorder traversal of its nodes' values.
@@ -1855,26 +1860,25 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [1,3,2]
     """
+
     #  The recursive version01.
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
 
-        def _inorderTraversal( root: Optional[TreeNode], ans: List[int]) -> None:
+        def _inorderTraversal(root: Optional[TreeNode], ans: List[int]) -> None:
             if root:
-                _inorderTraversal( root.left, ans )
+                _inorderTraversal(root.left, ans)
                 ans += [root.val]
-                _inorderTraversal( root.right, ans)
+                _inorderTraversal(root.right, ans)
 
         ans = []
-        _inorderTraversal( root, ans )
+        _inorderTraversal(root, ans)
         return ans
-
 
     # #  The recursive version02.
     # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
     #     if not root:
     #         return []
     #     return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
-
 
     # #  Using a stack without flags..
     # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
@@ -1889,7 +1893,6 @@ class Solution:
     #             root = root.right
     #     return ans
 
-
     """
     144. Binary Tree Preorder Traversal(Easy)
     Given the root of a binary tree, return the preorder traversal of its nodes' values.
@@ -1898,8 +1901,9 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [1,2,3]
     """
+
     #  The recursive version01.
-    def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         def _preorderTraversal(root: Optional[TreeNode], ans: List[int]) -> None:
             if root:
                 ans += [root.val]
@@ -1910,13 +1914,11 @@ class Solution:
         _preorderTraversal(root, ans)
         return ans
 
-
     #  The recursive version02.
     # def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
     #     if not root:
     #         return []
     #     return [root.val] + self.preorderTraversal(root.left) + self.preorderTraversal(root.right)
-
 
     # #  Using a stack without flags.
     # def preorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
@@ -1929,7 +1931,6 @@ class Solution:
     #             stack.append( root.left )
     #     return ans
 
-
     """
     145. Binary Tree Postorder Traversal(Easy)
     Given the root of a binary tree, return the postorder traversal of its nodes' values.
@@ -1938,25 +1939,24 @@ class Solution:
     Input: root = [1,null,2,3]
     Output: [3,2,1]
     """
+
     #  The recursive version01.
-    def postorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
-        def _postorderTraversal( root:Optional[TreeNode], ans:List[int]) -> None:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def _postorderTraversal(root: Optional[TreeNode], ans: List[int]) -> None:
             if root:
-                _postorderTraversal( root.left, ans )
-                _postorderTraversal( root.right, ans )
+                _postorderTraversal(root.left, ans)
+                _postorderTraversal(root.right, ans)
                 ans += [root.val]
 
         ans = []
-        _postorderTraversal( root, ans )
+        _postorderTraversal(root, ans)
         return ans
-
 
     # #  The recursive version02.
     # def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
     #     if not root:
     #         return []
     #     return self.postorderTraversal(root.left) + self.postorderTraversal(root.right) + [root.val]
-
 
     # #  Using a stack without flags.
     # # [left, right, root] = reversed([root, right, left])
@@ -1969,7 +1969,6 @@ class Solution:
     #             stack.append( root.left )
     #             stack.append( root.right )
     #     return ans[::-1]
-
 
     # #  Using a stack with flags.
     # def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
@@ -1986,7 +1985,6 @@ class Solution:
     #             stack.append( (root.left, False) )
     #     return ans
 
-
     """
     589. N-ary Tree Preorder Traversal(Easy)
     Given the root of an n-ary tree, return the preorder traversal of its nodes' values.
@@ -1996,6 +1994,7 @@ class Solution:
     Input: root = [1,null,3,2,4,null,5,6]
     Output: [1,3,5,6,2,4]
     """
+
     #  The recursive version.
     def preorder(self, root: 'Node') -> List[int]:
         if not root:
@@ -2004,7 +2003,6 @@ class Solution:
         for child in root.children:
             ans += self.preorder(child)
         return ans
-
 
     # #  The iterative version.
     # def preorder(self, root: 'Node') -> List[int]:
@@ -2017,7 +2015,6 @@ class Solution:
     #                 stack += [child]
     #     return ans
 
-
     """
     590. N-ary Tree Postorder Traversal( Easy )
     Given the root of an n-ary tree, return the postorder traversal of its nodes' values.
@@ -2028,16 +2025,16 @@ class Solution:
     Input: root = [1,null,3,2,4,null,5,6]
     Output: [5,6,3,2,4,1]
     """
+
     #  The recursive version.
     def postorder(self, root: 'Node') -> List[int]:
         if not root:
             return []
         ans = []
         for child in root.children:
-            ans += self.postorder( child )
+            ans += self.postorder(child)
         ans += [root.val]
         return ans
-
 
     # #  The iterative version.
     # def postorder(self, root: 'Node') -> List[int]:
@@ -2050,7 +2047,6 @@ class Solution:
     #                 stack.append( child )
     #     return ans[::-1]
 
-
     """
     429. N-ary Tree Level Order Traversal( Medium )
     Given an n-ary tree, return the level order traversal of its nodes' values.
@@ -2059,6 +2055,7 @@ class Solution:
     Input: root = [1,null,3,2,4,null,5,6]
     Output: [[1],[3,2,4],[5,6]]
     """
+
     #  Algorithm using a deque.
     def levelOrder(self, root: 'Node') -> List[List[int]]:
         if not root: return []
@@ -2073,7 +2070,6 @@ class Solution:
             ans += [line]
         return ans
 
-
     # #  Algorithm using two lists.
     # def levelOrder(self, root: 'Node') -> List[List[int]]:
     #     if not root: return []
@@ -2082,7 +2078,6 @@ class Solution:
     #         ans.append([node.val for node in level])
     #         level = [child for node in level for child in node.children]
     #     return ans
-
 
     """
     22. Generate Parentheses(Medium)
@@ -2096,21 +2091,21 @@ class Solution:
     Input: n = 3
     Output: ["((()))","(()())","(())()","()(())","()()()"]
     """
+
     #  Version01.
     def generateParenthesis(self, n: int) -> List[str]:
 
-        def _generateParenthesis( left: int, right: int, s: str, ans: List[str]) -> None:
+        def _generateParenthesis(left: int, right: int, s: str, ans: List[str]) -> None:
             if left == 0 and right == 0:
                 ans += [s]
             if left > 0:
-                _generateParenthesis( left - 1, right, s + "(", ans)
+                _generateParenthesis(left - 1, right, s + "(", ans)
             if right > left:
-                _generateParenthesis( left, right - 1, s + ")", ans)
+                _generateParenthesis(left, right - 1, s + ")", ans)
 
         ans = []
         _generateParenthesis(n, n, "", ans)
         return ans
-
 
     # #  Version02.
     # def generateParenthesis(self, n: int) -> List[str]:
@@ -2127,7 +2122,6 @@ class Solution:
     #     _generateParenthesis(n, n, "", ans)
     #     return ans
 
-
     """
     226. Invert Binary Tree (Easy)
     Given the root of a binary tree, invert the tree, and return its root.
@@ -2136,11 +2130,11 @@ class Solution:
     Input: root = [4,2,7,1,3,6,9]
     Output: [4,7,2,9,6,3,1]
     """
+
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         if root:
             root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
         return root
-
 
     """
     104. Maximum Depth of Binary Tree (Easy)
@@ -2152,10 +2146,10 @@ class Solution:
     Input: root = [3,9,20,null,null,15,7]
     Output: 3
     """
+
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if not root: return 0
         return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
-
 
     """
     111. Minimum Depth of Binary Tree(Easy)
@@ -2166,15 +2160,15 @@ class Solution:
     Input: root = [3,9,20,null,null,15,7]
     Output: 2
     """
+
     #  The recursive version02.
     def minDepth(self, root: Optional[TreeNode]) -> int:
         if not root: return 0
         if not root.left:
-            return self.minDepth( root.right ) + 1
+            return self.minDepth(root.right) + 1
         if not root.right:
-            return self.minDepth( root.left ) + 1
-        return min( self.minDepth( root.left), self.minDepth(root.right)) + 1
-
+            return self.minDepth(root.left) + 1
+        return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
 
     # #  The recursive version01.
     # def minDepth(self, root: Optional[TreeNode]) -> int:
@@ -2187,7 +2181,6 @@ class Solution:
     #     ans = _minDepth(root)
     #     return int(ans) if ans < float("inf") else 0
 
-
     """
     98. Validate Binary Search Tree( Medium )
     Given the root of a binary tree, determine if it is a valid binary search tree (BST).
@@ -2196,17 +2189,17 @@ class Solution:
     Input: root = [2,1,3]
     Output: true
     """
+
     #  The recursive version01: the smarter one.
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
 
-        def _isValidBST( root: Optional[TreeNode], leftmax = -math.inf, rightmin = math.inf ) -> bool:
+        def _isValidBST(root: Optional[TreeNode], leftmax=-math.inf, rightmin=math.inf) -> bool:
             if not root: return True
             if leftmax >= root.val or rightmin <= root.val:
                 return False
-            return _isValidBST( root.left, leftmax, root.val) and _isValidBST(root.right, root.val, rightmin)
+            return _isValidBST(root.left, leftmax, root.val) and _isValidBST(root.right, root.val, rightmin)
 
-        return _isValidBST( root )
-
+        return _isValidBST(root)
 
     # # The recursive version02: the naive one.
     # def isValidBST(self, root: Optional[TreeNode]) -> bool:
@@ -2227,7 +2220,6 @@ class Solution:
     #
     #     return _isValidBST( root )[0]
 
-
     # #  The iterative version
     # def isValidBST(self, root: Optional[TreeNode]) -> bool:
     #     stack = [[root, -math.inf, math.inf]]
@@ -2239,7 +2231,6 @@ class Solution:
     #             stack.append( [root.right, root.val, rightLimit])
     #             stack.append( [root.left, leftLimit, root.val])
     #     return True
-
 
     # #  The recursive version using inorder traversal.
     # def isValidBST(self, root: Optional[TreeNode]) -> bool:
@@ -2254,7 +2245,6 @@ class Solution:
     #     self.prev = -math.inf
     #     return _isValidBST( root )
 
-
     """
     105. Construct Binary Tree from Preorder and Inorder Traversal (Medium)
     Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree 
@@ -2268,15 +2258,15 @@ class Solution:
     Input: preorder = [-1], inorder = [-1]
     Output: [-1]
     """
+
     #  The recursive algorithm.
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         if preorder:
             r = inorder.index(preorder[0])
             root = TreeNode(inorder[r])
-            root.left = self.buildTree( preorder[1: r + 1], inorder[:r])
-            root.right = self.buildTree( preorder[r + 1:], inorder[r + 1:])
+            root.left = self.buildTree(preorder[1: r + 1], inorder[:r])
+            root.right = self.buildTree(preorder[r + 1:], inorder[r + 1:])
             return root
-
 
     """
     235. Lowest Common Ancestor of a Binary Search Tree(Easy)
@@ -2296,11 +2286,12 @@ class Solution:
     Input: root = [2,1], p = 2, q = 1
     Output: 2
     """
+
     #  The recursive solution.
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         if root:
             if (root.val - p.val) * (root.val - q.val) > 0:
-                return self.lowestCommonAncestor( (root.left, root.right)[root.val < p.val], p, q)
+                return self.lowestCommonAncestor((root.left, root.right)[root.val < p.val], p, q)
         return root
 
     # #  The iterative solution.
@@ -2310,7 +2301,6 @@ class Solution:
     #             root = (root.left, root.right)[root.val < p.val]
     #         else: break
     #     return root
-
 
     """
     236. Lowest Common Ancestor of a Binary Tree (Medium)
@@ -2331,6 +2321,7 @@ class Solution:
     Input: root = [1,2], p = 1, q = 2
     Output: 1
     """
+
     #  The common recursive algorithm.
     #  return the Lowest Common Ancestor if p and q are in the tree of root.
     #  return None if none of p and q are in the tree of root.
@@ -2340,11 +2331,10 @@ class Solution:
         #  Base case.
         if not root or root == p or root == q:
             return root
-        left = self.lowestCommonAncestor_naive( root.left, p, q )
-        right = self.lowestCommonAncestor_naive( root.right, p, q)
+        left = self.lowestCommonAncestor_naive(root.left, p, q)
+        right = self.lowestCommonAncestor_naive(root.right, p, q)
         if left and right: return root
         return left or right
-
 
     """
     77. Combinations (Medium)
@@ -2367,13 +2357,13 @@ class Solution:
     Input: n = 1, k = 1
     Output: [[1]]
     """
+
     #  The concise recursive version.
     def combine(self, n, k):
         if k == 0:
-            return [[]]  #  if we just return [] the for loop in 2375 might not start since it's empty.
+            return [[]]  # if we just return [] the for loop in 2375 might not start since it's empty.
 
-        return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine( i - 1, k - 1)]
-
+        return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
 
     # #  Backtracking recursive solution.
     # #  The idea is to use a position in n,
@@ -2394,7 +2384,6 @@ class Solution:
     #     backtracking(n, k, 1)
     #     return ans
 
-
     """
     46. Permutations (Medium)
     Given an array nums of distinct integers, return all the possible permutations. 
@@ -2412,28 +2401,50 @@ class Solution:
     Input: nums = [1]
     Output: [[1]]
     """
+
     def permute(self, nums: List[int]) -> List[List[int]]:
         #  Make sure the items in the result of recursive functions are iterable.
         if not nums: return [[]]
         ans = []
         for i in range(len(nums)):
             nums[i], nums[0] = nums[0], nums[i]
-            for item in self.permute( nums[1:] ):
+            for item in self.permute(nums[1:]):
                 #  Notice, we can only add [] + [], cannot add int + []
                 #  Notice, ans is list of list -- [[]]
-                ans += [[nums[0]]+ item]
+                ans += [[nums[0]] + item]
         return ans
 
 
+    """
+    47. Permutations II (Medium)
+    Given a collection of numbers, nums, that might contain duplicates, 
+    return all possible unique permutations in any order.
 
-
-
-
-
-
-
-
-
+    Example1:
+    Input: nums = [1,1,2]
+    Output:
+            [[1,1,2],
+             [1,2,1],
+             [2,1,1]]
+             
+    Example2:
+    Input: nums = [1,2,3]
+    Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+    """
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        #  Make sure the items in the result of recursive functions are iterable.
+        if not nums: return [[]]
+        ans, checked = [], {}
+        for i in range(len(nums)):
+            if nums[i] in checked:
+                continue
+            nums[i], nums[0] = nums[0], nums[i]
+            checked[nums[0]] = nums[0]
+            for item in self.permuteUnique(nums[1:]):
+                #  Notice, we can only add [] + [], cannot add int + []
+                #  Notice, ans is list of list -- [[]]
+                ans += [[nums[0]] + item]
+        return ans
 
 
 #  Drive code.
@@ -2617,7 +2628,8 @@ if __name__ == "__main__":
     print(S.generateParenthesis(3))
 
     #  Leetcode 449
-    root = deserialize('[41,37,44,24,39,42,48,1,35,38,40,null,43,46,49,0,2,30,36,null,null,null,null,null,null,45,47,null,null,null,null,null,4,29,32,null,null,null,null,null,null,3,9,26,null,31,34,null,null,7,11,25,27,null,null,33,null,6,8,10,16,null,null,null,28,null,null,5,null,null,null,null,null,15,19,null,null,null,null,12,null,18,20,null,13,17,null,null,22,null,14,null,null,21,23]')
+    root = deserialize(
+        '[41,37,44,24,39,42,48,1,35,38,40,null,43,46,49,0,2,30,36,null,null,null,null,null,null,45,47,null,null,null,null,null,4,29,32,null,null,null,null,null,null,3,9,26,null,31,34,null,null,7,11,25,27,null,null,33,null,6,8,10,16,null,null,null,28,null,null,5,null,null,null,null,null,15,19,null,null,null,null,12,null,18,20,null,13,17,null,null,22,null,14,null,null,21,23]')
     #  root = None
     ser = Codec()
     deser = Codec()
@@ -2625,23 +2637,20 @@ if __name__ == "__main__":
     deser.deserialize(tree)
 
     #  Leetcode 105
-    print(S.buildTree([3,9,20,15,7], [9,3,15,20,7]))
+    print(S.buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7]))
 
     #  Leetcode 77
     print(S.combine(4, 2))
 
-    print("-------------------")
     #  Leetcode 46
-    print(S.permute([1,2,3]))
+    print(S.permute([1, 2, 3]))
 
-
-
-
-
-
-
-
-
+    print("-------------------")
+    #  Leetcode 47
+    # print(S.permuteUnique([1, 1, 2]))
+    # print(S.permuteUnique([1, 1]))
+    # print(S.permuteUnique([3, 3, 0, 3]))
+    print(S.permuteUnique([2, 2, 1, 1]))
 
 """
 ..................佛祖开光 ,永无BUG...................
