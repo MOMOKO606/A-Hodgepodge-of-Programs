@@ -2346,6 +2346,41 @@ class Solution:
         return left or right
 
 
+    """
+    77. Combinations (Medium)
+    Given two integers n and k, return all possible combinations of k numbers out of the range [1, n].
+    You may return the answer in any order.
+    
+    Example1:
+    Input: n = 4, k = 2
+    Output:
+    [
+      [2,4],
+      [3,4],
+      [2,3],
+      [1,2],
+      [1,3],
+      [1,4],
+    ]
+    
+    Example2:
+    Input: n = 1, k = 1
+    Output: [[1]]
+    """
+    #  The concise recursive version.
+    def combine(self, n, k):
+        if k == 0:
+            return [[]]  #  if we just return [] the for loop in 2374 might not start since it's empty.
+
+        return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine( i - 1, k - 1)]
+
+
+    #  Backtracking recursive solution.
+
+
+
+
+
 
 
 
@@ -2545,6 +2580,8 @@ if __name__ == "__main__":
     print(S.buildTree([3,9,20,15,7], [9,3,15,20,7]))
 
     print("--------------------------------------")
+    #  Leetcode 77
+    print(S.combine(4, 2))
 
 
 
