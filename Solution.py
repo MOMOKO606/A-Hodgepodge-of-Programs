@@ -2335,6 +2335,7 @@ class Solution:
         if left and right: return root
         return left or right
 
+
     """
     77. Combinations (Medium)
     Given two integers n and k, return all possible combinations of k numbers out of the range [1, n].
@@ -2356,18 +2357,17 @@ class Solution:
     Input: n = 1, k = 1
     Output: [[1]]
     """
+    #  The concise recursive version.
+    def combine(self, n, k):
+        if k == 0:
+            return [[]]  # if we just return [] the for loop in 2375 might not start since it's empty.
+
+        return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
+
 
     # #  The tricky solution using the library, very efficient.
     # def combine(self, n: int, k: int):
     #     return list(itertools.combinations(range(1, n + 1), k))
-
-
-    # #  The concise recursive version.
-    # def combine(self, n, k):
-    #     if k == 0:
-    #         return [[]]  # if we just return [] the for loop in 2375 might not start since it's empty.
-    #
-    #     return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
 
 
     # #  Backtracking recursive solution.
@@ -2389,6 +2389,7 @@ class Solution:
     #     backtracking(n, k, 1)
     #     return ans
 
+
     """
     46. Permutations (Medium)
     Given an array nums of distinct integers, return all the possible permutations. 
@@ -2406,17 +2407,23 @@ class Solution:
     Input: nums = [1]
     Output: [[1]]
     """
+    #  The consice recursive solution.
     def permute(self, nums: List[int]) -> List[List[int]]:
-        #  Make sure the items in the result of recursive functions are iterable.
         if not nums: return [[]]
-        ans = []
-        for i in range(len(nums)):
-            nums[i], nums[0] = nums[0], nums[i]
-            for item in self.permute(nums[1:]):
-                #  Notice, we can only add [] + [], cannot add int + []
-                #  Notice, ans is list of list -- [[]]
-                ans += [[nums[0]] + item]
-        return ans
+        return [ [nums[i] ] + l for i in range(len(nums)) for l in self.permute(nums[:i] + nums[i + 1:]) ]
+
+    # #  The easier understand recursive solution.
+    # def permute(self, nums: List[int]) -> List[List[int]]:
+    #     #  Make sure the items in the result of recursive functions are iterable.
+    #     if not nums: return [[]]
+    #     ans = []
+    #     for i in range(len(nums)):
+    #         nums[i], nums[0] = nums[0], nums[i]
+    #         for item in self.permute(nums[1:]):
+    #             #  Notice, we can only add [] + [], cannot add int + []
+    #             #  Notice, ans is list of list -- [[]]
+    #             ans += [[nums[0]] + item]
+    #     return ans
 
 
     """
