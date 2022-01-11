@@ -2470,6 +2470,14 @@ class Solution:
     Input: nums = [0]
     Output: [[],[0]]
     """
+    #  The efficient iterative version.
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        ans = [[]]
+        for num in nums:
+            ans += [subset + [num] for subset in ans]
+        return ans
+
+
     # #  The naive recursive solution.
     # def subsets(self, nums: List[int]) -> List[List[int]]:
     #      def _subsets(nums: List[int], pos: int, subset: List[int]):
@@ -2484,12 +2492,34 @@ class Solution:
     #      return ans
 
 
-    #  The efficient iterative version.
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        ans = [[]]
-        for num in nums:
-            ans += [i + [num] for i in ans]
-        return ans
+    """
+    50. Pow(x, n) ( Medium )
+    Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+    
+    Example 1:
+    Input: x = 2.00000, n = 10
+    Output: 1024.00000
+    
+    Example 2:
+    Input: x = 2.10000, n = 3
+    Output: 9.26100
+    
+    Example 3:
+    Input: x = 2.00000, n = -2
+    Output: 0.25000
+    Explanation: 2-2 = 1/22 = 1/4 = 0.25
+    """
+    def myPow(self, x: float, n: int) -> float:
+        if n == 0: return 1
+        if n == 1: return x
+        if n == -1: return 1 / x
+        half = self.myPow(x, n // 2)
+        if n % 2:
+            return half * half * x
+        return half * half
+
+
+
 
 
 
@@ -2703,10 +2733,16 @@ if __name__ == "__main__":
     print(S.permuteUnique([3, 3, 0, 3]))
     print(S.permuteUnique([2, 2, 1, 1]))
 
-    print("-------------------")
     #  Leetcode 78
     print(S.subsets([1, 2, 3]))
     print(S.subsets([0]))
+
+    #  Leetcode 50
+    print("-------------------")
+    print( S.myPow( 2, 10))
+    print(S.myPow(2, 3))
+    print(S.myPow(2, -2))
+    print(S.myPow(0.00001, 2147483647))
 
 """
 ..................佛祖开光 ,永无BUG...................
