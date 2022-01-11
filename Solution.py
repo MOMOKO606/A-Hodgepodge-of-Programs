@@ -2,7 +2,6 @@ from typing import Optional, List
 import bisect, math, collections, itertools
 
 
-
 class Node:
     def __init__(self, val=None, children=None):
         self.val = val
@@ -2335,7 +2334,6 @@ class Solution:
         if left and right: return root
         return left or right
 
-
     """
     77. Combinations (Medium)
     Given two integers n and k, return all possible combinations of k numbers out of the range [1, n].
@@ -2364,11 +2362,9 @@ class Solution:
 
         return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
 
-
     # #  The tricky solution using the library, very efficient.
     # def combine(self, n: int, k: int):
     #     return list(itertools.combinations(range(1, n + 1), k))
-
 
     # #  Backtracking recursive solution.
     # #  The idea is to use a position in n,
@@ -2389,7 +2385,6 @@ class Solution:
     #     backtracking(n, k, 1)
     #     return ans
 
-
     """
     46. Permutations (Medium)
     Given an array nums of distinct integers, return all the possible permutations. 
@@ -2407,16 +2402,15 @@ class Solution:
     Input: nums = [1]
     Output: [[1]]
     """
+
     #  The consice recursive solution.
     def permute(self, nums: List[int]) -> List[List[int]]:
         if not nums: return [[]]
-        return [ [nums[i] ] + l for i in range(len(nums)) for l in self.permute(nums[:i] + nums[i + 1:]) ]
-
+        return [[nums[i]] + l for i in range(len(nums)) for l in self.permute(nums[:i] + nums[i + 1:])]
 
     # #  The trick solution using library.
     # def permute(self, nums: List[int]):
     #     return list(itertools.permutations( nums ))
-
 
     # #  The easier understand recursive solution.
     # def permute(self, nums: List[int]) -> List[List[int]]:
@@ -2430,7 +2424,6 @@ class Solution:
     #             #  Notice, ans is list of list -- [[]]
     #             ans += [[nums[0]] + item]
     #     return ans
-
 
     """
     47. Permutations II (Medium)
@@ -2448,6 +2441,7 @@ class Solution:
     Input: nums = [1,2,3]
     Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
     """
+
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         #  Make sure the items in the result of recursive functions are iterable.
         if not nums: return [[]]
@@ -2462,6 +2456,35 @@ class Solution:
                 #  Notice, ans is list of list -- [[]]
                 ans += [[nums[0]] + item]
         return ans
+
+    """
+    78. Subsets (Medium)
+    Given an integer array nums of unique elements, return all possible subsets (the power set).
+    The solution set must not contain duplicate subsets. Return the solution in any order.
+    
+    Example 1:
+    Input: nums = [1,2,3]
+    Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+    
+    Example 2:
+    Input: nums = [0]
+    Output: [[],[0]]
+    """
+    #  The naive recursive solution.
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+
+         def _subsets(nums: List[int], pos: int, subset: List[int]):
+            if pos == len(nums):
+                ans.append( subset )
+                return
+            _subsets(nums, pos + 1, subset + [nums[pos]] )
+            _subsets(nums, pos + 1, subset)
+
+         ans = []
+         _subsets(nums, 0, [])
+         return ans
+
+
 
 
 #  Drive code.
@@ -2662,12 +2685,16 @@ if __name__ == "__main__":
     #  Leetcode 46
     print(S.permute([1, 2, 3]))
 
-    print("-------------------")
     #  Leetcode 47
-    # print(S.permuteUnique([1, 1, 2]))
-    # print(S.permuteUnique([1, 1]))
-    # print(S.permuteUnique([3, 3, 0, 3]))
+    print(S.permuteUnique([1, 1, 2]))
+    print(S.permuteUnique([1, 1]))
+    print(S.permuteUnique([3, 3, 0, 3]))
     print(S.permuteUnique([2, 2, 1, 1]))
+
+    print("-------------------")
+    #  Leetcode 78
+    print(S.subsets([1, 2, 3]))
+    print(S.subsets([0]))
 
 """
 ..................佛祖开光 ,永无BUG...................
