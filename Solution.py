@@ -2470,19 +2470,31 @@ class Solution:
     Input: nums = [0]
     Output: [[],[0]]
     """
-    #  The naive recursive solution.
+    # #  The naive recursive solution.
+    # def subsets(self, nums: List[int]) -> List[List[int]]:
+    #      def _subsets(nums: List[int], pos: int, subset: List[int]):
+    #         if pos == len(nums):
+    #             ans.append( subset )
+    #             return
+    #         _subsets(nums, pos + 1, subset + [nums[pos]] )
+    #         _subsets(nums, pos + 1, subset)
+    #
+    #      ans = []
+    #      _subsets(nums, 0, [])
+    #      return ans
+
+
+    #  The efficient iterative version.
     def subsets(self, nums: List[int]) -> List[List[int]]:
+        ans = [[]]
+        for num in nums:
+            ans += [i + [num] for i in ans]
+        return ans
 
-         def _subsets(nums: List[int], pos: int, subset: List[int]):
-            if pos == len(nums):
-                ans.append( subset )
-                return
-            _subsets(nums, pos + 1, subset + [nums[pos]] )
-            _subsets(nums, pos + 1, subset)
 
-         ans = []
-         _subsets(nums, 0, [])
-         return ans
+
+
+
 
 
 
