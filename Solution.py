@@ -2509,14 +2509,22 @@ class Solution:
     Output: 0.25000
     Explanation: 2-2 = 1/22 = 1/4 = 0.25
     """
+    # #  The normal version.
+    # def myPow(self, x: float, n: int) -> float:
+    #     if n == 0: return 1
+    #     if n < 0: return self.myPow( x, -n )
+    #     half = self.myPow(x, n // 2)
+    #     if n % 2:
+    #         return half * half * x
+    #     return half * half
+
+    #  The trick version.
     def myPow(self, x: float, n: int) -> float:
         if n == 0: return 1
-        if n == 1: return x
-        if n == -1: return 1 / x
-        half = self.myPow(x, n // 2)
+        if n < 0: return self.myPow( x, -n )
         if n % 2:
-            return half * half * x
-        return half * half
+            return x * self.myPow( x , n - 1 )
+        return self.myPow( x * x, n // 2)
 
 
 
