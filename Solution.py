@@ -2542,6 +2542,18 @@ class Solution:
     Output: 2
     """
 
+    #  The Boyer-Moore Voting Algorithm.
+    def majorityElement(self, nums: List[int]) -> int:
+        count = 0
+        for num in nums:
+            if count == 0:
+                mode = num
+            if num == mode:
+                count += 1
+            else:
+                count -= 1
+        return mode
+
     # #  The O(nlgn) solution.
     # def majorityElement(self, nums:List[int]) -> int:
     #     nums.sort()
@@ -2565,15 +2577,37 @@ class Solution:
     #
     #     return _majorityElement(0, len(nums) - 1)
 
-    #  c
-    def majorityElement(self, nums: List[int]) -> int:
-        count = 0
+    """
+    229. Majority Element II (Medium)
+    Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.
+    
+    Example 1:
+    Input: nums = [3,2,3]
+    Output: [3]
+    
+    Example 2:
+    Input: nums = [1]
+    Output: [1]
+    
+    Example 3:
+    Input: nums = [1,2]
+    Output: [1,2]
+    """
+    #  The Boyer-Moore Voting Algorithm.
+    def majorityElement_tri(self, nums: List[int]) -> List[int]:
+        mode1, mode2, count1, count2 = math.inf, math.inf, 0, 0
         for num in nums:
-            if count == 0:
-                mode = num
-            if num == mode: count += 1
-            else: count -= 1
-        return mode
+            if num == mode1:
+                count1 += 1
+            elif num == mode2:
+                count2 += 1
+            elif count1 == 0:
+                mode1, count1 = num, 1
+            elif count2 == 0:
+                mode2, count2 = num, 1
+            else:
+                count1, count2 = count1 - 1, count2 - 1
+        return [ans for ans in (mode1, mode2) if nums.count(ans) > len(nums) // 3]
 
 
 
@@ -2792,12 +2826,18 @@ if __name__ == "__main__":
     print(S.myPow(2, 3))
     print(S.myPow(0.00001, 2147483647))
 
-    print("-------------------")
     #  Leetcode 169
     print(S.majorityElement([3, 2, 3]))
     print(S.majorityElement([3, 3, 4]))
     print(S.majorityElement([6, 5, 5]))
     print(S.majorityElement([2, 2, 1, 1, 1, 2, 2]))
+
+    print("-------------------")
+    #  Leetcode 229
+    print(S.majorityElement_tri([]))
+    print(S.majorityElement_tri([1, 2]))
+    print(S.majorityElement_tri([0, 0, 0]))
+    print(S.majorityElement_tri([4, 1, 2, 3, 4, 4, 3, 2, 1, 4]))
 
 """
 ..................佛祖开光 ,永无BUG...................
