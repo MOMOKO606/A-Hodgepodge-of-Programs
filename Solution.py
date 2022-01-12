@@ -2558,10 +2558,10 @@ class Solution:
             right = _majorityElement(q + 1, r)
             if left == right: return left
 
-            left_count = sum(1 for i in range(p, q + 1) if nums[i] == left)
-            right_count = sum(1 for i in range(q + 1, r + 1) if nums[i] == right)
+            left_count = sum(1 for i in range(p, r + 1) if nums[i] == left)
+            right_count = sum(1 for i in range(p, r + 1) if nums[i] == right)
 
-            return (left, right)[right > left]
+            return (left, right)[right_count > left_count]
 
         return _majorityElement(0, len(nums) - 1)
 
@@ -2783,6 +2783,8 @@ if __name__ == "__main__":
     print("-------------------")
     #  Leetcode 169
     print(S.majorityElement([3, 2, 3]))
+    print(S.majorityElement([3, 3, 4]))
+    print(S.majorityElement([6, 5, 5]))
     print(S.majorityElement([2, 2, 1, 1, 1, 2, 2]))
 
 """
