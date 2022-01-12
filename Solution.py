@@ -2355,6 +2355,7 @@ class Solution:
     Input: n = 1, k = 1
     Output: [[1]]
     """
+
     #  The concise recursive version.
     def combine(self, n, k):
         if k == 0:
@@ -2470,13 +2471,13 @@ class Solution:
     Input: nums = [0]
     Output: [[],[0]]
     """
+
     #  The efficient iterative version.
     def subsets(self, nums: List[int]) -> List[List[int]]:
         ans = [[]]
         for num in nums:
             ans += [subset + [num] for subset in ans]
         return ans
-
 
     # #  The naive recursive solution.
     # def subsets(self, nums: List[int]) -> List[List[int]]:
@@ -2490,7 +2491,6 @@ class Solution:
     #      ans = []
     #      _subsets(nums, 0, [])
     #      return ans
-
 
     """
     50. Pow(x, n) ( Medium )
@@ -2509,10 +2509,11 @@ class Solution:
     Output: 0.25000
     Explanation: 2-2 = 1/22 = 1/4 = 0.25
     """
+
     #  The normal version.
     def myPow(self, x: float, n: int) -> float:
         if n == 0: return 1
-        if n < 0: return self.myPow( x, -n )
+        if n < 0: return self.myPow(x, -n)
         half = self.myPow(x, n // 2)
         if n % 2:
             return half * half * x
@@ -2525,7 +2526,6 @@ class Solution:
     #     if n % 2:
     #         return x * self.myPow( x , n - 1 )
     #     return self.myPow( x * x, n // 2)
-
 
     """
     169. Majority Element (Easy)
@@ -2541,22 +2541,29 @@ class Solution:
     Input: nums = [2,2,1,1,1,2,2]
     Output: 2
     """
-    #  The O(nlgn) solution.
-    def majorityElement(self, nums:List[int]) -> int:
-        nums.sort()
-        return nums[ len(nums) // 2]
 
+    # #  The O(nlgn) solution.
+    # def majorityElement(self, nums:List[int]) -> int:
+    #     nums.sort()
+    #     return nums[ len(nums) // 2]
 
+    #  Divide-and-conquer solution.
+    def majorityElement(self, nums: List[int]) -> int:
+        def _majorityElement(p: int, r: int) -> int:
+            #  Base case
+            if p == r: return nums[p]
 
+            q = (p + r) // 2
+            left = _majorityElement(p, q)
+            right = _majorityElement(q + 1, r)
+            if left == right: return left
 
+            left_count = sum(1 for i in range(p, q + 1) if nums[i] == left)
+            right_count = sum(1 for i in range(q + 1, r + 1) if nums[i] == right)
 
+            return (left, right)[right > left]
 
-
-
-
-
-
-
+        return _majorityElement(0, len(nums) - 1)
 
 
 #  Drive code.
@@ -2768,11 +2775,15 @@ if __name__ == "__main__":
     print(S.subsets([0]))
 
     #  Leetcode 50
-    print("-------------------")
     print(S.myPow(2, -2))
-    # print( S.myPow( 2, 10))
-    # print(S.myPow(2, 3))
-    # print(S.myPow(0.00001, 2147483647))
+    print(S.myPow(2, 10))
+    print(S.myPow(2, 3))
+    print(S.myPow(0.00001, 2147483647))
+
+    print("-------------------")
+    #  Leetcode 169
+    print(S.majorityElement([3, 2, 3]))
+    print(S.majorityElement([2, 2, 1, 1, 1, 2, 2]))
 
 """
 ..................佛祖开光 ,永无BUG...................
