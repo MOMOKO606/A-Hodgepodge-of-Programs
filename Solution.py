@@ -2547,23 +2547,35 @@ class Solution:
     #     nums.sort()
     #     return nums[ len(nums) // 2]
 
-    #  Divide-and-conquer solution.
+    # #  Divide-and-conquer solution.
+    # def majorityElement(self, nums: List[int]) -> int:
+    #     def _majorityElement(p: int, r: int) -> int:
+    #         #  Base case
+    #         if p == r: return nums[p]
+    #
+    #         q = (p + r) // 2
+    #         left = _majorityElement(p, q)
+    #         right = _majorityElement(q + 1, r)
+    #         if left == right: return left
+    #
+    #         left_count = sum(1 for i in range(p, r + 1) if nums[i] == left)
+    #         right_count = sum(1 for i in range(p, r + 1) if nums[i] == right)
+    #
+    #         return (left, right)[right_count > left_count]
+    #
+    #     return _majorityElement(0, len(nums) - 1)
+
+    #  c
     def majorityElement(self, nums: List[int]) -> int:
-        def _majorityElement(p: int, r: int) -> int:
-            #  Base case
-            if p == r: return nums[p]
+        count = 0
+        for num in nums:
+            if count == 0:
+                mode = num
+            if num == mode: count += 1
+            else: count -= 1
+        return mode
 
-            q = (p + r) // 2
-            left = _majorityElement(p, q)
-            right = _majorityElement(q + 1, r)
-            if left == right: return left
 
-            left_count = sum(1 for i in range(p, r + 1) if nums[i] == left)
-            right_count = sum(1 for i in range(p, r + 1) if nums[i] == right)
-
-            return (left, right)[right_count > left_count]
-
-        return _majorityElement(0, len(nums) - 1)
 
 
 #  Drive code.
