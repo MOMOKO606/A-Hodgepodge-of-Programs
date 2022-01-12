@@ -2509,22 +2509,44 @@ class Solution:
     Output: 0.25000
     Explanation: 2-2 = 1/22 = 1/4 = 0.25
     """
-    # #  The normal version.
-    # def myPow(self, x: float, n: int) -> float:
-    #     if n == 0: return 1
-    #     if n < 0: return self.myPow( x, -n )
-    #     half = self.myPow(x, n // 2)
-    #     if n % 2:
-    #         return half * half * x
-    #     return half * half
-
-    #  The trick version.
+    #  The normal version.
     def myPow(self, x: float, n: int) -> float:
         if n == 0: return 1
         if n < 0: return self.myPow( x, -n )
+        half = self.myPow(x, n // 2)
         if n % 2:
-            return x * self.myPow( x , n - 1 )
-        return self.myPow( x * x, n // 2)
+            return half * half * x
+        return half * half
+
+    # #  The trick version.
+    # def myPow(self, x: float, n: int) -> float:
+    #     if n == 0: return 1
+    #     if n < 0: return 1 / self.myPow( x, -n )
+    #     if n % 2:
+    #         return x * self.myPow( x , n - 1 )
+    #     return self.myPow( x * x, n // 2)
+
+
+    """
+    169. Majority Element (Easy)
+    Given an array nums of size n, return the majority element.
+    The majority element is the element that appears more than ⌊n / 2⌋ times. 
+    You may assume that the majority element always exists in the array.
+    
+    Example 1:
+    Input: nums = [3,2,3]
+    Output: 3
+    
+    Example 2:
+    Input: nums = [2,2,1,1,1,2,2]
+    Output: 2
+    """
+    #  The O(nlgn) solution.
+    def majorityElement(self, nums:List[int]) -> int:
+        nums.sort()
+        return nums[ len(nums) // 2]
+
+
 
 
 
@@ -2747,10 +2769,10 @@ if __name__ == "__main__":
 
     #  Leetcode 50
     print("-------------------")
-    print( S.myPow( 2, 10))
-    print(S.myPow(2, 3))
     print(S.myPow(2, -2))
-    print(S.myPow(0.00001, 2147483647))
+    # print( S.myPow( 2, 10))
+    # print(S.myPow(2, 3))
+    # print(S.myPow(0.00001, 2147483647))
 
 """
 ..................佛祖开光 ,永无BUG...................
