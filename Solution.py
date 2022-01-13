@@ -2360,8 +2360,15 @@ class Solution:
     def combine(self, n, k):
         if k == 0:
             return [[]]  # if we just return [] the for loop in 2375 might not start since it's empty.
-
         return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
+
+        #  Equals to the lines below:
+        # ans = []
+        # for i in reversed(range(1, n + 1)):
+        #     for item in self.combine(i - 1, k - 1):
+        #         ans += [[i] + item]
+        # return ans
+
 
     # #  The tricky solution using the library, very efficient.
     # def combine(self, n: int, k: int):
@@ -2544,7 +2551,7 @@ class Solution:
 
     #  The Boyer-Moore Voting Algorithm.
     def majorityElement(self, nums: List[int]) -> int:
-        count = 0
+        mode, count = None, 0
         for num in nums:
             if count == 0:
                 mode = num
@@ -2608,6 +2615,55 @@ class Solution:
             else:
                 count1, count2 = count1 - 1, count2 - 1
         return [ans for ans in (mode1, mode2) if nums.count(ans) > len(nums) // 3]
+
+
+    """
+    17. Letter Combinations of a Phone Number (Medium)
+    Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. 
+    Return the answer in any order.
+    A mapping of digit to letters (just like on the telephone buttons) is given below. 
+    Note that 1 does not map to any letters.
+    
+    Example 1:
+    Input: digits = "23"
+    Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+    
+    Example 2:
+    Input: digits = ""
+    Output: []
+    
+    Example 3:
+    Input: digits = "2"
+    Output: ["a","b","c"]
+    """
+    def letterCombinations(self, digits: str) -> List[str]:
+        mapping = {}
+        mapping["1"] = ""
+        mapping["2"] = "abc"
+        mapping["3"] = "def"
+        mapping["4"] = "ghi"
+        mapping["5"] = "jkl"
+        mapping["6"] = "mno"
+        mapping["7"] = "pqrs"
+        mapping["8"] = "tuv"
+        mapping["9"] = "wxyz"
+
+        def _letterCombinations(digits):
+            #  Base case
+            if not len(digits):
+                return [""]
+            return [ letter + item for letter in mapping[digits[0]] for item in _letterCombinations( digits[1:]) ]
+
+            # Equals to the lines below:
+            # ans = []
+            # for letter in mapping[digits[0]]:
+            #     for item in _letterCombinations( digits[1:]):
+            #         ans += [letter + item]
+            # return ans
+
+        if not digits: return digits
+        return _letterCombinations(digits)
+
 
 
 
@@ -2832,12 +2888,19 @@ if __name__ == "__main__":
     print(S.majorityElement([6, 5, 5]))
     print(S.majorityElement([2, 2, 1, 1, 1, 2, 2]))
 
-    print("-------------------")
     #  Leetcode 229
     print(S.majorityElement_tri([]))
     print(S.majorityElement_tri([1, 2]))
     print(S.majorityElement_tri([0, 0, 0]))
     print(S.majorityElement_tri([4, 1, 2, 3, 4, 4, 3, 2, 1, 4]))
+
+    print("-------------------")
+    #  Leetcode 17
+    print( S.letterCombinations("23"))
+    print(S.letterCombinations("2"))
+    print(S.letterCombinations(""))
+
+
 
 """
 ..................佛祖开光 ,永无BUG...................
