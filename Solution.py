@@ -2636,27 +2636,51 @@ class Solution:
     Input: digits = "2"
     Output: ["a","b","c"]
     """
+    #  The backtracking solution.
     def letterCombinations(self, digits: str) -> List[str]:
+        def _letterCombinations(digits, pos, words):
+            if pos == len(digits):
+                ans.append( words )
+                return
+            for letter in mapping[digits[pos]]:
+                _letterCombinations(digits, pos + 1, words + letter)
+                # #  Equals the lines below since list words is like a global variable.
+                # #  So if you extend it, remember to shorten it back.
+                # #  _letterCombinations(digits, pos + 1, words + letter) means use lots of lists rather than
+                # #  using only one global list, therefore, no need to shorten anything.
+                # words += letter
+                # _letterCombinations(digits, pos + 1, words)
+                # words = words[:-1]
+
         if not digits: return digits
-        mapping = {"2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs", "8":"tuv", "9":"wxyz"}
-        ans = [""]
-        for num in digits:
-            ans = [ word + letter for word in ans for letter in mapping[num] ]
+        mapping = {"2": "abc", "3": "def", "4": "ghi", "5": "jkl", "6": "mno", "7": "pqrs", "8": "tuv", "9": "wxyz"}
+        ans = []
+        _letterCombinations(digits, 0, "")
         return ans
 
-        # #  Equals to the lines below.
-        # for num in digits:
-        #     temp = []
-        #     for word in ans:
-        #         for letter in mapping[num]:
-        #             l = word + letter
-        #             temp += [l]
-        #         ans = temp
-        # return ans
 
 
+    # #  The iterative version using the "dynamic loop".
+    # def letterCombinations(self, digits: str) -> List[str]:
+    #     if not digits: return digits
+    #     mapping = {"2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs", "8":"tuv", "9":"wxyz"}
+    #     ans = [""]
+    #     for num in digits:
+    #         ans = [ word + letter for word in ans for letter in mapping[num] ]
+    #     return ans
+    #
+    #     # #  Equals to the lines below.
+    #     # for num in digits:
+    #     #     temp = []
+    #     #     for word in ans:
+    #     #         for letter in mapping[num]:
+    #     #             l = word + letter
+    #     #             temp += [l]
+    #     #         ans = temp
+    #     # return ans
 
 
+    # #  The recursive solution.
     # def letterCombinations(self, digits: str) -> List[str]:
     #     mapping = {}
     #     mapping["1"] = ""
