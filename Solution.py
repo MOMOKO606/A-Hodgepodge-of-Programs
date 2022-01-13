@@ -2637,32 +2637,53 @@ class Solution:
     Output: ["a","b","c"]
     """
     def letterCombinations(self, digits: str) -> List[str]:
-        mapping = {}
-        mapping["1"] = ""
-        mapping["2"] = "abc"
-        mapping["3"] = "def"
-        mapping["4"] = "ghi"
-        mapping["5"] = "jkl"
-        mapping["6"] = "mno"
-        mapping["7"] = "pqrs"
-        mapping["8"] = "tuv"
-        mapping["9"] = "wxyz"
-
-        def _letterCombinations(digits):
-            #  Base case
-            if not len(digits):
-                return [""]
-            return [ letter + item for letter in mapping[digits[0]] for item in _letterCombinations( digits[1:]) ]
-
-            # Equals to the lines below:
-            # ans = []
-            # for letter in mapping[digits[0]]:
-            #     for item in _letterCombinations( digits[1:]):
-            #         ans += [letter + item]
-            # return ans
-
         if not digits: return digits
-        return _letterCombinations(digits)
+        mapping = {"2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs", "8":"tuv", "9":"wxyz"}
+        ans = [""]
+        for num in digits:
+            ans = [ word + letter for word in ans for letter in mapping[num] ]
+        return ans
+
+        # #  Equals to the lines below.
+        # for num in digits:
+        #     temp = []
+        #     for word in ans:
+        #         for letter in mapping[num]:
+        #             l = word + letter
+        #             temp += [l]
+        #         ans = temp
+        # return ans
+
+
+
+
+    # def letterCombinations(self, digits: str) -> List[str]:
+    #     mapping = {}
+    #     mapping["1"] = ""
+    #     mapping["2"] = "abc"
+    #     mapping["3"] = "def"
+    #     mapping["4"] = "ghi"
+    #     mapping["5"] = "jkl"
+    #     mapping["6"] = "mno"
+    #     mapping["7"] = "pqrs"
+    #     mapping["8"] = "tuv"
+    #     mapping["9"] = "wxyz"
+    #
+    #     def _letterCombinations(digits):
+    #         #  Base case
+    #         if not len(digits):
+    #             return [""]
+    #         return [ letter + item for letter in mapping[digits[0]] for item in _letterCombinations( digits[1:]) ]
+    #
+    #         # Equals to the lines below:
+    #         # ans = []
+    #         # for letter in mapping[digits[0]]:
+    #         #     for item in _letterCombinations( digits[1:]):
+    #         #         ans += [letter + item]
+    #         # return ans
+    #
+    #     if not digits: return digits
+    #     return _letterCombinations(digits)
 
 
 
