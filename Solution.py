@@ -2362,13 +2362,12 @@ class Solution:
             return [[]]  # if we just return [] the for loop in 2375 might not start since it's empty.
         return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
 
-        #  Equals to the lines below:
+        # #  Equals to the lines below:
         # ans = []
         # for i in reversed(range(1, n + 1)):
         #     for item in self.combine(i - 1, k - 1):
         #         ans += [[i] + item]
         # return ans
-
 
     # #  The tricky solution using the library, very efficient.
     # def combine(self, n: int, k: int):
@@ -2600,6 +2599,7 @@ class Solution:
     Input: nums = [1,2]
     Output: [1,2]
     """
+
     #  The Boyer-Moore Voting Algorithm.
     def majorityElement_tri(self, nums: List[int]) -> List[int]:
         mode1, mode2, count1, count2 = math.inf, math.inf, 0, 0
@@ -2615,7 +2615,6 @@ class Solution:
             else:
                 count1, count2 = count1 - 1, count2 - 1
         return [ans for ans in (mode1, mode2) if nums.count(ans) > len(nums) // 3]
-
 
     """
     17. Letter Combinations of a Phone Number (Medium)
@@ -2636,11 +2635,12 @@ class Solution:
     Input: digits = "2"
     Output: ["a","b","c"]
     """
+
     #  The backtracking solution.
     def letterCombinations(self, digits: str) -> List[str]:
         def _letterCombinations(digits, pos, words):
             if pos == len(digits):
-                ans.append( words )
+                ans.append(words)
                 return
             for letter in mapping[digits[pos]]:
                 _letterCombinations(digits, pos + 1, words + letter)
@@ -2657,8 +2657,6 @@ class Solution:
         ans = []
         _letterCombinations(digits, 0, "")
         return ans
-
-
 
     # #  The iterative version using the "dynamic loop".
     # def letterCombinations(self, digits: str) -> List[str]:
@@ -2678,7 +2676,6 @@ class Solution:
     #     #             temp += [l]
     #     #         ans = temp
     #     # return ans
-
 
     # #  The recursive solution.
     # def letterCombinations(self, digits: str) -> List[str]:
@@ -2708,6 +2705,70 @@ class Solution:
     #
     #     if not digits: return digits
     #     return _letterCombinations(digits)
+
+    """
+    51. N-Queens (Hard)
+    The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that 
+    no two queens attack each other.
+    Each solution contains a distinct board configuration of the n-queens' placement, 
+    where 'Q' and '.' both indicate a queen and an empty space, respectively.
+    
+    Example 1:
+    Input: n = 4
+    Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+    
+    Example 2:
+    Input: n = 1
+    Output: [["Q"]]
+    """
+    #  The backtracing solution.
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        def _solveNQueens( i, j ):
+            if i == n:
+                ans.append(block[:])
+                return
+
+            for j in range(n):
+                if j in usedJ or i + j in usedBDiag or i - j in usedDiag:
+                    continue
+                block.append(j)
+                usedJ.add( j )
+                usedDiag.add(i - j)
+                usedBDiag.add(i + j)
+
+                #  Recursively go to the next line.
+                #  The recursive line will "print" an answer if it's valid when reaches the base case.
+                #  otherwise the recursive line just do nothing
+                _solveNQueens( i + 1, j )
+
+                #  Backtracing
+                block.pop()
+                usedJ.discard(j)
+                usedDiag.discard( i - j )
+                usedBDiag.discard( i + j )
+
+        ans = []
+        block, usedJ, usedDiag, usedBDiag =[], set(),set(), set()
+        _solveNQueens(0,0)
+        if not ans:
+            return ans
+
+        symbols = []
+        for l in ans:
+            block = []
+            for i in range(n):
+                lines = ""
+                for j in range(n):
+                    if j == l[i]: lines += "Q"
+                    else: lines += "."
+                block += [lines]
+            symbols.append(block)
+        return symbols
+
+
+
+
+
 
 
 
@@ -2939,13 +3000,17 @@ if __name__ == "__main__":
     print(S.majorityElement_tri([0, 0, 0]))
     print(S.majorityElement_tri([4, 1, 2, 3, 4, 4, 3, 2, 1, 4]))
 
-    print("-------------------")
     #  Leetcode 17
-    print( S.letterCombinations("23"))
+    print(S.letterCombinations("23"))
     print(S.letterCombinations("2"))
     print(S.letterCombinations(""))
 
-
+    print("-------------------")
+    #  Leetcode 51
+    print(S.solveNQueens(1))
+    print(S.solveNQueens(2))
+    print(S.solveNQueens(3))
+    print(S.solveNQueens(4))
 
 """
 ..................佛祖开光 ,永无BUG...................
