@@ -2721,9 +2721,11 @@ class Solution:
     Input: n = 1
     Output: [["Q"]]
     """
-    #  The backtracing solution.
+    #  The backtracking solution.
+    #  The idea is using a List[List[int]] to represent the result first.
+    #  Then we transfer it into List[List[int]]
     def solveNQueens(self, n: int) -> List[List[str]]:
-        def _solveNQueens( i, j ):
+        def _solveNQueens( i ):
             if i == n:
                 ans.append(block[:])
                 return
@@ -2739,7 +2741,7 @@ class Solution:
                 #  Recursively go to the next line.
                 #  The recursive line will "print" an answer if it's valid when reaches the base case.
                 #  otherwise the recursive line just do nothing
-                _solveNQueens( i + 1, j )
+                _solveNQueens( i + 1 )
 
                 #  Backtracing
                 block.pop()
@@ -2747,28 +2749,37 @@ class Solution:
                 usedDiag.discard( i - j )
                 usedBDiag.discard( i + j )
 
+
+        #  Print the result.
+        def _generateBoard():
+            boardlist = []
+            for block in ans:
+                board = [["."] * n for _ in range(n)]
+                for i in range(n):
+                    board[i][block[i]] = "Q"
+                    board[i] = "".join(board[i][:])
+                boardlist += [board]
+            return boardlist if ans else ans
+            #  Equals the lines below
+            # if not ans:
+            #     return ans
+            #
+            # symbols = []
+            # for l in ans:
+            #     block = []
+            #     for i in range(n):
+            #         lines = ""
+            #         for j in range(n):
+            #             if j == l[i]: lines += "Q"
+            #             else: lines += "."
+            #         block += [lines]
+            #     symbols.append(block)
+            # return symbols
+
         ans = []
         block, usedJ, usedDiag, usedBDiag =[], set(),set(), set()
-        _solveNQueens(0,0)
-        if not ans:
-            return ans
-
-        symbols = []
-        for l in ans:
-            block = []
-            for i in range(n):
-                lines = ""
-                for j in range(n):
-                    if j == l[i]: lines += "Q"
-                    else: lines += "."
-                block += [lines]
-            symbols.append(block)
-        return symbols
-
-
-
-
-
+        _solveNQueens(0)
+        return _generateBoard()
 
 
 
@@ -3007,9 +3018,9 @@ if __name__ == "__main__":
 
     print("-------------------")
     #  Leetcode 51
-    print(S.solveNQueens(1))
-    print(S.solveNQueens(2))
-    print(S.solveNQueens(3))
+    # print(S.solveNQueens(1))
+    # print(S.solveNQueens(2))
+    # print(S.solveNQueens(3))
     print(S.solveNQueens(4))
 
 """
