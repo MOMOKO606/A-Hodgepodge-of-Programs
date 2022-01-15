@@ -2782,6 +2782,38 @@ class Solution:
         return _generateBoard()
 
 
+    """
+    102. Binary Tree Level Order Traversal (Medium)
+    Given the root of a binary tree, return the level order traversal of its nodes' values. 
+    (i.e., from left to right, level by level).
+    
+    Example 1:
+    Input: root = [3,9,20,null,null,15,7]
+    Output: [[3],[9,20],[15,7]]
+    
+    Example 2:
+    Input: root = [1]
+    Output: [[1]]
+    
+    Example 3:
+    Input: root = []
+    Output: []
+    """
+    def levelOrder02(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root: return root
+        queue, ans = [root], []
+        while queue:
+            ans += [ [node.val for node in queue] ]
+            temp = []
+            for node in queue:
+                if node.left:
+                    temp += [node.left]
+                if node.right:
+                    temp += [node.right]
+            queue = temp
+        return ans
+
+
 
 
 
@@ -3016,12 +3048,18 @@ if __name__ == "__main__":
     print(S.letterCombinations("2"))
     print(S.letterCombinations(""))
 
-    print("-------------------")
     #  Leetcode 51
-    # print(S.solveNQueens(1))
-    # print(S.solveNQueens(2))
-    # print(S.solveNQueens(3))
+    print(S.solveNQueens(1))
+    print(S.solveNQueens(2))
+    print(S.solveNQueens(3))
     print(S.solveNQueens(4))
+
+    #  Leetcode 102
+    print("-------------------")
+    # print( S.levelOrder02(deserialize( '[3,9,20,null,null,15,7]' ) ))
+    # print(S.levelOrder02(deserialize('[1]')))
+    print(S.levelOrder02([]))
+
 
 """
 ..................佛祖开光 ,永无BUG...................
