@@ -2721,11 +2721,12 @@ class Solution:
     Input: n = 1
     Output: [["Q"]]
     """
+
     #  The backtracking solution.
     #  The idea is using a List[List[int]] to represent the result first.
     #  Then we transfer it into List[List[int]]
     def solveNQueens(self, n: int) -> List[List[str]]:
-        def _solveNQueens( i ):
+        def _solveNQueens(i):
             if i == n:
                 ans.append(block[:])
                 return
@@ -2734,21 +2735,20 @@ class Solution:
                 if j in usedJ or i + j in usedBDiag or i - j in usedDiag:
                     continue
                 block.append(j)
-                usedJ.add( j )
+                usedJ.add(j)
                 usedDiag.add(i - j)
                 usedBDiag.add(i + j)
 
                 #  Recursively go to the next line.
                 #  The recursive line will "print" an answer if it's valid when reaches the base case.
                 #  otherwise the recursive line just do nothing
-                _solveNQueens( i + 1 )
+                _solveNQueens(i + 1)
 
                 #  Backtracing
                 block.pop()
                 usedJ.discard(j)
-                usedDiag.discard( i - j )
-                usedBDiag.discard( i + j )
-
+                usedDiag.discard(i - j)
+                usedBDiag.discard(i + j)
 
         #  Print the result.
         def _generateBoard():
@@ -2777,10 +2777,9 @@ class Solution:
             # return symbols
 
         ans = []
-        block, usedJ, usedDiag, usedBDiag =[], set(),set(), set()
+        block, usedJ, usedDiag, usedBDiag = [], set(), set(), set()
         _solveNQueens(0)
         return _generateBoard()
-
 
     """
     102. Binary Tree Level Order Traversal (Medium)
@@ -2799,40 +2798,61 @@ class Solution:
     Input: root = []
     Output: []
     """
-    # #  The BFS solution.
-    # def levelOrder02(self, root: Optional[TreeNode]) -> List[List[int]]:
-    #     if not root: return root
-    #     queue, ans = [root], []
-    #     while queue:
-    #         ans += [ [node.val for node in queue] ]
-    #         temp = []
-    #         for node in queue:
-    #             if node.left:
-    #                 temp += [node.left]
-    #             if node.right:
-    #                 temp += [node.right]
-    #         queue = temp
-    #     return ans
 
+    #  The BFS solution.
+    def levelOrder02(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root: return root
+        queue, ans = [root], []
+        while queue:
+            ans += [[node.val for node in queue]]
+            temp = []
+            for node in queue:
+                if node.left:
+                    temp += [node.left]
+                if node.right:
+                    temp += [node.right]
+            queue = temp
+        return ans
 
     #  The DFS solution.
     def levelOrder02(self, root: Optional[TreeNode]) -> List[List[int]]:
-        def _levelOrder02( root, level ):
+        def _levelOrder02(root: Optional[TreeNode], level: int) -> None:
             #  Base case
             if not root:
                 return
-            ans[level] = ( [root.val] if level not in ans.keys() else ans[level] + [root.val])
-            _levelOrder02( root.left , level + 1)
-            _levelOrder02( root.right, level + 1)
+            ans[level] = ([root.val] if level not in ans.keys() else ans[level] + [root.val])
+            _levelOrder02(root.left, level + 1)
+            _levelOrder02(root.right, level + 1)
 
         ans = {}
-        _levelOrder02( root, 0 )
-        return [ value for value in ans.values() ]
+        _levelOrder02(root, 0)
+        return [value for value in ans.values()]
 
+    """
+    515. Find Largest Value in Each Tree Row ( Medium )
+    Given the root of a binary tree, return an array of the largest value in each row of the tree (0-indexed).
+    
+    Example 1:
+    Input: root = [1,3,2,5,3,null,9]
+    Output: [1,3,9]
+    
+    Example 2:
+    Input: root = [1,2,3]
+    Output: [1,3]
+    """
 
-
-
-
+    #  The BFS solution.
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        if not root: return root
+        ans, queue = [], [root]
+        while queue:
+            ans += [max([node.val for node in queue])]
+            temp = []
+            for node in queue:
+                if node.left: temp += [node.left]
+                if node.right: temp += [node.right]
+            queue = temp
+        return ans
 
 
 #  Drive code.
@@ -3073,11 +3093,14 @@ if __name__ == "__main__":
     print(S.solveNQueens(4))
 
     #  Leetcode 102
-    print("-------------------")
-    print( S.levelOrder02(deserialize( '[3,9,20,null,null,15,7]' ) ))
+    print(S.levelOrder02(deserialize('[3,9,20,null,null,15,7]')))
     print(S.levelOrder02(deserialize('[1]')))
     print(S.levelOrder02([]))
 
+    print("-------------------")
+    #  Leetcode 515
+    print(S.largestValues(deserialize('[1,3,2,5,3,null,9]')))
+    print(S.largestValues(deserialize('[1,2,3]')))
 
 """
 ..................佛祖开光 ,永无BUG...................
