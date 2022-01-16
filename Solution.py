@@ -2840,7 +2840,6 @@ class Solution:
     Input: root = [1,2,3]
     Output: [1,3]
     """
-
     #  The BFS solution.
     def largestValues(self, root: Optional[TreeNode]) -> List[int]:
         if not root: return root
@@ -2853,6 +2852,23 @@ class Solution:
                 if node.right: temp += [node.right]
             queue = temp
         return ans
+
+
+    #  The DFS solution.
+    # def largestValues(self, root: Optional[TreeNode])-> List[int]:
+    #     def _largestValues( root: Optional[TreeNode], level: int ) -> None:
+    #         if not root: return root
+    #         ans[level] = ( [root.val] if level not in ans.keys() else ans[level] + [root.val] )
+    #         _largestValues( root.left, level + 1 )
+    #         _largestValues( root.right, level + 1 )
+    #
+    #     ans = {}
+    #     _largestValues( root, 0 )
+    #     return [max(value) for value in ans.values()]
+
+
+
+
 
 
 #  Drive code.
