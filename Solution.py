@@ -2799,19 +2799,37 @@ class Solution:
     Input: root = []
     Output: []
     """
+    # #  The BFS solution.
+    # def levelOrder02(self, root: Optional[TreeNode]) -> List[List[int]]:
+    #     if not root: return root
+    #     queue, ans = [root], []
+    #     while queue:
+    #         ans += [ [node.val for node in queue] ]
+    #         temp = []
+    #         for node in queue:
+    #             if node.left:
+    #                 temp += [node.left]
+    #             if node.right:
+    #                 temp += [node.right]
+    #         queue = temp
+    #     return ans
+
+
+    #  The DFS solution.
     def levelOrder02(self, root: Optional[TreeNode]) -> List[List[int]]:
-        if not root: return root
-        queue, ans = [root], []
-        while queue:
-            ans += [ [node.val for node in queue] ]
-            temp = []
-            for node in queue:
-                if node.left:
-                    temp += [node.left]
-                if node.right:
-                    temp += [node.right]
-            queue = temp
-        return ans
+        def _levelOrder02( root, level ):
+            #  Base case
+            if not root:
+                return
+            ans[level] = ( [root.val] if level not in ans.keys() else ans[level] + [root.val])
+            _levelOrder02( root.left , level + 1)
+            _levelOrder02( root.right, level + 1)
+
+        ans = {}
+        _levelOrder02( root, 0 )
+        return [ value for value in ans.values() ]
+
+
 
 
 
@@ -3056,8 +3074,8 @@ if __name__ == "__main__":
 
     #  Leetcode 102
     print("-------------------")
-    # print( S.levelOrder02(deserialize( '[3,9,20,null,null,15,7]' ) ))
-    # print(S.levelOrder02(deserialize('[1]')))
+    print( S.levelOrder02(deserialize( '[3,9,20,null,null,15,7]' ) ))
+    print(S.levelOrder02(deserialize('[1]')))
     print(S.levelOrder02([]))
 
 
