@@ -2840,6 +2840,7 @@ class Solution:
     Input: root = [1,2,3]
     Output: [1,3]
     """
+
     #  The BFS solution.
     def largestValues(self, root: Optional[TreeNode]) -> List[int]:
         if not root: return root
@@ -2853,7 +2854,6 @@ class Solution:
             queue = temp
         return ans
 
-
     #  The DFS solution.
     # def largestValues(self, root: Optional[TreeNode])-> List[int]:
     #     def _largestValues( root: Optional[TreeNode], level: int ) -> None:
@@ -2866,8 +2866,49 @@ class Solution:
     #     _largestValues( root, 0 )
     #     return [max(value) for value in ans.values()]
 
+    """
+    200. Number of Islands (Medium)
+    Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+    An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. 
+    You may assume all four edges of the grid are all surrounded by water.
+    
+    Example 1:
+    Input: grid = [
+      ["1","1","1","1","0"],
+      ["1","1","0","1","0"],
+      ["1","1","0","0","0"],
+      ["0","0","0","0","0"]
+    ]
+    Output: 1
+    
+    Example 2:
+    Input: grid = [
+      ["1","1","0","0","0"],
+      ["1","1","0","0","0"],
+      ["0","0","1","0","0"],
+      ["0","0","0","1","1"]
+    ]
+    Output: 3
+    """
+    def numIslands(self, grid: List[List[str]]) -> int:
+        def floodfill( i, j ):
+            #  Base case.
+            if grid[i][j] == "0": return
+            # Process current level
+            grid[i][j] = "0"
+            #  Recursively process up, down, left, right.
+            for k in range(4):
+                if 0 <= i + dx[k] < m and 0 <= j + dy[k] < n:
+                    floodfill(i + dx[k], j + dy[k])
+            return 1
 
-
+        count, m, n = 0, len(grid) , len(grid[0])
+        dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == "1":
+                    count += floodfill(i, j)
+        return count
 
 
 
@@ -3113,10 +3154,24 @@ if __name__ == "__main__":
     print(S.levelOrder02(deserialize('[1]')))
     print(S.levelOrder02([]))
 
-    print("-------------------")
     #  Leetcode 515
     print(S.largestValues(deserialize('[1,3,2,5,3,null,9]')))
     print(S.largestValues(deserialize('[1,2,3]')))
+
+    print("-------------------")
+    #  Leetcode 200
+    print(S.numIslands([
+        ["1", "1", "1", "1", "0"],
+        ["1", "1", "0", "1", "0"],
+        ["1", "1", "0", "0", "0"],
+        ["0", "0", "0", "0", "0"]
+    ]))
+    print(S.numIslands([
+        ["1", "1", "0", "0", "0"],
+        ["1", "1", "0", "0", "0"],
+        ["0", "0", "1", "0", "0"],
+        ["0", "0", "0", "1", "1"]
+    ]))
 
 """
 ..................佛祖开光 ,永无BUG...................
