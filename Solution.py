@@ -2891,7 +2891,7 @@ class Solution:
     Output: 3
     """
     def numIslands(self, grid: List[List[str]]) -> int:
-        def floodfill( i, j ):
+        def floodfill(i, j):
             #  Base case.
             if grid[i][j] == "0": return
             # Process current level
@@ -2902,14 +2902,13 @@ class Solution:
                     floodfill(i + dx[k], j + dy[k])
             return 1
 
-        count, m, n = 0, len(grid) , len(grid[0])
+        count, m, n = 0, len(grid), len(grid[0])
         dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == "1":
                     count += floodfill(i, j)
         return count
-
 
     """
     433. Minimum Genetic Mutation (Mutation)
@@ -2927,6 +2926,7 @@ class Solution:
     Input: start = "AAAAACCC", end = "AACCCCCC", bank = ["AAAACCCC","AAACCCCC","AACCCCCC"]
     Output: 3
     """
+
     #  The concise BFS version.
     #  Use bankSet.remove to replace visited.
     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
@@ -2935,10 +2935,9 @@ class Solution:
             for newSeq in [seq[:i] + letter + seq[i + 1:] for i in range(len(seq)) for letter in "ACGT"]:
                 if newSeq in bankSet:
                     if newSeq == end: return level + 1
-                    bankSet.remove( newSeq )
-                    queue.append( (newSeq, level + 1) )
+                    bankSet.remove(newSeq)
+                    queue.append((newSeq, level + 1))
         return -1
-
 
     # #  The easy-read BFS version.
     # def minMutation(self, start: str, end: str, bank: List[str]) -> int:
@@ -2958,7 +2957,31 @@ class Solution:
     #         level += 1
     #     return -1
 
-
+    """
+    127. Word Ladder (Medium)
+    https://leetcode.com/problems/word-ladder/
+    
+    Example 1:
+    Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+    Output: 5
+    Explanation: One shortest transformation sequence is "hit" -> "hot" -> "dot" -> "dog" -> cog", which is 5 words long.
+    
+    Example 2:
+    Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
+    Output: 0
+    Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
+    """
+    #  The concise BFS version.
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        queue = [(beginWord, 1)]
+        for word, level in queue:
+            # queue.remove((word, level))
+            for newWord in [word[:i] + letter + word[i+1:] for i in range(len(word)) for letter in "abcdefghijklmnopqrstuvwxyz"]:
+                if newWord in wordList:
+                    if newWord == endWord: return level + 1
+                    queue.append((newWord, level + 1))
+                    wordList.remove((newWord))
+        return 0
 
 
 #  Drive code.
@@ -3221,13 +3244,15 @@ if __name__ == "__main__":
         ["0", "0", "0", "1", "1"]
     ]))
 
-    print("-------------------")
     #  Leetcode 433
     print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
-    print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA","AACCGCTA","AAACGGTA"]))
-    print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC","AAACCCCC","AACCCCCC"]))
+    print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA", "AACCGCTA", "AAACGGTA"]))
+    print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
 
-
+    print("---------------------------------------------------------------")
+    #  Leetcode 127
+    print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+    # print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
 
 """
 ..................佛祖开光 ,永无BUG...................
