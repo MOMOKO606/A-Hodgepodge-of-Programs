@@ -2911,6 +2911,42 @@ class Solution:
         return count
 
 
+    """
+    433. Minimum Genetic Mutation (Mutation)
+    https://leetcode.com/problems/minimum-genetic-mutation/
+    
+    Example 1:
+    Input: start = "AACCGGTT", end = "AACCGGTA", bank = ["AACCGGTA"]
+    Output: 1
+    
+    Example 2:
+    Input: start = "AACCGGTT", end = "AAACGGTA", bank = ["AACCGGTA","AACCGCTA","AAACGGTA"]
+    Output: 2
+    
+    Example 3:
+    Input: start = "AAAAACCC", end = "AACCCCCC", bank = ["AAAACCCC","AAACCCCC","AACCCCCC"]
+    Output: 3
+    """
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+        queue,  bankSet, visited = [start],  set(bank), set()
+        count, level = 0, 0
+        while queue:
+            newQueue = []
+            for seq in queue:
+                for i in range(len(seq)):
+                    for letter in ["A","C","G","T"]:
+                        newSeq = seq[:i] + letter + seq[i + 1:]
+                        if newSeq in bankSet and newSeq not in visited:
+                            if newSeq == end:
+                                return level + 1
+                            newQueue += [newSeq]
+                            visited.add(newSeq)
+            queue = newQueue
+            level += 1
+        return -1
+
+
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -3158,7 +3194,6 @@ if __name__ == "__main__":
     print(S.largestValues(deserialize('[1,3,2,5,3,null,9]')))
     print(S.largestValues(deserialize('[1,2,3]')))
 
-    print("-------------------")
     #  Leetcode 200
     print(S.numIslands([
         ["1", "1", "1", "1", "0"],
@@ -3172,6 +3207,14 @@ if __name__ == "__main__":
         ["0", "0", "1", "0", "0"],
         ["0", "0", "0", "1", "1"]
     ]))
+
+    print("-------------------")
+    #  Leetcode 433
+    print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
+    print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA","AACCGCTA","AAACGGTA"]))
+    print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC","AAACCCCC","AACCCCCC"]))
+
+
 
 """
 ..................佛祖开光 ,永无BUG...................
