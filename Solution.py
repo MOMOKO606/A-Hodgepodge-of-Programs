@@ -2927,23 +2927,36 @@ class Solution:
     Input: start = "AAAAACCC", end = "AACCCCCC", bank = ["AAAACCCC","AAACCCCC","AACCCCCC"]
     Output: 3
     """
+    #  The concise BFS version.
+    #  Use bankSet.remove to replace visited.
     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
-        queue,  bankSet, visited = [start],  set(bank), set()
-        count, level = 0, 0
-        while queue:
-            newQueue = []
-            for seq in queue:
-                for i in range(len(seq)):
-                    for letter in ["A","C","G","T"]:
-                        newSeq = seq[:i] + letter + seq[i + 1:]
-                        if newSeq in bankSet and newSeq not in visited:
-                            if newSeq == end:
-                                return level + 1
-                            newQueue += [newSeq]
-                            visited.add(newSeq)
-            queue = newQueue
-            level += 1
+        queue, bankSet = [(start, 0)], set(bank)
+        for seq, level in queue:
+            for newSeq in [seq[:i] + letter + seq[i + 1:] for i in range(len(seq)) for letter in "ACGT"]:
+                if newSeq in bankSet:
+                    if newSeq == end: return level + 1
+                    bankSet.remove( newSeq )
+                    queue.append( (newSeq, level + 1) )
         return -1
+
+
+    # #  The easy-read BFS version.
+    # def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+    #     queue,  bankSet, visited, level = [start],  set(bank), set(), 0
+    #     while queue:
+    #         newQueue = []
+    #         for seq in queue:
+    #             for i in range(len(seq)):
+    #                 for letter in ["A","C","G","T"]:
+    #                     newSeq = seq[:i] + letter + seq[i + 1:]
+    #                     if newSeq in bankSet and newSeq not in visited:
+    #                         if newSeq == end:
+    #                             return level + 1
+    #                         newQueue += [newSeq]
+    #                         visited.add(newSeq)
+    #         queue = newQueue
+    #         level += 1
+    #     return -1
 
 
 
