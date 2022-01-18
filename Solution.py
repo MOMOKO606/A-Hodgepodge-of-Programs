@@ -2971,17 +2971,38 @@ class Solution:
     Output: 0
     Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
     """
-    #  The concise BFS version.
+    #  The BFS version.
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        queue = [(beginWord, 1)]
-        for word, level in queue:
-            # queue.remove((word, level))
-            for newWord in [word[:i] + letter + word[i+1:] for i in range(len(word)) for letter in "abcdefghijklmnopqrstuvwxyz"]:
-                if newWord in wordList:
-                    if newWord == endWord: return level + 1
-                    queue.append((newWord, level + 1))
-                    wordList.remove((newWord))
+        wordList, queue, level = set(wordList), [beginWord], 1
+        while queue:
+            temp = []
+            for word in queue:
+                for newWord in [word[:i] + letter + word[i + 1:] for i in range(len(word)) for letter in "abcdefghijklmnopqrstuvwxyz"]:
+                #  Equals to the lines below:
+                # for i in range(len(word)):
+                #     for letter in "abcdefghijklmnopqrstuvwxyz":
+                #         newWord = word[:i] + letter + word[i + 1:]
+                        if newWord in wordList:
+                            if newWord == endWord: return level + 1
+                            temp.append(newWord)
+                            wordList.remove(newWord)
+            queue = temp
+            level += 1
         return 0
+
+
+    #  #  The concise BFS version.
+    #  #  Notice: using extending for loop as a queue seems tend to make running time longer!
+    # def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+    #     queue = [(beginWord, 1)]
+    #     for word, level in queue:
+    #         # queue.remove((word, level))
+    #         for newWord in [word[:i] + letter + word[i+1:] for i in range(len(word)) for letter in "abcdefghijklmnopqrstuvwxyz"]:
+    #             if newWord in wordList:
+    #                 if newWord == endWord: return level + 1
+    #                 queue.append((newWord, level + 1))
+    #                 wordList.remove((newWord))
+    #     return 0
 
 
 #  Drive code.
@@ -3252,7 +3273,7 @@ if __name__ == "__main__":
     print("---------------------------------------------------------------")
     #  Leetcode 127
     print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
-    # print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
+    print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
 
 """
 ..................佛祖开光 ,永无BUG...................
