@@ -770,15 +770,14 @@ class Solution:
                 return True
         return False
 
-    # def canJump_greedy(self, nums: List[int]) -> bool:
-    #     n = len(nums)
+
+    # def canJump(self, nums: List[int]) -> bool:
+    #     if not nums: return nums
     #     reach = 0
-    #     for j in range(n):
-    #         if j > reach:
-    #             return False
-    #         if reach >= n - 1:
-    #             return True
-    #         reach = max(reach, j + nums[j])
+    #     for i, num in enumerate(nums):
+    #         if i > reach: return False
+    #         reach = max(reach, i + num)
+    #         if reach >= len(nums) - 1: return True
 
     """
     125.Valid Palindrome(Easy)
@@ -3143,10 +3142,6 @@ class Solution:
         # path = _findLadders(wordList)
         # dfs4Path( endWord )
         # return ans
-
-
-
-
 
 
 #  Drive code.
