@@ -3065,65 +3065,65 @@ class Solution:
     "hit" -> "hot" -> "dot" -> "dog" -> "cog"
     "hit" -> "hot" -> "lot" -> "log" -> "cog"
     """
-    # #  The BFS solution with path stored.
-    # def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-    #     queue, wordList, ans = [(beginWord, [beginWord])], set(wordList), []
-    #     if beginWord in wordList: wordList.remove(beginWord)
-    #     # not ans is important, means we only return the shortest path.
-    #     while queue and not ans:
-    #         temp, localVisited = [], set()
-    #         for word, path in queue:
-    #             for i in range(len(word)):
-    #                 for letter in "abcdefghijklmnopqrstuvwxyz":
-    #                     newWord = word[:i] + letter + word[i + 1 :]
-    #                     if newWord in wordList :
-    #                         if newWord == endWord:
-    #                             ans += [path + [newWord]]
-    #                         temp.append((newWord, path + [newWord]))
-    #                         localVisited.add(newWord)
-    #         queue = temp
-    #         for word in localVisited:
-    #             wordList.remove(word)
-    #     return ans
-
-
-    #  The BFS & DFS solution.
+    #  The BFS solution with path stored.
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-        #  Using BFS to construct a fuzzy path.
-        def _findLadders( wordList ):
-            queue, wordList, path =[beginWord], set(wordList), {}
-            if beginWord in wordList: wordList.remove(beginWord)
-            while queue and endWord not in path.keys():
-                temp, localVisited = set(), set()
-                for word in queue:
-                    for i in range(len(word)):
-                        for letter in "abcdefghijklmnopqrstuvwxyz":
-                            newWord = word[:i] + letter + word[i + 1:]
-                            if newWord in wordList:
-                                temp.add(newWord)
-                                path[newWord] = path[newWord] + [word] if newWord in path.keys() else [word]
-                                localVisited.add(newWord)
-                queue = list(temp)
-                for word in localVisited: wordList.remove(word)
-            return path
-
-        #  Using DFS to reconstruct the shortest path.
-        #  Put all routes into ans.
-        def dfs4Path( word, route ):
-            #  Base case.
-            if word == beginWord:
-                route += [word]
-                ans.append(route[::-1])
-                return
-            if path.get(word) is None: return
-
-            for nextWord in path[word]:
-                dfs4Path( nextWord, route + [word])
-
-        ans = []
-        path = _findLadders(wordList)
-        dfs4Path( endWord, [])
+        queue, wordList, ans = [(beginWord, [beginWord])], set(wordList), []
+        if beginWord in wordList: wordList.remove(beginWord)
+        # not ans is important, means we only return the shortest path.
+        while queue and not ans:
+            temp, localVisited = [], set()
+            for word, path in queue:
+                for i in range(len(word)):
+                    for letter in "abcdefghijklmnopqrstuvwxyz":
+                        newWord = word[:i] + letter + word[i + 1 :]
+                        if newWord in wordList :
+                            if newWord == endWord:
+                                ans += [path + [newWord]]
+                            temp.append((newWord, path + [newWord]))
+                            localVisited.add(newWord)
+            queue = temp
+            for word in localVisited:
+                wordList.remove(word)
         return ans
+
+
+    # #  The BFS & DFS solution.
+    # def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+    #     #  Using BFS to construct a fuzzy path.
+    #     def _findLadders( wordList ):
+    #         queue, wordList, path =[beginWord], set(wordList), {}
+    #         if beginWord in wordList: wordList.remove(beginWord)
+    #         while queue and endWord not in path.keys():
+    #             temp, localVisited = set(), set()
+    #             for word in queue:
+    #                 for i in range(len(word)):
+    #                     for letter in "abcdefghijklmnopqrstuvwxyz":
+    #                         newWord = word[:i] + letter + word[i + 1:]
+    #                         if newWord in wordList:
+    #                             temp.add(newWord)
+    #                             path[newWord] = path[newWord] + [word] if newWord in path.keys() else [word]
+    #                             localVisited.add(newWord)
+    #             queue = list(temp)
+    #             for word in localVisited: wordList.remove(word)
+    #         return path
+    #
+    #     #  Using DFS to reconstruct the shortest path.
+    #     #  Put all routes into ans.
+    #     def dfs4Path( word, route ):
+    #         #  Base case.
+    #         if word == beginWord:
+    #             route += [word]
+    #             ans.append(route[::-1])
+    #             return
+    #         if path.get(word) is None: return
+    #
+    #         for nextWord in path[word]:
+    #             dfs4Path( nextWord, route + [word])
+    #
+    #     ans = []
+    #     path = _findLadders(wordList)
+    #     dfs4Path( endWord, [])
+    #     return ans
 
 
 
