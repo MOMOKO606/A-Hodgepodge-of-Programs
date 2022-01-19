@@ -2890,6 +2890,7 @@ class Solution:
     ]
     Output: 3
     """
+
     def numIslands(self, grid: List[List[str]]) -> int:
         def floodfill(i, j):
             #  Base case.
@@ -2958,7 +2959,7 @@ class Solution:
     #     return -1
 
     """
-    127. Word Ladder (Medium)
+    127. Word Ladder (Hard)
     https://leetcode.com/problems/word-ladder/
     
     Example 1:
@@ -2971,25 +2972,26 @@ class Solution:
     Output: 0
     Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
     """
+
     #  The BFS version.
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         wordList, queue, level = set(wordList), [beginWord], 1
         while queue:
             temp = []
             for word in queue:
-                for newWord in [word[:i] + letter + word[i + 1:] for i in range(len(word)) for letter in "abcdefghijklmnopqrstuvwxyz"]:
-                #  Equals to the lines below:
-                # for i in range(len(word)):
-                #     for letter in "abcdefghijklmnopqrstuvwxyz":
-                #         newWord = word[:i] + letter + word[i + 1:]
-                        if newWord in wordList:
-                            if newWord == endWord: return level + 1
-                            temp.append(newWord)
-                            wordList.remove(newWord)
+                for newWord in [word[:i] + letter + word[i + 1:] for i in range(len(word)) for letter in
+                                "abcdefghijklmnopqrstuvwxyz"]:
+                    #  Equals to the lines below:
+                    # for i in range(len(word)):
+                    #     for letter in "abcdefghijklmnopqrstuvwxyz":
+                    #         newWord = word[:i] + letter + word[i + 1:]
+                    if newWord in wordList:
+                        if newWord == endWord: return level + 1
+                        temp.append(newWord)
+                        wordList.remove(newWord)
             queue = temp
             level += 1
         return 0
-
 
     #  #  The concise BFS version.
     #  #  Notice: using extending for loop as a queue seems tend to make running time longer!
@@ -3003,6 +3005,53 @@ class Solution:
     #                 queue.append((newWord, level + 1))
     #                 wordList.remove((newWord))
     #     return 0
+
+    """
+    529. Minesweeper (Medium)
+    https://leetcode.com/problems/minesweeper/
+    
+    Example 1:
+    Input: board = [["E","E","E","E","E"],["E","E","M","E","E"],["E","E","E","E","E"],["E","E","E","E","E"]], click = [3,0]
+    Output: [["B","1","E","1","B"],["B","1","M","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
+    
+    Example 2:
+    Input: board = [["B","1","E","1","B"],["B","1","M","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]], click = [1,2]
+    Output: [["B","1","E","1","B"],["B","1","X","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
+    """
+    #  The classic DFS solution.
+    #  Notice: 8 direction!
+    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
+        def minesAround(i, j):
+            count = 0
+            for k in range(len(dx)):
+                if -1 < i + dx[k] < rows and -1 < j + dy[k] < cols:
+                    if board[i + dx[k]][j + dy[k]] == "M":
+                        count += 1
+            return count
+
+        def _updateBoard(i, j):
+            #  Base case 1.
+            if board[i][j] == "M":
+                board[i][j] = "X"
+                return
+            #  Base case 2.
+            if board[i][j] != "E": return
+
+            hint = minesAround(i, j)
+            if hint != 0:
+                board[i][j] = str(hint)
+                return
+            board[i][j] = "B"
+            for k in range(len(dx)):
+                x, y = i + dx[k], j + dy[k]
+                if -1 < x < rows and -1 < y < cols:
+                    _updateBoard(x, y)
+
+        dx = [-1, 1, 0, 0, -1, -1, 1, 1]
+        dy = [0, 0, -1, 1, -1, 1, -1, 1]
+        rows, cols = len(board), len(board[0])
+        _updateBoard(click[0], click[1])
+        return board
 
 
 #  Drive code.
@@ -3270,10 +3319,23 @@ if __name__ == "__main__":
     print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA", "AACCGCTA", "AAACGGTA"]))
     print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
 
-    print("---------------------------------------------------------------")
     #  Leetcode 127
     print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
     print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
+
+    print("---------------------------------------------------------------")
+    #  Leetcode 529
+    # print(S.updateBoard(
+    #     [["E", "E", "E", "E", "E"], ["E", "E", "M", "E", "E"], ["E", "E", "E", "E", "E"], ["E", "E", "E", "E", "E"]],
+    #     [3, 0]))
+    # print(S.updateBoard(
+    #     [["B", "1", "E", "1", "B"], ["B", "1", "M", "1", "B"], ["B", "1", "1", "1", "B"], ["B", "B", "B", "B", "B"]],
+    #     [1, 2]))
+    print(S.updateBoard([["E", "E", "E", "E", "E", "E", "E", "E"], ["E", "E", "E", "E", "E", "E", "E", "M"],
+                         ["E", "E", "M", "E", "E", "E", "E", "E"], ["M", "E", "E", "E", "E", "E", "E", "E"],
+                         ["E", "E", "E", "E", "E", "E", "E", "E"], ["E", "E", "E", "E", "E", "E", "E", "E"],
+                         ["E", "E", "E", "E", "E", "E", "E", "E"], ["E", "E", "M", "M", "E", "E", "E", "E"]]
+                        , [0, 0]))
 
 """
 ..................佛祖开光 ,永无BUG...................
