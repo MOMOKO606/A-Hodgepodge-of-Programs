@@ -3018,6 +3018,7 @@ class Solution:
     Input: board = [["B","1","E","1","B"],["B","1","M","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]], click = [1,2]
     Output: [["B","1","E","1","B"],["B","1","X","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
     """
+
     #  The classic DFS solution.
     #  Notice: 8 direction!
     def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
@@ -3052,6 +3053,83 @@ class Solution:
         rows, cols = len(board), len(board[0])
         _updateBoard(click[0], click[1])
         return board
+
+    """
+    126. Word Ladder II (Hard)
+    https://leetcode.com/problems/word-ladder-ii/
+    
+    Example:
+    Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+    Output: [["hit","hot","dot","dog","cog"],["hit","hot","lot","log","cog"]]
+    Explanation: There are 2 shortest transformation sequences:
+    "hit" -> "hot" -> "dot" -> "dog" -> "cog"
+    "hit" -> "hot" -> "lot" -> "log" -> "cog"
+    """
+    # #  The BFS solution with path stored.
+    # def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+    #     queue, wordList, ans = [(beginWord, [beginWord])], set(wordList), []
+    #     if beginWord in wordList: wordList.remove(beginWord)
+    #     # not ans is important, means we only return the shortest path.
+    #     while queue and not ans:
+    #         temp, localVisited = [], set()
+    #         for word, path in queue:
+    #             for i in range(len(word)):
+    #                 for letter in "abcdefghijklmnopqrstuvwxyz":
+    #                     newWord = word[:i] + letter + word[i + 1 :]
+    #                     if newWord in wordList :
+    #                         if newWord == endWord:
+    #                             ans += [path + [newWord]]
+    #                         temp.append((newWord, path + [newWord]))
+    #                         localVisited.add(newWord)
+    #         queue = temp
+    #         for word in localVisited:
+    #             wordList.remove(word)
+    #     return ans
+
+
+    #  The BFS & DFS solution.
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        #  Using BFS to construct a fuzzy path.
+        def _findLadders( wordList ):
+            queue, wordList, path =[beginWord], set(wordList), {}
+            if beginWord in wordList: wordList.remove(beginWord)
+            while queue and endWord not in path.keys():
+                temp, localVisited = set(), set()
+                for word in queue:
+                    for i in range(len(word)):
+                        for letter in "abcdefghijklmnopqrstuvwxyz":
+                            newWord = word[:i] + letter + word[i + 1:]
+                            if newWord in wordList:
+                                temp.add(newWord)
+                                path[newWord] = path[newWord] + [word] if newWord in path.keys() else [word]
+                                localVisited.add(newWord)
+                queue = list(temp)
+                for word in localVisited: wordList.remove(word)
+            return path
+
+        #  Using DFS to reconstruct the shortest path.
+        #  Put all routes into ans.
+        def dfs4Path( word, route ):
+            #  Base case.
+            if word == beginWord:
+                route += [word]
+                ans.append(route[::-1])
+                return
+            if path.get(word) is None: return
+
+            for nextWord in path[word]:
+                dfs4Path( nextWord, route + [word])
+
+
+        ans = []
+        path = _findLadders(wordList)
+        dfs4Path( endWord, [])
+        return ans
+
+
+
+
+
 
 
 #  Drive code.
@@ -3323,19 +3401,24 @@ if __name__ == "__main__":
     print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
     print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
 
-    print("---------------------------------------------------------------")
     #  Leetcode 529
-    # print(S.updateBoard(
-    #     [["E", "E", "E", "E", "E"], ["E", "E", "M", "E", "E"], ["E", "E", "E", "E", "E"], ["E", "E", "E", "E", "E"]],
-    #     [3, 0]))
-    # print(S.updateBoard(
-    #     [["B", "1", "E", "1", "B"], ["B", "1", "M", "1", "B"], ["B", "1", "1", "1", "B"], ["B", "B", "B", "B", "B"]],
-    #     [1, 2]))
+    print(S.updateBoard(
+        [["E", "E", "E", "E", "E"], ["E", "E", "M", "E", "E"], ["E", "E", "E", "E", "E"], ["E", "E", "E", "E", "E"]],
+        [3, 0]))
+    print(S.updateBoard(
+        [["B", "1", "E", "1", "B"], ["B", "1", "M", "1", "B"], ["B", "1", "1", "1", "B"], ["B", "B", "B", "B", "B"]],
+        [1, 2]))
     print(S.updateBoard([["E", "E", "E", "E", "E", "E", "E", "E"], ["E", "E", "E", "E", "E", "E", "E", "M"],
                          ["E", "E", "M", "E", "E", "E", "E", "E"], ["M", "E", "E", "E", "E", "E", "E", "E"],
                          ["E", "E", "E", "E", "E", "E", "E", "E"], ["E", "E", "E", "E", "E", "E", "E", "E"],
                          ["E", "E", "E", "E", "E", "E", "E", "E"], ["E", "E", "M", "M", "E", "E", "E", "E"]]
                         , [0, 0]))
+
+    print("---------------------------------------------------------------")
+    #  Leetcode 126
+    print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+    print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
+    print(S.findLadders("a", "c", ["a", "b", "c"]))
 
 """
 ..................佛祖开光 ,永无BUG...................
