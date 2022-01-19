@@ -3120,7 +3120,6 @@ class Solution:
             for nextWord in path[word]:
                 dfs4Path( nextWord, route + [word])
 
-
         ans = []
         path = _findLadders(wordList)
         dfs4Path( endWord, [])
