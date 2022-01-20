@@ -3185,6 +3185,7 @@ class Solution:
     For the last customer, we can not give the change of $15 back because we only have two $10 bills.
     Since not every customer received the correct change, the answer is false.
     """
+
     #  The concise solution:
     #  The trick is:
     #  there is no need to use a greedy coin change since only $5, $10, $20 are available.
@@ -3220,7 +3221,6 @@ class Solution:
     #         save[cash] += 1
     #     return True
 
-
     """
     122. Best Time to Buy and Sell Stock II (Medium)
     https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/
@@ -3232,16 +3232,54 @@ class Solution:
     Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
     Total profit is 4 + 3 = 7.
     """
-    # #  The greedy solution.
-    # def maxProfit(self, prices:List[int]) -> int:
-    #     profit = 0
-    #     for i in range(len(prices) - 1):
-    #         if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
-    #     return profit
 
-    #  The concise greedy solution.
-    def maxProfit(self, prices:List[int]) -> int:
-        return sum([max(prices[i + 1] - prices[i],0) for i in range(len(prices) - 1)])
+    #  The greedy solution.
+    def maxProfit(self, prices: List[int]) -> int:
+        profit = 0
+        for i in range(len(prices) - 1):
+            if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
+        return profit
+
+    # #  The one-line solution.
+    # def maxProfit(self, prices:List[int]) -> int:
+    #     return sum([max(prices[i + 1] - prices[i],0) for i in range(len(prices) - 1)])
+
+    """
+    874. Walking Robot Simulation (Medium)
+    https://leetcode.com/problems/walking-robot-simulation/description/
+    
+    Example:
+    Input: commands = [4,-1,3], obstacles = []
+    Output: 25
+    Explanation: The robot starts at (0, 0):
+    1. Move north 4 units to (0, 4).
+    2. Turn right.
+    3. Move east 3 units to (3, 4).
+    The furthest point the robot ever gets from the origin is (3, 4), which squared is 32 + 42 = 25 units away.
+    """
+    def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
+        direction = {"up": [0, 1, "left", "right"],
+                     "down":[0, -1, "right", "left"],
+                     "left":[-1, 0, "down", "up"],
+                     "right":[1, 0, "up", "down"]}
+        curDir = "up"
+        x, y, ans = 0, 0, 0
+        #  important! To check faster!
+        obstacles = set(map(tuple, obstacles))
+        for command in commands:
+            #  turn right
+            if command == -1: curDir = direction[curDir][3]
+            #  turn left
+            elif command == -2 : curDir = direction[curDir][2]
+            else:
+                for step in range(command):
+                    if (x + direction[curDir][0], y + direction[curDir][1]) in obstacles:
+                        break
+                    x += direction[curDir][0]
+                    y += direction[curDir][1]
+                    ans = max(ans, x ** 2 + y ** 2)
+        return ans
+
 
 
 
@@ -3556,11 +3594,16 @@ if __name__ == "__main__":
          5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
          5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20]))
 
-    print("---------------------------------------------------------------")
     #  Leetcode 122
     print(S.maxProfit([7, 1, 5, 3, 6, 4]))
     print(S.maxProfit([1, 2, 3, 4, 5]))
     print(S.maxProfit([7, 6, 4, 3, 1]))
+
+    #  Leetcode 874
+    print("---------------------------------------------------------------")
+    print(S.robotSim([4, -1, 3], []))
+    print(S.robotSim([4, -1, 4, -2, 4], [[2, 4]]))
+    print(S.robotSim([6, -1, -1, 6], []))
 
 """
 ..................佛祖开光 ,永无BUG...................
