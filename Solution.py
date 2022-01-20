@@ -3185,6 +3185,24 @@ class Solution:
     For the last customer, we can not give the change of $15 back because we only have two $10 bills.
     Since not every customer received the correct change, the answer is false.
     """
+    #  The concise solution:
+    #  The trick is:
+    #  there is no need to use a greedy coin change since only $5, $10, $20 are available.
+    #  therefore, we only need $5 & $10 to make changes.
+    def lemonadeChange(self, bills: List[int]) -> bool:
+        five, ten = 0, 0
+        for cash in bills:
+            if cash == 5:
+                five += 1
+            elif cash == 10:
+                five, ten = five - 1, ten + 1
+            elif ten > 0:
+                five, ten = five - 1, ten - 1
+            else:
+                five -= 3
+            if five < 0: return False
+        return True
+
     # #  The naive solution.
     # def lemonadeChange(self, bills: List[int]) -> bool:
     #     def isValidChange(money):
@@ -3203,19 +3221,24 @@ class Solution:
     #     return True
 
 
-    #  The concise solution:
-    #  The trick is:
-    #  there is no need to use a greedy coin change since only $5, $10, $20 are available.
-    #  therefore, we only need $5 & $10 to make changes.
-    def lemonadeChange(self, bills: List[int]) -> bool:
-        five, ten = 0, 0
-        for cash in bills:
-            if cash == 5: five += 1
-            elif cash == 10: five, ten = five - 1, ten + 1
-            elif ten > 0: five, ten = five - 1, ten - 1
-            else: five -= 3
-            if five < 0: return False
-        return True
+    """
+    122. Best Time to Buy and Sell Stock II (Medium)
+    https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/
+    
+    Example :
+    Input: prices = [7,1,5,3,6,4]
+    Output: 7
+    Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
+    Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+    Total profit is 4 + 3 = 7.
+    """
+    def maxProfit(self, prices:List[int]) -> int:
+        profit = 0
+        for i in range(len(prices) - 1):
+            if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
+        return profit
+
+
 
 
 #  Drive code.
@@ -3510,7 +3533,6 @@ if __name__ == "__main__":
     print(S.findContentChildren([1, 2], [1, 2, 3]))
 
     #  Leetcode 869
-    print("---------------------------------------------------------------")
     print(S.lemonadeChange([5, 5, 5, 10, 20]))
     print(S.lemonadeChange([5, 5, 10, 10, 20]))
     print(S.lemonadeChange([5, 5, 10, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 5, 5, 20, 5, 20, 5]))
@@ -3528,6 +3550,12 @@ if __name__ == "__main__":
          5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
          5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
          5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20]))
+
+    print("---------------------------------------------------------------")
+    #  Leetcode 122
+    print(S.maxProfit([7, 1, 5, 3, 6, 4]))
+    print(S.maxProfit([1, 2, 3, 4, 5]))
+    print(S.maxProfit([7, 6, 4, 3, 1]))
 
 """
 ..................佛祖开光 ,永无BUG...................
