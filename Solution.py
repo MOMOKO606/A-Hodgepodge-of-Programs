@@ -770,7 +770,6 @@ class Solution:
                 return True
         return False
 
-
     # def canJump(self, nums: List[int]) -> bool:
     #     reach = 0
     #     for i, num in enumerate(nums):
@@ -3063,6 +3062,7 @@ class Solution:
     "hit" -> "hot" -> "dot" -> "dog" -> "cog"
     "hit" -> "hot" -> "lot" -> "log" -> "cog"
     """
+
     # #  The BFS solution with path stored.
     # def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
     #     queue, wordList, ans = [(beginWord, [beginWord])], set(wordList), []
@@ -3084,12 +3084,11 @@ class Solution:
     #             wordList.remove(word)
     #     return ans
 
-
     #  The BFS & DFS solution.
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
         #  Using BFS to construct a fuzzy path.
-        def _findLadders( wordList ):
-            queue, wordList, path =[beginWord], set(wordList), {}
+        def _findLadders(wordList):
+            queue, wordList, path = [beginWord], set(wordList), {}
             if beginWord in wordList: wordList.remove(beginWord)
             while queue and endWord not in path.keys():
                 temp, localVisited = set(), set()
@@ -3107,7 +3106,7 @@ class Solution:
 
         #  Using DFS to reconstruct the shortest path.
         #  Put all routes into ans.
-        def dfs4Path( word, route ):
+        def dfs4Path(word, route):
             #  Base case.
             if word == beginWord:
                 route += [word]
@@ -3116,11 +3115,11 @@ class Solution:
             if path.get(word) is None: return
 
             for nextWord in path[word]:
-                dfs4Path( nextWord, route + [word])
+                dfs4Path(nextWord, route + [word])
 
         ans = []
         path = _findLadders(wordList)
-        dfs4Path( endWord, [])
+        dfs4Path(endWord, [])
         return ans
 
         # #  The other version of dfs4Path and its corresponding main code.
@@ -3142,7 +3141,6 @@ class Solution:
         # dfs4Path( endWord )
         # return ans
 
-
     """
     455. Assign Cookies (Easy)
     https://leetcode.com/problems/assign-cookies/description/
@@ -3154,6 +3152,7 @@ class Solution:
     And even though you have 2 cookies, since their size is both 1, you could only make the child whose greed factor is 1 content.
     You need to output 1.
     """
+
     #  The greedy solution.
     def findContentChildren(self, g: List[int], s: List[int]) -> int:
         g.sort()
@@ -3164,6 +3163,44 @@ class Solution:
             j += 1
         return i
 
+    """
+    860. Lemonade Change (Easy)
+    https://leetcode.com/problems/lemonade-change/description/
+    
+    Example 01:
+    Input: bills = [5,5,5,10,20]
+    Output: true
+    Explanation: 
+    From the first 3 customers, we collect three $5 bills in order.
+    From the fourth customer, we collect a $10 bill and give back a $5.
+    From the fifth customer, we give a $10 bill and a $5 bill.
+    Since all customers got correct change, we output true.
+    
+    Example 02:
+    Input: bills = [5,5,10,10,20]
+    Output: false
+    Explanation: 
+    From the first two customers in order, we collect two $5 bills.
+    For the next two customers in order, we collect a $10 bill and give back a $5 bill.
+    For the last customer, we can not give the change of $15 back because we only have two $10 bills.
+    Since not every customer received the correct change, the answer is false.
+    """
+    #  The naive solution.
+    def lemonadeChange(self, bills: List[int]) -> bool:
+        def isValidChange(money):
+            for key in reversed(save.keys()):
+                if money == 0: return True
+                x = money // key
+                if save[key] >= x:
+                    save[key] -= x
+                    money %= key
+            return money == 0
+
+        save, require = {5: 0, 10: 0, 20: 0}, 0
+        for cash in bills:
+            if not isValidChange(cash - 5): return False
+            save[cash] += 1
+        return True
 
 
 #  Drive code.
@@ -3448,17 +3485,34 @@ if __name__ == "__main__":
                          ["E", "E", "E", "E", "E", "E", "E", "E"], ["E", "E", "M", "M", "E", "E", "E", "E"]]
                         , [0, 0]))
 
-
     #  Leetcode 126
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
     print(S.findLadders("a", "c", ["a", "b", "c"]))
 
     #  Leetcode 455
-    print("---------------------------------------------------------------")
-    print(S.findContentChildren([1,2,3],[1,1]))
-    print(S.findContentChildren([1,2], [1,2,3]))
+    print(S.findContentChildren([1, 2, 3], [1, 1]))
+    print(S.findContentChildren([1, 2], [1, 2, 3]))
 
+    #  Leetcode 869
+    print("---------------------------------------------------------------")
+    # print(S.lemonadeChange([5, 5, 5, 10, 20]))
+    # print(S.lemonadeChange([5, 5, 10, 10, 20]))
+    print(S.lemonadeChange([5, 5, 10, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 5, 5, 20, 5, 20, 5]))
+    # print(S.lemonadeChange(
+    #     [5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20,
+    #      5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20, 5, 10, 5, 20]))
 
 """
 ..................佛祖开光 ,永无BUG...................
