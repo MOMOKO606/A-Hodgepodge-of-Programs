@@ -3257,20 +3257,23 @@ class Solution:
     3. Move east 3 units to (3, 4).
     The furthest point the robot ever gets from the origin is (3, 4), which squared is 32 + 42 = 25 units away.
     """
+
     def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
         direction = {"up": [0, 1, "left", "right"],
-                     "down":[0, -1, "right", "left"],
-                     "left":[-1, 0, "down", "up"],
-                     "right":[1, 0, "up", "down"]}
+                     "down": [0, -1, "right", "left"],
+                     "left": [-1, 0, "down", "up"],
+                     "right": [1, 0, "up", "down"]}
         curDir = "up"
         x, y, ans = 0, 0, 0
         #  important! To check faster!
         obstacles = set(map(tuple, obstacles))
         for command in commands:
             #  turn right
-            if command == -1: curDir = direction[curDir][3]
+            if command == -1:
+                curDir = direction[curDir][3]
             #  turn left
-            elif command == -2 : curDir = direction[curDir][2]
+            elif command == -2:
+                curDir = direction[curDir][2]
             else:
                 for step in range(command):
                     if (x + direction[curDir][0], y + direction[curDir][1]) in obstacles:
@@ -3279,6 +3282,27 @@ class Solution:
                     y += direction[curDir][1]
                     ans = max(ans, x ** 2 + y ** 2)
         return ans
+
+    """
+    45. Jump Game II (Medium)
+    https://leetcode.com/problems/jump-game-ii/
+    
+    Example:
+    Input: nums = [2,3,1,1,4]
+    Output: 2
+    Explanation: The minimum number of jumps to reach the last index is 2. 
+    Jump 1 step from index 0 to 1, then 3 steps to the last index.
+    """
+    #  The greedy solution.
+    def jump(self, nums: List[int]) -> int:
+        reach, nextReach, count = 0, 0, 0
+        for i in range(len(nums)):
+            if reach >= len(nums) - 1: return count
+            if i <= reach:
+                nextReach = max(nextReach, i + nums[i])
+                if i == reach:
+                    reach = nextReach
+                    count += 1
 
 
 
@@ -3600,10 +3624,15 @@ if __name__ == "__main__":
     print(S.maxProfit([7, 6, 4, 3, 1]))
 
     #  Leetcode 874
-    print("---------------------------------------------------------------")
     print(S.robotSim([4, -1, 3], []))
     print(S.robotSim([4, -1, 4, -2, 4], [[2, 4]]))
     print(S.robotSim([6, -1, -1, 6], []))
+
+    print("---------------------------------------------------------------")
+    #  Leetcode 45
+    print(S.jump([2, 3, 1, 1, 4]))
+    print(S.jump([2, 3, 0, 1, 4]))
+    print(S.jump([7,0,9,6,9,6,1,7,9,0,1,2,9,0,3]))
 
 """
 ..................佛祖开光 ,永无BUG...................
