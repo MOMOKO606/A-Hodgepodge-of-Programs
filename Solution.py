@@ -3232,11 +3232,16 @@ class Solution:
     Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
     Total profit is 4 + 3 = 7.
     """
+    # #  The greedy solution.
+    # def maxProfit(self, prices:List[int]) -> int:
+    #     profit = 0
+    #     for i in range(len(prices) - 1):
+    #         if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
+    #     return profit
+
+    #  The concise greedy solution.
     def maxProfit(self, prices:List[int]) -> int:
-        profit = 0
-        for i in range(len(prices) - 1):
-            if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
-        return profit
+        return sum([max(prices[i + 1] - prices[i],0) for i in range(len(prices) - 1)])
 
 
 
