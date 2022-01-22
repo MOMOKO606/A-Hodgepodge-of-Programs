@@ -3317,7 +3317,7 @@ class Solution:
     Output: 2
     Explanation: The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned.
     """
-    #  The binary seach solution.
+     The binary seach solution.
     def mySqrt(self, x: int) -> int:
         low, high = 1, x
         while low <= high:
@@ -3326,6 +3326,15 @@ class Solution:
             elif mid ** 2 > x: high = mid - 1
             else: low = mid + 1
         return high
+
+
+    # #  The Newton's method.
+    # def mySqrt(self, x: int) -> int:
+    #     r = x
+    #     while r * r > x:
+    #         r = math.floor(0.5 * (r + x / r))
+    #     return r
+
 
 
 #  Drive code.
@@ -3655,8 +3664,8 @@ if __name__ == "__main__":
 
     print("---------------------------------------------------------------")
     #  Leetcode 69
-    print(S.mySqrt(4))
-    print(S.mySqrt(8))
+ #   print(S.mySqrt(8))
+    print(S.mySqrt(5))
 
 """
 ..................佛祖开光 ,永无BUG...................
