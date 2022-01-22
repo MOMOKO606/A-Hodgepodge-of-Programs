@@ -3347,12 +3347,24 @@ class Solution:
     Input: num = 14
     Output: false
     """
-    #  The Newton's Method.
-    def isPerfectSquare(self, num: int) -> bool:
-        x = num
-        while x * x > num:
-            x = math.floor( 0.5 * (x + num / x))
-        return x * x == num
+    #  The binary search solution.
+    def isPerfectSquare(self, num:int) -> int:
+        low, high = 1, num
+        while low <= high:
+            mid = (low + high) // 2
+            if mid * mid == num: return True
+            elif mid * mid > num: high = mid - 1
+            else: low = mid + 1
+        return False
+
+    # #  The Newton's Method.
+    # def isPerfectSquare(self, num: int) -> bool:
+    #     x = num
+    #     while x * x > num:
+    #         x = math.floor( 0.5 * (x + num / x))
+    #     return x * x == num
+
+
 
 
 
