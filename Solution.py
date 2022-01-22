@@ -3317,14 +3317,18 @@ class Solution:
     Output: 2
     Explanation: The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned.
     """
+
     #  The binary seach solution.
     def mySqrt(self, x: int) -> int:
         low, high = 1, x
         while low <= high:
             mid = (low + high) // 2
-            if mid ** 2 == x: return mid
-            elif mid ** 2 > x: high = mid - 1
-            else: low = mid + 1
+            if mid ** 2 == x:
+                return mid
+            elif mid ** 2 > x:
+                high = mid - 1
+            else:
+                low = mid + 1
         return high
 
     # #  The Newton's method.
@@ -3333,7 +3337,6 @@ class Solution:
     #     while r * r > x:
     #         r = math.floor(0.5 * (r + x / r))
     #     return r
-
 
     """
     367. Valid Perfect Square (Easy)
@@ -3347,14 +3350,18 @@ class Solution:
     Input: num = 14
     Output: false
     """
+
     #  The binary search solution.
-    def isPerfectSquare(self, num:int) -> int:
+    def isPerfectSquare(self, num: int) -> int:
         low, high = 1, num
         while low <= high:
             mid = (low + high) // 2
-            if mid * mid == num: return True
-            elif mid * mid > num: high = mid - 1
-            else: low = mid + 1
+            if mid * mid == num:
+                return True
+            elif mid * mid > num:
+                high = mid - 1
+            else:
+                low = mid + 1
         return False
 
     # #  The Newton's Method.
@@ -3364,8 +3371,40 @@ class Solution:
     #         x = math.floor( 0.5 * (x + num / x))
     #     return x * x == num
 
+    """
+    33. Search in Rotated Sorted Array (Medium)
+    https://leetcode.com/problems/search-in-rotated-sorted-array/
+    
+    Example 01:
+    Input: nums = [4,5,6,7,0,1,2], target = 0
+    Output: 4
+    
+    Example 02:
+    Input: nums = [4,5,6,7,0,1,2], target = 3
+    Output: -1
+    
+    Example 03:
+    Input: nums = [1], target = 0
+    Output: -1
+    """
 
-
+    #  The naive solution.
+    #  The idea is to find the rule that when should we go to the left subpart.
+    #  To be more specific:
+    #  if left part is increasing and the target within this range, we go to the left.
+    #  Or if right part is increasing and the target doesn't within this range, we go to the right.
+    def search(self, nums: List[int], target: int) -> int:
+        low, high = 0, len(nums) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if nums[mid] == target:
+                return mid
+            elif (nums[low] <= nums[mid] and nums[low] <= target < nums[mid]) or (
+                    nums[mid] <= nums[high] and (target < nums[mid] or target > nums[high])):
+                high = mid - 1
+            else:
+                low = mid + 1
+        return -1
 
 
 #  Drive code.
@@ -3697,10 +3736,15 @@ if __name__ == "__main__":
     print(S.mySqrt(8))
     print(S.mySqrt(5))
 
-    print("---------------------------------------------------------------")
     #  Leetcode 367
     print(S.isPerfectSquare(16))
     print(S.isPerfectSquare(14))
+
+    print("---------------------------------------------------------------")
+    #  Leetcode 33
+    # print(S.search([1, 3], 3))
+    # print(S.search([5, 1, 3], 5))
+    print(S.search([4, 5, 6, 7, 8, 1, 2, 3], 8))
 
 """
 ..................佛祖开光 ,永无BUG...................
