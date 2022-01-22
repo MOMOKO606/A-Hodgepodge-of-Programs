@@ -3317,7 +3317,7 @@ class Solution:
     Output: 2
     Explanation: The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned.
     """
-     The binary seach solution.
+    #  The binary seach solution.
     def mySqrt(self, x: int) -> int:
         low, high = 1, x
         while low <= high:
@@ -3327,13 +3327,32 @@ class Solution:
             else: low = mid + 1
         return high
 
-
     # #  The Newton's method.
     # def mySqrt(self, x: int) -> int:
     #     r = x
     #     while r * r > x:
     #         r = math.floor(0.5 * (r + x / r))
     #     return r
+
+
+    """
+    367. Valid Perfect Square (Easy)
+    Given a positive integer num, write a function which returns True if num is a perfect square else False.
+    
+    Example 01:
+    Input: num = 16
+    Output: true
+    
+    Example 02:
+    Input: num = 14
+    Output: false
+    """
+    #  The Newton's Method.
+    def isPerfectSquare(self, num: int) -> bool:
+        x = num
+        while x * x > num:
+            x = math.floor( 0.5 * (x + num / x))
+        return x * x == num
 
 
 
@@ -3662,10 +3681,14 @@ if __name__ == "__main__":
     print(S.jump([2, 3, 0, 1, 4]))
     print(S.jump([7, 0, 9, 6, 9, 6, 1, 7, 9, 0, 1, 2, 9, 0, 3]))
 
-    print("---------------------------------------------------------------")
     #  Leetcode 69
- #   print(S.mySqrt(8))
+    print(S.mySqrt(8))
     print(S.mySqrt(5))
+
+    print("---------------------------------------------------------------")
+    #  Leetcode 367
+    print(S.isPerfectSquare(16))
+    print(S.isPerfectSquare(14))
 
 """
 ..................佛祖开光 ,永无BUG...................
