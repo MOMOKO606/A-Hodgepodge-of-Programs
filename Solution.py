@@ -3293,19 +3293,39 @@ class Solution:
     Explanation: The minimum number of jumps to reach the last index is 2. 
     Jump 1 step from index 0 to 1, then 3 steps to the last index.
     """
+
     #  The greedy solution.
     def jump(self, nums: List[int]) -> int:
         reach, nextReach, count = 0, 0, 0
         for i in range(len(nums)):
             if reach >= len(nums) - 1: return count
-            if i <= reach:
-                nextReach = max(nextReach, i + nums[i])
-                if i == reach:
-                    reach = nextReach
-                    count += 1
+            nextReach = max(nextReach, i + nums[i])
+            if i == reach:
+                reach = nextReach
+                count += 1
 
-
-
+    """
+    Leetcode 69 (Easy)
+    https://leetcode.com/problems/sqrtx/
+    
+    Example 01:
+    Input: x = 4
+    Output: 2
+    
+    Example 02:
+    Input: x = 8
+    Output: 2
+    Explanation: The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned.
+    """
+    #  The binary seach solution.
+    def mySqrt(self, x: int) -> int:
+        low, high = 1, x
+        while low <= high:
+            mid = (low + high) // 2
+            if mid ** 2 == x: return mid
+            elif mid ** 2 > x: high = mid - 1
+            else: low = mid + 1
+        return high
 
 
 #  Drive code.
@@ -3628,11 +3648,15 @@ if __name__ == "__main__":
     print(S.robotSim([4, -1, 4, -2, 4], [[2, 4]]))
     print(S.robotSim([6, -1, -1, 6], []))
 
-    print("---------------------------------------------------------------")
     #  Leetcode 45
     print(S.jump([2, 3, 1, 1, 4]))
     print(S.jump([2, 3, 0, 1, 4]))
-    print(S.jump([7,0,9,6,9,6,1,7,9,0,1,2,9,0,3]))
+    print(S.jump([7, 0, 9, 6, 9, 6, 1, 7, 9, 0, 1, 2, 9, 0, 3]))
+
+    print("---------------------------------------------------------------")
+    #  Leetcode 69
+    print(S.mySqrt(4))
+    print(S.mySqrt(8))
 
 """
 ..................佛祖开光 ,永无BUG...................
