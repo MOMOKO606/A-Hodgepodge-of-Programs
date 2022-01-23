@@ -3406,6 +3406,34 @@ class Solution:
                 low = mid + 1
         return -1
 
+    """
+    153. Find Minimum in Rotated Sorted Array (Medium)
+    https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+    
+    Example 01:
+    Input: nums = [3,4,5,1,2]
+    Output: 1
+    Explanation: The original array was [1,2,3,4,5] rotated 3 times.
+    
+    Example 02:
+    Input: nums = [4,5,6,7,0,1,2]
+    Output: 0
+    Explanation: The original array was [0,1,2,4,5,6,7] and it was rotated 4 times.
+    
+    Example 03:
+    Input: nums = [11,13,15,17]
+    Output: 11
+    Explanation: The original array was [11,13,15,17] and it was rotated 4 times. 
+    """
+    def findMin(self, nums: List[int]) -> int:
+        low, high = 0, len(nums) - 1
+        while high - low > 1:
+            mid = (low + high) // 2
+            if nums[low] <= nums[mid] < nums[high]: return nums[low]
+            elif nums[low] <= nums[mid] > nums[high]: low = mid
+            else: high = mid
+        return min(nums[low], nums[high])
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -3740,11 +3768,19 @@ if __name__ == "__main__":
     print(S.isPerfectSquare(16))
     print(S.isPerfectSquare(14))
 
-    print("---------------------------------------------------------------")
     #  Leetcode 33
-    # print(S.search([1, 3], 3))
-    # print(S.search([5, 1, 3], 5))
+    print(S.search([1, 3], 3))
+    print(S.search([5, 1, 3], 5))
     print(S.search([4, 5, 6, 7, 8, 1, 2, 3], 8))
+
+    #  Leetcode 153
+    print("---------------------------------------------------------------")
+    print(S.findMin([3, 4, 5, 1, 2]))
+    print(S.findMin([4, 5, 6, 7, 0, 1, 2]))
+    print(S.findMin([11, 13, 15, 17]))
+    print(S.findMin([1, 3]))
+    print(S.findMin([5, 1, 3]))
+    print(S.findMin([4, 5, 6, 7, 8, 1, 2, 3]))
 
 """
 ..................佛祖开光 ,永无BUG...................
