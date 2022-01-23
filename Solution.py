@@ -3435,6 +3435,40 @@ class Solution:
         return min(nums[low], nums[high])
 
 
+    """
+    74. Search a 2D Matrix (Medium)
+    https://leetcode.com/problems/search-a-2d-matrix/
+    
+    Example 01:
+    Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3
+    Output: true
+    
+    Example 02:
+    Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
+    Output: false
+    """
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        def _binarySearch( nums, target ):
+            p, r = 0, len(nums) - 1
+            while p <= r:
+                q = (p + r) // 2
+                if nums[q] == target: return True
+                elif target < nums[q]: r = q - 1
+                else: p = q + 1
+            return False
+
+        rows, cols = len(matrix), len(matrix[0])
+        low, high = 0, rows - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if matrix[mid][0] <= target <= matrix[mid][cols - 1]:
+                return _binarySearch( matrix[mid][:], target)
+            elif target < matrix[mid][0]: high = mid - 1
+            else: low = mid + 1
+        return False
+
+
+
 #  Drive code.
 if __name__ == "__main__":
     #  Create an instance
@@ -3774,13 +3808,17 @@ if __name__ == "__main__":
     print(S.search([4, 5, 6, 7, 8, 1, 2, 3], 8))
 
     #  Leetcode 153
-    print("---------------------------------------------------------------")
     print(S.findMin([3, 4, 5, 1, 2]))
     print(S.findMin([4, 5, 6, 7, 0, 1, 2]))
     print(S.findMin([11, 13, 15, 17]))
     print(S.findMin([1, 3]))
     print(S.findMin([5, 1, 3]))
     print(S.findMin([4, 5, 6, 7, 8, 1, 2, 3]))
+
+    #  Leetcode 74
+    print("---------------------------------------------------------------")
+    print(S.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], 3))
+    print(S.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], 13))
 
 """
 ..................佛祖开光 ,永无BUG...................
