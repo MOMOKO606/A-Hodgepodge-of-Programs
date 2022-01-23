@@ -3447,6 +3447,7 @@ class Solution:
     Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
     Output: false
     """
+    # The naive binary search solution.
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         def _binarySearch( nums, target ):
             p, r = 0, len(nums) - 1
@@ -3466,6 +3467,18 @@ class Solution:
             elif target < matrix[mid][0]: high = mid - 1
             else: low = mid + 1
         return False
+
+    # #  The library solution.
+    # def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+    #     rows, cols = len(matrix), len(matrix[0])
+    #     #  Determine which row the target stays.
+    #     r = bisect.bisect_right([matrix[i][0] for i in range(rows)], target) - 1
+    #     #  Find target in row r.
+    #     if r < 0: return False  #  We could erase this line to continue search in the last row, still return False.
+    #     i = bisect.bisect_right(matrix[r][:], target) - 1
+    #     return matrix[r][i] == target
+
+
 
 
 
@@ -3817,7 +3830,7 @@ if __name__ == "__main__":
 
     #  Leetcode 74
     print("---------------------------------------------------------------")
-    print(S.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], 3))
+    print(S.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], -5))
     print(S.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], 13))
 
 """
