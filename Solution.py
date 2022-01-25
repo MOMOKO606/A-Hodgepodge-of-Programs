@@ -3572,14 +3572,13 @@ class Solution:
     4 1 8 3
     The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).
     """
+
     #  The dynamic programming solution.
     def minimumTotal(self, triangle: List[List[int]]) -> int:
         for i in reversed(range(len(triangle) - 1)):
             for j in range(len(triangle[i])):
                 triangle[i][j] += min(triangle[i + 1][j], triangle[i + 1][j + 1])
         return triangle[0][0]
-
-
 
     # #  The naive recursive solution.
     # def minimumTotal(self, triangle: List[List[int]]) -> int:
@@ -3589,6 +3588,41 @@ class Solution:
     #         return triangle[row][col] + min(_minimumTotal( triangle, row + 1, col ), _minimumTotal( triangle, row + 1, col + 1))
     #
     #     return _minimumTotal(triangle, 0, 0)
+
+    """
+    53. Maximum Subarray (Easy)
+    https://leetcode.com/problems/maximum-subarray/
+    
+    Example:
+    Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+    Output: 6
+    Explanation: [4,-1,2,1] has the largest sum = 6.
+    """
+    # #  The classic Kadane's algorithm with range calculated.
+    # def maxSubArray(self, nums: List[int]) -> int:
+    #     i, j, ans, dp = 0, 0, nums[0], [0]*len(nums)
+    #     dp[0] = nums[0]
+    #     for k in range(1,len(nums)):
+    #         if nums[k] > dp[k - 1] + nums[k]:
+    #             i = k
+    #             dp[k] = nums[k]
+    #         else:
+    #             dp[k] = dp[k - 1] + nums[k]
+    #         if dp[k] > ans:
+    #             ans = dp[k]
+    #             j = k
+    #     return ans
+
+    def maxSubArray(self, nums: List[int]) -> int:
+        ans = nums[0]
+        for i in range(1, len(nums)):
+            nums[i] = max(nums[i], nums[i - 1] + nums[i])
+            ans = max(ans, nums[i])
+        return ans
+
+
+
+
 
 
 #  Drive code.
@@ -3955,9 +3989,14 @@ if __name__ == "__main__":
     print(S.fib(4))
 
     #  Leetcode 120
-    print("-------------------------------------------------------")
     print(S.minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]))
     print(S.minimumTotal([[-10]]))
+
+    print("-------------------------------------------------------")
+    #  Leetcode 53
+    print(S.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+    print(S.maxSubArray([1]))
+    print(S.maxSubArray([5, 4, -1, 7, 8]))
 
 """
 ..................佛祖开光 ,永无BUG...................
