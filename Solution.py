@@ -3598,6 +3598,14 @@ class Solution:
     Output: 6
     Explanation: [4,-1,2,1] has the largest sum = 6.
     """
+
+    def maxSubArray(self, nums: List[int]) -> int:
+        ans = nums[0]
+        for i in range(1, len(nums)):
+            nums[i] = max(nums[i], nums[i - 1] + nums[i])
+            ans = max(ans, nums[i])
+        return ans
+
     # #  The classic Kadane's algorithm with range calculated.
     # def maxSubArray(self, nums: List[int]) -> int:
     #     i, j, ans, dp = 0, 0, nums[0], [0]*len(nums)
@@ -3613,16 +3621,32 @@ class Solution:
     #             j = k
     #     return ans
 
-    def maxSubArray(self, nums: List[int]) -> int:
-        ans = nums[0]
+    """
+    152. Maximum Product Subarray (Medium)
+    https://leetcode.com/problems/maximum-product-subarray/description/
+    
+    Example:
+    Input: nums = [2,3,-2,4]
+    Output: 6
+    Explanation: [2,3] has the largest product 6.
+    """
+    #  The naive solution.
+    def maxProduct(self, nums: List[int]) -> int:
+        if len(nums) == 1: return nums[0]
+        ans = [[0] * len(nums) for _ in range(2)]
+        if nums[0] > 0:
+            ans[0][0] = nums[0]
+        else:
+            ans[1][0] = nums[0]
+
         for i in range(1, len(nums)):
-            nums[i] = max(nums[i], nums[i - 1] + nums[i])
-            ans = max(ans, nums[i])
-        return ans
-
-
-
-
+            if nums[i] >= 0:
+                ans[0][i] = max(nums[i], ans[0][i - 1] * nums[i])
+                ans[1][i] = min(nums[i], ans[1][i - 1] * nums[i])
+            else:
+                ans[0][i] = max(nums[i], ans[1][i - 1] * nums[i])
+                ans[1][i] = min(nums[i], ans[0][i - 1] * nums[i])
+        return max(ans[0][:])
 
 
 #  Drive code.
@@ -3992,11 +4016,16 @@ if __name__ == "__main__":
     print(S.minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]))
     print(S.minimumTotal([[-10]]))
 
-    print("-------------------------------------------------------")
     #  Leetcode 53
     print(S.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
     print(S.maxSubArray([1]))
     print(S.maxSubArray([5, 4, -1, 7, 8]))
+
+    print("-------------------------------------------------------")
+    #  Leetcode 152
+    print(S.maxProduct([2, 3, -2, 4]))
+    print(S.maxProduct([-2, 0, -1]))
+    print(S.maxProduct([-2, 3, -4]))
 
 """
 ..................佛祖开光 ,永无BUG...................
