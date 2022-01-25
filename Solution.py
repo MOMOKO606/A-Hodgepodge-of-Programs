@@ -3425,15 +3425,18 @@ class Solution:
     Output: 11
     Explanation: The original array was [11,13,15,17] and it was rotated 4 times. 
     """
+
     def findMin(self, nums: List[int]) -> int:
         low, high = 0, len(nums) - 1
         while high - low > 1:
             mid = (low + high) // 2
-            if nums[low] <= nums[mid] < nums[high]: return nums[low]
-            elif nums[low] <= nums[mid] > nums[high]: low = mid
-            else: high = mid
+            if nums[low] <= nums[mid] < nums[high]:
+                return nums[low]
+            elif nums[low] <= nums[mid] > nums[high]:
+                low = mid
+            else:
+                high = mid
         return min(nums[low], nums[high])
-
 
     """
     74. Search a 2D Matrix (Medium)
@@ -3447,15 +3450,19 @@ class Solution:
     Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13
     Output: false
     """
+
     # The naive binary search solution.
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-        def _binarySearch( nums, target ):
+        def _binarySearch(nums, target):
             p, r = 0, len(nums) - 1
             while p <= r:
                 q = (p + r) // 2
-                if nums[q] == target: return True
-                elif target < nums[q]: r = q - 1
-                else: p = q + 1
+                if nums[q] == target:
+                    return True
+                elif target < nums[q]:
+                    r = q - 1
+                else:
+                    p = q + 1
             return False
 
         rows, cols = len(matrix), len(matrix[0])
@@ -3463,9 +3470,11 @@ class Solution:
         while low <= high:
             mid = (low + high) // 2
             if matrix[mid][0] <= target <= matrix[mid][cols - 1]:
-                return _binarySearch( matrix[mid][:], target)
-            elif target < matrix[mid][0]: high = mid - 1
-            else: low = mid + 1
+                return _binarySearch(matrix[mid][:], target)
+            elif target < matrix[mid][0]:
+                high = mid - 1
+            else:
+                low = mid + 1
         return False
 
     # #  The library solution.
@@ -3478,8 +3487,38 @@ class Solution:
     #     i = bisect.bisect_right(matrix[r][:], target) - 1
     #     return matrix[r][i] == target
 
-
-
+    """
+    746. Min Cost Climbing Stairs(Easy)
+    https://leetcode.com/problems/min-cost-climbing-stairs/
+    
+    Example 01:
+    Input: cost = [10,15,20]
+    Output: 15
+    Explanation: You will start at index 1.
+    - Pay 15 and climb two steps to reach the top.
+    The total cost is 15.
+    
+    Example 02:
+    Input: cost = [1,100,1,1,1,100,1,1,100,1]
+    Output: 6
+    Explanation: You will start at index 0.
+    - Pay 1 and climb two steps to reach index 2.
+    - Pay 1 and climb two steps to reach index 4.
+    - Pay 1 and climb two steps to reach index 6.
+    - Pay 1 and climb one step to reach index 7.
+    - Pay 1 and climb two steps to reach index 9.
+    - Pay 1 and climb one step to reach the top.
+    The total cost is 6.
+    """
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        if len(cost) < 3: return min(cost)
+        cost.append( 0 )
+        f1, f2, f3 = cost[0], cost[1], 0
+        for i in range(2, len(cost)):
+            f3 = min(f1, f2) + cost[i]
+            f1 = f2
+            f2 = f3
+        return f3
 
 
 #  Drive code.
@@ -3829,9 +3868,13 @@ if __name__ == "__main__":
     print(S.findMin([4, 5, 6, 7, 8, 1, 2, 3]))
 
     #  Leetcode 74
+    print(S.searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], -5))
+    print(S.searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 13))
+
+    #  Leetcode 746
     print("---------------------------------------------------------------")
-    print(S.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], -5))
-    print(S.searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], 13))
+    print(S.minCostClimbingStairs([10, 15, 20]))
+    print(S.minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
 
 """
 ..................佛祖开光 ,永无BUG...................
