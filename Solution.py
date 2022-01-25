@@ -3510,9 +3510,10 @@ class Solution:
     - Pay 1 and climb one step to reach the top.
     The total cost is 6.
     """
+
     def minCostClimbingStairs(self, cost: List[int]) -> int:
         if len(cost) < 3: return min(cost)
-        cost.append( 0 )
+        cost.append(0)
         f1, f2, f3 = cost[0], cost[1], 0
         for i in range(2, len(cost)):
             f3 = min(f1, f2) + cost[i]
@@ -3531,8 +3532,9 @@ class Solution:
     T_3 = 0 + 1 + 1 = 2
     T_4 = 1 + 1 + 2 = 4
     """
+
     def tribonacci(self, n: int) -> int:
-        ans, t =0, [0, 1, 1]
+        ans, t = 0, [0, 1, 1]
         if n < 4: return t[n]
         for i in range(3, n + 1):
             ans = t[0] + t[1] + t[2]
@@ -3548,6 +3550,7 @@ class Solution:
     Output: 2
     Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2.
     """
+
     def fib(self, n: int) -> int:
         if n < 2: return n
         f0, f1 = 0, 1
@@ -3555,7 +3558,28 @@ class Solution:
             f1, f0 = f0 + f1, f1
         return f1
 
+    """
+    120. Triangle(Medium)
+    https://leetcode.com/problems/triangle/description/
+    
+    Example:
+    Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
+    Output: 11
+    Explanation: The triangle looks like:
+       2
+      3 4
+     6 5 7
+    4 1 8 3
+    The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).
+    """
+    #  The naive recursive solution.
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        rows = len(triangle)
+        def _minimumTotal(triangle, row, col ):
+            if row == rows - 1: return triangle[row][col]
+            return triangle[row][col] + min(_minimumTotal( triangle, row + 1, col ), _minimumTotal( triangle, row + 1, col + 1))
 
+        return _minimumTotal(triangle, 0, 0)
 
 
 #  Drive code.
@@ -3916,11 +3940,15 @@ if __name__ == "__main__":
     print(S.tribonacci(4))
     print(S.tribonacci(25))
 
-    print("-------------------------------------------------------")
     #  Leetcode 509
     print(S.fib(2))
     print(S.fib(3))
     print(S.fib(4))
+
+    #  Leetcode 120
+    print("-------------------------------------------------------")
+    print(S.minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]))
+    print(S.minimumTotal([[-10]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
