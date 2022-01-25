@@ -3539,6 +3539,22 @@ class Solution:
             t[0], t[1], t[2] = t[1], t[2], ans
         return ans
 
+    """
+    509. Fibonacci Number (Easy)
+    https://leetcode.com/problems/fibonacci-number/
+    
+    Example:
+    Input: n = 3
+    Output: 2
+    Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2.
+    """
+    def fib(self, n: int) -> int:
+        if n < 2: return n
+        f0, f1 = 0, 1
+        for _ in range(2, n + 1):
+            f1, f0 = f0 + f1, f1
+        return f1
+
 
 
 
@@ -3897,9 +3913,14 @@ if __name__ == "__main__":
     print(S.minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
 
     #  Leetcode 1137
-    print("-------------------------------------------------------")
     print(S.tribonacci(4))
     print(S.tribonacci(25))
+
+    print("-------------------------------------------------------")
+    #  Leetcode 509
+    print(S.fib(2))
+    print(S.fib(3))
+    print(S.fib(4))
 
 """
 ..................佛祖开光 ,永无BUG...................
