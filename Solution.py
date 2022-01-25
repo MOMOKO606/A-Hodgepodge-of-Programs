@@ -3520,6 +3520,27 @@ class Solution:
             f2 = f3
         return f3
 
+    """
+    1137. N-th Tribonacci Number (Easy)
+    https://leetcode.com/problems/n-th-tribonacci-number/
+    
+    Example:
+    Input: n = 4
+    Output: 4
+    Explanation:
+    T_3 = 0 + 1 + 1 = 2
+    T_4 = 1 + 1 + 2 = 4
+    """
+    def tribonacci(self, n: int) -> int:
+        ans, t =0, [0, 1, 1]
+        if n < 4: return t[n]
+        for i in range(3, n + 1):
+            ans = t[0] + t[1] + t[2]
+            t[0], t[1], t[2] = t[1], t[2], ans
+        return ans
+
+
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -3872,9 +3893,13 @@ if __name__ == "__main__":
     print(S.searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 13))
 
     #  Leetcode 746
-    print("---------------------------------------------------------------")
     print(S.minCostClimbingStairs([10, 15, 20]))
     print(S.minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
+
+    #  Leetcode 1137
+    print("-------------------------------------------------------")
+    print(S.tribonacci(4))
+    print(S.tribonacci(25))
 
 """
 ..................佛祖开光 ,永无BUG...................
