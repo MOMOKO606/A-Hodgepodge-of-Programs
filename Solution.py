@@ -3572,14 +3572,23 @@ class Solution:
     4 1 8 3
     The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).
     """
-    #  The naive recursive solution.
+    #  The dynamic programming solution.
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        rows = len(triangle)
-        def _minimumTotal(triangle, row, col ):
-            if row == rows - 1: return triangle[row][col]
-            return triangle[row][col] + min(_minimumTotal( triangle, row + 1, col ), _minimumTotal( triangle, row + 1, col + 1))
+        for i in reversed(range(len(triangle) - 1)):
+            for j in range(len(triangle[i])):
+                triangle[i][j] += min(triangle[i + 1][j], triangle[i + 1][j + 1])
+        return triangle[0][0]
 
-        return _minimumTotal(triangle, 0, 0)
+
+
+    # #  The naive recursive solution.
+    # def minimumTotal(self, triangle: List[List[int]]) -> int:
+    #     rows = len(triangle)
+    #     def _minimumTotal(triangle, row, col ):
+    #         if row == rows - 1: return triangle[row][col]
+    #         return triangle[row][col] + min(_minimumTotal( triangle, row + 1, col ), _minimumTotal( triangle, row + 1, col + 1))
+    #
+    #     return _minimumTotal(triangle, 0, 0)
 
 
 #  Drive code.
