@@ -3630,13 +3630,47 @@ class Solution:
     Output: 6
     Explanation: [2,3] has the largest product 6.
     """
+
     #  The naive solution.
     def maxProduct(self, nums: List[int]) -> int:
         ans, curMin, curMax = nums[0], nums[0], nums[0]
         for i in range(1, len(nums)):
-            curMin, curMax = min(nums[i], nums[i] * curMin, nums[i] * curMax), max(nums[i], nums[i] * curMin, nums[i] * curMax)
+            curMin, curMax = min(nums[i], nums[i] * curMin, nums[i] * curMax), max(nums[i], nums[i] * curMin,
+                                                                                   nums[i] * curMax)
             ans = max(ans, curMax)
         return ans
+
+    """
+    198. House Robber (Medium)
+    https://leetcode.com/problems/house-robber/
+    
+    Example 01:
+    Input: nums = [1,2,3,1]
+    Output: 4
+    Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+    Total amount you can rob = 1 + 3 = 4.
+    
+    Example 02:
+    Input: nums = [2,7,9,3,1]
+    Output: 12
+    Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+    Total amount you can rob = 2 + 9 + 1 = 12.
+    """
+    #  The straightforward dp solution with extra memory storage.
+    def rob(self, nums: List[int]) -> int:
+        memo = [[0] * len(nums), nums ]
+        for i in range(1, len(nums)):
+            memo[0][i] = max( memo[0][i - 1], memo[1][i - 1])
+            memo[1][i] = memo[0][i - 1] + nums[i]
+        return max(memo[0][-1], memo[1][-1])
+
+
+
+
+
+
+
+
 
 
 #  Drive code.
@@ -4011,11 +4045,15 @@ if __name__ == "__main__":
     print(S.maxSubArray([1]))
     print(S.maxSubArray([5, 4, -1, 7, 8]))
 
-    print("-------------------------------------------------------")
     #  Leetcode 152
     print(S.maxProduct([2, 3, -2, 4]))
     print(S.maxProduct([-2, 0, -1]))
     print(S.maxProduct([-2, 3, -4]))
+
+    print("-------------------------------------------------------")
+    #  Leetcode 198
+    print(S.rob([1, 2, 3, 1]))
+    print(S.rob([2, 7, 9, 3, 1]))
 
 """
 ..................佛祖开光 ,永无BUG...................
