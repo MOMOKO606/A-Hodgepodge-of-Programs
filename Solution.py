@@ -3656,13 +3656,25 @@ class Solution:
     Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
     Total amount you can rob = 2 + 9 + 1 = 12.
     """
-    #  The straightforward dp solution with extra memory storage.
+    #  The classic dp solution.
     def rob(self, nums: List[int]) -> int:
-        memo = [[0] * len(nums), nums ]
-        for i in range(1, len(nums)):
-            memo[0][i] = max( memo[0][i - 1], memo[1][i - 1])
-            memo[1][i] = memo[0][i - 1] + nums[i]
-        return max(memo[0][-1], memo[1][-1])
+        if len(nums) == 1: return nums[0]
+        dp = [0] * len(nums)
+        dp[0], dp[1] = nums[0], max(nums[0], nums[1])  # Equals to max(dp[0], nums[1] + 0)
+        for i in range(2, len(nums)):
+            dp[i] = max( dp[i - 1], nums[i] + dp[i - 2])
+        return dp[-1]
+
+    # #  The straightforward dp solution with extra memory storage.
+    # def rob(self, nums: List[int]) -> int:
+    #     memo = [[0] * len(nums), nums ]
+    #     for i in range(1, len(nums)):
+    #         memo[0][i] = max( memo[0][i - 1], memo[1][i - 1])
+    #         memo[1][i] = memo[0][i - 1] + nums[i]
+    #     return max(memo[0][-1], memo[1][-1])
+
+
+
 
 
 
