@@ -3675,7 +3675,6 @@ class Solution:
     #         memo[1][i] = memo[0][i - 1] + nums[i]
     #     return max(memo[0][-1], memo[1][-1])
 
-
     """
     213. House Robber II ( Medium )
     https://leetcode.com/problems/house-robber-ii/
@@ -3695,10 +3694,11 @@ class Solution:
     Input: nums = [1,2,3]
     Output: 3
     """
+
     #  The concise solution using previous function.
     def rob_circle(self, nums: List[int]) -> int:
         if len(nums) == 1: return nums[0]
-        return max( self.rob(nums[1:]) , self.rob(nums[:-1]))
+        return max(self.rob(nums[1:]), self.rob(nums[:-1]))
 
     # #  The on-leetcode solusion version.
     # def rob(self, nums: List[int]) -> int:
@@ -3714,7 +3714,6 @@ class Solution:
     #     if len(nums) == 2: return max(nums[0], nums[1])
     #     return max(_rob(nums[1:]), _rob(nums[:-1]))
 
-
     """
     337. House Robber III ( Medium )
     https://leetcode.com/problems/house-robber-iii/
@@ -3729,14 +3728,16 @@ class Solution:
     Output: 9
     Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
     """
+
     #  The recursive solution with flag indicates whether node can be robbed.
     #  The original recursive idea in the House Rob problem.
     @cache
-    def rob_tree01(self, root, canRob = True):
+    def rob_tree01(self, root, canRob=True):
         if not root: return 0
         rob = root.val + self.rob_tree01(root.left, False) + self.rob_tree01(root.right, False) if canRob else -1
-        noRob = self.rob_tree01( root.left ) + self.rob_tree01( root.right )
-        return max( rob, noRob)
+        noRob = self.rob_tree01(root.left) + self.rob_tree01(root.right)
+        return max(rob, noRob)
+
     rob_tree01.cache_clear()
 
     #  The recursive solution without flags.
@@ -3744,11 +3745,12 @@ class Solution:
     @cache
     def rob_tree02(self, root):
         if not root: return 0
-        noRob = self.rob_tree02( root.left ) + self.rob_tree02( root.right )
+        noRob = self.rob_tree02(root.left) + self.rob_tree02(root.right)
         rob = root.val
-        if root.left: rob += self.rob_tree02( root.left.left ) + self.rob_tree02( root.left.right )
-        if root.right: rob += self.rob_tree02( root.right.left ) + self.rob_tree02( root.right.right )
+        if root.left: rob += self.rob_tree02(root.left.left) + self.rob_tree02(root.left.right)
+        if root.right: rob += self.rob_tree02(root.right.left) + self.rob_tree02(root.right.right)
         return max(rob, noRob)
+
     rob_tree02.cache_clear()
 
     #  If we analyze rob_tree01 & rob_tree02,
@@ -3756,12 +3758,48 @@ class Solution:
     #  So why not traversal the tree one time and records 2 numbers represent noRob and rob.
     #  The optimized dp solution.
     def rob_tree03(self, root):
-        def _rob( root ):
+        def _rob(root):
             if not root: return [0, 0]
-            l = _rob( root.left )
-            r = _rob( root.right )
-            return [max(l) + max(r), root.val + l[0] + r[0] ]
-        return max(_rob(root) )
+            l = _rob(root.left)
+            r = _rob(root.right)
+            return [max(l) + max(r), root.val + l[0] + r[0]]
+
+        return max(_rob(root))
+
+    """
+    740. Delete and Earn ( Medium )
+    https://leetcode.com/problems/delete-and-earn/
+    
+    Example 01:
+    Input: nums = [3,4,2]
+    Output: 6
+    Explanation: You can perform the following operations:
+    - Delete 4 to earn 4 points. Consequently, 3 is also deleted. nums = [2].
+    - Delete 2 to earn 2 points. nums = [].
+    You earn a total of 6 points.
+    
+    Example 02:
+    Input: nums = [2,2,3,3,3,4]
+    Output: 9
+    Explanation: You can perform the following operations:
+    - Delete a 3 to earn 3 points. All 2's and 4's are also deleted. nums = [3,3].
+    - Delete a 3 again to earn 3 points. nums = [3].
+    - Delete a 3 once more to earn 3 points. nums = [].
+    You earn a total of 9 points.
+    """
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        nums.sort()
+        aux = [0] * (nums[-1] + 1)
+        i = 0
+        while i < len(nums):
+            j, pivot, count = i + 1, nums[i], nums[i]
+            while j < len(nums) and nums[j] == pivot:
+                count += pivot
+                j += 1
+            aux[pivot] = count
+            i = j
+        return self.rob( aux )
+
 
 
 
@@ -4152,15 +4190,18 @@ if __name__ == "__main__":
     print(S.rob_circle([1, 2, 3, 1]))
     print(S.rob_circle([1, 2, 3]))
 
-    print("-------------------------------------------------------")
     #  Leetcode 337
     root = deserialize('[3,2,3,null,3,null,1]')
-    print(S.rob_tree03( root ))
+    print(S.rob_tree03(root))
     root = deserialize('[3,4,5,1,3,null,1]')
-    print(S.rob_tree03( root ))
+    print(S.rob_tree03(root))
     root = deserialize('[2,1,3,null,4]')
-    print(S.rob_tree03( root ))
+    print(S.rob_tree03(root))
 
+    #  Leetcode 740
+    print("-------------------------------------------------------")
+    print(S.deleteAndEarn([2, 2, 3, 3, 3, 4]))
+    print(S.deleteAndEarn([3, 4, 2]))
 
 """
 ..................佛祖开光 ,永无BUG...................
