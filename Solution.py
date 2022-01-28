@@ -3656,13 +3656,14 @@ class Solution:
     Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
     Total amount you can rob = 2 + 9 + 1 = 12.
     """
+
     #  The classic dp solution.
     def rob(self, nums: List[int]) -> int:
         if len(nums) == 1: return nums[0]
         dp = [0] * len(nums)
         dp[0], dp[1] = nums[0], max(nums[0], nums[1])  # Equals to max(dp[0], nums[1] + 0)
         for i in range(2, len(nums)):
-            dp[i] = max( dp[i - 1], nums[i] + dp[i - 2])
+            dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
         return dp[-1]
 
     # #  The straightforward dp solution with extra memory storage.
@@ -3673,16 +3674,43 @@ class Solution:
     #         memo[1][i] = memo[0][i - 1] + nums[i]
     #     return max(memo[0][-1], memo[1][-1])
 
+    """
+    213. House Robber II ( Medium )
+    https://leetcode.com/problems/house-robber-ii/
+    
+    Example 01:
+    Input: nums = [2,3,2]
+    Output: 3
+    Explanation: You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent houses.
+    
+    Example 02:
+    Input: nums = [1,2,3,1]
+    Output: 4
+    Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+    Total amount you can rob = 1 + 3 = 4.
+    
+    Example 03:
+    Input: nums = [1,2,3]
+    Output: 3
+    """
+    #  The concise solution using previous function.
+    def rob_circle(self, nums: List[int]) -> int:
+        if len(nums) == 1: return nums[0]
+        return max( self.rob(nums[1:]) , self.rob(nums[:-1]))
 
-
-
-
-
-
-
-
-
-
+    # #  The on-leetcode solusion version.
+    # def rob(self, nums: List[int]) -> int:
+    #     def _rob(nums):
+    #         f1, f2 = nums[0], max(nums[0], nums[1])
+    #         f3 = max(f1, f2)
+    #         for i in range(2, len(nums)):
+    #             f3 = max(f2, f1 + nums[i])
+    #             f1, f2 = f2, f3
+    #         return f3
+    #
+    #     if len(nums) == 1: return nums[0]
+    #     if len(nums) == 2: return max(nums[0], nums[1])
+    #     return max(_rob(nums[1:]), _rob(nums[:-1]))
 
 
 #  Drive code.
@@ -4062,10 +4090,15 @@ if __name__ == "__main__":
     print(S.maxProduct([-2, 0, -1]))
     print(S.maxProduct([-2, 3, -4]))
 
-    print("-------------------------------------------------------")
     #  Leetcode 198
     print(S.rob([1, 2, 3, 1]))
     print(S.rob([2, 7, 9, 3, 1]))
+
+    print("-------------------------------------------------------")
+    #  Leetcode 213
+    print(S.rob_circle([2, 3, 2]))
+    print(S.rob_circle([1, 2, 3, 1]))
+    print(S.rob_circle([1, 2, 3]))
 
 """
 ..................佛祖开光 ,永无BUG...................
