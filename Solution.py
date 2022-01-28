@@ -3751,6 +3751,18 @@ class Solution:
         return max(rob, noRob)
     rob_tree02.cache_clear()
 
+    #  If we analyze rob_tree01 & rob_tree02,
+    #  Both of them traversal the tree twice since we want to compare rob and noRob.
+    #  So why not traversal the tree one time and records 2 numbers represent noRob and rob.
+    #  The optimized dp solution.
+    def rob_tree03(self, root):
+        def _rob( root ):
+            if not root: return [0, 0]
+            l = _rob( root.left )
+            r = _rob( root.right )
+            return [max(l) + max(r), root.val + l[0] + r[0] ]
+        return max(_rob(root) )
+
 
 
 
@@ -4143,11 +4155,11 @@ if __name__ == "__main__":
     print("-------------------------------------------------------")
     #  Leetcode 337
     root = deserialize('[3,2,3,null,3,null,1]')
-    print(S.rob_tree02( root ))
+    print(S.rob_tree03( root ))
     root = deserialize('[3,4,5,1,3,null,1]')
-    print(S.rob_tree02( root ))
+    print(S.rob_tree03( root ))
     root = deserialize('[2,1,3,null,4]')
-    print(S.rob_tree02( root ))
+    print(S.rob_tree03( root ))
 
 
 """
