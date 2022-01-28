@@ -1,4 +1,5 @@
 from typing import Optional, List
+from functools import cache
 import bisect, math, collections, itertools
 
 
@@ -3674,6 +3675,7 @@ class Solution:
     #         memo[1][i] = memo[0][i - 1] + nums[i]
     #     return max(memo[0][-1], memo[1][-1])
 
+
     """
     213. House Robber II ( Medium )
     https://leetcode.com/problems/house-robber-ii/
@@ -3711,6 +3713,31 @@ class Solution:
     #     if len(nums) == 1: return nums[0]
     #     if len(nums) == 2: return max(nums[0], nums[1])
     #     return max(_rob(nums[1:]), _rob(nums[:-1]))
+
+
+    """
+    337. House Robber III ( Medium )
+    https://leetcode.com/problems/house-robber-iii/
+    
+    Example 01:
+    Input: root = [3,2,3,null,3,null,1]
+    Output: 7
+    Explanation: Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.
+    
+    Example 02:
+    Input: root = [3,4,5,1,3,null,1]
+    Output: 9
+    Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
+    """
+    #  The recursive solution with flag indicates whether node can be robbed.
+    @cache
+    def rob_tree01(self, root, canRob = True):
+        if not root: return 0
+        rob = root.val + self.rob_tree01(root.left, False) + self.rob_tree01(root.right, False) if canRob else -1
+        noRob = self.rob_tree01( root.left ) + self.rob_tree01( root.right )
+        return max( rob, noRob)
+    rob_tree01.cache_clear()
+
 
 
 #  Drive code.
@@ -4094,11 +4121,20 @@ if __name__ == "__main__":
     print(S.rob([1, 2, 3, 1]))
     print(S.rob([2, 7, 9, 3, 1]))
 
-    print("-------------------------------------------------------")
     #  Leetcode 213
     print(S.rob_circle([2, 3, 2]))
     print(S.rob_circle([1, 2, 3, 1]))
     print(S.rob_circle([1, 2, 3]))
+
+    print("-------------------------------------------------------")
+    #  Leetcode 337
+    root = deserialize('[3,2,3,null,3,null,1]')
+    print(S.rob_tree01( root ))
+    root = deserialize('[3,4,5,1,3,null,1]')
+    print(S.rob_tree01( root ))
+    root = deserialize('[2,1,3,null,4]')
+    print(S.rob_tree01( root ))
+
 
 """
 ..................佛祖开光 ,永无BUG...................
