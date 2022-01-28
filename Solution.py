@@ -3730,6 +3730,7 @@ class Solution:
     Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
     """
     #  The recursive solution with flag indicates whether node can be robbed.
+    #  The original recursive idea in the House Rob problem.
     @cache
     def rob_tree01(self, root, canRob = True):
         if not root: return 0
@@ -3737,6 +3738,19 @@ class Solution:
         noRob = self.rob_tree01( root.left ) + self.rob_tree01( root.right )
         return max( rob, noRob)
     rob_tree01.cache_clear()
+
+    #  The recursive solution without flags.
+    #  Implement the final equation: dp[i] = max( dp[i - 1], nums[i] + dp[i - 2]) of the tree version.
+    @cache
+    def rob_tree02(self, root):
+        if not root: return 0
+        noRob = self.rob_tree02( root.left ) + self.rob_tree02( root.right )
+        rob = root.val
+        if root.left: rob += self.rob_tree02( root.left.left ) + self.rob_tree02( root.left.right )
+        if root.right: rob += self.rob_tree02( root.right.left ) + self.rob_tree02( root.right.right )
+        return max(rob, noRob)
+    rob_tree02.cache_clear()
+
 
 
 
@@ -4129,11 +4143,11 @@ if __name__ == "__main__":
     print("-------------------------------------------------------")
     #  Leetcode 337
     root = deserialize('[3,2,3,null,3,null,1]')
-    print(S.rob_tree01( root ))
+    print(S.rob_tree02( root ))
     root = deserialize('[3,4,5,1,3,null,1]')
-    print(S.rob_tree01( root ))
+    print(S.rob_tree02( root ))
     root = deserialize('[2,1,3,null,4]')
-    print(S.rob_tree01( root ))
+    print(S.rob_tree02( root ))
 
 
 """
