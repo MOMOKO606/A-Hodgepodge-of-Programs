@@ -3787,18 +3787,29 @@ class Solution:
     - Delete a 3 once more to earn 3 points. nums = [].
     You earn a total of 9 points.
     """
+    #  The concise version.
     def deleteAndEarn(self, nums: List[int]) -> int:
-        nums.sort()
-        aux = [0] * (nums[-1] + 1)
-        i = 0
-        while i < len(nums):
-            j, pivot, count = i + 1, nums[i], nums[i]
-            while j < len(nums) and nums[j] == pivot:
-                count += pivot
-                j += 1
-            aux[pivot] = count
-            i = j
+        aux = [0] * (max(nums) + 1)
+        for num in nums:
+            aux[num] += num
         return self.rob( aux )
+
+
+    # #  The original solution.
+    # def deleteAndEarn(self, nums: List[int]) -> int:
+    #     nums.sort()
+    #     aux = [0] * (nums[-1] + 1)
+    #     i = 0
+    #     while i < len(nums):
+    #         j, pivot, count = i + 1, nums[i], nums[i]
+    #         while j < len(nums) and nums[j] == pivot:
+    #             count += pivot
+    #             j += 1
+    #         aux[pivot] = count
+    #         i = j
+    #     return self.rob( aux )
+
+
 
 
 
