@@ -3841,7 +3841,22 @@ class Solution:
             return max(questions[i][0] + _mostPoints( i + 1 + questions[i][1]), _mostPoints( i + 1 ) )
         return _mostPoints( 0 )
 
-    #
+    # #  The iterative dp solution.
+    # def mostPoints(self, questions: List[List[int]]) -> int:
+    #     n = len(questions)
+    #     dp = [0] * n
+    #     dp[-1] = questions[-1][0]
+    #     for i in reversed(range(n - 1)):
+    #         idx = i + 1 + questions[i][1]
+    #         if idx > n - 1:
+    #             dp[i] = max( dp[i + 1], questions[i][0])
+    #         else:
+    #             dp[i] = max( dp[i + 1], questions[i][0] + dp[idx])
+    #     return dp[0]
+
+
+
+        pass
 
 
 
