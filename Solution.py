@@ -3766,7 +3766,6 @@ class Solution:
 
         return max(_rob(root))
 
-
     """
     740. Delete and Earn ( Medium )
     https://leetcode.com/problems/delete-and-earn/
@@ -3788,13 +3787,13 @@ class Solution:
     - Delete a 3 once more to earn 3 points. nums = [].
     You earn a total of 9 points.
     """
+
     #  The concise version.
     def deleteAndEarn(self, nums: List[int]) -> int:
         aux = [0] * (max(nums) + 1)
         for num in nums:
             aux[num] += num
-        return self.rob( aux )
-
+        return self.rob(aux)
 
     # #  The original solution.
     # def deleteAndEarn(self, nums: List[int]) -> int:
@@ -3833,13 +3832,15 @@ class Solution:
     - Solve question 4: Earn 5 points
     Total points earned: 2 + 5 = 7. There is no other way to earn 7 or more points.
     """
+
     #  The recursive solution.
     def mostPoints(self, questions: List[List[int]]) -> int:
         @cache
-        def _mostPoints( i: int ):
+        def _mostPoints(i: int):
             if i > len(questions) - 1: return 0
-            return max(questions[i][0] + _mostPoints( i + 1 + questions[i][1]), _mostPoints( i + 1 ) )
-        return _mostPoints( 0 )
+            return max(questions[i][0] + _mostPoints(i + 1 + questions[i][1]), _mostPoints(i + 1))
+
+        return _mostPoints(0)
 
     # #  The iterative dp solution.
     # def mostPoints(self, questions: List[List[int]]) -> int:
@@ -3854,15 +3855,27 @@ class Solution:
     #             dp[i] = max( dp[i + 1], questions[i][0] + dp[idx])
     #     return dp[0]
 
-
-
-        pass
-
-
-
-
-
-
+    """
+    121. Best Time to Buy and Sell Stock ( Easy )
+    https://leetcode.com/problems/best-time-to-buy-and-sell-stock/#/description
+    
+    Example 01:
+    Input: prices = [7,1,5,3,6,4]
+    Output: 5
+    Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+    Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+    
+    Example 02:
+    Input: prices = [7,6,4,3,1]
+    Output: 0
+    Explanation: In this case, no transactions are done and the max profit = 0.
+    """
+    def maxProfit121(self, prices: List[int]) -> int:
+        curMin, ans = math.inf, 0
+        for num in prices:
+            curMin = min(curMin, num)
+            ans = max(ans, num - curMin)
+        return ans
 
 
 #  Drive code.
@@ -4263,10 +4276,14 @@ if __name__ == "__main__":
     print(S.deleteAndEarn([2, 2, 3, 3, 3, 4]))
     print(S.deleteAndEarn([3, 4, 2]))
 
-    print("-------------------------------------------------------")
     #  Leetcode 2140
-    print(S.mostPoints([[3,2],[4,3],[4,4],[2,5]]))
-    print(S.mostPoints([[1,1],[2,2],[3,3],[4,4],[5,5]]))
+    print(S.mostPoints([[3, 2], [4, 3], [4, 4], [2, 5]]))
+    print(S.mostPoints([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]))
+
+    print("-------------------------------------------------------")
+    #  Leetcode 121
+    print(S.maxProfit121([7, 1, 5, 3, 6, 4]))
+    print(S.maxProfit121([7, 6, 4, 3, 1]))
 
 """
 ..................佛祖开光 ,永无BUG...................
