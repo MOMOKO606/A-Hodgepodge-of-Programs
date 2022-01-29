@@ -3766,6 +3766,7 @@ class Solution:
 
         return max(_rob(root))
 
+
     """
     740. Delete and Earn ( Medium )
     https://leetcode.com/problems/delete-and-earn/
@@ -3808,6 +3809,40 @@ class Solution:
     #         aux[pivot] = count
     #         i = j
     #     return self.rob( aux )
+
+    """
+    2140. Solving Questions With Brainpower (Medium)
+    https://leetcode.com/problems/solving-questions-with-brainpower/
+    
+    Example 01:
+    Input: questions = [[3,2],[4,3],[4,4],[2,5]]
+    Output: 5
+    Explanation: The maximum points can be earned by solving questions 0 and 3.
+    - Solve question 0: Earn 3 points, will be unable to solve the next 2 questions
+    - Unable to solve questions 1 and 2
+    - Solve question 3: Earn 2 points
+    Total points earned: 3 + 2 = 5. There is no other way to earn 5 or more points.
+    
+    Example 02:
+    Input: questions = [[1,1],[2,2],[3,3],[4,4],[5,5]]
+    Output: 7
+    Explanation: The maximum points can be earned by solving questions 1 and 4.
+    - Skip question 0
+    - Solve question 1: Earn 2 points, will be unable to solve the next 2 questions
+    - Unable to solve questions 2 and 3
+    - Solve question 4: Earn 5 points
+    Total points earned: 2 + 5 = 7. There is no other way to earn 7 or more points.
+    """
+    #  The recursive solution.
+    def mostPoints(self, questions: List[List[int]]) -> int:
+        @cache
+        def _mostPoints( i: int ):
+            if i > len(questions) - 1: return 0
+            return max(questions[i][0] + _mostPoints( i + 1 + questions[i][1]), _mostPoints( i + 1 ) )
+        return _mostPoints( 0 )
+
+    #
+
 
 
 
@@ -4210,9 +4245,13 @@ if __name__ == "__main__":
     print(S.rob_tree03(root))
 
     #  Leetcode 740
-    print("-------------------------------------------------------")
     print(S.deleteAndEarn([2, 2, 3, 3, 3, 4]))
     print(S.deleteAndEarn([3, 4, 2]))
+
+    print("-------------------------------------------------------")
+    #  Leetcode 2140
+    print(S.mostPoints([[3,2],[4,3],[4,4],[2,5]]))
+    print(S.mostPoints([[1,1],[2,2],[3,3],[4,4],[5,5]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
