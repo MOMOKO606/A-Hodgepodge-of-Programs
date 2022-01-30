@@ -3900,15 +3900,41 @@ class Solution:
     Output: 0
     Explanation: In this case, no transaction is done, i.e. max profit = 0.
     """
+
     def maxProfit123(self, prices: List[int]) -> int:
         if not prices: return 0
         s1, s2, s3, s4 = -math.inf, -math.inf, -math.inf, -math.inf
         for price in prices:
-            s1 = max( s1, -price)
-            s2 = max( s2, s1 + price)
-            s3 = max( s3, s2 - price)
-            s4 = max( s4, s3 + price)
+            s1 = max(s1, -price)
+            s2 = max(s2, s1 + price)
+            s3 = max(s3, s2 - price)
+            s4 = max(s4, s3 + price)
         return s4
+
+    """
+    188. Best Time to Buy and Sell Stock IV ( Hard )
+    https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/
+    
+    Example 01:
+    Input: k = 2, prices = [2,4,1]
+    Output: 2
+    Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
+    
+    Example 02:
+    Input: k = 2, prices = [3,2,6,5,0,3]
+    Output: 7
+    Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4. 
+    Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+    """
+    def maxProfit188(self, k: int, prices: List[int]) -> int:
+        if not prices: return 0
+        dp = [0] + [-math.inf for _ in range(2 * k)]
+        for price in prices:
+            for i in range(1, len(dp), 2):
+                dp[i] = max(dp[i], dp[i - 1] - price)
+                dp[i + 1] = max(dp[i + 1], dp[i] + price)
+        return dp[-1]
+
 
 
 #  Drive code.
@@ -4317,12 +4343,15 @@ if __name__ == "__main__":
     print(S.maxProfit121([7, 1, 5, 3, 6, 4]))
     print(S.maxProfit121([7, 6, 4, 3, 1]))
 
-    print("-------------------------------------------------------")
     #  Leetcode 123
     print(S.maxProfit123([3, 3, 5, 0, 0, 3, 1, 4]))
     print(S.maxProfit123([1, 2, 3, 4, 5]))
     print(S.maxProfit123([7, 6, 4, 3, 1]))
 
+    #  Leetcode 188
+    print("-------------------------------------------------------")
+    print(S.maxProfit188(2, [2, 4, 1]))
+    print(S.maxProfit188(2, [3, 2, 6, 5, 0, 3]))
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_
