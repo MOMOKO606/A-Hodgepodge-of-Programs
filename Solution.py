@@ -3233,16 +3233,30 @@ class Solution:
     Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
     Total profit is 4 + 3 = 7.
     """
-    #  The greedy solution.
-    def maxProfit(self, prices: List[int]) -> int:
-        profit = 0
-        for i in range(len(prices) - 1):
-            if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
-        return profit
+    # #  The greedy solution.
+    # def maxProfit(self, prices: List[int]) -> int:
+    #     profit = 0
+    #     for i in range(len(prices) - 1):
+    #         if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
+    #     return profit
 
     # #  The one-line solution.
     # def maxProfit(self, prices:List[int]) -> int:
     #     return sum([max(prices[i + 1] - prices[i],0) for i in range(len(prices) - 1)])
+
+    #  The states machine method.
+    #  buy: 当到达i时，1, ..., i中(不一定时i)最后一个操作时buy时的maximum profit.
+    #  sell: 当到达i时，1, ..., i中(不一定时i)最后一个操作时sell时的maximum profit.
+    def maxProfit(self, prices: List[int]) -> int:
+        if len(prices) == 1: return 0
+        buy, sell = -prices[0], 0
+        for price in prices:
+            buy = max(buy, sell - price)
+            sell = max(sell, buy + price)
+        return sell
+
+
+
 
     """
     874. Walking Robot Simulation (Medium)
