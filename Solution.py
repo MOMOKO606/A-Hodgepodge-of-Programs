@@ -3968,19 +3968,46 @@ class Solution:
     Output: 3
     Explanation: transactions = [buy, sell, cooldown, buy, sell]
     """
+
     #  The states machine method.
-    #  buy: 到达i时，0, ..., i中（不一定时i）最后一个操作是buy的maximum profit.
-    #  sell: 到达i时，0, ..., i中（不一定时i）最后一个操作是sell的maximum profit.
-    #  cooldown: 到达i时，0, ..., i中（不一定时i）最后一个操作是cooldown的 最后两个 maximum profit.
+    #  buy: 到达i时，0, ..., i中（不一定时i）最后一个操作是 buy / 起始buy 的maximum profit.
+    #  sell: 到达i时，0, ..., i中（不一定时i）最后一个操作是 sell / 起始sell 的maximum profit.
+    #  cooldown: 到达i时，0, ..., i中（不一定时i）最后一个操作是 cooldown / 起始cooldown 的 最后两个 maximum profit.
     #  cooldown为一个左进右出的queue, 最近的一次cooldown为cooldown[0], 上一次cooldown为cooldown[1]
     def maxProfit309(self, prices: List[int]) -> int:
         if len(prices) == 1: return 0
         buy, sell, cooldown = -prices[0], 0, [0, 0]
         for price in prices:
-            buy = max(buy, cooldown[1] - price)  #  do nothing or buy from the second last cooldown.
-            sell = max(sell, buy + price)  #  do nothing or sell at the current price.
-            cooldown = [sell, cooldown[0]]   #  Update the queue to move one spot to the right.
+            buy = max(buy, cooldown[1] - price)  # do nothing or buy from the second last cooldown.
+            sell = max(sell, buy + price)  # do nothing or sell at the current price.
+            cooldown = [sell, cooldown[0]]  # Update the queue to move one spot to the right.
         return cooldown[0]
+
+    """
+    714. Best Time to Buy and Sell Stock with Transaction Fee(Medium)
+    https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+    
+    Example 01:
+    Input: prices = [1,3,2,8,4,9], fee = 2
+    Output: 8
+    Explanation: The maximum profit can be achieved by:
+    - Buying at prices[0] = 1
+    - Selling at prices[3] = 8
+    - Buying at prices[4] = 4
+    - Selling at prices[5] = 9
+    The total profit is ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
+    
+    Example 02:
+    Input: prices = [1,3,7,5,10,3], fee = 3
+    Output: 6
+    """
+    def maxProfit714(self, prices: List[int], fee: int) -> int:
+        if len(prices) == 1: return 0
+        buy, sell = -prices[0], 0
+        for price in prices:
+            buy = max(buy, sell - price)
+            sell = max(sell, buy + price - fee)
+        return sell
 
 
 #  Drive code.
@@ -4398,10 +4425,13 @@ if __name__ == "__main__":
     print(S.maxProfit188(2, [2, 4, 1]))
     print(S.maxProfit188(2, [3, 2, 6, 5, 0, 3]))
 
-    print("---------------------------------------")
     #  Leetcode 309
     print(S.maxProfit309([1, 2, 3, 0, 2]))
     print(S.maxProfit309([1]))
+
+    #  Leetcode 714
+    print(S.maxProfit714([1, 3, 2, 8, 4, 9], 2))
+    print(S.maxProfit714([1, 3, 7, 5, 10, 3], 3))
 
 """
 ..................佛祖开光 ,永无BUG...................
