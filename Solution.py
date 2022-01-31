@@ -3233,30 +3233,28 @@ class Solution:
     Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
     Total profit is 4 + 3 = 7.
     """
-    # #  The greedy solution.
-    # def maxProfit(self, prices: List[int]) -> int:
-    #     profit = 0
-    #     for i in range(len(prices) - 1):
-    #         if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
-    #     return profit
+
+    #  The greedy solution.
+    def maxProfit(self, prices: List[int]) -> int:
+        profit = 0
+        for i in range(len(prices) - 1):
+            if prices[i] < prices[i + 1]: profit += prices[i + 1] - prices[i]
+        return profit
 
     # #  The one-line solution.
     # def maxProfit(self, prices:List[int]) -> int:
     #     return sum([max(prices[i + 1] - prices[i],0) for i in range(len(prices) - 1)])
 
-    #  The states machine method.
-    #  buy: 当到达i时，1, ..., i中(不一定时i)最后一个操作时buy时的maximum profit.
-    #  sell: 当到达i时，1, ..., i中(不一定时i)最后一个操作时sell时的maximum profit.
-    def maxProfit(self, prices: List[int]) -> int:
-        if len(prices) == 1: return 0
-        buy, sell = -prices[0], 0
-        for price in prices:
-            buy = max(buy, sell - price)
-            sell = max(sell, buy + price)
-        return sell
-
-
-
+    # #  The states machine method.
+    # #  buy: 当到达i时，1, ..., i中(不一定时i)最后一个操作时buy时的maximum profit.
+    # #  sell: 当到达i时，1, ..., i中(不一定时i)最后一个操作时sell时的maximum profit.
+    # def maxProfit(self, prices: List[int]) -> int:
+    #     if len(prices) == 1: return 0
+    #     buy, sell = -prices[0], 0
+    #     for price in prices:
+    #         buy = max(buy, sell - price)
+    #         sell = max(sell, buy + price)
+    #     return sell
 
     """
     874. Walking Robot Simulation (Medium)
@@ -3750,6 +3748,7 @@ class Solution:
         rob = root.val + self.rob_tree01(root.left, False) + self.rob_tree01(root.right, False) if canRob else -1
         noRob = self.rob_tree01(root.left) + self.rob_tree01(root.right)
         return max(rob, noRob)
+
     rob_tree01.cache_clear()
 
     #  The recursive solution without flags.
@@ -3762,6 +3761,7 @@ class Solution:
         if root.left: rob += self.rob_tree02(root.left.left) + self.rob_tree02(root.left.right)
         if root.right: rob += self.rob_tree02(root.right.left) + self.rob_tree02(root.right.right)
         return max(rob, noRob)
+
     rob_tree02.cache_clear()
 
     #  If we analyze rob_tree01 & rob_tree02,
@@ -3798,6 +3798,7 @@ class Solution:
     - Delete a 3 once more to earn 3 points. nums = [].
     You earn a total of 9 points.
     """
+
     #  The concise version.
     def deleteAndEarn(self, nums: List[int]) -> int:
         aux = [0] * (max(nums) + 1)
@@ -3842,6 +3843,7 @@ class Solution:
     - Solve question 4: Earn 5 points
     Total points earned: 2 + 5 = 7. There is no other way to earn 7 or more points.
     """
+
     #  The recursive solution.
     def mostPoints(self, questions: List[List[int]]) -> int:
         @cache
@@ -3879,6 +3881,7 @@ class Solution:
     Output: 0
     Explanation: In this case, no transactions are done and the max profit = 0.
     """
+
     #  The straightforward intuitive solution.
     def maxProfit121(self, prices: List[int]) -> int:
         curMin, ans = math.inf, 0
@@ -3896,7 +3899,6 @@ class Solution:
     #         buy = max(buy, -price)  # do nothing or buy at current price.
     #         sell = max(sell, buy + price)  #  do nothing or sell at current price.
     #     return sell
-
 
     """
     123. Best Time to Buy and Sell Stock III ( Hard )
@@ -3921,6 +3923,7 @@ class Solution:
     Explanation: In this case, no transaction is done, i.e. max profit = 0.
     """
 
+    #  The states machine method.
     def maxProfit123(self, prices: List[int]) -> int:
         if not prices: return 0
         s1, s2, s3, s4 = -math.inf, -math.inf, -math.inf, -math.inf
@@ -3946,6 +3949,7 @@ class Solution:
     Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4. 
     Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
     """
+
     def maxProfit188(self, k: int, prices: List[int]) -> int:
         if not prices: return 0
         dp = [0] + [-math.inf for _ in range(2 * k)]
@@ -3954,7 +3958,6 @@ class Solution:
                 dp[i] = max(dp[i], dp[i - 1] - price)
                 dp[i + 1] = max(dp[i + 1], dp[i] + price)
         return dp[-1]
-
 
     """
     309. Best Time to Buy and Sell Stock with Cooldown (Medium)
@@ -3965,9 +3968,19 @@ class Solution:
     Output: 3
     Explanation: transactions = [buy, sell, cooldown, buy, sell]
     """
+    #  The states machine method.
+    #  buy: 到达i时，0, ..., i中（不一定时i）最后一个操作是buy的maximum profit.
+    #  sell: 到达i时，0, ..., i中（不一定时i）最后一个操作是sell的maximum profit.
+    #  cooldown: 到达i时，0, ..., i中（不一定时i）最后一个操作是cooldown的 最后两个 maximum profit.
+    #  cooldown为一个左进右出的queue, 最近的一次cooldown为cooldown[0], 上一次cooldown为cooldown[1]
     def maxProfit309(self, prices: List[int]) -> int:
-
-
+        if len(prices) == 1: return 0
+        buy, sell, cooldown = -prices[0], 0, [0, 0]
+        for price in prices:
+            buy = max(buy, cooldown[1] - price)  #  do nothing or buy from the second last cooldown.
+            sell = max(sell, buy + price)  #  do nothing or sell at the current price.
+            cooldown = [sell, cooldown[0]]   #  Update the queue to move one spot to the right.
+        return cooldown[0]
 
 
 #  Drive code.
@@ -4385,8 +4398,11 @@ if __name__ == "__main__":
     print(S.maxProfit188(2, [2, 4, 1]))
     print(S.maxProfit188(2, [3, 2, 6, 5, 0, 3]))
 
+    print("---------------------------------------")
     #  Leetcode 309
-    print(S.maxProfit309([1,2,3,0,2]))
+    print(S.maxProfit309([1, 2, 3, 0, 2]))
+    print(S.maxProfit309([1]))
+
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_
