@@ -1,5 +1,5 @@
 from typing import List, Optional
-import bisect
+import bisect, math
 
 
 class ListNode:
@@ -474,7 +474,6 @@ class Solution:
     #                 memo[i] = max( memo[i], memo[j] + 1)
     #     return max(memo)
 
-
     #  Leetcode 322
     #  Greedy algorithm doesn't work on coinChange.
     #  Example:
@@ -483,12 +482,11 @@ class Solution:
     def coinChange(self, nums: List[int], amount: int) -> int:
         ans = [amount + 1] * (amount + 1)
         ans[0] = 0
-        for i in range( len(ans) ):
+        for i in range(len(ans)):
             for num in nums:
                 if i - num >= 0:
-                    ans[i] = min(ans[i], ans[ i - num ] + 1)
+                    ans[i] = min(ans[i], ans[i - num] + 1)
         return ans[amount] if ans[amount] < amount + 1 else -1
-
 
     # def coinChange(self, nums: List[int], amount: int) -> int:
     #
@@ -511,6 +509,33 @@ class Solution:
     #             memo[num] = 1
     #     ans = _coinChange( nums, memo, amount )
     #     return ans if ans < float("inf")  else -1
+
+    #  Leetcode 874
+    def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
+        direction = {"up": [0, 1, "left", "right"],
+                   "down": [0, -1, "right", "left"],
+                   "left": [-1, 0, "down", "up"],
+                   "right": [1, 0, "up","down"]}
+        curDir, x, y, ans = "up", 0, 0, 0
+        obstacles = set(map(tuple, obstacles))
+        for command in commands:
+            #  Turn left
+            if command == -2:
+                curDir = direction[curDir][2]
+            #  Turn right
+            elif command == -1:
+                curDir = direction[curDir][3]
+            else:
+                for i in range(command):
+                    if (x + direction[curDir][0],  y + direction[curDir][1]) in obstacles:
+                        break
+                    x += direction[curDir][0]
+                    y += direction[curDir][1]
+                    ans = max( ans, x*x + y*y )
+        return ans
+
+
+
 
 
 #  Drive code.
@@ -609,11 +634,14 @@ if __name__ == "__main__":
     print(S.lengthOfLIS([7, 7, 7, 7, 7, 7, 7]))
 
     #  Leetcode 322
-    print("---------------------------------")
-    print(S.coinChange([1,2,5], 11))
+    print(S.coinChange([1, 2, 5], 11))
     print(S.coinChange([2], 3))
     print(S.coinChange([1], 0))
-    print(S.coinChange([2,5,10,1], 27))
-    print(S.coinChange([186,419,83,408],6249))
+    print(S.coinChange([2, 5, 10, 1], 27))
+    print(S.coinChange([186, 419, 83, 408], 6249))
 
-
+    #  Leetcode 874
+    print("-------------------------------------------")
+    print(S.robotSim([4, -1, 3], []))
+    print(S.robotSim([4, -1, 4, -2, 4], [[2, 4]]))
+    print(S.robotSim([6, -1, -1, 6], []))

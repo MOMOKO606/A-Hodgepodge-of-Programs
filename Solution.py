@@ -4009,6 +4009,40 @@ class Solution:
             sell = max(sell, buy + price - fee)
         return sell
 
+    """
+    221. Maximal Square (Medium)
+    https://leetcode.com/problems/maximal-square/
+    
+    Example 01:
+    Input: matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],
+    ["1","0","0","1","0"]]
+    Output: 4
+    
+    Example 02:
+    Input: matrix = [["0","1"],["1","0"]]
+    Output: 1
+    
+    Example 03:
+    Input: matrix = [["0"]]
+    Output: 0
+    """
+    #  The recursive dp solution with a memo.
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        @cache
+        def _maximalSquare(i, j):
+            if 0 <= i < rows and 0 <= j < cols and matrix[i][j]:
+                return min(_maximalSquare( i - 1, j), _maximalSquare(i, j - 1), _maximalSquare(i - 1, j - 1)) + 1
+            return 0
+
+        ans, rows, cols = 0, len(matrix), len(matrix[0])
+        matrix = [[int(matrix[i][j]) for j in range(cols)] for i in range(rows)]
+        for i in range(rows):
+            for j in range(cols):
+                ans = max( ans, _maximalSquare(i, j))
+        return ans * ans
+
+
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -4432,6 +4466,14 @@ if __name__ == "__main__":
     #  Leetcode 714
     print(S.maxProfit714([1, 3, 2, 8, 4, 9], 2))
     print(S.maxProfit714([1, 3, 7, 5, 10, 3], 3))
+
+    print("-------------------------------------------------------------")
+    #  Leetcode 221
+    print(S.maximalSquare([["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]))
+    print(S.maximalSquare([["0","1"],["1","0"]]))
+    print(S.maximalSquare([["0"]]))
+
+    
 
 """
 ..................佛祖开光 ,永无BUG...................
