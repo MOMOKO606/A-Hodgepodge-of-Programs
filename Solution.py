@@ -4026,20 +4026,35 @@ class Solution:
     Input: matrix = [["0"]]
     Output: 0
     """
-    #  The recursive dp solution with a memo.
-    def maximalSquare(self, matrix: List[List[str]]) -> int:
-        @cache
-        def _maximalSquare(i, j):
-            if 0 <= i < rows and 0 <= j < cols and matrix[i][j]:
-                return min(_maximalSquare( i - 1, j), _maximalSquare(i, j - 1), _maximalSquare(i - 1, j - 1)) + 1
-            return 0
+    # #  The recursive dp solution with a memo.
+    # def maximalSquare(self, matrix: List[List[str]]) -> int:
+    #     @cache
+    #     def _maximalSquare(i, j):
+    #         if 0 <= i < rows and 0 <= j < cols and matrix[i][j]:
+    #             return min(_maximalSquare( i - 1, j), _maximalSquare(i, j - 1), _maximalSquare(i - 1, j - 1)) + 1
+    #         return 0
+    #
+    #     ans, rows, cols = 0, len(matrix), len(matrix[0])
+    #     matrix = [[int(matrix[i][j]) for j in range(cols)] for i in range(rows)]
+    #     for i in range(rows):
+    #         for j in range(cols):
+    #             ans = max( ans, _maximalSquare(i, j))
+    #     return ans * ans
 
+    #  The bottom-up iterative solution.
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
         ans, rows, cols = 0, len(matrix), len(matrix[0])
-        matrix = [[int(matrix[i][j]) for j in range(cols)] for i in range(rows)]
+        matrix = [[ int(matrix[i][j]) for j in range(cols)] for i in range(rows)]
         for i in range(rows):
             for j in range(cols):
-                ans = max( ans, _maximalSquare(i, j))
+                if i > 0 and j > 0 and matrix[i][j]:
+                    matrix[i][j] = min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1]) + 1
+                ans = max(ans, matrix[i][j])
         return ans * ans
+
+
+
+
 
 
 
