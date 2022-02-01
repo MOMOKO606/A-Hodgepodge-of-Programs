@@ -4001,6 +4001,7 @@ class Solution:
     Input: prices = [1,3,7,5,10,3], fee = 3
     Output: 6
     """
+
     def maxProfit714(self, prices: List[int], fee: int) -> int:
         if len(prices) == 1: return 0
         buy, sell = -prices[0], 0
@@ -4026,6 +4027,18 @@ class Solution:
     Input: matrix = [["0"]]
     Output: 0
     """
+
+    #  The bottom-up iterative solution.
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        ans, rows, cols = 0, len(matrix), len(matrix[0])
+        matrix = [[int(matrix[i][j]) for j in range(cols)] for i in range(rows)]
+        for i in range(rows):
+            for j in range(cols):
+                if i > 0 and j > 0 and matrix[i][j]:
+                    matrix[i][j] = min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1]) + 1
+                ans = max(ans, matrix[i][j])
+        return ans * ans
+
     # #  The recursive dp solution with a memo.
     # def maximalSquare(self, matrix: List[List[str]]) -> int:
     #     @cache
@@ -4041,21 +4054,38 @@ class Solution:
     #             ans = max( ans, _maximalSquare(i, j))
     #     return ans * ans
 
-    #  The bottom-up iterative solution.
-    def maximalSquare(self, matrix: List[List[str]]) -> int:
-        ans, rows, cols = 0, len(matrix), len(matrix[0])
-        matrix = [[ int(matrix[i][j]) for j in range(cols)] for i in range(rows)]
-        for i in range(rows):
-            for j in range(cols):
-                if i > 0 and j > 0 and matrix[i][j]:
-                    matrix[i][j] = min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1]) + 1
-                ans = max(ans, matrix[i][j])
-        return ans * ans
-
-
-
-
-
+    """
+    91. Decode Ways (Medium)
+    https://leetcode.com/problems/decode-ways/
+    
+    Example 01：
+    Input: s = "12"
+    Output: 2
+    Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).
+    
+    Example 02:
+    Input: s = "226"
+    Output: 3
+    Explanation: "226" could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+    
+    Example 03:
+    Input: s = "06"
+    Output: 0
+    Explanation: "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06").
+    """
+    #  The recursive dp solution with a memo.
+    def numDecodings(self, s: str) -> int:
+        #  Base case
+        #  Key idea: single "0" is impossible.
+        if not s: return 1  #  after subtract letter from 10 to 26
+        if len(s) == 1:    #  the last letter from 1 to 9
+            return 1 if s != "0" else 0
+        ans = 0
+        if 1 <= int(s[-1]) <= 9:
+            ans += self.numDecodings(s[:-1])
+        if 10 <= int(s[-2:]) <= 26:
+            ans += self.numDecodings(s[:-2])
+        return ans
 
 
 
@@ -4482,13 +4512,18 @@ if __name__ == "__main__":
     print(S.maxProfit714([1, 3, 2, 8, 4, 9], 2))
     print(S.maxProfit714([1, 3, 7, 5, 10, 3], 3))
 
-    print("-------------------------------------------------------------")
     #  Leetcode 221
-    print(S.maximalSquare([["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]))
-    print(S.maximalSquare([["0","1"],["1","0"]]))
+    print(S.maximalSquare(
+        [["1", "0", "1", "0", "0"], ["1", "0", "1", "1", "1"], ["1", "1", "1", "1", "1"], ["1", "0", "0", "1", "0"]]))
+    print(S.maximalSquare([["0", "1"], ["1", "0"]]))
     print(S.maximalSquare([["0"]]))
 
-    
+    print("-------------------------------------------------------------")
+    #  Leetcode 91
+    print(S.numDecodings("12"))
+    print(S.numDecodings("226"))
+    print(S.numDecodings("06"))
+    print(S.numDecodings("10"))
 
 """
 ..................佛祖开光 ,永无BUG...................
