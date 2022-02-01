@@ -4073,12 +4073,13 @@ class Solution:
     Output: 0
     Explanation: "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06").
     """
+
     #  The naive recursive dp solution.
     def numDecodings(self, s: str) -> int:
         #  Base case
         #  Key idea: single "0" is impossible.
-        if not s: return 1  #  after subtract letter from 10 to 26
-        if len(s) == 1:    #  the last letter from 1 to 9
+        if not s: return 1  # after subtract letter from 10 to 26
+        if len(s) == 1:  # the last letter from 1 to 9
             return 1 if s != "0" else 0
         ans = 0
         if 1 <= int(s[-1]) <= 9:
@@ -4115,10 +4116,27 @@ class Solution:
     #             dp[i] += dp[i - 2]
     #     return dp[-1]
 
-
-
-
-
+    """
+    64. Minimum Path Sum (Medium)
+    https://leetcode.com/problems/minimum-path-sum/
+    
+    Example 01:
+    Input: grid = [[1,3,1],[1,5,1],[4,2,1]]
+    Output: 7
+    Explanation: Because the path 1 → 3 → 1 → 1 → 1 minimizes the sum.
+    
+    Example 02:
+    Input: grid = [[1,2,3],[4,5,6]]
+    Output: 12
+    """
+    #  The recursive dp solution with a memo.
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        @cache
+        def _minPathSum( i, j ):
+            if i < 0 or j < 0: return math.inf
+            if i == 0 and j == 0: return grid[0][0]
+            return min(_minPathSum(i - 1, j), _minPathSum(i, j - 1) ) + grid[i][j]
+        return _minPathSum( len(grid) - 1, len(grid[0]) - 1)
 
 
 
@@ -4552,13 +4570,16 @@ if __name__ == "__main__":
     print(S.maximalSquare([["0", "1"], ["1", "0"]]))
     print(S.maximalSquare([["0"]]))
 
-    print("-------------------------------------------------------------")
     #  Leetcode 91
     print(S.numDecodings("12"))
     print(S.numDecodings("226"))
     print(S.numDecodings("06"))
     print(S.numDecodings("10"))
 
+    #  Leetcode 64
+    print("-------------------------------------------------------------")
+    print(S.minPathSum([[1, 3, 1], [1, 5, 1], [4, 2, 1]]))
+    print(S.minPathSum([[1, 2, 3], [4, 5, 6]]))
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_
