@@ -4073,7 +4073,7 @@ class Solution:
     Output: 0
     Explanation: "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06").
     """
-    #  The recursive dp solution with a memo.
+    #  The naive recursive dp solution.
     def numDecodings(self, s: str) -> int:
         #  Base case
         #  Key idea: single "0" is impossible.
@@ -4086,6 +4086,40 @@ class Solution:
         if 10 <= int(s[-2:]) <= 26:
             ans += self.numDecodings(s[:-2])
         return ans
+
+    # #  The recursive dp solution with a memo.
+    # def numDecodings(self, s: str) -> int:
+    #     @cache
+    #     def _numDecoding( k ):
+    #         if k < 0:
+    #             return 1
+    #         if k == 0:
+    #             return 1 if s[0] != "0" else 0
+    #         ans = 0
+    #         if  1 <= int(s[ k ]) <= 9:
+    #             ans += _numDecoding(k - 1)
+    #         if 10 <= int(s[k - 1 : k + 1 ]) <= 26:
+    #             ans += _numDecoding(k - 2)
+    #         return ans
+    #     return _numDecoding( len(s) - 1 )
+
+    # #  The iterative dp solution.
+    # def numDecodings(self, s: str) -> int:
+    #     dp = [0] * (len(s) + 1)
+    #     dp[0] = 1
+    #     dp[1] = 1 if s[0] != "0" else 0
+    #     for i in range(2, len(dp)):
+    #         if 1 <= int(s[i - 1] )<= 9:
+    #             dp[i] += dp[i - 1]
+    #         if 10 <= int(s[i - 2 : i]) <= 26:
+    #             dp[i] += dp[i - 2]
+    #     return dp[-1]
+
+
+
+
+
+
 
 
 
