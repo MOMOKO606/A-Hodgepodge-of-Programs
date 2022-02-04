@@ -4172,38 +4172,70 @@ class Solution:
     exention -> exection (replace 'n' with 'c')
     exection -> execution (insert 'u')
     """
-    # #  The recursive dp solution with a memo.
-    # def minDistance(self, word1: str, word2: str) -> int:
-    #     @cache
-    #     def _minDistance( i, j ):
-    #         #  Base case
-    #         if i < 0 and j < 0: return 0
-    #         if i < 0 and j >= 0: return j + 1
-    #         if i >= 0 and j < 0: return i + 1
-    #         if word1[i] == word2[j]:
-    #             return _minDistance(i - 1, j - 1)
-    #         else:
-    #             remove = _minDistance(i - 1, j)
-    #             #  The delete of word2 equals the insert of word1.
-    #             insert = _minDistance(i, j - 1)
-    #             replace = _minDistance(i - 1, j - 1)
-    #             return min(remove, insert, replace) + 1
-    #     return _minDistance(len(word1) - 1, len(word2) - 1)
-
-    #  The iterative dp solution.
+    #  The recursive dp solution with a memo.
     def minDistance(self, word1: str, word2: str) -> int:
-        m, n = len(word1), len(word2)
-        dp = [[0] * (n + 1) for _ in range(m + 1)]
-        for i in range(m + 1): dp[i][0] = i
-        for j in range(n + 1): dp[0][j] = j
-        for i in range(1, m + 1):
-            for j in range(1, n + 1):
-                if word1[i - 1] == word2[j - 1]:
-                    dp[i][j] = dp[i - 1][j - 1]
-                else:
-                    dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
-        return dp[-1][-1]
+        @cache
+        def _minDistance( i, j ):
+            #  Base case
+            if i < 0 and j < 0: return 0
+            if i < 0 and j >= 0: return j + 1
+            if i >= 0 and j < 0: return i + 1
+            if word1[i] == word2[j]:
+                return _minDistance(i - 1, j - 1)
+            else:
+                remove = _minDistance(i - 1, j)
+                #  The delete of word2 equals the insert of word1.
+                insert = _minDistance(i, j - 1)
+                replace = _minDistance(i - 1, j - 1)
+                return min(remove, insert, replace) + 1
+        return _minDistance(len(word1) - 1, len(word2) - 1)
 
+    # #  The iterative dp solution.
+    # def minDistance(self, word1: str, word2: str) -> int:
+    #     m, n = len(word1), len(word2)
+    #     dp = [[0] * (n + 1) for _ in range(m + 1)]
+    #     for i in range(m + 1): dp[i][0] = i
+    #     for j in range(n + 1): dp[0][j] = j
+    #     for i in range(1, m + 1):
+    #         for j in range(1, n + 1):
+    #             if word1[i - 1] == word2[j - 1]:
+    #                 dp[i][j] = dp[i - 1][j - 1]
+    #             else:
+    #                 dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
+    #     return dp[-1][-1]
+
+
+    """
+    32. Longest Valid Parentheses (Hard)
+    https://leetcode.com/problems/longest-valid-parentheses/
+    
+    Example 01:
+    Input: s = "(()"
+    Output: 2
+    Explanation: The longest valid parentheses substring is "()".
+    
+    Example 02:
+    Input: s = ")()())"
+    Output: 4
+    Explanation: The longest valid parentheses substring is "()()".
+    
+    Example 03:
+    Input: s = ""
+    Output: 0
+    """
+    #  The solution using a stack.
+    #  ()() & ((...)) only these two cases are consecutive valid parentheses.
+    #  The idea is using a stack to store all the "(" or the only ")" before the longest ((...))
+    def longestValidParentheses(self, s: str) -> int:
+        ans, stack = 0, [-1]
+        for i, p in enumerate(s):
+            if p == ")":
+                stack.pop()
+                if stack:
+                    ans = max( ans, i - stack[-1] )
+                    continue
+            stack.append(i)
+        return ans
 
 
 
@@ -4650,10 +4682,15 @@ if __name__ == "__main__":
     print(S.minPathSum([[1, 3, 1], [1, 5, 1], [4, 2, 1]]))
     print(S.minPathSum([[1, 2, 3], [4, 5, 6]]))
 
-    print("---------------------------------------------------")
     #  Leetcode 72
     print(S.minDistance("horse", "ros"))
     print(S.minDistance("intention", "execution"))
+
+    print("------------------------------------------")
+    #  Leetcode 32
+    print(S.longestValidParentheses("(()"))
+    print(S.longestValidParentheses(")()())"))
+    print(S.longestValidParentheses(""))
 
 
 """
