@@ -4129,6 +4129,18 @@ class Solution:
     Input: grid = [[1,2,3],[4,5,6]]
     Output: 12
     """
+    #  The iterative dp solution.
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        for j in range(1, cols):
+            grid[0][j] += grid[0][j - 1]
+        for i in range(1, rows):
+            grid[i][0] += grid[i - 1][0]
+        for i in range(1, rows):
+            for j in range(1, cols):
+                grid[i][j] += min(grid[i - 1][j], grid[i][j - 1])
+        return grid[rows - 1][cols - 1]
+
     # #  The recursive dp solution with a memo.
     # def minPathSum(self, grid: List[List[int]]) -> int:
     #     @cache
@@ -4138,17 +4150,47 @@ class Solution:
     #         return min(_minPathSum(i - 1, j), _minPathSum(i, j - 1) ) + grid[i][j]
     #     return _minPathSum( len(grid) - 1, len(grid[0]) - 1)
 
-    #  The iterative dp solution.
-    def minPathSum(self, grid: List[List[int]]) -> int:
-        rows, cols = len(grid), len(grid[0])
-        for j in range(1,cols):
-            grid[0][j] += grid[0][j - 1]
-        for i in range(1, rows):
-            grid[i][0] += grid[i - 1][0]
-        for i in range(1, rows):
-            for j in range(1, cols):
-                grid[i][j] += min(grid[i - 1][j], grid[i][j - 1])
-        return grid[rows - 1][cols - 1]
+    """
+    72. Edit Distance (Hard)
+    https://leetcode.com/problems/edit-distance/
+    
+    Example 01:
+    Input: word1 = "horse", word2 = "ros"
+    Output: 3
+    Explanation: 
+    horse -> rorse (replace 'h' with 'r')
+    rorse -> rose (remove 'r')
+    rose -> ros (remove 'e')
+    
+    Example 02:
+    Input: word1 = "intention", word2 = "execution"
+    Output: 5
+    Explanation: 
+    intention -> inention (remove 't')
+    inention -> enention (replace 'i' with 'e')
+    enention -> exention (replace 'n' with 'x')
+    exention -> exection (replace 'n' with 'c')
+    exection -> execution (insert 'u')
+    """
+    #  The recursive dp solution with a memo.
+    def minDistance(self, word1: str, word2: str) -> int:
+        @cache
+        def _minDistance( i, j ):
+            #  Base case
+            if i < 0 and j < 0: return 0
+            if i < 0 and j >= 0: return j + 1
+            if i >= 0 and j < 0: return i + 1
+            if word1[i] == word2[j]:
+                return _minDistance(i - 1, j - 1)
+            else:
+                remove = _minDistance(i - 1, j)
+                #  The delete of word2 equals the insert of word1.
+                insert = _minDistance(i, j - 1)
+                replace = _minDistance(i - 1, j - 1)
+                return min(remove, insert, replace) + 1
+        return _minDistance(len(word1) - 1, len(word2) - 1)
+
+
 
 
 
@@ -4589,9 +4631,15 @@ if __name__ == "__main__":
     print(S.numDecodings("10"))
 
     #  Leetcode 64
-    print("-------------------------------------------------------------")
     print(S.minPathSum([[1, 3, 1], [1, 5, 1], [4, 2, 1]]))
     print(S.minPathSum([[1, 2, 3], [4, 5, 6]]))
+
+    print("---------------------------------------------------")
+    #  Leetcode 72
+    print(S.minDistance("horse", "ros"))
+    print(S.minDistance("intention", "execution"))
+
+
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_
