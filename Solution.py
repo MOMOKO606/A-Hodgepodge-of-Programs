@@ -4223,37 +4223,52 @@ class Solution:
     Input: s = ""
     Output: 0
     """
-    # #  The solution using a stack.
-    # #  ()() & ((...)) only these two cases are consecutive valid parentheses.
-    # #  The idea is using a stack to store all the "(" or the only ")" before the longest ((...))
-    # def longestValidParentheses(self, s: str) -> int:
-    #     ans, stack = 0, [-1]
-    #     for i, p in enumerate(s):
-    #         if p == ")":
-    #             stack.pop()
-    #             if stack:
-    #                 ans = max( ans, i - stack[-1] )
-    #                 continue
-    #         stack.append(i)
-    #     return ans
-
-    #  The recursive dp solution.
+    #  The solution using a stack.
+    #  ()() & ((...)) only these two cases are consecutive valid parentheses.
+    #  The idea is using a stack to store all the "(" or the only ")" before the longest ((...))
     def longestValidParentheses(self, s: str) -> int:
-        #  _longestValidParentheses(j) represents the longest valid parentheses ends with s[j]
-        @cache
-        def _longestValidParentheses( j ):
-            #  Base case
-            if j <= 0 or s[j] == "(": return 0
-            if s[j] == ")":
-                if s[j - 1] == "(":  # case: "()"
-                    return 2 + _longestValidParentheses( j - 2 )
-                else:  #  case: "...))"
-                    index = j - _longestValidParentheses( j - 1 ) - 1
-                    if index >= 0 and s[index] == "(":  #  case: "((...))"
-                        return _longestValidParentheses( index - 1 ) +_longestValidParentheses( j - 1 ) + 2
-                    else:  # case: ")(....))"
-                        return 0
-        return max([_longestValidParentheses(j) for j in reversed(range(len(s)))]) if s else 0
+        ans, stack = 0, [-1]
+        for i, p in enumerate(s):
+            if p == ")":
+                stack.pop()
+                if stack:
+                    ans = max( ans, i - stack[-1] )
+                    continue
+            stack.append(i)
+        return ans
+
+    # #  The recursive dp solution.
+    # def longestValidParentheses(self, s: str) -> int:
+    #     #  _longestValidParentheses(j) represents the longest valid parentheses ends with s[j]
+    #     @cache
+    #     def _longestValidParentheses( j ):
+    #         #  Base case
+    #         if j <= 0 or s[j] == "(": return 0
+    #         if s[j] == ")":
+    #             if s[j - 1] == "(":  # case: "()"
+    #                 return 2 + _longestValidParentheses( j - 2 )
+    #             else:  #  case: "...))"
+    #                 index = j - _longestValidParentheses( j - 1 ) - 1
+    #                 if index >= 0 and s[index] == "(":  #  case: "((...))"
+    #                     return _longestValidParentheses( index - 1 ) +_longestValidParentheses( j - 1 ) + 2
+    #                 else:  # case: ")(....))"
+    #                     return 0
+    #     return max([_longestValidParentheses(j) for j in reversed(range(len(s)))]) if s else 0
+
+    # #  The iterative dp solution.
+    # def longestValidParentheses(self, s: str) -> int:
+    #     if not s: return 0
+    #     dp = [0] * len(s)
+    #     for i in range( 1, len(s) ):
+    #         if s[i] == "(" : continue
+    #         if s[i] == ")" and s[i - 1] == "(":
+    #             dp[i] = dp[i - 2] + 2
+    #         else:
+    #             index = i - dp[i - 1] - 1
+    #             if index >= 0 and s[index] == "(":
+    #                 dp[i] = dp[index - 1] + dp[i - 1] + 2
+    #     return max(dp)
+
 
 
 
