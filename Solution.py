@@ -4131,6 +4131,7 @@ class Solution:
     Input: grid = [[1,2,3],[4,5,6]]
     Output: 12
     """
+
     #  The iterative dp solution.
     def minPathSum(self, grid: List[List[int]]) -> int:
         rows, cols = len(grid), len(grid[0])
@@ -4174,10 +4175,11 @@ class Solution:
     exention -> exection (replace 'n' with 'c')
     exection -> execution (insert 'u')
     """
+
     #  The recursive dp solution with a memo.
     def minDistance(self, word1: str, word2: str) -> int:
         @cache
-        def _minDistance( i, j ):
+        def _minDistance(i, j):
             #  Base case
             if i < 0 and j < 0: return 0
             if i < 0 and j >= 0: return j + 1
@@ -4190,6 +4192,7 @@ class Solution:
                 insert = _minDistance(i, j - 1)
                 replace = _minDistance(i - 1, j - 1)
                 return min(remove, insert, replace) + 1
+
         return _minDistance(len(word1) - 1, len(word2) - 1)
 
     # #  The iterative dp solution.
@@ -4205,7 +4208,6 @@ class Solution:
     #             else:
     #                 dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
     #     return dp[-1][-1]
-
 
     """
     32. Longest Valid Parentheses (Hard)
@@ -4225,6 +4227,7 @@ class Solution:
     Input: s = ""
     Output: 0
     """
+
     #  The solution using a stack.
     #  ()() & ((...)) only these two cases are consecutive valid parentheses.
     #  The idea is using a stack to store all the "(" or the only ")" before the longest ((...))
@@ -4234,7 +4237,7 @@ class Solution:
             if p == ")":
                 stack.pop()
                 if stack:
-                    ans = max( ans, i - stack[-1] )
+                    ans = max(ans, i - stack[-1])
                     continue
             stack.append(i)
         return ans
@@ -4271,7 +4274,6 @@ class Solution:
     #                 dp[i] = dp[index - 1] + dp[i - 1] + 2
     #     return max(dp)
 
-
     """
     621. Task Scheduler (Medium)
     https://leetcode.com/problems/task-scheduler/
@@ -4300,6 +4302,7 @@ class Solution:
     One possible solution is
     A -> B -> C -> A -> D -> E -> A -> F -> G -> A -> idle -> idle -> A -> idle -> idle -> A
     """
+
     #  The tricky solution.
     #  Find the most frequent letter, define the frequency = m
     #  Case 1: A(..n..) A... A... A   ans = (n + 1) * (m - 1) + 1
@@ -4307,11 +4310,10 @@ class Solution:
     #          ABC(..n..) ABC... ABC... ABC  ans = (n + 1) * (m - 1) + #letters with the biggest frquency.
     #  Case 2: ABABAB   ans = len(tasks)
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        counts = list(Counter(tasks).values())  #  Counter(tasks) -> dict-like structure.
-        maxCounts = max(counts)  #  Get the most frequency.
-        factor = counts.count( maxCounts )  #  Get the number of letters with the biggest frquency.
-        return max(len(tasks), (n + 1) * (maxCounts - 1) + factor )
-
+        counts = list(Counter(tasks).values())  # Counter(tasks) -> dict-like structure.
+        maxCounts = max(counts)  # Get the most frequency.
+        factor = counts.count(maxCounts)  # Get the number of letters with the biggest frquency.
+        return max(len(tasks), (n + 1) * (maxCounts - 1) + factor)
 
     # #  The mimic solution.
     # #  The idea is to reduce idle as much as possible.
@@ -4343,13 +4345,26 @@ class Solution:
     #            heappush( heap, item )
     #     return ans
 
+    """
+    403. Frog Jump (Hard)
+    https://leetcode.com/problems/frog-jump/
+    """
+    #  Try to avoid TLE, so using a set.
+    #  MUST define the range of the set!
+    #  The straightforward solution.
+    def canCross(self, stones: List[int]) -> bool:
+        if stones[1] != 1:
+            return False
+        steps = {x: set() for x in stones}
+        steps[1].add(1)  # Reach the 1 unit stone with maximum 1 step.
+        for i in range(1, len(stones)):
+            for step in steps[stones[i]]:
+                for length in range(step - 1, step + 2):
+                    if length > 0 and stones[i] + length in steps:
+                        steps[ stones[i] + length ].add(length)
+        return steps[stones[-1]] != set()
 
-
-
-
-
-
-
+    #  The dfs solution.
 
 
 #  Drive code.
@@ -4803,16 +4818,18 @@ if __name__ == "__main__":
     print(S.longestValidParentheses("()(())"))
     print(S.longestValidParentheses("())"))
 
-    #  Leetcode
+    #  Leetcode 621
+    print(S.leastInterval(["A", "A", "A", "B", "B", "B"], 2))
+    print(S.leastInterval(["A", "A", "A", "B", "B", "B"], 0))
+    print(S.leastInterval(["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"], 2))
+    print(S.leastInterval(["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "E"], 2))
+
     print("------------------------------------------")
-    # print(S.leastInterval(["A","A","A","B","B","B"], 2))
-    # print(S.leastInterval(["A","A","A","B","B","B"], 0))
-    # print(S.leastInterval(["A","A","A","A","A","A","B","C","D","E","F","G"], 2))
-    print(S.leastInterval( ["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "E"], 2))
-
-
-
-
+    #  Leetcode 403
+    print(S.canCross([0, 1, 3, 5, 6, 8, 12, 17]))
+    print(S.canCross([0, 1, 2, 3, 4, 8, 9, 11]))
+    print(S.canCross([0, 1, 3, 6, 10, 13, 15, 18]))
+    print(S.canCross([0, 1, 3, 6, 10, 15, 16, 21]))
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_
