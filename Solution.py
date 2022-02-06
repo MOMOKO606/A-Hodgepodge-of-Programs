@@ -4349,36 +4349,58 @@ class Solution:
     403. Frog Jump (Hard)
     https://leetcode.com/problems/frog-jump/
     """
-    # #  Try to avoid TLE, so using a set.
-    # #  MUST define the range of the set!
-    # #  The straightforward solution.
-    # def canCross(self, stones: List[int]) -> bool:
-    #     if stones[1] != 1:
-    #         return False
-    #     steps = {x: set() for x in stones}
-    #     steps[1].add(1)  # Reach the 1 unit stone with maximum 1 step.
-    #     for i in range(1, len(stones)):
-    #         for step in steps[stones[i]]:
-    #             for length in range(step - 1, step + 2):
-    #                 if length > 0 and stones[i] + length in steps:
-    #                     steps[ stones[i] + length ].add(length)
-    #     return steps[stones[-1]] != set()
-
-    #  The dfs solution.
+    #  Try to avoid TLE, so using a set.
+    #  MUST define the range of the set!
+    #  The straightforward solution.
     def canCross(self, stones: List[int]) -> bool:
-        @cache
-        def _canCross( cur, step ):
-            if step <= 0: return False
-            if cur not in setStones: return False
-            if cur == stones[-1]: return True
-            left = _canCross(cur + step - 1, step - 1)
-            mid = _canCross(cur + step, step)
-            right = _canCross(cur + step + 1, step + 1)
-            return left or mid or right
+        if stones[1] != 1:
+            return False
+        steps = {x: set() for x in stones}
+        steps[1].add(1)  # Reach the 1 unit stone with maximum 1 step.
+        for i in range(1, len(stones)):
+            for step in steps[stones[i]]:
+                for length in range(step - 1, step + 2):
+                    if length > 0 and stones[i] + length in steps:
+                        steps[ stones[i] + length ].add(length)
+        return steps[stones[-1]] != set()
 
-        if stones[1] != 1: return False
-        setStones = set(stones)
-        return _canCross( 1, 1 )
+    # #  The dfs solution.
+    # def canCross(self, stones: List[int]) -> bool:
+    #     @cache
+    #     def _canCross( cur, step ):
+    #         if step <= 0: return False
+    #         if cur not in setStones: return False
+    #         if cur == stones[-1]: return True
+    #         left = _canCross(cur + step - 1, step - 1)
+    #         mid = _canCross(cur + step, step)
+    #         right = _canCross(cur + step + 1, step + 1)
+    #         return left or mid or right
+    #
+    #     # #  Using a self-memo
+    #     # visited = set()
+    #     # def _canCross( cur, step ):
+    #     #     if cur == stones[-1]:
+    #     #         return True
+    #     #     if (cur, step) in visited:
+    #     #         return False
+    #     #     visited.add((cur, step))
+    #     #     left = mid = right = False
+    #     #     if step - 1 > 0 and cur + step - 1 in setStones:
+    #     #         left = _canCross( cur + step - 1, step - 1 )
+    #     #     if cur + step in setStones:
+    #     #         mid = _canCross( cur + step, step )
+    #     #     if cur + step + 1 in setStones:
+    #     #         right = _canCross( cur + step + 1, step + 1)
+    #     #     return left or mid or right
+    #
+    #     if stones[1] != 1: return False
+    #     setStones = set(stones)
+    #     return _canCross( 1, 1 )
+
+
+
+
+
 
 
 #  Drive code.
