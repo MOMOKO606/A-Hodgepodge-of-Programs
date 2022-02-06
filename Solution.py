@@ -1,5 +1,7 @@
 from typing import Optional, List
 from functools import cache
+from heapq import heappush, heappop
+from collections import Counter
 import bisect, math, collections, itertools
 
 
@@ -4270,6 +4272,69 @@ class Solution:
     #     return max(dp)
 
 
+    """
+    621. Task Scheduler (Medium)
+    https://leetcode.com/problems/task-scheduler/
+    
+    Example 01:
+    Input: tasks = ["A","A","A","B","B","B"], n = 2
+    Output: 8
+    Explanation: 
+    A -> B -> idle -> A -> B -> idle -> A -> B
+    There is at least 2 units of time between any two same tasks.
+    
+    Example 02:
+    Input: tasks = ["A","A","A","B","B","B"], n = 0
+    Output: 6
+    Explanation: On this case any permutation of size 6 would work since n = 0.
+    ["A","A","A","B","B","B"]
+    ["A","B","A","B","A","B"]
+    ["B","B","B","A","A","A"]
+    ...
+    And so on.
+    
+    Example 03:
+    Input: tasks = ["A","A","A","A","A","A","B","C","D","E","F","G"], n = 2
+    Output: 16
+    Explanation: 
+    One possible solution is
+    A -> B -> C -> A -> D -> E -> A -> F -> G -> A -> idle -> idle -> A -> idle -> idle -> A
+    """
+    # def leastInterval(self, tasks: List[str], n: int) -> int:
+    #     #  h is the heap.
+    #     curr_time, h = 0, []
+    #     #  k stands for the letter, and v is its frequency.
+    #     for k, v in Counter(tasks).items():
+    #         heappush(h, (-1 * v, k))
+    #     while h:
+    #         i, temp = 0, []
+    #         #  Innder loop means to deal with the most frequent n elements.
+    #         while i <= n:
+    #             curr_time += 1
+    #             if h:
+    #                 x, y = heappop(h)
+    #                 if x != -1:
+    #                     temp.append((x + 1, y))
+    #             if not h and not temp:
+    #                 break
+    #             else:
+    #                 i += 1
+    #         for item in temp:
+    #             heappush(h, item)
+    #     return curr_time
+
+    #  The tricky solution.
+    #  Find the most frequent letter, define the frequency = m
+    #  Case 1: A(..n..) A... A... A   ans = (n + 1) * (m - 1) + 1
+    #          But when several letters have the same biggest frequency m > n,
+    #          ABC(..n..) ABC... ABC... ABC  ans = (n + 1) * (m - 1) + #letters with the biggest frquency.
+    #  Case 2: ABABAB   ans = len(tasks)
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        counts = list(Counter(tasks).values())  #  Counter(tasks) -> dict-like structure.
+        maxCounts = max(counts)  #  Get the most frequency.
+        factor = counts.count( maxCounts )  #  Get the number of letters with the biggest frquency.
+        return max(len(tasks), (n + 1) * (maxCounts - 1) + factor )
+
 
 
 
@@ -4719,7 +4784,6 @@ if __name__ == "__main__":
     print(S.minDistance("horse", "ros"))
     print(S.minDistance("intention", "execution"))
 
-    print("------------------------------------------")
     #  Leetcode 32
     print(S.longestValidParentheses("(()"))
     print(S.longestValidParentheses(")()())"))
@@ -4727,6 +4791,12 @@ if __name__ == "__main__":
     print(S.longestValidParentheses(")("))
     print(S.longestValidParentheses("()(())"))
     print(S.longestValidParentheses("())"))
+
+    #  Leetcode
+    print("------------------------------------------")
+    print(S.leastInterval(["A","A","A","B","B","B"], 2))
+    print(S.leastInterval(["A","A","A","B","B","B"], 0))
+    print(S.leastInterval(["A","A","A","A","A","A","B","C","D","E","F","G"], 2))
 
 
 
