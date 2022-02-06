@@ -4349,22 +4349,36 @@ class Solution:
     403. Frog Jump (Hard)
     https://leetcode.com/problems/frog-jump/
     """
-    #  Try to avoid TLE, so using a set.
-    #  MUST define the range of the set!
-    #  The straightforward solution.
-    def canCross(self, stones: List[int]) -> bool:
-        if stones[1] != 1:
-            return False
-        steps = {x: set() for x in stones}
-        steps[1].add(1)  # Reach the 1 unit stone with maximum 1 step.
-        for i in range(1, len(stones)):
-            for step in steps[stones[i]]:
-                for length in range(step - 1, step + 2):
-                    if length > 0 and stones[i] + length in steps:
-                        steps[ stones[i] + length ].add(length)
-        return steps[stones[-1]] != set()
+    # #  Try to avoid TLE, so using a set.
+    # #  MUST define the range of the set!
+    # #  The straightforward solution.
+    # def canCross(self, stones: List[int]) -> bool:
+    #     if stones[1] != 1:
+    #         return False
+    #     steps = {x: set() for x in stones}
+    #     steps[1].add(1)  # Reach the 1 unit stone with maximum 1 step.
+    #     for i in range(1, len(stones)):
+    #         for step in steps[stones[i]]:
+    #             for length in range(step - 1, step + 2):
+    #                 if length > 0 and stones[i] + length in steps:
+    #                     steps[ stones[i] + length ].add(length)
+    #     return steps[stones[-1]] != set()
 
     #  The dfs solution.
+    def canCross(self, stones: List[int]) -> bool:
+        @cache
+        def _canCross( cur, step ):
+            if step <= 0: return False
+            if cur not in setStones: return False
+            if cur == stones[-1]: return True
+            left = _canCross(cur + step - 1, step - 1)
+            mid = _canCross(cur + step, step)
+            right = _canCross(cur + step + 1, step + 1)
+            return left or mid or right
+
+        if stones[1] != 1: return False
+        setStones = set(stones)
+        return _canCross( 1, 1 )
 
 
 #  Drive code.
@@ -4827,9 +4841,10 @@ if __name__ == "__main__":
     print("------------------------------------------")
     #  Leetcode 403
     print(S.canCross([0, 1, 3, 5, 6, 8, 12, 17]))
+    print(S.canCross([0, 1, 3, 6, 10, 15, 16, 21]))
     print(S.canCross([0, 1, 2, 3, 4, 8, 9, 11]))
     print(S.canCross([0, 1, 3, 6, 10, 13, 15, 18]))
-    print(S.canCross([0, 1, 3, 6, 10, 15, 16, 21]))
+
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_
