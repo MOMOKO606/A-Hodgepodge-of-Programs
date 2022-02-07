@@ -535,29 +535,40 @@ class Solution:
         return ans
 
     #  Leetcode 46
-    # #  The naive recursive solution.
-    # def permute(self, nums: List[int]) -> List[List[int]]:
-    #     def _permute( nums ):
-    #         if not nums: return [[]]
-    #         return [[nums[i]] + item for i in range(len(nums)) for item in _permute(nums[:i] + nums[i + 1:])]
-    #     return _permute(nums)
-
-    #  The Backtrace solution.
+    #  The naive recursive solution.
     def permute(self, nums: List[int]) -> List[List[int]]:
-        def _permute( nums, pos ):
-            #  Base case
-            if pos == n:
-                ans.append( seq[:] )
-                return
-            for i in range(len(nums)):
-                nums[i], nums[0] = nums[0], nums[i]
-                seq.append( nums[0] )
-                _permute( nums[1:], pos + 1)
-                seq.pop()
+        def _permute(nums):
+            if not nums: return [[]]
+            return [[nums[i]] + item for i in range(len(nums)) for item in _permute(nums[:i] + nums[i + 1:])]
 
+        return _permute(nums)
 
-        ans, seq, n = [], [], len(nums)
-        _permute(nums, 0)
+    # #  The Backtrace solution.
+    # def permute(self, nums: List[int]) -> List[List[int]]:
+    #     def _permute( nums, pos ):
+    #         #  Base case
+    #         if pos == n:
+    #             ans.append( seq[:] )
+    #             return
+    #         for i in range(len(nums)):
+    #             nums[i], nums[0] = nums[0], nums[i]
+    #             seq.append( nums[0] )
+    #             _permute( nums[1:], pos + 1)
+    #             seq.pop()
+    #     ans, seq, n = [], [], len(nums)
+    #     _permute(nums, 0)
+    #     return ans
+
+    #  Leetcode 47
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        #  Base case
+        if not nums: return [[]]
+        visited, ans = set(), []
+        for i in range(len(nums)):
+            if nums[i] in visited: continue
+            visited.add(nums[i])
+            for seq in self.permuteUnique( nums[:i] + nums[i + 1:] ):
+                ans += [[nums[i]] + seq]
         return ans
 
 
@@ -671,8 +682,12 @@ if __name__ == "__main__":
     print(S.robotSim([4, -1, 4, -2, 4], [[2, 4]]))
     print(S.robotSim([6, -1, -1, 6], []))
 
-    print("-------------------------------------------")
     #  Leetcode 46
     print(S.permute([1, 2, 3]))
     print(S.permute([0, 1]))
     print(S.permute([1]))
+
+    print("-------------------------------------------")
+    #  Leetcode 47
+    print(S.permuteUnique([1, 1, 2]))
+    print(S.permuteUnique([1, 2, 3]))
