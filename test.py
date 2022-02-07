@@ -513,9 +513,9 @@ class Solution:
     #  Leetcode 874
     def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
         direction = {"up": [0, 1, "left", "right"],
-                   "down": [0, -1, "right", "left"],
-                   "left": [-1, 0, "down", "up"],
-                   "right": [1, 0, "up","down"]}
+                     "down": [0, -1, "right", "left"],
+                     "left": [-1, 0, "down", "up"],
+                     "right": [1, 0, "up", "down"]}
         curDir, x, y, ans = "up", 0, 0, 0
         obstacles = set(map(tuple, obstacles))
         for command in commands:
@@ -527,11 +527,37 @@ class Solution:
                 curDir = direction[curDir][3]
             else:
                 for i in range(command):
-                    if (x + direction[curDir][0],  y + direction[curDir][1]) in obstacles:
+                    if (x + direction[curDir][0], y + direction[curDir][1]) in obstacles:
                         break
                     x += direction[curDir][0]
                     y += direction[curDir][1]
-                    ans = max( ans, x*x + y*y )
+                    ans = max(ans, x * x + y * y)
+        return ans
+
+    #  Leetcode 46
+    # #  The naive recursive solution.
+    # def permute(self, nums: List[int]) -> List[List[int]]:
+    #     def _permute( nums ):
+    #         if not nums: return [[]]
+    #         return [[nums[i]] + item for i in range(len(nums)) for item in _permute(nums[:i] + nums[i + 1:])]
+    #     return _permute(nums)
+
+    #  The Backtrace solution.
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def _permute( nums, pos ):
+            #  Base case
+            if pos == n:
+                ans.append( seq[:] )
+                return
+            for i in range(len(nums)):
+                nums[i], nums[0] = nums[0], nums[i]
+                seq.append( nums[0] )
+                _permute( nums[1:], pos + 1)
+                seq.pop()
+
+
+        ans, seq, n = [], [], len(nums)
+        _permute(nums, 0)
         return ans
 
 
@@ -641,7 +667,12 @@ if __name__ == "__main__":
     print(S.coinChange([186, 419, 83, 408], 6249))
 
     #  Leetcode 874
-    print("-------------------------------------------")
     print(S.robotSim([4, -1, 3], []))
     print(S.robotSim([4, -1, 4, -2, 4], [[2, 4]]))
     print(S.robotSim([6, -1, -1, 6], []))
+
+    print("-------------------------------------------")
+    #  Leetcode 46
+    print(S.permute([1, 2, 3]))
+    print(S.permute([0, 1]))
+    print(S.permute([1]))

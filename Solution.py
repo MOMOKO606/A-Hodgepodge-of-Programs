@@ -4397,6 +4397,13 @@ class Solution:
     #     setStones = set(stones)
     #     return _canCross( 1, 1 )
 
+    """
+    552. Student Attendance Record II (Hard)
+    https://leetcode.com/problems/student-attendance-record-ii/
+    """
+    def checkRecord(self, n: int) -> int:
+        pass
+
 
 
 
@@ -4860,12 +4867,17 @@ if __name__ == "__main__":
     print(S.leastInterval(["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"], 2))
     print(S.leastInterval(["A", "A", "A", "B", "B", "B", "C", "C", "C", "D", "D", "E"], 2))
 
-    print("------------------------------------------")
     #  Leetcode 403
     print(S.canCross([0, 1, 3, 5, 6, 8, 12, 17]))
     print(S.canCross([0, 1, 3, 6, 10, 15, 16, 21]))
     print(S.canCross([0, 1, 2, 3, 4, 8, 9, 11]))
     print(S.canCross([0, 1, 3, 6, 10, 13, 15, 18]))
+
+    print("------------------------------------------")
+    #  Leetcode 552
+    print(S.checkRecord(2))
+    print(S.checkRecord(1))
+    print(S.checkRecord(10101))
 
 """
 ..................佛祖开光 ,永无BUG...................
