@@ -534,30 +534,32 @@ class Solution:
                     ans = max(ans, x * x + y * y)
         return ans
 
+
     #  Leetcode 46
     #  The straightforward recursive solution.
     def permute(self, nums: List[int]) -> List[List[int]]:
-        def _permute(nums):
-            if not nums: return [[]]
-            return [[nums[i]] + item for i in range(len(nums)) for item in _permute(nums[:i] + nums[i + 1:])]
+        #  Base case
+        if not nums: return [[]]
+        return [[nums[i]] + item for i in range(len(nums)) for item in self.permute( nums[:i] + nums[i + 1:] )]
 
-        return _permute(nums)
-
-    # #  The Backtrace solution.
+    # #  The backtrack solution.
     # def permute(self, nums: List[int]) -> List[List[int]]:
     #     def _permute( nums, pos ):
-    #         #  Base case
+    #         #  Base case.
     #         if pos == n:
     #             ans.append( seq[:] )
     #             return
     #         for i in range(len(nums)):
-    #             nums[i], nums[0] = nums[0], nums[i]
-    #             seq.append( nums[0] )
-    #             _permute( nums[1:], pos + 1)
+    #             seq.append( nums[i] )
+    #             _permute( nums[:i] + nums[i + 1:], pos + 1)
     #             seq.pop()
-    #     ans, seq, n = [], [], len(nums)
-    #     _permute(nums, 0)
+    #     n = len(nums)
+    #     ans, seq = [], []
+    #     _permute( nums, 0 )
     #     return ans
+
+
+
 
     #  Leetcode 47
     # #  The straightforward recursive solution.
@@ -573,24 +575,24 @@ class Solution:
     #     return ans
 
 
-    #  The backtrace solution.
-    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-        def _permuteUnique( nums, pos ):
-            #  Base case.
-            if pos == n:
-                ans.append( seq[:] )
-                return
-            visited = set()
-            for i in range(len(nums)):
-                if nums[i] in visited: continue
-                visited.add(nums[i])
-                seq.append( nums[i] )
-                _permuteUnique( nums[:i] + nums[i + 1:], pos + 1)
-                seq.pop()
-
-        ans, seq, n = [], [], len(nums)
-        _permuteUnique(nums, 0)
-        return ans
+    # #  The backtrace solution.
+    # def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+    #     def _permuteUnique( nums, pos ):
+    #         #  Base case.
+    #         if pos == n:
+    #             ans.append( seq[:] )
+    #             return
+    #         visited = set()
+    #         for i in range(len(nums)):
+    #             if nums[i] in visited: continue
+    #             visited.add(nums[i])
+    #             seq.append( nums[i] )
+    #             _permuteUnique( nums[:i] + nums[i + 1:], pos + 1)
+    #             seq.pop()
+    #
+    #     ans, seq, n = [], [], len(nums)
+    #     _permuteUnique(nums, 0)
+    #     return ans
 
 
 
@@ -712,5 +714,5 @@ if __name__ == "__main__":
 
     print("-------------------------------------------")
     #  Leetcode 47
-    print(S.permuteUnique([1, 1, 2]))
-    print(S.permuteUnique([1, 2, 3]))
+    # print(S.permuteUnique([1, 1, 2]))
+    # print(S.permuteUnique([1, 2, 3]))
