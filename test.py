@@ -559,21 +559,18 @@ class Solution:
     #     return ans
 
 
-
-
     #  Leetcode 47
-    # #  The straightforward recursive solution.
-    # def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-    #     #  Base case
-    #     if not nums: return [[]]
-    #     visited, ans = set(), []
-    #     for i in range(len(nums)):
-    #         if nums[i] in visited: continue
-    #         visited.add(nums[i])
-    #         for seq in self.permuteUnique( nums[:i] + nums[i + 1:] ):
-    #             ans += [[nums[i]] + seq]
-    #     return ans
-
+    #  The straightforward recursive solution.
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        #  Base case.
+        if not nums: return [[]]
+        ans, visited = [], set()
+        for i in range(len(nums)):
+            if nums[i] in visited: continue
+            visited.add( nums[i] )
+            for seq in self.permuteUnique( nums[:i] + nums[i + 1:] ):
+                ans += [ [nums[i]] + seq ]
+        return ans
 
     # #  The backtrace solution.
     # def permuteUnique(self, nums: List[int]) -> List[List[int]]:
@@ -593,6 +590,36 @@ class Solution:
     #     ans, seq, n = [], [], len(nums)
     #     _permuteUnique(nums, 0)
     #     return ans
+
+    #  Leetcode 77
+    # #  The straightforward solution.
+    # def combine(self, n: int, k: int) -> List[List[int]]:
+    #     #  Base case.
+    #     if k == 0: return [[]]
+    #     return [ [i] + seq for i in reversed( range(1, n + 1 ) ) for seq in self.combine( i - 1, k - 1 ) ]
+
+        #  The expanded version.
+        # ans = []
+        # for i in reversed(range(1, n + 1)):
+        #     for seq in self.combine( i - 1, k - 1 ):
+        #         ans += [ [i] + seq ]
+        # return ans
+
+    #  The backtrack solution.
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        def _combine( n, k ):
+            if k == 0:
+                ans.append( seq[:] )
+                return
+            for i in reversed( range(1, n + 1) ):
+                seq.append( i )
+                _combine( i - 1, k - 1 )
+                seq.pop()
+
+        ans, seq = [], []
+        _combine(n , k)
+        return ans
+
 
 
 
@@ -712,7 +739,12 @@ if __name__ == "__main__":
     print(S.permute([0, 1]))
     print(S.permute([1]))
 
-    print("-------------------------------------------")
     #  Leetcode 47
-    # print(S.permuteUnique([1, 1, 2]))
-    # print(S.permuteUnique([1, 2, 3]))
+    print(S.permuteUnique([1, 1, 2]))
+    print(S.permuteUnique([1, 2, 3]))
+
+    print("-------------------------------------------")
+    # Leetcode 77
+    print(S.combine(4, 2))
+    print(S.combine(1, 1))
+    # Leetcode 78
