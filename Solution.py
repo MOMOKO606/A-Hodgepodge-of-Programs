@@ -4401,8 +4401,64 @@ class Solution:
     552. Student Attendance Record II (Hard)
     https://leetcode.com/problems/student-attendance-record-ii/
     """
+    # #  The naive straightforward solution, O(2^n).
+    # #  TLE.
+    # #  Maximum recursion depth exceeded.
+    # def checkRecord(self, n: int) -> int:
+    #     @cache
+    #     def _checkRecord( i, hasA, twoL ):
+    #         if i > n: return 1
+    #         #  Choose P
+    #         count = _checkRecord( i + 1, hasA, 0 )
+    #         #  Choose A
+    #         if hasA == False:
+    #             count += _checkRecord( i + 1, True, 0)
+    #          #  Choose L
+    #         if twoL != 2:
+    #             count += _checkRecord( i + 1, hasA, twoL + 1 )
+    #         return count
+    #
+    #     return _checkRecord(1, False, 0 )
+
+    #  dp[i][j] = the number of possible attendance records of length i, ends of j (= "A" or "L" or "P").
+    #  So in the end, return sum(dp[n][j])
+
+    #          the i th day                 <==       the j of the i - 1 th day could be
+    #  dp[i][0] = without A, ends with a A.                   1, 2, 3
+    #  dp[i][1] = without A, ends with a P.                   1, 2, 3
+    #  dp[i][2] = without A, ends with a L.                   1
+    #  dp[i][3] = without A, ends with two LLs.               2
+    #  dp[i][4] = with A, ends with a P.                      0, 4, 5, 6
+    #  dp[i][5] = with A, ends with a L.                      0, 4
+    #  dp[i][6] = with A, ends with a two LLs.                5
     def checkRecord(self, n: int) -> int:
-        pass
+        MOD = 1000000007
+        dp = [ [0] * 7 for _ in range(n) ]
+        dp[0][0] = dp[0][1] = dp[0][2] = 1
+        for i in range(1, n):
+            dp[i][0] = (dp[i - 1][1] + dp[i - 1][2] + dp[i - 1][3]) % MOD
+            dp[i][1] = (dp[i - 1][1] + dp[i - 1][2] + dp[i - 1][3]) % MOD
+            dp[i][2] = dp[i - 1][1]
+            dp[i][3] = dp[i - 1][2]
+            dp[i][4] = (dp[i - 1][0] + dp[i - 1][4] + dp[i - 1][5] + dp[i - 1][6]) % MOD
+            dp[i][5] = (dp[i - 1][0] + dp[i - 1][4]) % MOD
+            dp[i][6] = dp[i - 1][5]
+        return sum(dp[n - 1][j] for j in range(7)) % MOD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

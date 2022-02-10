@@ -534,13 +534,12 @@ class Solution:
                     ans = max(ans, x * x + y * y)
         return ans
 
-
     #  Leetcode 46
     #  The straightforward recursive solution.
     def permute(self, nums: List[int]) -> List[List[int]]:
         #  Base case
         if not nums: return [[]]
-        return [[nums[i]] + item for i in range(len(nums)) for item in self.permute( nums[:i] + nums[i + 1:] )]
+        return [[nums[i]] + item for i in range(len(nums)) for item in self.permute(nums[:i] + nums[i + 1:])]
 
     # #  The backtrack solution.
     # def permute(self, nums: List[int]) -> List[List[int]]:
@@ -558,7 +557,6 @@ class Solution:
     #     _permute( nums, 0 )
     #     return ans
 
-
     #  Leetcode 47
     #  The straightforward recursive solution.
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
@@ -567,9 +565,9 @@ class Solution:
         ans, visited = [], set()
         for i in range(len(nums)):
             if nums[i] in visited: continue
-            visited.add( nums[i] )
-            for seq in self.permuteUnique( nums[:i] + nums[i + 1:] ):
-                ans += [ [nums[i]] + seq ]
+            visited.add(nums[i])
+            for seq in self.permuteUnique(nums[:i] + nums[i + 1:]):
+                ans += [[nums[i]] + seq]
         return ans
 
     # #  The backtrace solution.
@@ -592,12 +590,11 @@ class Solution:
     #     return ans
 
     #  Leetcode 77
-    # #  The straightforward solution.
-    # def combine(self, n: int, k: int) -> List[List[int]]:
-    #     #  Base case.
-    #     if k == 0: return [[]]
-    #     return [ [i] + seq for i in reversed( range(1, n + 1 ) ) for seq in self.combine( i - 1, k - 1 ) ]
-
+    #  The straightforward solution.
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        #  Base case.
+        if k == 0: return [[]]
+        return [[i] + seq for i in reversed(range(1, n + 1)) for seq in self.combine(i - 1, k - 1)]
         #  The expanded version.
         # ans = []
         # for i in reversed(range(1, n + 1)):
@@ -605,24 +602,27 @@ class Solution:
         #         ans += [ [i] + seq ]
         # return ans
 
-    #  The backtrack solution.
-    def combine(self, n: int, k: int) -> List[List[int]]:
-        def _combine( n, k ):
-            if k == 0:
-                ans.append( seq[:] )
-                return
-            for i in reversed( range(1, n + 1) ):
-                seq.append( i )
-                _combine( i - 1, k - 1 )
-                seq.pop()
+    # #  The backtrack solution.
+    # def combine(self, n: int, k: int) -> List[List[int]]:
+    #     def _combine( n, k ):
+    #         #  Base case.
+    #         if k == 0:
+    #             ans.append( seq[:] )
+    #             return
+    #         for i in reversed( range(1, n + 1) ):
+    #             seq.append( i )
+    #             _combine( i - 1, k - 1 )
+    #             seq.pop()
+    #     ans, seq = [], []
+    #     _combine(n , k)
+    #     return ans
 
-        ans, seq = [], []
-        _combine(n , k)
-        return ans
-
-
-
-
+    #  Leetcode 78
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        sets = [[]]
+        for num in nums:
+            sets += [ [num] + s for s in sets ]
+        return sets
 
 
 
@@ -743,8 +743,11 @@ if __name__ == "__main__":
     print(S.permuteUnique([1, 1, 2]))
     print(S.permuteUnique([1, 2, 3]))
 
-    print("-------------------------------------------")
     # Leetcode 77
     print(S.combine(4, 2))
     print(S.combine(1, 1))
+
     # Leetcode 78
+    print("-------------------------------------------")
+    print(S.subsets([1, 2, 3]))
+    print(S.subsets([0]))
