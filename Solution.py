@@ -4349,6 +4349,7 @@ class Solution:
     403. Frog Jump (Hard)
     https://leetcode.com/problems/frog-jump/
     """
+
     #  Try to avoid TLE, so using a set.
     #  MUST define the range of the set!
     #  The straightforward solution.
@@ -4361,7 +4362,7 @@ class Solution:
             for step in steps[stones[i]]:
                 for length in range(step - 1, step + 2):
                     if length > 0 and stones[i] + length in steps:
-                        steps[ stones[i] + length ].add(length)
+                        steps[stones[i] + length].add(length)
         return steps[stones[-1]] != set()
 
     # #  The dfs solution.
@@ -4401,6 +4402,7 @@ class Solution:
     552. Student Attendance Record II (Hard)
     https://leetcode.com/problems/student-attendance-record-ii/
     """
+
     # #  The naive straightforward solution, O(2^n).
     # #  TLE.
     # #  Maximum recursion depth exceeded.
@@ -4433,7 +4435,7 @@ class Solution:
     #  dp[i][6] = with A, ends with a two LLs.                5
     def checkRecord(self, n: int) -> int:
         MOD = 1000000007
-        dp = [ [0] * 7 for _ in range(n) ]
+        dp = [[0] * 7 for _ in range(n)]
         dp[0][0] = dp[0][1] = dp[0][2] = 1
         for i in range(1, n):
             dp[i][0] = (dp[i - 1][1] + dp[i - 1][2] + dp[i - 1][3]) % MOD
@@ -4445,24 +4447,48 @@ class Solution:
             dp[i][6] = dp[i - 1][5]
         return sum(dp[n - 1][j] for j in range(7)) % MOD
 
+    """
+    410. Split Array Largest Sum (Medium)
+    https://leetcode.com/problems/split-array-largest-sum/
+    """
+    # #  The dp solution but TLE.
+    # def splitArray(self, nums: List[int], m: int) -> int:
+    #     dp = [[0] * m for _ in range(len(nums))]
+    #     dp[0][0] = nums[0]
+    #     for i in range(len(nums)):
+    #         dp[i][0] = dp[i - 1][0] + nums[i]
+    #     for i in range(len(nums)):
+    #         for j in range(1, m):
+    #             dp[i][j] = math.inf
+    #     for j in range(1, m):
+    #         for i in range(len(nums)):
+    #             for k in range(i):
+    #                 x = dp[k][j - 1]
+    #                 y = sum(nums[k + 1: i + 1])
+    #                 dp[i][j] = min(dp[i][j], max(dp[k][j - 1], sum(nums[k + 1: i + 1])))
+    #     return dp[-1][-1]
 
+    #  The Binary search solution.
+    def splitArray(self, nums: List[int], m: int) -> int:
+        def validSplit( ceil ):
+            count, subarray = 1, 0
+            for num in nums:
+                if subarray + num <= ceil:
+                    subarray += num
+                else:
+                    subarray = num
+                    count += 1
+            return count <= m
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        left = max(nums)
+        right = sum(nums)
+        while left < right:
+            mid = (left + right) // 2
+            if validSplit( mid ):
+                right = mid
+            else:
+                left = mid + 1
+        return left
 
 
 
@@ -4929,11 +4955,16 @@ if __name__ == "__main__":
     print(S.canCross([0, 1, 2, 3, 4, 8, 9, 11]))
     print(S.canCross([0, 1, 3, 6, 10, 13, 15, 18]))
 
-    print("------------------------------------------")
     #  Leetcode 552
     print(S.checkRecord(2))
     print(S.checkRecord(1))
     print(S.checkRecord(10101))
+
+    print("-----------------------------------------")
+    #  Leetcode 410
+    print(S.splitArray([7, 2, 5, 10, 8], 2))
+    print(S.splitArray([1, 2, 3, 4, 5], 2))
+    print(S.splitArray([1, 4, 4], 3))
 
 """
 ..................佛祖开光 ,永无BUG...................
