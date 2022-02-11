@@ -4451,23 +4451,6 @@ class Solution:
     410. Split Array Largest Sum (Medium)
     https://leetcode.com/problems/split-array-largest-sum/
     """
-    # #  The dp solution but TLE.
-    # def splitArray(self, nums: List[int], m: int) -> int:
-    #     dp = [[0] * m for _ in range(len(nums))]
-    #     dp[0][0] = nums[0]
-    #     for i in range(len(nums)):
-    #         dp[i][0] = dp[i - 1][0] + nums[i]
-    #     for i in range(len(nums)):
-    #         for j in range(1, m):
-    #             dp[i][j] = math.inf
-    #     for j in range(1, m):
-    #         for i in range(len(nums)):
-    #             for k in range(i):
-    #                 x = dp[k][j - 1]
-    #                 y = sum(nums[k + 1: i + 1])
-    #                 dp[i][j] = min(dp[i][j], max(dp[k][j - 1], sum(nums[k + 1: i + 1])))
-    #     return dp[-1][-1]
-
     #  The Binary search solution.
     def splitArray(self, nums: List[int], m: int) -> int:
         def validSplit( ceil ):
@@ -4489,6 +4472,43 @@ class Solution:
             else:
                 left = mid + 1
         return left
+
+    # #  The dp solution but TLE.
+    # def splitArray(self, nums: List[int], m: int) -> int:
+    #     dp = [[0] * m for _ in range(len(nums))]
+    #     dp[0][0] = nums[0]
+    #     for i in range(len(nums)):
+    #         dp[i][0] = dp[i - 1][0] + nums[i]
+    #     for i in range(len(nums)):
+    #         for j in range(1, m):
+    #             dp[i][j] = math.inf
+    #     for j in range(1, m):
+    #         for i in range(len(nums)):
+    #             for k in range(i):
+    #                 x = dp[k][j - 1]
+    #                 y = sum(nums[k + 1: i + 1])
+    #                 dp[i][j] = min(dp[i][j], max(dp[k][j - 1], sum(nums[k + 1: i + 1])))
+    #     return dp[-1][-1]
+
+    """
+    647. Palindromic Substrings ( Medium )
+    https://leetcode.com/problems/palindromic-substrings/
+    """
+    #  The straightforward recursive solution with a memo.
+    def countSubstrings(self, s: str) -> int:
+        @cache
+        def isPalindrome(i, j):
+            if i > j: return True
+            if s[i] != s[j]: return False
+            return isPalindrome( i + 1, j - 1 )
+
+
+        count, n = 0, len(s)
+        for i in range(n):
+            for j in range(i, n):
+                if isPalindrome( i, j ):
+                    count += 1
+        return count
 
 
 
@@ -4960,11 +4980,17 @@ if __name__ == "__main__":
     print(S.checkRecord(1))
     print(S.checkRecord(10101))
 
-    print("-----------------------------------------")
+
     #  Leetcode 410
     print(S.splitArray([7, 2, 5, 10, 8], 2))
     print(S.splitArray([1, 2, 3, 4, 5], 2))
     print(S.splitArray([1, 4, 4], 3))
+
+    print("-------------------------------------")
+    #  Leetcode 674
+    print(S.countSubstrings("abc"))
+    print(S.countSubstrings("aaa"))
+
 
 """
 ..................佛祖开光 ,永无BUG...................
