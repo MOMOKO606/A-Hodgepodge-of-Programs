@@ -4495,6 +4495,7 @@ class Solution:
     https://leetcode.com/problems/palindromic-substrings/
     """
     #  The straightforward recursive solution with a memo.
+    #  Check every boundary i & j to the center.   i ----> center <---- j
     def countSubstrings(self, s: str) -> int:
         @cache
         def isPalindrome(i, j):
@@ -4502,13 +4503,39 @@ class Solution:
             if s[i] != s[j]: return False
             return isPalindrome( i + 1, j - 1 )
 
-
         count, n = 0, len(s)
         for i in range(n):
             for j in range(i, n):
                 if isPalindrome( i, j ):
                     count += 1
         return count
+
+    # #  The iterative solution.
+    # #  Check every odd & even substring from the center to the boundary.
+    # def countSubstrings(self, s: str) -> int:
+    #     def countFromCen(i, j):
+    #         count = 0
+    #         while i >= 0 and j < n and s[i] == s[j]:
+    #             count += 1
+    #             i -= 1
+    #             j += 1
+    #         return count
+    #
+    #     n, ans = len(s), 0
+    #     for i in range(n):
+    #         ans += countFromCen( i, i )  #  For the odd substrings
+    #         ans += countFromCen( i, i + 1)  #  For the even substrings.
+    #     return ans
+
+
+
+
+
+
+
+
+
+
 
 
 
