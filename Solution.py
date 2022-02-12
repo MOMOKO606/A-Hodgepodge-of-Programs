@@ -4528,6 +4528,46 @@ class Solution:
     #     return ans
 
 
+    """
+    76. Minimum Window Substring (Hard)
+    https://leetcode.com/problems/minimum-window-substring/
+    """
+    #  Sliding window --> Two pointers.
+    #  The right pointer to expand / move the window.
+    #  The left pointer to shrink / constrain the window.
+
+    #  Two more things to consider:
+    #  1. We don't care about the order means using a dict.
+    #     1) How to cope with the duplicated elements.
+    #  2. How to confirm that the window has all letters in t.
+    def minWindow(self, s: str, t: str) -> str:
+        target = collections.Counter(t)
+        left, right, count, n, ans = 0, 0, math.inf, len(t), ""
+        while right < len(s):
+            #  When target[s[right]] <= 0 means s has more the same character than them in t.
+            #  Such as: s: ABAAC   t: ABC
+            if target[s[right]] > 0:
+                n -= 1
+            target[s[right]] -= 1
+
+            #  When we find a valid window.
+            while n == 0:
+                #  Update the minimum window.
+                if not ans or right - left + 1 < count:
+                    count = right - left + 1
+                    ans = s[left: right + 1]
+                #  Moving left
+                target[s[left]] += 1
+                if target[s[left]] > 0:
+                    n += 1
+                left += 1
+            right += 1
+        return ans
+
+
+
+
+
 
 
 
@@ -5013,10 +5053,18 @@ if __name__ == "__main__":
     print(S.splitArray([1, 2, 3, 4, 5], 2))
     print(S.splitArray([1, 4, 4], 3))
 
-    print("-------------------------------------")
+
     #  Leetcode 674
     print(S.countSubstrings("abc"))
     print(S.countSubstrings("aaa"))
+
+    print("-------------------------------------")
+    #  Leetcode 76
+    # print(S.minWindow("ADOBECODEBANC", "ABC"))
+    # print(S.minWindow("ABAACBAB", "ABC"))
+    print(S.minWindow("a", "a"))
+    print(S.minWindow("a", "aa"))
+
 
 
 """
