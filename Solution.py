@@ -4451,9 +4451,10 @@ class Solution:
     410. Split Array Largest Sum (Medium)
     https://leetcode.com/problems/split-array-largest-sum/
     """
+
     #  The Binary search solution.
     def splitArray(self, nums: List[int], m: int) -> int:
-        def validSplit( ceil ):
+        def validSplit(ceil):
             count, subarray = 1, 0
             for num in nums:
                 if subarray + num <= ceil:
@@ -4467,7 +4468,7 @@ class Solution:
         right = sum(nums)
         while left < right:
             mid = (left + right) // 2
-            if validSplit( mid ):
+            if validSplit(mid):
                 right = mid
             else:
                 left = mid + 1
@@ -4494,6 +4495,7 @@ class Solution:
     647. Palindromic Substrings ( Medium )
     https://leetcode.com/problems/palindromic-substrings/
     """
+
     #  The straightforward recursive solution with a memo.
     #  Check every boundary i & j to the center.   i ----> center <---- j
     def countSubstrings(self, s: str) -> int:
@@ -4501,12 +4503,12 @@ class Solution:
         def isPalindrome(i, j):
             if i > j: return True
             if s[i] != s[j]: return False
-            return isPalindrome( i + 1, j - 1 )
+            return isPalindrome(i + 1, j - 1)
 
         count, n = 0, len(s)
         for i in range(n):
             for j in range(i, n):
-                if isPalindrome( i, j ):
+                if isPalindrome(i, j):
                     count += 1
         return count
 
@@ -4527,11 +4529,11 @@ class Solution:
     #         ans += countFromCen( i, i + 1)  #  For the even substrings.
     #     return ans
 
-
     """
     76. Minimum Window Substring (Hard)
     https://leetcode.com/problems/minimum-window-substring/
     """
+
     #  Sliding window --> Two pointers.
     #  The right pointer to expand / move the window.
     #  The left pointer to shrink / constrain the window.
@@ -4564,17 +4566,35 @@ class Solution:
             right += 1
         return ans
 
-
-
-
-
-
-
-
-
-
-
-
+    """
+    363. Max Sum of Rectangle No Larger Than K (Hard)
+    https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k/
+    """
+    #  The brute-force solution.
+    #  TLE - O(m^2 n^2)
+    #  Check every rectangle which means we need track the left-top and right-end indices.
+    #  Assume we have a left-top, then (i, j) is the right-end point.
+    #  dp[i, j] = the sum of the area from the left-top point to the right-end point.
+    #  转移方程：
+    #  Let's assume that we know the dp table, how to calculate matrix[i][j]?
+    #  matrix[i][j] = dp[i][j] - dp[i-1][j] - dp[i][j-1] + dp[i-1][j-1]
+    #  Transform the equation we get the 转移方程：
+    #  dp[i][j] = dp[i-1][j] + dp[i][j-1] - dp[i-1][j-1] + matrix.
+    def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
+        rows, cols, ans = len(matrix), len(matrix[0]), 0
+        for row in range(1, rows + 1):
+            for col in range(1, cols + 1):
+                #  (row, col) is the left-top point.
+                #  Initialize the dp table.
+                dp = [[0] * (cols + 1) for _ in range(rows + 1)]
+                dp[row][col] = matrix[row - 1][col - 1]
+                #  (i, j) is the right-end point.
+                for i in range(row, rows + 1):
+                    for j in range(col, cols + 1):
+                        dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + matrix[i - 1][j - 1]
+                        if dp[i][j] <= k:
+                            ans = max(ans, dp[i][j])
+        return ans
 
 
 
@@ -5047,25 +5067,25 @@ if __name__ == "__main__":
     print(S.checkRecord(1))
     print(S.checkRecord(10101))
 
-
     #  Leetcode 410
     print(S.splitArray([7, 2, 5, 10, 8], 2))
     print(S.splitArray([1, 2, 3, 4, 5], 2))
     print(S.splitArray([1, 4, 4], 3))
 
-
     #  Leetcode 674
     print(S.countSubstrings("abc"))
     print(S.countSubstrings("aaa"))
 
-    print("-------------------------------------")
     #  Leetcode 76
-    # print(S.minWindow("ADOBECODEBANC", "ABC"))
-    # print(S.minWindow("ABAACBAB", "ABC"))
+    print(S.minWindow("ADOBECODEBANC", "ABC"))
+    print(S.minWindow("ABAACBAB", "ABC"))
     print(S.minWindow("a", "a"))
     print(S.minWindow("a", "aa"))
 
-
+    print("-------------------------------------")
+    #  Leetcode 363
+    print(S.maxSumSubmatrix([[1, 0, 1], [0, -2, 3]], 2))
+    print(S.maxSumSubmatrix([[2, 2, -1]], 3))
 
 """
 ..................佛祖开光 ,永无BUG...................
