@@ -4566,35 +4566,64 @@ class Solution:
             right += 1
         return ans
 
+
     """
     363. Max Sum of Rectangle No Larger Than K (Hard)
     https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k/
     """
-    #  The brute-force solution.
-    #  TLE - O(m^2 n^2)
-    #  Check every rectangle which means we need track the left-top and right-end indices.
-    #  Assume we have a left-top, then (i, j) is the right-end point.
-    #  dp[i, j] = the sum of the area from the left-top point to the right-end point.
-    #  转移方程：
-    #  Let's assume that we know the dp table, how to calculate matrix[i][j]?
-    #  matrix[i][j] = dp[i][j] - dp[i-1][j] - dp[i][j-1] + dp[i-1][j-1]
-    #  Transform the equation we get the 转移方程：
-    #  dp[i][j] = dp[i-1][j] + dp[i][j-1] - dp[i-1][j-1] + matrix.
+    # #  The brute-force solution.
+    # #  TLE - O(m^2 n^2)
+    # #  Check every rectangle which means we need track the left-top and right-end indices.
+    # #  Assume we have a left-top, then (i, j) is the right-end point.
+    # #  dp[i, j] = the sum of the area from the left-top point to the right-end point.
+    # #  转移方程：
+    # #  Let's assume that we know the dp table, how to calculate matrix[i][j]?
+    # #  matrix[i][j] = dp[i][j] - dp[i-1][j] - dp[i][j-1] + dp[i-1][j-1]
+    # #  Transform the equation we get the 转移方程：
+    # #  dp[i][j] = dp[i-1][j] + dp[i][j-1] - dp[i-1][j-1] + matrix.
+    # def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
+    #     rows, cols, ans = len(matrix), len(matrix[0]), 0
+    #     for row in range(1, rows + 1):
+    #         for col in range(1, cols + 1):
+    #             #  (row, col) is the left-top point.
+    #             #  Initialize the dp table.
+    #             dp = [[0] * (cols + 1) for _ in range(rows + 1)]
+    #             dp[row][col] = matrix[row - 1][col - 1]
+    #             #  (i, j) is the right-end point.
+    #             for i in range(row, rows + 1):
+    #                 for j in range(col, cols + 1):
+    #                     dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + matrix[i - 1][j - 1]
+    #                     if dp[i][j] <= k:
+    #                         ans = max(ans, dp[i][j])
+    #     return ans
+
+
+    #  The solution using prefix to reduce one loop.
+    #  The idea is that when we fix two cols,
+    #  the sum of prefix of their rows could represents the area of each rectangle.
+    #  Still TLE.
     def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
-        rows, cols, ans = len(matrix), len(matrix[0]), 0
-        for row in range(1, rows + 1):
-            for col in range(1, cols + 1):
-                #  (row, col) is the left-top point.
-                #  Initialize the dp table.
-                dp = [[0] * (cols + 1) for _ in range(rows + 1)]
-                dp[row][col] = matrix[row - 1][col - 1]
-                #  (i, j) is the right-end point.
-                for i in range(row, rows + 1):
-                    for j in range(col, cols + 1):
-                        dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + matrix[i - 1][j - 1]
-                        if dp[i][j] <= k:
-                            ans = max(ans, dp[i][j])
+        rows, cols, ans = len(matrix), len(matrix[0]), -math.inf
+        for l in range(cols):
+            preSum = [0] * rows
+            for r in range(l, cols):
+                for p in range(rows):
+                    #  preSum = the rectangle from l ro r of each row (横向长方形).
+                    preSum[p] += matrix[p][r]
+                #  再纵向比较
+                for i in range(rows):
+                    area = 0
+                    for j in range(i, rows):
+                        area += preSum[j]
+                        if area == k: return k
+                        elif area < k:
+                            ans = max(ans, area)
         return ans
+
+
+
+
+
 
 
 
@@ -5086,6 +5115,7 @@ if __name__ == "__main__":
     #  Leetcode 363
     print(S.maxSumSubmatrix([[1, 0, 1], [0, -2, 3]], 2))
     print(S.maxSumSubmatrix([[2, 2, -1]], 3))
+    print(S.maxSumSubmatrix([[2, 2, -1]], 0))
 
 """
 ..................佛祖开光 ,永无BUG...................
