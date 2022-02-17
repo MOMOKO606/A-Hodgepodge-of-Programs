@@ -4566,11 +4566,11 @@ class Solution:
             right += 1
         return ans
 
-
     """
     363. Max Sum of Rectangle No Larger Than K (Hard)
     https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k/
     """
+
     # #  The brute-force solution.
     # #  TLE - O(m^2 n^2)
     # #  Check every rectangle which means we need track the left-top and right-end indices.
@@ -4597,7 +4597,6 @@ class Solution:
     #                         ans = max(ans, dp[i][j])
     #     return ans
 
-
     #  The solution using prefix to reduce one loop.
     #  The idea is that when we fix two cols,
     #  the sum of prefix of their rows could represents the area of each rectangle.
@@ -4615,14 +4614,57 @@ class Solution:
                     area = 0
                     for j in range(i, rows):
                         area += preSum[j]
-                        if area == k: return k
+                        if area == k:
+                            return k
                         elif area < k:
                             ans = max(ans, area)
         return ans
 
+    """
+    Matrix Chain Multiplication (Hard)
+    https://practice.geeksforgeeks.org/problems/matrix-chain-multiplication0303/1#
+    
+    Example 01:
+    Input: nums = [40, 20, 30, 10, 30]
+    Output: 26000
+    Explaination: There are 4 matrices of dimension 40x20, 20x30, 30x10, 10x30. Say the matrices are 
+    named as A, B, C, D. Out of all possible combinations, the most efficient way is (A*(B*C))*D. 
+    The number of operations are 20*30*10 + 40*20*10 + 40*10*30 = 26000.
+    
+    Example 02:
+    Input: nums = [10, 30, 5, 60
+    Output: 4500
+    Explaination: The matrices have dimensions 10*30, 30*5, 5*60. Say the matrices are A, B 
+    and C. Out of all possible combinations,the most efficient way is (A*B)*C. The 
+    number of multiplications are 10*30*5 + 10*5*60 = 4500.
+    """
+    # #  The recursive dp solution using a memo.
+    # def matrixMultiplication(self, nums):
+    #     @cache
+    #     def _matrixMultiplication(i, j):
+    #         #  Base case
+    #         if i == j: return 0
+    #         ans = math.inf
+    #         for k in range(i, j):
+    #             ans = min(ans,
+    #                       _matrixMultiplication(i, k) + _matrixMultiplication(k + 1, j) + nums[i - 1] * nums[k] * nums[
+    #                           j])
+    #         return ans
+    #     return _matrixMultiplication(1, len(nums) - 1)
 
 
-
+    #  The iterative dp solution.
+    def matrixMultiplication(self, nums):
+        n = len(nums)
+        dp = [[math.inf] * n for _ in range(n)]
+        for i in range(1, n):
+            dp[i][i] = 0
+        for l in range(1, n - 1):
+            for i in range(1, n - l):
+                j = i + l
+                for k in range(i, j):
+                    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + nums[i - 1] * nums[k] * nums[j])
+        return dp[1][n - 1]
 
 
 
@@ -5111,11 +5153,17 @@ if __name__ == "__main__":
     print(S.minWindow("a", "a"))
     print(S.minWindow("a", "aa"))
 
-    print("-------------------------------------")
     #  Leetcode 363
     print(S.maxSumSubmatrix([[1, 0, 1], [0, -2, 3]], 2))
     print(S.maxSumSubmatrix([[2, 2, -1]], 3))
     print(S.maxSumSubmatrix([[2, 2, -1]], 0))
+
+    print("-------------------------------------")
+    #  GeeksforGeeks
+    print(S.matrixMultiplication([2, 3, 5, 2, 4, 3]))   #  ans = 78
+    print(S.matrixMultiplication([40, 20, 30, 10, 30]))  #  ans = 26000
+    print(S.matrixMultiplication([10, 30, 5, 60]))   #  ans = 4500
+
 
 """
 ..................佛祖开光 ,永无BUG...................
