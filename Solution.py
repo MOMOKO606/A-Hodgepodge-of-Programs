@@ -4652,7 +4652,6 @@ class Solution:
     #         return ans
     #     return _matrixMultiplication(1, len(nums) - 1)
 
-
     #  The iterative dp solution.
     def matrixMultiplication(self, nums):
         n = len(nums)
@@ -4665,6 +4664,52 @@ class Solution:
                 for k in range(i, j):
                     dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + nums[i - 1] * nums[k] * nums[j])
         return dp[1][n - 1]
+
+
+    """
+    312. Burst Balloons (Hard)
+    https://leetcode.com/problems/burst-balloons/
+    """
+    # #  The recursive dp solution with a memo.
+    # #  (i,j) = the max coins from index i to index j.
+    # #  Subproblems: (i,j) = (i, k) + (k + 1, j) + process.
+    # #  The trick is, k means the balloons k should be the last balloon to be burst.
+    # def maxCoins(self, nums: List[int]) -> int:
+    #     @cache
+    #     def _maxCoins(i, j):
+    #         if i > j: return 0
+    #         ans = 0
+    #         for k in range(i, j + 1):
+    #             ans = max(ans, _maxCoins(i, k - 1) + _maxCoins(k + 1, j) + nums[i - 1] * nums[k] * nums[j + 1])
+    #         return ans
+    #
+    #     nums = [1] + nums + [1]
+    #     return _maxCoins(1, len(nums) - 2)
+
+
+    #  The iterative dp solution.
+    def maxCoins(self, nums: List[int]) -> int:
+        nums = [1] + nums + [1]
+        n = len(nums)
+        dp = [[0] * n for _ in range(n)]
+        for l in range(1, n - 1):
+            for i in range(1, n - l):
+                j = i + l
+                for k in range(i, j):
+                    dp[i][j] = max(dp[i][j], dp[i][k] + dp[k + 1][j] + nums[i - 1] * nums[k] * nums[j])
+        return dp[1][n - 1]
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5158,12 +5203,15 @@ if __name__ == "__main__":
     print(S.maxSumSubmatrix([[2, 2, -1]], 3))
     print(S.maxSumSubmatrix([[2, 2, -1]], 0))
 
-    print("-------------------------------------")
     #  GeeksforGeeks
-    print(S.matrixMultiplication([2, 3, 5, 2, 4, 3]))   #  ans = 78
-    print(S.matrixMultiplication([40, 20, 30, 10, 30]))  #  ans = 26000
-    print(S.matrixMultiplication([10, 30, 5, 60]))   #  ans = 4500
+    print(S.matrixMultiplication([2, 3, 5, 2, 4, 3]))  # ans = 78
+    print(S.matrixMultiplication([40, 20, 30, 10, 30]))  # ans = 26000
+    print(S.matrixMultiplication([10, 30, 5, 60]))  # ans = 4500
 
+    print("-------------------------------------")
+    #  Leetcode 312
+    print(S.maxCoins([3, 1, 5, 8]))
+    print(S.maxCoins([1, 5]))
 
 """
 ..................佛祖开光 ,永无BUG...................
