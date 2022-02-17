@@ -4700,14 +4700,40 @@ class Solution:
         return dp[1][n - 1]
 
 
+    """
+    279. Perfect Squares (Medium)
+    https://leetcode.com/problems/perfect-squares/
+    
+    Example 01
+    Input: n = 12
+    Output: 3
+    Explanation: 12 = 4 + 4 + 4.
+    
+    Example 02
+    Input: n = 13
+    Output: 2
+    Explanation: 13 = 4 + 9.
+    """
+    # #  The straightforward recursive solution with a memo.
+    # #  TLE
+    # @cache
+    # def numSquares(self, n: int) -> int:
+    #     #  Base case
+    #     if n == 1: return 1
+    #     if n < 1: return 0
+    #     ans = math.inf
+    #     for i in range(1, n + 1):
+    #         if math.sqrt(i) != math.ceil(math.sqrt(i)):
+    #             continue
+    #         ans = min(ans, 1 + self.numSquares( n - i ) )
+    #     return ans
 
-
-
-
-
-
-
-
+    #  The iterative solution.
+    def numSquares(self, n: int) -> int:
+        dp = [0] + [math.inf] * n
+        for i in range(1, n + 1):
+            dp[i] = min(dp[i - j * j] for j in range(1, int(i ** 0.5) + 1)) + 1
+        return dp[-1]
 
 
 
@@ -5208,11 +5234,14 @@ if __name__ == "__main__":
     print(S.matrixMultiplication([40, 20, 30, 10, 30]))  # ans = 26000
     print(S.matrixMultiplication([10, 30, 5, 60]))  # ans = 4500
 
-    print("-------------------------------------")
     #  Leetcode 312
     print(S.maxCoins([3, 1, 5, 8]))
     print(S.maxCoins([1, 5]))
 
+    print("-------------------------------------")
+    #  Leetcode 279
+    print(S.numSquares(12))
+    print(S.numSquares(13))
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_
