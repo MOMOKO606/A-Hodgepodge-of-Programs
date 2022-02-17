@@ -4715,25 +4715,21 @@ class Solution:
     Explanation: 13 = 4 + 9.
     """
     # #  The straightforward recursive solution with a memo.
-    # #  TLE
     # @cache
     # def numSquares(self, n: int) -> int:
     #     #  Base case
-    #     if n == 1: return 1
-    #     if n < 1: return 0
+    #     if n < 2: return n
     #     ans = math.inf
-    #     for i in range(1, n + 1):
-    #         if math.sqrt(i) != math.ceil(math.sqrt(i)):
-    #             continue
-    #         ans = min(ans, 1 + self.numSquares( n - i ) )
+    #     for i in range(1, int(n ** 0.5) + 1):
+    #         ans = min(ans, 1 + self.numSquares( n - i * i ) )
     #     return ans
 
-    #  The iterative solution.
-    def numSquares(self, n: int) -> int:
-        dp = [0] + [math.inf] * n
-        for i in range(1, n + 1):
-            dp[i] = min(dp[i - j * j] for j in range(1, int(i ** 0.5) + 1)) + 1
-        return dp[-1]
+    # #  The iterative solution.
+    # def numSquares(self, n: int) -> int:
+    #     dp = [0] + [math.inf] * n
+    #     for i in range(1, n + 1):
+    #         dp[i] = min(dp[i - j * j] for j in range(1, int(i ** 0.5) + 1)) + 1
+    #     return dp[-1]
 
 
 
