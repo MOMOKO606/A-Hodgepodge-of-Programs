@@ -4714,15 +4714,15 @@ class Solution:
     Output: 2
     Explanation: 13 = 4 + 9.
     """
-    # #  The straightforward recursive solution with a memo.
-    # @cache
-    # def numSquares(self, n: int) -> int:
-    #     #  Base case
-    #     if n < 2: return n
-    #     ans = math.inf
-    #     for i in range(1, int(n ** 0.5) + 1):
-    #         ans = min(ans, 1 + self.numSquares( n - i * i ) )
-    #     return ans
+    #  The straightforward recursive solution with a memo.
+    @cache
+    def numSquares(self, n: int) -> int:
+        #  Base case
+        if n < 2: return n
+        ans = math.inf
+        for i in range(1, int(n ** 0.5) + 1):
+            ans = min(ans, 1 + self.numSquares( n - i * i ) )
+        return ans
 
     # #  The iterative solution.
     # def numSquares(self, n: int) -> int:
@@ -4730,6 +4730,46 @@ class Solution:
     #     for i in range(1, n + 1):
     #         dp[i] = min(dp[i - j * j] for j in range(1, int(i ** 0.5) + 1)) + 1
     #     return dp[-1]
+
+    # #  The BFS solution, version 01.
+    # def numSquares(self, n: int) -> int:
+    #     #  Base case
+    #     if n < 2: return n
+    #     squares = [i ** 2 for i in range(1, int(n ** 0.5) + 1)]
+    #     queue, level = [n], 0
+    #     while queue:
+    #         level += 1
+    #         temp = []
+    #         for _ in range(len(queue)):
+    #             node = queue.pop(0)
+    #             for square in squares:
+    #                 if node == square:
+    #                     return level
+    #                 if node > square:
+    #                     temp += [node - square]
+    #         queue = list(set(temp))
+    #
+    # #  The BFS solution, version 02.
+    # def numSquares(self, n: int) -> int:
+    #     #  Base case
+    #     if n < 2: return n
+    #     queue, level = [n], 0
+    #     while queue:
+    #         level += 1
+    #         temp = []
+    #         for _ in range(len(queue)):
+    #             node = queue.pop(0)
+    #             for i in range(1, int(node ** 0.5) + 1):
+    #                 square = i ** 2
+    #                 if node == square:
+    #                     return level
+    #                 temp += [node - square]
+    #         queue = list(set(temp))
+
+
+
+
+
 
 
 
