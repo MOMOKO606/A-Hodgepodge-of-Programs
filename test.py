@@ -1,5 +1,6 @@
 from typing import List, Optional
 import bisect, math
+from functools import cache
 
 
 class ListNode:
@@ -621,9 +622,54 @@ class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         sets = [[]]
         for num in nums:
-            sets += [ [num] + s for s in sets ]
+            sets += [[num] + s for s in sets]
         return sets
 
+    #  Leetcode 72
+    # #  The straightforward recursive solution with a memo.
+    # @cache
+    # def minDistance(self, word1: str, word2: str) -> int:
+    #     if not word1 and not word2:
+    #         return 0
+    #     if not word1 or not word2:
+    #         return len(word1 or word2)
+    #     if word1[0] == word2[0]:
+    #         return self.minDistance( word1[1:], word2[1:] )
+    #     insert = self.minDistance( word1, word2[1:])
+    #     delete = self.minDistance( word1[1:], word2)
+    #     replace = self.minDistance( word1[1:], word2[1:] )
+    #     return min(insert, delete, replace) + 1
+
+    # #  The recursive solution using indices and a memo.
+    # def minDistance(self, word1: str, word2: str) -> int:
+    #     @cache
+    #     def _minDistance( i, j ):
+    #         if i < 0 and j < 0: return 0
+    #         if i < 0 and j >= 0: return j + 1
+    #         if i >= 0 and j < 0: return i + 1
+    #         if word1[i] == word2[j]:
+    #             return _minDistance( i - 1, j - 1 )
+    #         insert = _minDistance( i, j - 1 )
+    #         replace = _minDistance( i - 1, j - 1 )
+    #         delete = _minDistance( i - 1, j)
+    #         return min(insert, replace, delete) + 1
+    #     return _minDistance( len(word1) - 1, len(word2) - 1)
+
+    #  The iterative solution.
+    def minDistance(self, word1: str, word2: str) -> int:
+        n1, n2 = len(word1) + 1, len(word2) + 1
+        dp = [[0] * n2 for _ in range(n1)]
+        for j in range(1, n2):
+            dp[0][j] = j
+        for i in range(1, n1):
+            dp[i][0] = i
+        for i in range(1, n1):
+            for j in range(1, n2):
+                if word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1
+        return dp[-1][-1]
 
 
 
@@ -748,6 +794,11 @@ if __name__ == "__main__":
     print(S.combine(1, 1))
 
     # Leetcode 78
-    print("-------------------------------------------")
     print(S.subsets([1, 2, 3]))
     print(S.subsets([0]))
+
+    print("-------------------------------------")
+    #  Leetcode 72
+    print(S.minDistance("hr", "r"))
+    print(S.minDistance("horse", "ros"))
+    print(S.minDistance("intention", "execution"))
