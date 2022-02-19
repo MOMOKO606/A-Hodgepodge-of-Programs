@@ -171,24 +171,24 @@ class Solution:
     #  Leetcode 55
     def canJump(self, nums: List[int]) -> bool:
         n = len(nums)
-        ans = [False] * n
-        ans[0] = True
-        for i in range(1, n):
-            for j in range(i):
-                if i - j <= nums[j] and ans[j] is True:
-                    ans[i] = True
-                    break
-        return ans[n - 1]
+        reach = 0
+        for j in range(n):
+            if j > reach:
+                return False
+            if reach >= n - 1:
+                return True
+            reach = max(reach, j + nums[j])
 
     # def canJump(self, nums: List[int]) -> bool:
     #     n = len(nums)
-    #     reach = 0
-    #     for j in range(n):
-    #         if j > reach:
-    #             return False
-    #         if reach >= n - 1:
-    #             return True
-    #         reach = max(reach, j + nums[j])
+    #     ans = [False] * n
+    #     ans[0] = True
+    #     for i in range(1, n):
+    #         for j in range(i):
+    #             if i - j <= nums[j] and ans[j] is True:
+    #                 ans[i] = True
+    #                 break
+    #     return ans[n - 1]
 
     # def canJump(self, nums:List[int]) -> bool:
     #
@@ -209,6 +209,17 @@ class Solution:
     #     memo = [0] * len(nums)
     #     memo[0] = True
     #     return _canJump( nums, memo)
+
+    #  Leetcode 45
+    def jump(self, nums: List[int]) -> int:
+        reach, nextReach, steps = 0, 0, 0
+        for i in range(len(nums)):
+            nextReach = max(nextReach, i + nums[i])
+            if nextReach >= len(nums) - 1: return steps + 1
+            if i == reach:
+                steps += 1
+                reach = nextReach
+
 
     #  Leetcode 62
     def uniquePaths(self, m: int, n: int) -> int:
@@ -480,14 +491,14 @@ class Solution:
     #  Example:
     #  Coins = [2, 3, 6, 7] and Amount = 12,
     #  Greedy takes [2, 3, 7] and the optimal choice is [6, 6].
-    def coinChange(self, nums: List[int], amount: int) -> int:
-        ans = [amount + 1] * (amount + 1)
-        ans[0] = 0
-        for i in range(len(ans)):
-            for num in nums:
-                if i - num >= 0:
-                    ans[i] = min(ans[i], ans[i - num] + 1)
-        return ans[amount] if ans[amount] < amount + 1 else -1
+    # def coinChange(self, nums: List[int], amount: int) -> int:
+    #     ans = [amount + 1] * (amount + 1)
+    #     ans[0] = 0
+    #     for i in range(len(ans)):
+    #         for num in nums:
+    #             if i - num >= 0:
+    #                 ans[i] = min(ans[i], ans[i - num] + 1)
+    #     return ans[amount] if ans[amount] < amount + 1 else -1
 
     # def coinChange(self, nums: List[int], amount: int) -> int:
     #
@@ -510,6 +521,18 @@ class Solution:
     #             memo[num] = 1
     #     ans = _coinChange( nums, memo, amount )
     #     return ans if ans < float("inf")  else -1
+
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        @cache
+        def _coinChange( n ):
+            if n < 0: return math.inf
+            if n == 0: return 0
+            ans = math.inf
+            for coin in coins:
+                ans = min(ans, _coinChange(n - coin) + 1)
+            return ans
+        ans = _coinChange(amount)
+        return ans if ans != math.inf else -1
 
     #  Leetcode 874
     def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
@@ -672,7 +695,6 @@ class Solution:
         return dp[-1][-1]
 
 
-
 #  Drive code.
 if __name__ == "__main__":
     S = Solution()
@@ -706,6 +728,11 @@ if __name__ == "__main__":
 
     #  Leetcode 55
     print(S.canJump([2, 3, 1, 1, 4]))
+
+    print("----------------------------------------")
+    #  Leetcode 45
+    print(S.jump([2, 3, 1, 1, 4]))
+    print(S.jump([2, 3, 0, 1, 4]))
 
     #  Leetcode 62
     print(S.uniquePaths(3, 7))
@@ -768,6 +795,7 @@ if __name__ == "__main__":
     print(S.lengthOfLIS([0, 1, 0, 3, 2, 3]))
     print(S.lengthOfLIS([7, 7, 7, 7, 7, 7, 7]))
 
+    print("--------------------------------------------")
     #  Leetcode 322
     print(S.coinChange([1, 2, 5], 11))
     print(S.coinChange([2], 3))
@@ -797,8 +825,9 @@ if __name__ == "__main__":
     print(S.subsets([1, 2, 3]))
     print(S.subsets([0]))
 
-    print("-------------------------------------")
     #  Leetcode 72
     print(S.minDistance("hr", "r"))
     print(S.minDistance("horse", "ros"))
     print(S.minDistance("intention", "execution"))
+
+
