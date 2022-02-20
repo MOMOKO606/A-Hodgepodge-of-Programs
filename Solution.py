@@ -3307,6 +3307,7 @@ class Solution:
     Explanation: The minimum number of jumps to reach the last index is 2. 
     Jump 1 step from index 0 to 1, then 3 steps to the last index.
     """
+
     #  The greedy solution.
     def jump(self, nums: List[int]) -> int:
         reach, nextReach, count = 0, 0, 0
@@ -4637,6 +4638,7 @@ class Solution:
     and C. Out of all possible combinations,the most efficient way is (A*B)*C. The 
     number of multiplications are 10*30*5 + 10*5*60 = 4500.
     """
+
     # #  The recursive dp solution using a memo.
     # def matrixMultiplication(self, nums):
     #     @cache
@@ -4664,11 +4666,11 @@ class Solution:
                     dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + nums[i - 1] * nums[k] * nums[j])
         return dp[1][n - 1]
 
-
     """
     312. Burst Balloons (Hard)
     https://leetcode.com/problems/burst-balloons/
     """
+
     # #  The recursive dp solution with a memo.
     # #  (i,j) = the max coins from index i to index j.
     # #  Subproblems: (i,j) = (i, k) + (k + 1, j) + process.
@@ -4685,7 +4687,6 @@ class Solution:
     #     nums = [1] + nums + [1]
     #     return _maxCoins(1, len(nums) - 2)
 
-
     #  The iterative dp solution.
     def maxCoins(self, nums: List[int]) -> int:
         nums = [1] + nums + [1]
@@ -4697,7 +4698,6 @@ class Solution:
                 for k in range(i, j):
                     dp[i][j] = max(dp[i][j], dp[i][k] + dp[k + 1][j] + nums[i - 1] * nums[k] * nums[j])
         return dp[1][n - 1]
-
 
     """
     279. Perfect Squares (Medium)
@@ -4713,6 +4713,7 @@ class Solution:
     Output: 2
     Explanation: 13 = 4 + 9.
     """
+
     #  The straightforward recursive solution with a memo.
     @cache
     def numSquares(self, n: int) -> int:
@@ -4720,7 +4721,7 @@ class Solution:
         if n < 2: return n
         ans = math.inf
         for i in range(1, int(n ** 0.5) + 1):
-            ans = min(ans, 1 + self.numSquares( n - i * i ) )
+            ans = min(ans, 1 + self.numSquares(n - i * i))
         return ans
 
     # #  The iterative solution.
@@ -4765,15 +4766,19 @@ class Solution:
     #                 temp += [node - square]
     #         queue = list(set(temp))
 
-
-
-
-
-
-
-
-
-
+    """
+    518. Coin Change 2 ( xMedium )
+    https://leetcode.com/problems/coin-change-2/
+    """
+    #  The recursive dp solution with a memo.
+    def change(self, amount: int, coins: List[int]) -> int:
+        #  tuple(coins) because List is unhashable.
+        @cache
+        def _change( amount, coins ):
+            if amount == 0: return 1
+            if not coins or amount < 0: return 0
+            return  _change(amount - coins[-1], coins) + _change(amount, coins[: -1])
+        return _change(amount, tuple(coins))
 
 
 #  Drive code.
@@ -5273,10 +5278,15 @@ if __name__ == "__main__":
     print(S.maxCoins([3, 1, 5, 8]))
     print(S.maxCoins([1, 5]))
 
-    print("-------------------------------------")
     #  Leetcode 279
     print(S.numSquares(12))
     print(S.numSquares(13))
+
+    #  Leetcode 518
+    print("----------------------------------------")
+    print(S.change(5, [1, 2, 5]))
+    print(S.change(3, [2]))
+    print(S.change(10, [10]))
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_

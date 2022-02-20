@@ -500,39 +500,31 @@ class Solution:
     #                 ans[i] = min(ans[i], ans[i - num] + 1)
     #     return ans[amount] if ans[amount] < amount + 1 else -1
 
-    # def coinChange(self, nums: List[int], amount: int) -> int:
-    #
-    #     def _coinChange( nums: List[int], memo: List[float], amount: int) -> int:
-    #         if memo[amount] < float("inf"):
-    #             return int(memo[amount])
-    #         if not amount:
-    #             memo[amount] = 0
-    #             return 0
-    #         least_coins = float("inf")
-    #         for num in nums:
-    #             if amount - num >= 0:
-    #                 least_coins = min(least_coins, _coinChange(nums, memo, amount - num) + 1)
-    #         return least_coins
-    #
-    #     memo = [float("inf")] * (amount + 1)
-    #     memo[0] = 0
-    #     for num in nums:
-    #         if num < len(nums):
-    #             memo[num] = 1
-    #     ans = _coinChange( nums, memo, amount )
-    #     return ans if ans < float("inf")  else -1
+    # #  The recursive solution with a memo.
+    # def coinChange(self, coins: List[int], amount: int) -> int:
+    #     @cache
+    #     def _coinChange( n ):
+    #         if n < 0: return math.inf
+    #         if n == 0: return 0
+    #         ans = math.inf
+    #         for coin in coins:
+    #             ans = min(ans, _coinChange(n - coin) + 1)
+    #         return ans
+    #     ans = _coinChange(amount)
+    #     return ans if ans != math.inf else -1
 
     def coinChange(self, coins: List[int], amount: int) -> int:
-        @cache
-        def _coinChange( n ):
-            if n < 0: return math.inf
-            if n == 0: return 0
-            ans = math.inf
+        dp = [ amount + 1 ] * ( amount + 1 )
+        dp[0] = 0
+        for i in range(len(dp)):
             for coin in coins:
-                ans = min(ans, _coinChange(n - coin) + 1)
-            return ans
-        ans = _coinChange(amount)
-        return ans if ans != math.inf else -1
+                if i - coin >= 0:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+        return dp[-1]
+
+
+
+
 
     #  Leetcode 874
     def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
