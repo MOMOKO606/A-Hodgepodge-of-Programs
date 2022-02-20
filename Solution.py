@@ -4770,15 +4770,33 @@ class Solution:
     518. Coin Change 2 ( xMedium )
     https://leetcode.com/problems/coin-change-2/
     """
-    #  The recursive dp solution with a memo.
+    # #  The recursive dp solution with a memo.
+    # def change(self, amount: int, coins: List[int]) -> int:
+    #     #  tuple(coins) because List is unhashable.
+    #     @cache
+    #     def _change( amount, coins ):
+    #         if amount == 0: return 1
+    #         if not coins or amount < 0: return 0
+    #         return  _change(amount - coins[-1], coins) + _change(amount, coins[: -1])
+    #     return _change(amount, tuple(coins))
+
+    #  The iterative dp solution.
     def change(self, amount: int, coins: List[int]) -> int:
-        #  tuple(coins) because List is unhashable.
-        @cache
-        def _change( amount, coins ):
-            if amount == 0: return 1
-            if not coins or amount < 0: return 0
-            return  _change(amount - coins[-1], coins) + _change(amount, coins[: -1])
-        return _change(amount, tuple(coins))
+        rows, cols = len(coins) + 1, amount + 1
+        #  dp[i][j] = # ways to get j amount using coins[0, ..., i]
+        dp = [[0] * cols for _ in range(rows)]
+        for i in range(rows):
+            dp[i][0] = 1
+        for i in range(1, rows):
+            for j in range(1, cols):
+                if j >= coins[i - 1]:
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i - 1]]
+                else: dp[i][j] = dp[i - 1][j]
+        return dp[-1][-1]
+
+
+
+        pass
 
 
 #  Drive code.
