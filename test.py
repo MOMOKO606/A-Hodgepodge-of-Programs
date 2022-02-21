@@ -222,14 +222,18 @@ class Solution:
 
 
     #  Leetcode 62
+    #  The iterative dp solution.
     def uniquePaths(self, m: int, n: int) -> int:
-        ans = [[1 for j in range(n)] for i in range(m)]
-        for i in range(1, m):
+        prev = [1] * n
+        curr = [0] * n
+        curr[0] = 1
+        for _ in range(m - 1):
             for j in range(1, n):
-                ans[i][j] = ans[i - 1][j] + ans[i][j - 1]
-        return ans[m - 1][n - 1]
+                curr[j] = curr[j - 1] + prev[j]
+            prev = curr
+        return curr[-1]
 
-    #  Recursive version with a memo.
+    #  The recursive solution with a self-made memo.
     # def uniquePaths(self, m: int, n:int) -> int:
     #
     #     def _uniquePaths( m: int, n: int, memo:List[List[int]]) -> int:
@@ -244,6 +248,16 @@ class Solution:
     #
     #     memo = [[0 for j in range(n)] for i in range(m)]
     #     return _uniquePaths(m, n, memo)
+
+    #  The recursive solution with a cache.
+    # def uniquePaths(self, m: int, n: int) -> int:
+    #     @cache
+    #     def _uniquePaths( i, j ):
+    #         if i == 0 and j == 0: return 1
+    #         if i < 0 or j < 0: return 0
+    #         return _uniquePaths( i - 1, j ) + _uniquePaths( i, j - 1 )
+    #     return _uniquePaths( m - 1, n - 1 )
+
 
     #  Leetcode 66
     def plusOne(self, digits: List[int]) -> List[int]:
@@ -721,13 +735,15 @@ if __name__ == "__main__":
     #  Leetcode 55
     print(S.canJump([2, 3, 1, 1, 4]))
 
-    print("----------------------------------------")
     #  Leetcode 45
     print(S.jump([2, 3, 1, 1, 4]))
     print(S.jump([2, 3, 0, 1, 4]))
 
+    print("----------------------------------------")
     #  Leetcode 62
     print(S.uniquePaths(3, 7))
+    print(S.uniquePaths(3, 2))
+    print("----------------------------------------")
 
     #  Leetcode 66
     print(S.plusOne([1, 2, 3, 9, 9]))
@@ -787,7 +803,6 @@ if __name__ == "__main__":
     print(S.lengthOfLIS([0, 1, 0, 3, 2, 3]))
     print(S.lengthOfLIS([7, 7, 7, 7, 7, 7, 7]))
 
-    print("--------------------------------------------")
     #  Leetcode 322
     print(S.coinChange([1, 2, 5], 11))
     print(S.coinChange([2], 3))
