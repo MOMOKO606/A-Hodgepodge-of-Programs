@@ -4770,6 +4770,7 @@ class Solution:
     518. Coin Change 2 ( xMedium )
     https://leetcode.com/problems/coin-change-2/
     """
+
     # #  The recursive dp solution with a memo.
     # def change(self, amount: int, coins: List[int]) -> int:
     #     #  tuple(coins) because List is unhashable.
@@ -4791,28 +4792,46 @@ class Solution:
             for j in range(1, cols):
                 if j >= coins[i - 1]:
                     dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i - 1]]
-                else: dp[i][j] = dp[i - 1][j]
+                else:
+                    dp[i][j] = dp[i - 1][j]
         return dp[-1][-1]
 
     """
     63.Unique Paths II (Medium)
     https://leetcode.com/problems/unique-paths-ii/
     """
-    #  The recursive dp solution with a cache.
+
+    # #  The recursive dp solution with a cache.
+    # def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+    #     m, n = len(obstacleGrid), len(obstacleGrid[0])
+    #     @cache
+    #     def _uniquePathsWithObstacles( i, j ):
+    #         if obstacleGrid[i][j]: return 0
+    #         if i < 0 or j < 0: return 0
+    #         if i == j == 0: return 1
+    #         return _uniquePathsWithObstacles(i - 1, j) + _uniquePathsWithObstacles(i, j - 1)
+    #     return _uniquePathsWithObstacles( m - 1, n - 1 )
+
+    #  The iterative dp solution.
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
         m, n = len(obstacleGrid), len(obstacleGrid[0])
-        @cache
-        def _uniquePathsWithObstacles( i, j ):
-            if obstacleGrid[i][j]: return 0
-            if i < 0 or j < 0: return 0
-            if i == j == 0: return 1
-            return _uniquePathsWithObstacles(i - 1, j) + _uniquePathsWithObstacles(i, j - 1)
-        return _uniquePathsWithObstacles( m - 1, n - 1 )
-
-
-
-
-
+        dp = [[0] * n for _ in range(m)]
+        if not obstacleGrid[0][0]: dp[0][0] = 1
+        for j in range(1, n):
+            if not obstacleGrid[0][j]:
+                dp[0][j] = dp[0][j - 1]
+            else: dp[0][j] = 0
+        for i in range(1, m):
+            if not obstacleGrid[i][0]:
+                dp[i][0] = dp[i - 1][0]
+            else:dp[i][0] = 0
+        for i in range(1, m):
+            for j in range(1, n):
+                if not obstacleGrid[i][j]:
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+                else:
+                    dp[i][j] = 0
+        return dp[-1][-1]
 
 
 #  Drive code.
@@ -5323,8 +5342,11 @@ if __name__ == "__main__":
 
     print("----------------------------------------")
     #  Leetcode 63
-    print(S.uniquePathsWithObstacles([[0,0,0],[0,1,0],[0,0,0]]))
+    print(S.uniquePathsWithObstacles([[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
     print(S.uniquePathsWithObstacles([[0, 1], [0, 0]]))
+    print(S.uniquePathsWithObstacles([[0]]))
+    print(S.uniquePathsWithObstacles([[1]]))
+    print(S.uniquePathsWithObstacles([[1, 0]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
