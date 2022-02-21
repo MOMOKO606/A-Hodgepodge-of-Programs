@@ -4794,6 +4794,23 @@ class Solution:
                 else: dp[i][j] = dp[i - 1][j]
         return dp[-1][-1]
 
+    """
+    63.Unique Paths II (Medium)
+    https://leetcode.com/problems/unique-paths-ii/
+    """
+    #  The recursive dp solution with a cache.
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m, n = len(obstacleGrid), len(obstacleGrid[0])
+        @cache
+        def _uniquePathsWithObstacles( i, j ):
+            if obstacleGrid[i][j]: return 0
+            if i < 0 or j < 0: return 0
+            if i == j == 0: return 1
+            return _uniquePathsWithObstacles(i - 1, j) + _uniquePathsWithObstacles(i, j - 1)
+        return _uniquePathsWithObstacles( m - 1, n - 1 )
+
+
+
 
 
 
@@ -5300,10 +5317,15 @@ if __name__ == "__main__":
     print(S.numSquares(13))
 
     #  Leetcode 518
-    print("----------------------------------------")
     print(S.change(5, [1, 2, 5]))
     print(S.change(3, [2]))
     print(S.change(10, [10]))
+
+    print("----------------------------------------")
+    #  Leetcode 63
+    print(S.uniquePathsWithObstacles([[0,0,0],[0,1,0],[0,0,0]]))
+    print(S.uniquePathsWithObstacles([[0, 1], [0, 0]]))
+
 """
 ..................佛祖开光 ,永无BUG...................
                         _oo0oo_
