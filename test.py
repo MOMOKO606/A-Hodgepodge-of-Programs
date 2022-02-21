@@ -220,7 +220,6 @@ class Solution:
                 steps += 1
                 reach = nextReach
 
-
     #  Leetcode 62
     #  The iterative dp solution.
     def uniquePaths(self, m: int, n: int) -> int:
@@ -257,7 +256,6 @@ class Solution:
     #         if i < 0 or j < 0: return 0
     #         return _uniquePaths( i - 1, j ) + _uniquePaths( i, j - 1 )
     #     return _uniquePaths( m - 1, n - 1 )
-
 
     #  Leetcode 66
     def plusOne(self, digits: List[int]) -> List[int]:
@@ -528,17 +526,13 @@ class Solution:
     #     return ans if ans != math.inf else -1
 
     def coinChange(self, coins: List[int], amount: int) -> int:
-        dp = [ amount + 1 ] * ( amount + 1 )
+        dp = [amount + 1] * (amount + 1)
         dp[0] = 0
         for i in range(len(dp)):
             for coin in coins:
                 if i - coin >= 0:
                     dp[i] = min(dp[i], dp[i - coin] + 1)
         return dp[-1]
-
-
-
-
 
     #  Leetcode 874
     def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
@@ -739,11 +733,9 @@ if __name__ == "__main__":
     print(S.jump([2, 3, 1, 1, 4]))
     print(S.jump([2, 3, 0, 1, 4]))
 
-    print("----------------------------------------")
     #  Leetcode 62
     print(S.uniquePaths(3, 7))
     print(S.uniquePaths(3, 2))
-    print("----------------------------------------")
 
     #  Leetcode 66
     print(S.plusOne([1, 2, 3, 9, 9]))
@@ -836,5 +828,3 @@ if __name__ == "__main__":
     print(S.minDistance("hr", "r"))
     print(S.minDistance("horse", "ros"))
     print(S.minDistance("intention", "execution"))
-
-
