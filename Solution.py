@@ -4820,11 +4820,13 @@ class Solution:
         for j in range(1, n):
             if not obstacleGrid[0][j]:
                 dp[0][j] = dp[0][j - 1]
-            else: dp[0][j] = 0
+            else:
+                dp[0][j] = 0
         for i in range(1, m):
             if not obstacleGrid[i][0]:
                 dp[i][0] = dp[i - 1][0]
-            else:dp[i][0] = 0
+            else:
+                dp[i][0] = 0
         for i in range(1, m):
             for j in range(1, n):
                 if not obstacleGrid[i][j]:
@@ -4832,6 +4834,35 @@ class Solution:
                 else:
                     dp[i][j] = 0
         return dp[-1][-1]
+
+    """
+    980. Unique Paths III (Hard)
+    https://leetcode.com/problems/unique-paths-iii/
+    """
+    #  The DFS solution.
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        def _uniquePathsIIIDFS(i, j, count):
+            if not (0 <= i < rows and 0 <= j < cols and grid[i][j] >= 0): return
+            if grid[i][j] == 2:
+                self.ans += count == 0
+                return
+            grid[i][j] = -1
+            _uniquePathsIIIDFS(i - 1, j, count - 1)
+            _uniquePathsIIIDFS(i + 1, j, count - 1)
+            _uniquePathsIIIDFS(i, j - 1, count - 1)
+            _uniquePathsIIIDFS(i, j + 1, count - 1)
+            grid[i][j] = 0
+        rows, cols = len(grid), len(grid[0])
+        x, y = 0, 0
+        count, self.ans = 1, 0
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 1:
+                    x, y = i, j
+                count += grid[i][j] == 0
+        _uniquePathsIIIDFS( x, y, count )
+        return self.ans
+
 
 
 #  Drive code.
@@ -5340,13 +5371,18 @@ if __name__ == "__main__":
     print(S.change(3, [2]))
     print(S.change(10, [10]))
 
-    print("----------------------------------------")
     #  Leetcode 63
     print(S.uniquePathsWithObstacles([[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
     print(S.uniquePathsWithObstacles([[0, 1], [0, 0]]))
     print(S.uniquePathsWithObstacles([[0]]))
     print(S.uniquePathsWithObstacles([[1]]))
     print(S.uniquePathsWithObstacles([[1, 0]]))
+
+    print("----------------------------------------")
+    #  Leetcode 980
+    print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 2, -1]]))
+    print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 2]]))
+    print(S.uniquePathsIII([[0, 1], [2, 0]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
