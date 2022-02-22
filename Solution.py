@@ -4839,29 +4839,56 @@ class Solution:
     980. Unique Paths III (Hard)
     https://leetcode.com/problems/unique-paths-iii/
     """
-    #  The DFS solution.
+    # #  The DFS solution.
+    # def uniquePathsIII(self, grid: List[List[int]]) -> int:
+    #     def _uniquePathsIIIDFS(i, j, count):
+    #         if not (0 <= i < rows and 0 <= j < cols and grid[i][j] >= 0): return
+    #         if grid[i][j] == 2:
+    #             self.ans += count == 0
+    #             return
+    #         grid[i][j] = -1
+    #         _uniquePathsIIIDFS(i - 1, j, count - 1)
+    #         _uniquePathsIIIDFS(i + 1, j, count - 1)
+    #         _uniquePathsIIIDFS(i, j - 1, count - 1)
+    #         _uniquePathsIIIDFS(i, j + 1, count - 1)
+    #         grid[i][j] = 0
+    #     rows, cols = len(grid), len(grid[0])
+    #     x, y = 0, 0
+    #     count, self.ans = 1, 0
+    #     for i in range(rows):
+    #         for j in range(cols):
+    #             if grid[i][j] == 1:
+    #                 x, y = i, j
+    #             count += grid[i][j] == 0
+    #     _uniquePathsIIIDFS( x, y, count )
+    #     return self.ans
+
+
+    #  The Backtracking solution.
     def uniquePathsIII(self, grid: List[List[int]]) -> int:
-        def _uniquePathsIIIDFS(i, j, count):
+        def _uniquePathsIII( i, j ):
             if not (0 <= i < rows and 0 <= j < cols and grid[i][j] >= 0): return
             if grid[i][j] == 2:
-                self.ans += count == 0
+                self.ans += self.count == 0
                 return
-            grid[i][j] = -1
-            _uniquePathsIIIDFS(i - 1, j, count - 1)
-            _uniquePathsIIIDFS(i + 1, j, count - 1)
-            _uniquePathsIIIDFS(i, j - 1, count - 1)
-            _uniquePathsIIIDFS(i, j + 1, count - 1)
-            grid[i][j] = 0
+            for dx, dy in [(i - 1, j),(i + 1, j),(i, j - 1),(i, j + 1)]:
+                grid[i][j] = -1
+                self.count -= 1
+                _uniquePathsIII( dx, dy )
+                grid[i][j] = 0
+                self.count += 1
+
         rows, cols = len(grid), len(grid[0])
+        self.count, self.ans = 1, 0
         x, y = 0, 0
-        count, self.ans = 1, 0
         for i in range(rows):
             for j in range(cols):
                 if grid[i][j] == 1:
                     x, y = i, j
-                count += grid[i][j] == 0
-        _uniquePathsIIIDFS( x, y, count )
+                self.count += grid[i][j] == 0
+        _uniquePathsIII( x, y )
         return self.ans
+
 
 
 
