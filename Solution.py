@@ -20,6 +20,33 @@ class TreeNode:
     def __repr__(self):
         return 'TreeNode({})'.format(self.val)
 
+#  Leetcode 208
+class Trie(object):
+    def __init__(self):
+        self.children = {}
+
+    def insert(self, word: str) -> None:
+        node = self.children
+        for c in word:
+            node[c] = node.get(c,{})
+            node = node[c]  #  Moving to the next node.
+        #  Key "#" means end of the word, Value means the number of searched.
+        node["#"] = 0
+
+    def search(self, word: str) -> bool:
+        node = self.children
+        for c in word:
+            if c not in node.keys(): return False
+            node = node[c]
+        return "#" in node.keys()
+
+    def startsWith(self, prefix: str) -> bool:
+        node = self.children
+        for c in prefix:
+            if c not in node.keys(): return False
+            node = node[c]
+        return  True
+
 
 #  Tool made by StefanPochmann
 #  Transfer [1,2,3,null,null,4,null,null,5] to a root.
@@ -4871,7 +4898,7 @@ class Solution:
             if grid[i][j] == 2:
                 self.ans += self.count == 0
                 return
-            for dx, dy in [(i - 1, j),(i + 1, j),(i, j - 1),(i, j + 1)]:
+            for dx, dy in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
                 grid[i][j] = -1
                 self.count -= 1
                 _uniquePathsIII( dx, dy )
@@ -5405,11 +5432,20 @@ if __name__ == "__main__":
     print(S.uniquePathsWithObstacles([[1]]))
     print(S.uniquePathsWithObstacles([[1, 0]]))
 
-    print("----------------------------------------")
     #  Leetcode 980
     print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 2, -1]]))
     print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 2]]))
     print(S.uniquePathsIII([[0, 1], [2, 0]]))
+
+    print("----------------------------------------")
+    #  Leetcode 208
+    obj = Trie()
+    obj.insert("apple")
+    # param_2 = obj.search("apple")
+    # param_3 = obj.search("app")
+    # param_4 = obj.startsWith("app")
+    # obj.insert("app")
+    # param_5 = obj.search("app")
 
 """
 ..................佛祖开光 ,永无BUG...................
