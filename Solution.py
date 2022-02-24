@@ -20,6 +20,7 @@ class TreeNode:
     def __repr__(self):
         return 'TreeNode({})'.format(self.val)
 
+
 #  Leetcode 208
 class Trie(object):
     def __init__(self):
@@ -28,8 +29,8 @@ class Trie(object):
     def insert(self, word: str) -> None:
         node = self.children
         for c in word:
-            node[c] = node.get(c,{})
-            node = node[c]  #  Moving to the next node.
+            node[c] = node.get(c, {})
+            node = node[c]  # Moving to the next node.
         #  Key "#" means end of the word, Value means the number of searched.
         node["#"] = 0
 
@@ -45,7 +46,7 @@ class Trie(object):
         for c in prefix:
             if c not in node.keys(): return False
             node = node[c]
-        return  True
+        return True
 
 
 #  Tool made by StefanPochmann
@@ -4866,6 +4867,7 @@ class Solution:
     980. Unique Paths III (Hard)
     https://leetcode.com/problems/unique-paths-iii/
     """
+
     # #  The DFS solution.
     # def uniquePathsIII(self, grid: List[List[int]]) -> int:
     #     def _uniquePathsIIIDFS(i, j, count):
@@ -4890,10 +4892,9 @@ class Solution:
     #     _uniquePathsIIIDFS( x, y, count )
     #     return self.ans
 
-
     #  The Backtracking solution.
     def uniquePathsIII(self, grid: List[List[int]]) -> int:
-        def _uniquePathsIII( i, j ):
+        def _uniquePathsIII(i, j):
             if not (0 <= i < rows and 0 <= j < cols and grid[i][j] >= 0): return
             if grid[i][j] == 2:
                 self.ans += self.count == 0
@@ -4901,7 +4902,7 @@ class Solution:
             for dx, dy in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
                 grid[i][j] = -1
                 self.count -= 1
-                _uniquePathsIII( dx, dy )
+                _uniquePathsIII(dx, dy)
                 grid[i][j] = 0
                 self.count += 1
 
@@ -4913,9 +4914,42 @@ class Solution:
                 if grid[i][j] == 1:
                     x, y = i, j
                 self.count += grid[i][j] == 0
-        _uniquePathsIII( x, y )
+        _uniquePathsIII(x, y)
         return self.ans
 
+    """
+    212. Word Search II (Hard)
+    https://leetcode.com/problems/word-search-ii/
+    """
+    #  The dfs solution using a trie.
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        def dfs(i, j, currWord, currTrie):
+            #  Base case.
+            if "#" in currTrie:
+                ans.add(currWord)
+            if not (0 <= i < m and 0 <= j < n and board[i][j] != "@" and board[i][j] in currTrie): return
+            currChar = board[i][j]
+            board[i][j] = "@"
+            for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                dfs(i + dy, j + dx, currWord + currChar, currTrie[currChar])
+            board[i][j] = currChar
+
+        m, n = len(board), len(board[0])
+        ans, currWord = set(), ""
+        #  Initialize the trie.
+        trie =  {}
+        for word in words:
+            root = trie
+            for char in word:
+                root[char] = root.get(char, {})
+                root = root[char]
+            root["#"] = "#"
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] in trie.keys():
+                    dfs(i, j, currWord, trie)
+        return list(ans)
 
 
 
@@ -5437,15 +5471,21 @@ if __name__ == "__main__":
     print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 2]]))
     print(S.uniquePathsIII([[0, 1], [2, 0]]))
 
-    print("----------------------------------------")
     #  Leetcode 208
     obj = Trie()
     obj.insert("apple")
-    # param_2 = obj.search("apple")
-    # param_3 = obj.search("app")
-    # param_4 = obj.startsWith("app")
-    # obj.insert("app")
-    # param_5 = obj.search("app")
+    param_2 = obj.search("apple")
+    param_3 = obj.search("app")
+    param_4 = obj.startsWith("app")
+    obj.insert("app")
+    param_5 = obj.search("app")
+
+    #  Leetcode 212
+    print("----------------------------------------")
+    print(S.findWords([["o", "a", "a", "n"], ["e", "t", "a", "e"], ["i", "h", "k", "r"], ["i", "f", "l", "v"]],
+                      ["oath", "pea", "eat", "rain"]))
+    print(S.findWords([["a", "b"], ["c", "d"]], ["abcb"]))
+    print(S.findWords([["o","a","b","n"],["o","t","a","e"],["a","h","k","r"],["a","f","l","v"]],["oa","oaa"]))
 
 """
 ..................佛祖开光 ,永无BUG...................
