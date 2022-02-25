@@ -4956,24 +4956,52 @@ class Solution:
     547. Number of Provinces (Medium)
     https://leetcode.com/problems/number-of-provinces/
     """
-    #  The dfs solution.
+
+    # #  The dfs solution.
+    # def findCircleNum(self, isConnected: List[List[int]]) -> int:
+    #     def dfs(i, j):
+    #         if not (0 <= i < rows and 0 <= j < cols and isConnected[i][j] == 1):
+    #             return
+    #         isConnected[i][j] = 0
+    #         for y in range(cols):
+    #             dfs(i, y)
+    #         for x in range(rows):
+    #             dfs(x, j)
+    #     rows, cols = len(isConnected), len(isConnected[0])
+    #     ans = 0
+    #     for i in range(rows):
+    #         for j in range(cols):
+    #             if isConnected[i][j]:
+    #                 ans += 1
+    #                 dfs(i, j)
+    #     return ans
+
+    #  The disjoint set solution.
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        def dfs(i, j):
-            if not (0 <= i < rows and 0 <= j < cols and isConnected[i][j] == 1):
-                return
-            isConnected[i][j] = 0
-            for y in range(cols):
-                dfs(i, y)
-            for x in range(rows):
-                dfs(x, j)
-        rows, cols = len(isConnected), len(isConnected[0])
-        ans = 0
-        for i in range(rows):
-            for j in range(cols):
+        def _union(i, j):
+            pi = _parent(i)
+            pj = _parent(j)
+            p[pj] = pi
+
+        def _parent(i):
+            #  The root in a disjoint set should be p[i] = i
+            root = i
+            while p[root] != root:
+                root = p[root]
+            while p[i] != i:
+                temp = p[i]
+                p[i] = root
+                i = temp
+            return root
+
+        m, n = len(isConnected), len(isConnected[0])
+        p = [i for i in range(n)]
+        for i in range(m):
+            for j in range(n):
                 if isConnected[i][j]:
-                    ans += 1
-                    dfs(i, j)
-        return ans
+                    _union(i, j)
+        #  IMPORTANT!: _parent(i) not p[i]
+        return len(set([_parent(i) for i in range(n)]))
 
 
 #  Drive code.
@@ -5512,9 +5540,14 @@ if __name__ == "__main__":
 
     print("----------------------------------------")
     #  Leetcode 547
-    print(S.findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
-    print(S.findCircleNum([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))
-    print(S.findCircleNum([[1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]]))
+    # print(S.findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
+    # print(S.findCircleNum([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))
+    # print(S.findCircleNum([[1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]]))
+    print(S.findCircleNum(
+        [[1, 1, 1, 0, 1, 1, 1, 0, 0, 0], [1, 1, 0, 0, 0, 0, 0, 1, 0, 0], [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0, 0, 1, 0], [1, 0, 0, 1, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+         [1, 0, 0, 0, 0, 0, 1, 0, 1, 0], [0, 1, 0, 0, 0, 0, 0, 1, 0, 1], [0, 0, 0, 1, 0, 0, 1, 0, 1, 1],
+         [0, 0, 0, 0, 0, 0, 0, 1, 1, 1]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
