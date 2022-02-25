@@ -4921,6 +4921,7 @@ class Solution:
     212. Word Search II (Hard)
     https://leetcode.com/problems/word-search-ii/
     """
+
     #  The dfs solution using a trie.
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         def dfs(i, j, currWord, currTrie):
@@ -4937,7 +4938,7 @@ class Solution:
         m, n = len(board), len(board[0])
         ans, currWord = set(), ""
         #  Initialize the trie.
-        trie =  {}
+        trie = {}
         for word in words:
             root = trie
             for char in word:
@@ -4951,6 +4952,28 @@ class Solution:
                     dfs(i, j, currWord, trie)
         return list(ans)
 
+    """
+    547. Number of Provinces (Medium)
+    https://leetcode.com/problems/number-of-provinces/
+    """
+
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        def dfs(i, j):
+            if not (0 <= i < rows and 0 <= j < cols and isConnected[i][j] == 1):
+                return
+            isConnected[i][j] = 0
+            for y in range(cols):
+                dfs(i, y)
+            for x in range(rows):
+                dfs(x, j)
+        rows, cols = len(isConnected), len(isConnected[0])
+        ans = 0
+        for i in range(rows):
+            for j in range(cols):
+                if isConnected[i][j]:
+                    ans += 1
+                    dfs(i, j)
+        return ans
 
 
 #  Drive code.
@@ -5481,11 +5504,17 @@ if __name__ == "__main__":
     param_5 = obj.search("app")
 
     #  Leetcode 212
-    print("----------------------------------------")
     print(S.findWords([["o", "a", "a", "n"], ["e", "t", "a", "e"], ["i", "h", "k", "r"], ["i", "f", "l", "v"]],
                       ["oath", "pea", "eat", "rain"]))
     print(S.findWords([["a", "b"], ["c", "d"]], ["abcb"]))
-    print(S.findWords([["o","a","b","n"],["o","t","a","e"],["a","h","k","r"],["a","f","l","v"]],["oa","oaa"]))
+    print(S.findWords([["o", "a", "b", "n"], ["o", "t", "a", "e"], ["a", "h", "k", "r"], ["a", "f", "l", "v"]],
+                      ["oa", "oaa"]))
+
+    print("----------------------------------------")
+    #  Leetcode 547
+    print(S.findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
+    print(S.findCircleNum([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))
+    print(S.findCircleNum([[1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
