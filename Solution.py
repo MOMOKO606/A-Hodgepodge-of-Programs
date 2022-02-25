@@ -4956,7 +4956,7 @@ class Solution:
     547. Number of Provinces (Medium)
     https://leetcode.com/problems/number-of-provinces/
     """
-
+    #  The dfs solution.
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
         def dfs(i, j):
             if not (0 <= i < rows and 0 <= j < cols and isConnected[i][j] == 1):
