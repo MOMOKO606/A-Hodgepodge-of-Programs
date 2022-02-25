@@ -694,6 +694,23 @@ class Solution:
                     dp[i][j] = min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1
         return dp[-1][-1]
 
+    #  Leetcode 200
+    def numIslands(self, grid: List[List[str]]) -> int:
+        def dfs(i, j):
+            if not ( 0 <= i < rows and 0 <= j < cols and grid[i][j] == "1"): return
+            grid[i][j] = "0"
+            for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                dfs(i + dy, j + dx)
+
+        rows, cols = len(grid), len(grid[0])
+        ans = 0
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == "1":
+                    ans += 1
+                    dfs(i, j)
+        return ans
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -828,3 +845,18 @@ if __name__ == "__main__":
     print(S.minDistance("hr", "r"))
     print(S.minDistance("horse", "ros"))
     print(S.minDistance("intention", "execution"))
+
+    print("------------------------------------------------------")
+    #  Leetcode 200
+    print(S.numIslands([
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]))
+    print(S.numIslands([
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]))
