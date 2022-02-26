@@ -5003,6 +5003,36 @@ class Solution:
         #  IMPORTANT!: _parent(i) not p[i]
         return len(set([_parent(i) for i in range(n)]))
 
+    """
+    130. Surrounded Regions ( Medium )
+    https://leetcode.com/problems/surrounded-regions/
+    """
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        def _dfs(i, j):
+            #  Base case
+            if not ( 0 <= i < m and 0 <= j < n) or board[i][j] != "O": return
+            board[i][j] = "T"
+            for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                _dfs( i + dy, j + dx)
+
+        m, n = len(board), len(board[0])
+        for i in (0, m - 1):
+            for j in range(n):
+                _dfs(i, j)
+        for i in range(m):
+            for j in (0, n - 1):
+                _dfs(i, j)
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == "T":
+                    board[i][j] = "O"
+                elif board[i][j] == "O":
+                    board[i][j] = "X"
+
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -5538,16 +5568,30 @@ if __name__ == "__main__":
     print(S.findWords([["o", "a", "b", "n"], ["o", "t", "a", "e"], ["a", "h", "k", "r"], ["a", "f", "l", "v"]],
                       ["oa", "oaa"]))
 
-    print("----------------------------------------")
     #  Leetcode 547
-    # print(S.findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
-    # print(S.findCircleNum([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))
-    # print(S.findCircleNum([[1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]]))
+    print(S.findCircleNum([[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
+    print(S.findCircleNum([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))
+    print(S.findCircleNum([[1, 0, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]]))
     print(S.findCircleNum(
         [[1, 1, 1, 0, 1, 1, 1, 0, 0, 0], [1, 1, 0, 0, 0, 0, 0, 1, 0, 0], [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
          [0, 0, 0, 1, 1, 0, 0, 0, 1, 0], [1, 0, 0, 1, 1, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
          [1, 0, 0, 0, 0, 0, 1, 0, 1, 0], [0, 1, 0, 0, 0, 0, 0, 1, 0, 1], [0, 0, 0, 1, 0, 0, 1, 0, 1, 1],
          [0, 0, 0, 0, 0, 0, 0, 1, 1, 1]]))
+
+    print("----------------------------------------")
+    #  Leetcode 130
+    board = [["O", "X", "X", "O", "X"], ["X", "O", "O", "X", "O"], ["X", "O", "X", "O", "X"], ["O", "X", "O", "O", "O"],
+         ["X", "X", "O", "X", "O"]]
+    S.solve(board)
+    print(board)
+
+    board = [["X", "X", "X", "X"], ["X", "O", "O", "X"], ["X", "X", "O", "X"], ["X", "O", "X", "X"]]
+    S.solve(board)
+    print(board)
+
+    board = [["X"]]
+    S.solve(board)
+    print(board)
 
 """
 ..................佛祖开光 ,永无BUG...................
