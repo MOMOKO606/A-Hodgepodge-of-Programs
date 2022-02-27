@@ -277,19 +277,23 @@ class Solution:
     #         digits[j] = 0
     #     return [1] + digits
 
-    #  Leetcode 70.
-    def climbStairs(self, n: int) -> int:
-        f1 = 1
-        f2 = 2
-        if n == 1: return f1
-        if n == 2: return f2
-        for i in range(3, n + 1):
-            f3 = f1 + f2
-            f1 = f2
-            f2 = f3
-        return f3
+    #  Leetcode 70
 
-    #  The recursive algorithm with a memo.
+
+
+
+    # def climbStairs(self, n: int) -> int:
+    #     f1 = 1
+    #     f2 = 2
+    #     if n == 1: return f1
+    #     if n == 2: return f2
+    #     for i in range(3, n + 1):
+    #         f3 = f1 + f2
+    #         f1 = f2
+    #         f2 = f3
+    #     return f3
+
+    #  The recursive solution with a self-made memo.
     # def climbStairs(self, n: int) -> int:
     #
     #     def _climbStairs( n: int, memo: List[int]) -> int:
@@ -305,6 +309,12 @@ class Solution:
     #
     #     memo= [0] * (n + 1)
     #     return _climbStairs(n, memo)
+
+    # #  The recursive solution with a cache.
+    # @cache
+    # def climbStairs(self, n: int) -> int:
+    #     if n < 3: return n
+    #     return self.climbStairs( n - 1 ) + self.climbStairs( n - 2 )
 
     #  Leetcode 80
     def removeDuplicates02(self, nums: List[int]) -> int:
@@ -757,6 +767,7 @@ if __name__ == "__main__":
     #  Leetcode 66
     print(S.plusOne([1, 2, 3, 9, 9]))
 
+    print("--------------------------------")
     #  Leetcode 70
     print(S.climbStairs(3))
 
@@ -846,7 +857,6 @@ if __name__ == "__main__":
     print(S.minDistance("horse", "ros"))
     print(S.minDistance("intention", "execution"))
 
-    print("------------------------------------------------------")
     #  Leetcode 200
     print(S.numIslands([
   ["1","1","1","1","0"],
