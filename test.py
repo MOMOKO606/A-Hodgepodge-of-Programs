@@ -701,7 +701,7 @@ class Solution:
     #  Leetcode 200
     def numIslands(self, grid: List[List[str]]) -> int:
         def dfs(i, j):
-            if not ( 0 <= i < rows and 0 <= j < cols and grid[i][j] == "1"): return
+            if not (0 <= i < rows and 0 <= j < cols and grid[i][j] == "1"): return
             grid[i][j] = "0"
             for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
                 dfs(i + dy, j + dx)
@@ -715,6 +715,22 @@ class Solution:
                     dfs(i, j)
         return ans
 
+    #  Leetcode 22
+    #  The recursive solution with a memo.
+    def generateParenthesis(self, n: int) -> List[str]:
+        @cache
+        def _generateParenthesis(i, j, parenthesis):
+            #  Base case.
+            if i == 0 and j == 0:
+                ans.append( parenthesis )
+            if i > 0:
+                _generateParenthesis( i - 1, j, parenthesis + "(")
+            if i < j:
+                _generateParenthesis(i, j - 1, parenthesis + ")")
+
+        ans = []
+        _generateParenthesis(n, n, "")
+        return ans
 
 #  Drive code.
 if __name__ == "__main__":
@@ -761,7 +777,6 @@ if __name__ == "__main__":
     #  Leetcode 66
     print(S.plusOne([1, 2, 3, 9, 9]))
 
-    print("--------------------------------")
     #  Leetcode 70
     print(S.climbStairs(3))
 
@@ -853,14 +868,19 @@ if __name__ == "__main__":
 
     #  Leetcode 200
     print(S.numIslands([
-  ["1","1","1","1","0"],
-  ["1","1","0","1","0"],
-  ["1","1","0","0","0"],
-  ["0","0","0","0","0"]
-]))
+        ["1", "1", "1", "1", "0"],
+        ["1", "1", "0", "1", "0"],
+        ["1", "1", "0", "0", "0"],
+        ["0", "0", "0", "0", "0"]
+    ]))
     print(S.numIslands([
-  ["1","1","0","0","0"],
-  ["1","1","0","0","0"],
-  ["0","0","1","0","0"],
-  ["0","0","0","1","1"]
-]))
+        ["1", "1", "0", "0", "0"],
+        ["1", "1", "0", "0", "0"],
+        ["0", "0", "1", "0", "0"],
+        ["0", "0", "0", "1", "1"]
+    ]))
+
+    #  Leetcode 22
+    print("--------------------------------")
+    print(S.generateParenthesis(3))
+    print(S.generateParenthesis(1))
