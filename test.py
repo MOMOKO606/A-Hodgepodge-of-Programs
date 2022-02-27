@@ -278,20 +278,14 @@ class Solution:
     #     return [1] + digits
 
     #  Leetcode 70
-
-
-
-
-    # def climbStairs(self, n: int) -> int:
-    #     f1 = 1
-    #     f2 = 2
-    #     if n == 1: return f1
-    #     if n == 2: return f2
-    #     for i in range(3, n + 1):
-    #         f3 = f1 + f2
-    #         f1 = f2
-    #         f2 = f3
-    #     return f3
+    #  The iterative solution.
+    def climbStairs(self, n: int) -> int:
+        if n < 3: return n
+        f1, f2, f3 = 1, 2, 3
+        for _ in range(n - 2):
+            f3 = f1 + f2
+            f1, f2 = f2, f3
+        return f3
 
     #  The recursive solution with a self-made memo.
     # def climbStairs(self, n: int) -> int:
