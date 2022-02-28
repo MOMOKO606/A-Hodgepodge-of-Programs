@@ -5061,27 +5061,24 @@ class Solution:
     https://leetcode.com/problems/valid-sudoku/description/
     """
     def isValidSudoku(self, board: List[List[str]]) -> bool:
-        m, n = len(board), len(board[0])
-        rows = [ set(range(1, 10)) for _ in range(m)]
-        cols = [ set(range(1, 10)) for _ in range(n)]
-        blocks = [ set(range(1, 10)) for _ in range(m)]
-        for i in range(m):
-            for j in range(n):
-                if board[i][j] == ".":
-                    continue
-                pivot = int(board[i][j])
-                k = (i // 3) * 3 + j // 3
-                if pivot not in rows[i]:
-                    return False
-                if pivot not in cols[j]:
-                    return False
-                if pivot not in blocks[k]:
-                    return False
-                rows[i].remove(pivot)
-                cols[j].remove(pivot)
-                blocks[k].remove(pivot)
+        rows = [set(range(1, 10)) for _ in range(9)]
+        cols = [set(range(1, 10)) for _ in range(9)]
+        blocks = [set(range(1, 10)) for _ in range(9)]
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != ".":
+                    pivot = int(board[i][j])
+                    k = (i // 3) * 3 + j // 3
+                    if pivot not in rows[i]:
+                        return False
+                    if pivot not in cols[j]:
+                        return False
+                    if pivot not in blocks[k]:
+                        return False
+                    rows[i].remove(pivot)
+                    cols[j].remove(pivot)
+                    blocks[k].remove(pivot)
         return True
-
 
 
 #  Drive code.
@@ -5662,6 +5659,11 @@ if __name__ == "__main__":
                               , [".", "6", ".", ".", ".", ".", "2", "8", "."]
                               , [".", ".", ".", "4", "1", "9", ".", ".", "5"]
                               , [".", ".", ".", ".", "8", ".", ".", "7", "9"]]))
+    print(S.isValidSudoku([[".", ".", "4", ".", ".", ".", "6", "3", "."], [".", ".", ".", ".", ".", ".", ".", ".", "."],
+                           ["5", ".", ".", ".", ".", ".", ".", "9", "."], [".", ".", ".", "5", "6", ".", ".", ".", "."],
+                           ["4", ".", "3", ".", ".", ".", ".", ".", "1"], [".", ".", ".", "7", ".", ".", ".", ".", "."],
+                           [".", ".", ".", "5", ".", ".", ".", ".", "."], [".", ".", ".", ".", ".", ".", ".", ".", "."],
+                           [".", ".", ".", ".", ".", ".", ".", ".", "."]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
