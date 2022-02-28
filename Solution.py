@@ -2809,6 +2809,28 @@ class Solution:
         _solveNQueens(0)
         return _generateBoard()
 
+    # #  The concise version.
+    # def solveNQueens(self, n: int) -> List[List[str]]:
+    #     def _solveNQueens(i, seq ):
+    #         if i > n - 1:
+    #             ans.append( seq )
+    #             return
+    #         for j in range(n):
+    #             if j in cols or i - j in diag or i + j in backDiag:
+    #                 continue
+    #             cols.append( j )
+    #             diag.add( i - j )
+    #             backDiag.add( i + j )
+    #             _solveNQueens( i + 1, seq + [j])
+    #             cols.pop()
+    #             diag.remove( i - j )
+    #             backDiag.remove( i + j )
+    #
+    #     cols, diag, backDiag = [], set(), set()
+    #     ans = []
+    #     _solveNQueens(0, [])
+    #     return [["." * i + "Q" + "." * (n - i - 1) for i in seq] for seq in ans]
+
     """
     102. Binary Tree Level Order Traversal (Medium)
     Given the root of a binary tree, return the level order traversal of its nodes' values. 
@@ -5007,16 +5029,18 @@ class Solution:
     130. Surrounded Regions ( Medium )
     https://leetcode.com/problems/surrounded-regions/
     """
+
     def solve(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
         """
+
         def _dfs(i, j):
             #  Base case
-            if not ( 0 <= i < m and 0 <= j < n) or board[i][j] != "O": return
+            if not (0 <= i < m and 0 <= j < n) or board[i][j] != "O": return
             board[i][j] = "T"
             for dy, dx in ((-1, 0), (1, 0), (0, -1), (0, 1)):
-                _dfs( i + dy, j + dx)
+                _dfs(i + dy, j + dx)
 
         m, n = len(board), len(board[0])
         for i in (0, m - 1):
@@ -5031,6 +5055,32 @@ class Solution:
                     board[i][j] = "O"
                 elif board[i][j] == "O":
                     board[i][j] = "X"
+
+    """
+    36. Valid Sudoku ( Medium )
+    https://leetcode.com/problems/valid-sudoku/description/
+    """
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        m, n = len(board), len(board[0])
+        rows = [ set(range(1, 10)) for _ in range(m)]
+        cols = [ set(range(1, 10)) for _ in range(n)]
+        blocks = [ set(range(1, 10)) for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == ".":
+                    continue
+                pivot = int(board[i][j])
+                k = (i // 3) * 3 + j // 3
+                if pivot not in rows[i]:
+                    return False
+                if pivot not in cols[j]:
+                    return False
+                if pivot not in blocks[k]:
+                    return False
+                rows[i].remove(pivot)
+                cols[j].remove(pivot)
+                blocks[k].remove(pivot)
+        return True
 
 
 
@@ -5578,10 +5628,9 @@ if __name__ == "__main__":
          [1, 0, 0, 0, 0, 0, 1, 0, 1, 0], [0, 1, 0, 0, 0, 0, 0, 1, 0, 1], [0, 0, 0, 1, 0, 0, 1, 0, 1, 1],
          [0, 0, 0, 0, 0, 0, 0, 1, 1, 1]]))
 
-    print("----------------------------------------")
     #  Leetcode 130
     board = [["O", "X", "X", "O", "X"], ["X", "O", "O", "X", "O"], ["X", "O", "X", "O", "X"], ["O", "X", "O", "O", "O"],
-         ["X", "X", "O", "X", "O"]]
+             ["X", "X", "O", "X", "O"]]
     S.solve(board)
     print(board)
 
@@ -5592,6 +5641,27 @@ if __name__ == "__main__":
     board = [["X"]]
     S.solve(board)
     print(board)
+
+    print("----------------------------------------")
+    #  Leetcode 36
+    print(S.isValidSudoku([["5", "3", ".", ".", "7", ".", ".", ".", "."]
+                              , ["6", ".", ".", "1", "9", "5", ".", ".", "."]
+                              , [".", "9", "8", ".", ".", ".", ".", "6", "."]
+                              , ["8", ".", ".", ".", "6", ".", ".", ".", "3"]
+                              , ["4", ".", ".", "8", ".", "3", ".", ".", "1"]
+                              , ["7", ".", ".", ".", "2", ".", ".", ".", "6"]
+                              , [".", "6", ".", ".", ".", ".", "2", "8", "."]
+                              , [".", ".", ".", "4", "1", "9", ".", ".", "5"]
+                              , [".", ".", ".", ".", "8", ".", ".", "7", "9"]]))
+    print(S.isValidSudoku([["8", "3", ".", ".", "7", ".", ".", ".", "."]
+                              , ["6", ".", ".", "1", "9", "5", ".", ".", "."]
+                              , [".", "9", "8", ".", ".", ".", ".", "6", "."]
+                              , ["8", ".", ".", ".", "6", ".", ".", ".", "3"]
+                              , ["4", ".", ".", "8", ".", "3", ".", ".", "1"]
+                              , ["7", ".", ".", ".", "2", ".", ".", ".", "6"]
+                              , [".", "6", ".", ".", ".", ".", "2", "8", "."]
+                              , [".", ".", ".", "4", "1", "9", ".", ".", "5"]
+                              , [".", ".", ".", ".", "8", ".", ".", "7", "9"]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
