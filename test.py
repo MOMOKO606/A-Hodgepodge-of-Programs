@@ -732,6 +732,34 @@ class Solution:
         _generateParenthesis(n, n, "")
         return ans
 
+    #  Leetcode 51
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        def _solveNQueens(i, seq ):
+            if i > n - 1:
+                ans.append( seq )
+                return
+            for j in range(n):
+                if j in cols or i - j in diag or i + j in backDiag:
+                    continue
+                cols.append( j )
+                diag.add( i - j )
+                backDiag.add( i + j )
+                _solveNQueens( i + 1, seq + [j])
+                cols.pop()
+                diag.remove( i - j )
+                backDiag.remove( i + j )
+
+        cols, diag, backDiag = [], set(), set()
+        ans = []
+        _solveNQueens(0, [])
+        return [["." * i + "Q" + "." * (n - i - 1) for i in seq] for seq in ans]
+
+
+
+
+
+
+
 #  Drive code.
 if __name__ == "__main__":
     S = Solution()
@@ -881,6 +909,10 @@ if __name__ == "__main__":
     ]))
 
     #  Leetcode 22
-    print("--------------------------------")
     print(S.generateParenthesis(3))
     print(S.generateParenthesis(1))
+
+    print("---------------------------------")
+    #  Leetcode 51
+    print(S.solveNQueens(4))
+    print(S.solveNQueens(1))
