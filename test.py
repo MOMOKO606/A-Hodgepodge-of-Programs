@@ -799,22 +799,43 @@ class Solution:
     #     return - 1
 
     #  Leetcode 127
-    #  The BFS solution.
+    # #  The BFS solution.
+    # def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+    #     queue, wordList = [beginWord], set(wordList)
+    #     level = 1
+    #     while queue:
+    #         newQueue = []
+    #         level += 1
+    #         for seq in queue:
+    #             for word in [seq[:i] + char + seq[i+1:]  for i in range(len(seq)) for char in string.ascii_lowercase]:
+    #                 if word in wordList:
+    #                     if word == endWord:
+    #                         return level
+    #                     wordList.remove( word )
+    #                     newQueue.append( word )
+    #         queue = newQueue
+    #     return 0
+
+    #  The two-ended BFS solution.
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        queue, wordList = [beginWord], set(wordList)
-        level = 1
-        while queue:
-            newQueue = []
+        if endWord not in wordList: return 0
+        front, end, wordList = {beginWord}, {endWord}, set(wordList)
+        wordList.remove( endWord )
+        level, n = 1, len(beginWord)
+        while front:
+            newFront = set()
             level += 1
-            for seq in queue:
-                for word in [seq[:i] + char + seq[i+1:]  for i in range(len(seq)) for char in string.ascii_lowercase]:
+            for seq in front:
+                for word in [seq[:i] + char + seq[i + 1:] for i in range(n) for char in string.ascii_lowercase]:
+                    if word in end: return level
                     if word in wordList:
-                        if word == endWord:
-                            return level
                         wordList.remove( word )
-                        newQueue.append( word )
-            queue = newQueue
+                        newFront.add( word )
+            front = newFront
+            if len(front) > len(end):
+                front, end = end, front
         return 0
+
 
 
 #  Drive code.
