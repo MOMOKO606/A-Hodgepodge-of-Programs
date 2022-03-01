@@ -722,9 +722,9 @@ class Solution:
         def _generateParenthesis(i, j, parenthesis):
             #  Base case.
             if i == 0 and j == 0:
-                ans.append( parenthesis )
+                ans.append(parenthesis)
             if i > 0:
-                _generateParenthesis( i - 1, j, parenthesis + "(")
+                _generateParenthesis(i - 1, j, parenthesis + "(")
             if i < j:
                 _generateParenthesis(i, j - 1, parenthesis + ")")
 
@@ -734,20 +734,20 @@ class Solution:
 
     #  Leetcode 51
     def solveNQueens(self, n: int) -> List[List[str]]:
-        def _solveNQueens(i, seq ):
+        def _solveNQueens(i, seq):
             if i > n - 1:
-                ans.append( seq )
+                ans.append(seq)
                 return
             for j in range(n):
                 if j in cols or i - j in diag or i + j in backDiag:
                     continue
-                cols.append( j )
-                diag.add( i - j )
-                backDiag.add( i + j )
-                _solveNQueens( i + 1, seq + [j])
+                cols.append(j)
+                diag.add(i - j)
+                backDiag.add(i + j)
+                _solveNQueens(i + 1, seq + [j])
                 cols.pop()
-                diag.remove( i - j )
-                backDiag.remove( i + j )
+                diag.remove(i - j)
+                backDiag.remove(i + j)
 
         cols, diag, backDiag = [], set(), set()
         ans = []
@@ -757,8 +757,9 @@ class Solution:
     #  Leetcode 433
     # #  The BFS solution.
     # def minMutation(self, start: str, end: str, bank: List[str]) -> int:
-    #     queue, bankSet = [start], set(bank)
     #     n, level = len(start), 0
+    #     queue, bankSet = [start], set(bank)
+    #     if start in bankSet: bankSet.remove( start )
     #     while queue:
     #         nextQueue = []
     #         level += 1
@@ -775,7 +776,27 @@ class Solution:
 
     #  Two-ended BFS solution.
     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
-
+        startSet, endSet, bankSet = {start}, {end}, set(bank)
+        if end not in bankSet: return -1
+        if start in bankSet:  bankSet.remove( start )
+        if end in bankSet:  bankSet.remove( end )
+        n, level = len(start), 0
+        while startSet:
+            nextSet = set()
+            level += 1
+            for seq in startSet:
+                for i in range(n):
+                    for char in ['A', 'C', 'G', 'T']:
+                        mutation = seq[: i] + char + seq[i + 1:]
+                        if mutation in endSet:
+                            return level
+                        if mutation in bankSet:
+                            nextSet.add(mutation)
+                            bankSet.remove(mutation)
+            startSet = nextSet
+            if len(startSet) > len(endSet):
+                startSet, endSet = endSet, startSet
+        return - 1
 
 
 #  Drive code.
@@ -934,12 +955,10 @@ if __name__ == "__main__":
     print(S.solveNQueens(4))
     print(S.solveNQueens(1))
 
-
     print("---------------------------------")
     #  Leetcode 433
     print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
+    print(S.minMutation("AACCGGTT","AACCGGTA", []))
     print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA","AACCGCTA","AAACGGTA"]))
     print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
-
-
-
+    print(S.minMutation("AAAACCCC","CCCCCCCC",["AAAACCCA","AAACCCCA","AACCCCCA","AACCCCCC","ACCCCCCC","CCCCCCCC","AAACCCCC","AACCCCCC"]))
