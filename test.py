@@ -754,9 +754,27 @@ class Solution:
         _solveNQueens(0, [])
         return [["." * i + "Q" + "." * (n - i - 1) for i in seq] for seq in ans]
 
+    #  Leetcode 433
+    # #  The BFS solution.
+    # def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+    #     queue, bankSet = [start], set(bank)
+    #     n, level = len(start), 0
+    #     while queue:
+    #         nextQueue = []
+    #         level += 1
+    #         for seq in queue:
+    #             for i in range(n):
+    #                 for char in ['A', 'C', 'G', 'T']:
+    #                     muta = seq[:i] + char + seq[i + 1:]
+    #                     if muta in bankSet:
+    #                         if muta == end: return level
+    #                         bankSet.remove( muta )
+    #                         nextQueue.append( muta )
+    #         queue = nextQueue
+    #     return -1
 
-
-
+    #  Two-ended BFS solution.
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
 
 
 
@@ -912,46 +930,16 @@ if __name__ == "__main__":
     print(S.generateParenthesis(3))
     print(S.generateParenthesis(1))
 
-    print("---------------------------------")
     #  Leetcode 51
     print(S.solveNQueens(4))
     print(S.solveNQueens(1))
 
-    def solveSudoku(self, board: List[List[str]]) -> None:
-        """
-        Do not return anything, modify board in-place instead.
-        """
-        def _solveSudoku( iter = 0 ):
-            #  Base case
-            if iter == len(remain):
-                return True
-            i, j = remain[iter]
-            k = ( i // 3 ) * 3 + j // 3
-            for val in rows[i] & cols[j] & blocks[k]:
-                rows[i].remove( val )
-                cols[j].remove( val )
-                blocks[k].remove( val )
-                board[i][j] = str( val )
-                if _solveSudoku( iter + 1 ):
-                    return
-                rows[i].add( val )
-                cols[j].add( val )
-                blocks[k].add( val )
-            return False
 
-        rows = [set(range(1, 10)) for _ in range(9)]
-        cols = [set(range(1, 10)) for _ in range(9)]
-        blocks = [set(range(1, 10)) for _ in range(9)]
-        remain = []
-        for i in range(9):
-            for j in range(9):
-                if board[i][j] != ".":
-                    val, k = int(board[i][j]), ( i // 3 ) * 3 + j // 3
-                    rows[i].remove(val)
-                    cols[j].remove(val)
-                    blocks[k].remove(val)
-                else:
-                    remain.append((i, j))
-        _solveSudoku()
+    print("---------------------------------")
+    #  Leetcode 433
+    print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
+    print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA","AACCGCTA","AAACGGTA"]))
+    print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
+
 
 
