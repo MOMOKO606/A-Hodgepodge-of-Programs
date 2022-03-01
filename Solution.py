@@ -2,7 +2,7 @@ from typing import Optional, List
 from functools import cache
 from heapq import heappush, heappop
 from collections import Counter
-import bisect, math, collections, itertools
+import bisect, math, collections, itertools, copy
 
 
 class Node:
@@ -5060,6 +5060,7 @@ class Solution:
     36. Valid Sudoku ( Medium )
     https://leetcode.com/problems/valid-sudoku/description/
     """
+
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         rows = [set(range(1, 10)) for _ in range(9)]
         cols = [set(range(1, 10)) for _ in range(9)]
@@ -5080,6 +5081,85 @@ class Solution:
                     blocks[k].remove(pivot)
         return True
 
+    """
+    37. Sudoku Solver (Hard)
+    https://leetcode.com/problems/sudoku-solver/#/description
+    """
+    #  The efficient recursive solution.
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        def _solveSudoku( iter = 0 ):
+            #  Base case
+            if iter == len(remain):
+                return True
+            i, j = remain[iter]
+            k = ( i // 3 ) * 3 + j // 3
+            for val in rows[i] & cols[j] & blocks[k]:
+                rows[i].remove( val )
+                cols[j].remove( val )
+                blocks[k].remove( val )
+                board[i][j] = str(val)
+                if _solveSudoku( iter + 1 ):
+                    return True
+                rows[i].add( val )
+                cols[j].add( val )
+                blocks[k].add( val )
+
+        rows = [set(range(1, 10)) for _ in range(9)]
+        cols = [set(range(1, 10)) for _ in range(9)]
+        blocks = [set(range(1, 10)) for _ in range(9)]
+        remain = []
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != ".":
+                    val, k = int(board[i][j]), ( i // 3 ) * 3 + j // 3
+                    rows[i].remove(val)
+                    cols[j].remove(val)
+                    blocks[k].remove(val)
+                else:
+                    remain.append((i, j))
+        _solveSudoku()
+
+    # #  The return ans version.
+    # def solveSudoku(self, board: List[List[str]]) -> None:
+    #     """
+    #     Do not return anything, modify board in-place instead.
+    #     """
+    #     def _solveSudoku( iter = 0 ):
+    #         #  Base case
+    #         if iter == len(remain):
+    #             #  IMPORTANT: 对于多维数组来说，要用deepcopy才能复制数组。
+    #             ans.append(copy.deepcopy( board ))
+    #             return
+    #         i, j = remain[iter]
+    #         k = ( i // 3 ) * 3 + j // 3
+    #         for val in rows[i] & cols[j] & blocks[k]:
+    #             rows[i].remove( val )
+    #             cols[j].remove( val )
+    #             blocks[k].remove( val )
+    #             board[i][j] = str(val)
+    #             _solveSudoku( iter + 1 )
+    #             rows[i].add( val )
+    #             cols[j].add( val )
+    #             blocks[k].add( val )
+    #
+    #     rows = [set(range(1, 10)) for _ in range(9)]
+    #     cols = [set(range(1, 10)) for _ in range(9)]
+    #     blocks = [set(range(1, 10)) for _ in range(9)]
+    #     remain, ans = [], []
+    #     for i in range(9):
+    #         for j in range(9):
+    #             if board[i][j] != ".":
+    #                 val, k = int(board[i][j]), ( i // 3 ) * 3 + j // 3
+    #                 rows[i].remove(val)
+    #                 cols[j].remove(val)
+    #                 blocks[k].remove(val)
+    #             else:
+    #                 remain.append((i, j))
+    #     _solveSudoku()
+    #     return ans
 
 #  Drive code.
 if __name__ == "__main__":
@@ -5639,7 +5719,6 @@ if __name__ == "__main__":
     S.solve(board)
     print(board)
 
-    print("----------------------------------------")
     #  Leetcode 36
     print(S.isValidSudoku([["5", "3", ".", ".", "7", ".", ".", ".", "."]
                               , ["6", ".", ".", "1", "9", "5", ".", ".", "."]
@@ -5664,6 +5743,16 @@ if __name__ == "__main__":
                            ["4", ".", "3", ".", ".", ".", ".", ".", "1"], [".", ".", ".", "7", ".", ".", ".", ".", "."],
                            [".", ".", ".", "5", ".", ".", ".", ".", "."], [".", ".", ".", ".", ".", ".", ".", ".", "."],
                            [".", ".", ".", ".", ".", ".", ".", ".", "."]]))
+
+    print("----------------------------------------")
+    #  Leetcode 36
+    board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+             [".", "9", "8", ".", ".", ".", ".", "6", "."], ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+             ["4", ".", ".", "8", ".", "3", ".", ".", "1"], ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", "6", ".", ".", ".", ".", "2", "8", "."], [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+    S.solveSudoku( board )
+    print( board )
 
 """
 ..................佛祖开光 ,永无BUG...................
