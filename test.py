@@ -1,5 +1,5 @@
 from typing import List, Optional
-import bisect, math
+import bisect, math, string
 from functools import cache
 
 
@@ -755,48 +755,66 @@ class Solution:
         return [["." * i + "Q" + "." * (n - i - 1) for i in seq] for seq in ans]
 
     #  Leetcode 433
-    # #  The BFS solution.
-    # def minMutation(self, start: str, end: str, bank: List[str]) -> int:
-    #     n, level = len(start), 0
-    #     queue, bankSet = [start], set(bank)
-    #     if start in bankSet: bankSet.remove( start )
-    #     while queue:
-    #         nextQueue = []
-    #         level += 1
-    #         for seq in queue:
-    #             for i in range(n):
-    #                 for char in ['A', 'C', 'G', 'T']:
-    #                     muta = seq[:i] + char + seq[i + 1:]
-    #                     if muta in bankSet:
-    #                         if muta == end: return level
-    #                         bankSet.remove( muta )
-    #                         nextQueue.append( muta )
-    #         queue = nextQueue
-    #     return -1
-
-    #  Two-ended BFS solution.
+    #  The BFS solution.
     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
-        startSet, endSet, bankSet = {start}, {end}, set(bank)
-        if end not in bankSet: return -1
-        if start in bankSet:  bankSet.remove( start )
-        if end in bankSet:  bankSet.remove( end )
         n, level = len(start), 0
-        while startSet:
-            nextSet = set()
+        queue, bankSet = [start], set(bank)
+        if start in bankSet: bankSet.remove( start )
+        while queue:
+            nextQueue = []
             level += 1
-            for seq in startSet:
+            for seq in queue:
                 for i in range(n):
                     for char in ['A', 'C', 'G', 'T']:
-                        mutation = seq[: i] + char + seq[i + 1:]
-                        if mutation in endSet:
+                        muta = seq[:i] + char + seq[i + 1:]
+                        if muta in bankSet:
+                            if muta == end: return level
+                            bankSet.remove( muta )
+                            nextQueue.append( muta )
+            queue = nextQueue
+        return -1
+
+    # #  Two-ended BFS solution.
+    # def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+    #     startSet, endSet, bankSet = {start}, {end}, set(bank)
+    #     if end not in bankSet: return -1
+    #     if start in bankSet:  bankSet.remove( start )
+    #     if end in bankSet:  bankSet.remove( end )
+    #     n, level = len(start), 0
+    #     while startSet:
+    #         nextSet = set()
+    #         level += 1
+    #         for seq in startSet:
+    #             for i in range(n):
+    #                 for char in ['A', 'C', 'G', 'T']:
+    #                     mutation = seq[: i] + char + seq[i + 1:]
+    #                     if mutation in endSet:
+    #                         return level
+    #                     if mutation in bankSet:
+    #                         nextSet.add(mutation)
+    #                         bankSet.remove(mutation)
+    #         startSet = nextSet
+    #         if len(startSet) > len(endSet):
+    #             startSet, endSet = endSet, startSet
+    #     return - 1
+
+    #  Leetcode 127
+    #  The BFS solution.
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        queue, wordList = [beginWord], set(wordList)
+        level = 1
+        while queue:
+            newQueue = []
+            level += 1
+            for seq in queue:
+                for word in [seq[:i] + char + seq[i+1:]  for i in range(len(seq)) for char in string.ascii_lowercase]:
+                    if word in wordList:
+                        if word == endWord:
                             return level
-                        if mutation in bankSet:
-                            nextSet.add(mutation)
-                            bankSet.remove(mutation)
-            startSet = nextSet
-            if len(startSet) > len(endSet):
-                startSet, endSet = endSet, startSet
-        return - 1
+                        wordList.remove( word )
+                        newQueue.append( word )
+            queue = newQueue
+        return 0
 
 
 #  Drive code.
@@ -955,10 +973,14 @@ if __name__ == "__main__":
     print(S.solveNQueens(4))
     print(S.solveNQueens(1))
 
-    print("---------------------------------")
     #  Leetcode 433
     print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
     print(S.minMutation("AACCGGTT","AACCGGTA", []))
     print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA","AACCGCTA","AAACGGTA"]))
     print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
     print(S.minMutation("AAAACCCC","CCCCCCCC",["AAAACCCA","AAACCCCA","AACCCCCA","AACCCCCC","ACCCCCCC","CCCCCCCC","AAACCCCC","AACCCCCC"]))
+
+    print("---------------------------------")
+    #  Leetcode 127
+    print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
+    print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log"]))
