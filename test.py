@@ -836,6 +836,31 @@ class Solution:
                 front, end = end, front
         return 0
 
+    #  Leetcode 126
+    #  The BFS solution.
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        queue, wordList, ans = [ (beginWord, [beginWord]) ], set(wordList), []
+        if beginWord in wordList: wordList.remove( beginWord )
+        while queue and not ans:
+            nextQueue, localVisited = [], set()
+            for seq, path in queue:
+                for i in range(len(beginWord)):
+                    for char in string.ascii_lowercase:
+                        newWord = seq[:i] + char + seq[i+1:]
+                        if newWord in wordList:
+                            if newWord == endWord:
+                                ans += [ path + [newWord] ]
+                            nextQueue.append( (newWord, path + [newWord]) )
+                            localVisited.add( newWord )
+            queue = nextQueue
+            for word in localVisited:
+                wordList.remove( word )
+        return ans
+
+
+
+
+
 
 
 #  Drive code.
@@ -1001,7 +1026,13 @@ if __name__ == "__main__":
     print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
     print(S.minMutation("AAAACCCC","CCCCCCCC",["AAAACCCA","AAACCCCA","AACCCCCA","AACCCCCC","ACCCCCCC","CCCCCCCC","AAACCCCC","AACCCCCC"]))
 
-    print("---------------------------------")
     #  Leetcode 127
     print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
     print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log"]))
+
+    print("---------------------------------")
+    #  Leetcode 126
+    print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+    print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
+    print(S.findLadders("a", "c", ["a", "b", "c"]))
+    print(S.findLadders("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
