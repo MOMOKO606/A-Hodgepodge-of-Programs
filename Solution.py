@@ -3126,8 +3126,8 @@ class Solution:
             for word, path in queue:
                 for i in range(len(word)):
                     for letter in "abcdefghijklmnopqrstuvwxyz":
-                        newWord = word[:i] + letter + word[i + 1 :]
-                        if newWord in wordList :
+                        newWord = word[:i] + letter + word[i + 1:]
+                        if newWord in wordList:
                             if newWord == endWord:
                                 ans += [path + [newWord]]
                             temp.append((newWord, path + [newWord]))
@@ -3175,24 +3175,24 @@ class Solution:
     #     dfs4Path(endWord, [])
     #     return ans
 
-        # #  The other version of dfs4Path and its corresponding main code.
-        # #  when we use a global route.
-        # def dfs4Path(word):
-        #     if word == beginWord:
-        #         route.append( word )
-        #         ans.append(route[::-1])
-        #         route.pop()
-        #         return
-        #     if path.get(word) is None: return
-        #     for nextWord in path[word]:
-        #         route.append( word )
-        #         dfs4Path( nextWord )
-        #         route.pop()
-        #
-        # ans, route = [], []
-        # path = _findLadders(wordList)
-        # dfs4Path( endWord )
-        # return ans
+    # #  The other version of dfs4Path and its corresponding main code.
+    # #  when we use a global route.
+    # def dfs4Path(word):
+    #     if word == beginWord:
+    #         route.append( word )
+    #         ans.append(route[::-1])
+    #         route.pop()
+    #         return
+    #     if path.get(word) is None: return
+    #     for nextWord in path[word]:
+    #         route.append( word )
+    #         dfs4Path( nextWord )
+    #         route.pop()
+    #
+    # ans, route = [], []
+    # path = _findLadders(wordList)
+    # dfs4Path( endWord )
+    # return ans
 
     """
     455. Assign Cookies (Easy)
@@ -5085,27 +5085,29 @@ class Solution:
     37. Sudoku Solver (Hard)
     https://leetcode.com/problems/sudoku-solver/#/description
     """
+
     #  The efficient recursive solution.
     def solveSudoku(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
         """
-        def _solveSudoku( iter = 0 ):
+
+        def _solveSudoku(iter=0):
             #  Base case
             if iter == len(remain):
                 return True
             i, j = remain[iter]
-            k = ( i // 3 ) * 3 + j // 3
+            k = (i // 3) * 3 + j // 3
             for val in rows[i] & cols[j] & blocks[k]:
-                rows[i].remove( val )
-                cols[j].remove( val )
-                blocks[k].remove( val )
+                rows[i].remove(val)
+                cols[j].remove(val)
+                blocks[k].remove(val)
                 board[i][j] = str(val)
-                if _solveSudoku( iter + 1 ):
+                if _solveSudoku(iter + 1):
                     return True
-                rows[i].add( val )
-                cols[j].add( val )
-                blocks[k].add( val )
+                rows[i].add(val)
+                cols[j].add(val)
+                blocks[k].add(val)
 
         rows = [set(range(1, 10)) for _ in range(9)]
         cols = [set(range(1, 10)) for _ in range(9)]
@@ -5114,7 +5116,7 @@ class Solution:
         for i in range(9):
             for j in range(9):
                 if board[i][j] != ".":
-                    val, k = int(board[i][j]), ( i // 3 ) * 3 + j // 3
+                    val, k = int(board[i][j]), (i // 3) * 3 + j // 3
                     rows[i].remove(val)
                     cols[j].remove(val)
                     blocks[k].remove(val)
@@ -5160,6 +5162,33 @@ class Solution:
     #                 remain.append((i, j))
     #     _solveSudoku()
     #     return ans
+
+    """
+    Leetcode 1091 (Medium)
+    https://leetcode.com/problems/shortest-path-in-binary-matrix/
+    """
+
+    #  The DP solution can't work.
+    #  Because https://leetcode.com/problems/shortest-path-in-binary-matrix/discuss/667137/Why-does-DP-not-work.
+    #  The BFS solution.
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        queue, level, n = [(0, 0)], 1, len(grid)
+        if grid[0][0] or grid[-1][-1]: return -1
+        if n == 1: return 1
+        while queue:
+            nextQueue = []
+            level += 1
+            for i, j in queue:
+                for x, y in [[i - 1, j - 1], [i - 1, j], [i - 1, j + 1], [i, j - 1], [i, j + 1], [i + 1, j - 1],
+                             [i + 1, j], [i + 1, j + 1]]:
+                    if not (0 <= x < n and 0 <= y < n and grid[x][y] == 0): continue
+                    if x == n - 1 and y == n - 1: return level
+                    nextQueue.append((x, y))
+                    grid[x][y] = "#"
+            queue = nextQueue
+        return -1
+
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -5447,7 +5476,7 @@ if __name__ == "__main__":
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
     print(S.findLadders("a", "c", ["a", "b", "c"]))
-    print(S.findLadders("red", "tax", ["ted","tex","red","tax","tad","den","rex","pee"]))
+    print(S.findLadders("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
 
     #  Leetcode 455
     print(S.findContentChildren([1, 2, 3], [1, 1]))
@@ -5745,15 +5774,29 @@ if __name__ == "__main__":
                            [".", ".", ".", "5", ".", ".", ".", ".", "."], [".", ".", ".", ".", ".", ".", ".", ".", "."],
                            [".", ".", ".", ".", ".", ".", ".", ".", "."]]))
 
-    print("----------------------------------------")
     #  Leetcode 36
     board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", ".", ".", "1", "9", "5", ".", ".", "."],
              [".", "9", "8", ".", ".", ".", ".", "6", "."], ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
              ["4", ".", ".", "8", ".", "3", ".", ".", "1"], ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
              [".", "6", ".", ".", ".", ".", "2", "8", "."], [".", ".", ".", "4", "1", "9", ".", ".", "5"],
              [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
-    S.solveSudoku( board )
-    print( board )
+    S.solveSudoku(board)
+    print(board)
+
+    # Leetcode 1091
+    print("----------------------------------------")
+    print(S.shortestPathBinaryMatrix([[0]]))
+    print(S.shortestPathBinaryMatrix([[0, 0, 0, 0, 1], [1, 0, 0, 0, 0], [0, 1, 0, 1, 0], [0, 0, 0, 1, 1], [0, 0, 0, 1, 0]]))
+    # print(S.shortestPathBinaryMatrix([[0, 1], [1, 0]]))
+    # print(S.shortestPathBinaryMatrix([[0, 0, 0], [1, 1, 0], [1, 1, 0]]))
+    # print(S.shortestPathBinaryMatrix([[1, 0, 0], [1, 1, 0], [1, 1, 0]]))
+    # print(S.shortestPathBinaryMatrix(
+    #     [[0, 1, 1, 0, 0, 0], [0, 1, 0, 1, 1, 0], [0, 1, 1, 0, 1, 0], [0, 0, 0, 1, 1, 0], [1, 1, 1, 1, 1, 0],
+    #      [1, 1, 1, 1, 1, 0]]))
+    # print(S.shortestPathBinaryMatrix([[0, 0, 0], [1, 1, 0], [1, 1, 1]]))
+    # print(S.shortestPathBinaryMatrix(
+    #     [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 1, 0],
+    #      [0, 0, 1, 0, 1, 0, 1, 1], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 1, 1, 0, 0], [1, 0, 1, 1, 1, 0, 0, 0]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
