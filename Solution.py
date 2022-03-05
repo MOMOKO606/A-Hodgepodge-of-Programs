@@ -5172,21 +5172,21 @@ class Solution:
     #  Because https://leetcode.com/problems/shortest-path-in-binary-matrix/discuss/667137/Why-does-DP-not-work.
     #  The BFS solution.
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
-        queue, level, n = [(0, 0)], 1, len(grid)
         if grid[0][0] or grid[-1][-1]: return -1
-        if n <= 2: return n
+        queue, level, n = [(0, 0)], 1, len(grid)
         while queue:
             nextQueue = []
-            level += 1
             for i, j in queue:
+                if i == n - 1 and j == n - 1: return level
                 for x, y in [[i - 1, j - 1], [i - 1, j], [i - 1, j + 1], [i, j - 1], [i, j + 1], [i + 1, j - 1],
                              [i + 1, j], [i + 1, j + 1]]:
                     if not (0 <= x < n and 0 <= y < n and grid[x][y] == 0): continue
-                    if x == n - 1 and y == n - 1: return level
                     nextQueue.append((x, y))
                     grid[x][y] = "#"
+            level += 1
             queue = nextQueue
         return -1
+
 
     """
     773. Sliding Puzzle (Hard)
@@ -5799,7 +5799,7 @@ if __name__ == "__main__":
                            [".", ".", ".", "5", ".", ".", ".", ".", "."], [".", ".", ".", ".", ".", ".", ".", ".", "."],
                            [".", ".", ".", ".", ".", ".", ".", ".", "."]]))
 
-    #  Leetcode 36
+    #  Leetcode 37
     board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", ".", ".", "1", "9", "5", ".", ".", "."],
              [".", "9", "8", ".", ".", ".", ".", "6", "."], ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
              ["4", ".", ".", "8", ".", "3", ".", ".", "1"], ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
@@ -5823,11 +5823,13 @@ if __name__ == "__main__":
         [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 1, 0],
          [0, 0, 1, 0, 1, 0, 1, 1], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 1, 1, 0, 0], [1, 0, 1, 1, 1, 0, 0, 0]]))
 
-    print("----------------------------------------")
     #  Leetcode 773
     print(S.slidingPuzzle([[1, 2, 3], [4, 0, 5]]))
     print(S.slidingPuzzle([[1, 2, 3], [5, 4, 0]]))
     print(S.slidingPuzzle([[4, 1, 2], [5, 0, 3]]))
+
+    print("----------------------------------------")
+
 
 """
 ..................佛祖开光 ,永无BUG...................

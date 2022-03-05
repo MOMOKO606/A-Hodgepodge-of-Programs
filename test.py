@@ -759,7 +759,7 @@ class Solution:
     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
         n, level = len(start), 0
         queue, bankSet = [start], set(bank)
-        if start in bankSet: bankSet.remove( start )
+        if start in bankSet: bankSet.remove(start)
         while queue:
             nextQueue = []
             level += 1
@@ -769,8 +769,8 @@ class Solution:
                         muta = seq[:i] + char + seq[i + 1:]
                         if muta in bankSet:
                             if muta == end: return level
-                            bankSet.remove( muta )
-                            nextQueue.append( muta )
+                            bankSet.remove(muta)
+                            nextQueue.append(muta)
             queue = nextQueue
         return -1
 
@@ -820,7 +820,7 @@ class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         if endWord not in wordList: return 0
         front, end, wordList = {beginWord}, {endWord}, set(wordList)
-        wordList.remove( endWord )
+        wordList.remove(endWord)
         level, n = 1, len(beginWord)
         while front:
             newFront = set()
@@ -829,8 +829,8 @@ class Solution:
                 for word in [seq[:i] + char + seq[i + 1:] for i in range(n) for char in string.ascii_lowercase]:
                     if word in end: return level
                     if word in wordList:
-                        wordList.remove( word )
-                        newFront.add( word )
+                        wordList.remove(word)
+                        newFront.add(word)
             front = newFront
             if len(front) > len(end):
                 front, end = end, front
@@ -839,28 +839,62 @@ class Solution:
     #  Leetcode 126
     #  The BFS solution.
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-        queue, wordList, ans = [ (beginWord, [beginWord]) ], set(wordList), []
-        if beginWord in wordList: wordList.remove( beginWord )
+        queue, wordList, ans = [(beginWord, [beginWord])], set(wordList), []
+        if beginWord in wordList: wordList.remove(beginWord)
         while queue and not ans:
             nextQueue, localVisited = [], set()
             for seq, path in queue:
                 for i in range(len(beginWord)):
                     for char in string.ascii_lowercase:
-                        newWord = seq[:i] + char + seq[i+1:]
+                        newWord = seq[:i] + char + seq[i + 1:]
                         if newWord in wordList:
                             if newWord == endWord:
-                                ans += [ path + [newWord] ]
-                            nextQueue.append( (newWord, path + [newWord]) )
-                            localVisited.add( newWord )
+                                ans += [path + [newWord]]
+                            nextQueue.append((newWord, path + [newWord]))
+                            localVisited.add(newWord)
             queue = nextQueue
             for word in localVisited:
-                wordList.remove( word )
+                wordList.remove(word)
         return ans
 
+    #  Leetcode 37
+    #  The efficient recursive solution.
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        def _solveSudoku(k = 0):
+            #  Base case
+            if k == len(pointsLeft):
+                return True
+            i, j = pointsLeft[k]
+            index = (i // 3) * 3 + j // 3
+            for num in rows[i] & cols[j] & blocks[index]:
+                rows[i].remove(num)
+                cols[j].remove(num)
+                blocks[index].remove(num)
+                board[i][j] = str(num)
+                if _solveSudoku(k + 1):
+                    return True
+                rows[i].add(num)
+                cols[j].add(num)
+                blocks[index].add(num)
+            return False
 
-
-
-
+        rows = [set(range(1,10)) for _ in range(9)]
+        cols = [set(range(1,10)) for _ in range(9)]
+        blocks = [set(range(1,10)) for _ in range(9)]
+        pointsLeft = []
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != ".":
+                    num, index = int(board[i][j]), (i // 3) * 3 + j // 3
+                    rows[i].remove(num)
+                    cols[j].remove(num)
+                    blocks[index].remove(num)
+                else:
+                    pointsLeft.append((i, j))
+        _solveSudoku()
 
 
 #  Drive code.
@@ -1021,18 +1055,29 @@ if __name__ == "__main__":
 
     #  Leetcode 433
     print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
-    print(S.minMutation("AACCGGTT","AACCGGTA", []))
-    print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA","AACCGCTA","AAACGGTA"]))
+    print(S.minMutation("AACCGGTT", "AACCGGTA", []))
+    print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA", "AACCGCTA", "AAACGGTA"]))
     print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
-    print(S.minMutation("AAAACCCC","CCCCCCCC",["AAAACCCA","AAACCCCA","AACCCCCA","AACCCCCC","ACCCCCCC","CCCCCCCC","AAACCCCC","AACCCCCC"]))
+    print(S.minMutation("AAAACCCC", "CCCCCCCC",
+                        ["AAAACCCA", "AAACCCCA", "AACCCCCA", "AACCCCCC", "ACCCCCCC", "CCCCCCCC", "AAACCCCC",
+                         "AACCCCCC"]))
 
     #  Leetcode 127
-    print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
-    print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log"]))
+    print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+    print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
 
-    print("---------------------------------")
     #  Leetcode 126
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
     print(S.findLadders("a", "c", ["a", "b", "c"]))
     print(S.findLadders("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
+
+    print("---------------------------------")
+    #  Leetcode 37
+    board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+             [".", "9", "8", ".", ".", ".", ".", "6", "."], ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+             ["4", ".", ".", "8", ".", "3", ".", ".", "1"], ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+             [".", "6", ".", ".", ".", ".", "2", "8", "."], [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+             [".", ".", ".", ".", "8", ".", ".", "7", "9"]]
+    S.solveSudoku(board)
+    print(board)
