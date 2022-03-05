@@ -5174,7 +5174,7 @@ class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
         queue, level, n = [(0, 0)], 1, len(grid)
         if grid[0][0] or grid[-1][-1]: return -1
-        if n == 1: return 1
+        if n <= 2: return n
         while queue:
             nextQueue = []
             level += 1
@@ -5188,6 +5188,31 @@ class Solution:
             queue = nextQueue
         return -1
 
+    """
+    773. Sliding Puzzle (Hard)
+    https://leetcode.com/problems/sliding-puzzle/
+    """
+
+    #  The BFS solution
+    def slidingPuzzle(self, board: List[List[int]]) -> int:
+        moves = {0: [1, 3], 1: [0, 2, 4], 2: [1, 5], 3: [0, 4], 4: [1, 3, 5], 5: [2, 4]}
+        board = board[0] + board[1]
+        s = "".join(str(c) for c in board)
+        visited, queue, level = set([s]), [(board, board.index(0))], 0
+        while queue:
+            nextQueue = []
+            for seq, index in queue:
+                if seq == [1, 2, 3, 4, 5, 0]:
+                    return level
+                for move in moves[index]:
+                    newSeq = seq[:]
+                    newSeq[index], newSeq[move] = newSeq[move], newSeq[index]
+                    if "".join( str(c) for c in newSeq ) not in visited:
+                        nextQueue.append((newSeq, move))
+                visited.add("".join(str(c) for c in seq))
+            level += 1
+            queue = nextQueue
+        return - 1
 
 
 #  Drive code.
@@ -5784,19 +5809,25 @@ if __name__ == "__main__":
     print(board)
 
     # Leetcode 1091
-    print("----------------------------------------")
     print(S.shortestPathBinaryMatrix([[0]]))
-    print(S.shortestPathBinaryMatrix([[0, 0, 0, 0, 1], [1, 0, 0, 0, 0], [0, 1, 0, 1, 0], [0, 0, 0, 1, 1], [0, 0, 0, 1, 0]]))
-    # print(S.shortestPathBinaryMatrix([[0, 1], [1, 0]]))
-    # print(S.shortestPathBinaryMatrix([[0, 0, 0], [1, 1, 0], [1, 1, 0]]))
-    # print(S.shortestPathBinaryMatrix([[1, 0, 0], [1, 1, 0], [1, 1, 0]]))
-    # print(S.shortestPathBinaryMatrix(
-    #     [[0, 1, 1, 0, 0, 0], [0, 1, 0, 1, 1, 0], [0, 1, 1, 0, 1, 0], [0, 0, 0, 1, 1, 0], [1, 1, 1, 1, 1, 0],
-    #      [1, 1, 1, 1, 1, 0]]))
-    # print(S.shortestPathBinaryMatrix([[0, 0, 0], [1, 1, 0], [1, 1, 1]]))
-    # print(S.shortestPathBinaryMatrix(
-    #     [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 1, 0],
-    #      [0, 0, 1, 0, 1, 0, 1, 1], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 1, 1, 0, 0], [1, 0, 1, 1, 1, 0, 0, 0]]))
+    print(S.shortestPathBinaryMatrix(
+        [[0, 0, 0, 0, 1], [1, 0, 0, 0, 0], [0, 1, 0, 1, 0], [0, 0, 0, 1, 1], [0, 0, 0, 1, 0]]))
+    print(S.shortestPathBinaryMatrix([[0, 1], [1, 0]]))
+    print(S.shortestPathBinaryMatrix([[0, 0, 0], [1, 1, 0], [1, 1, 0]]))
+    print(S.shortestPathBinaryMatrix([[1, 0, 0], [1, 1, 0], [1, 1, 0]]))
+    print(S.shortestPathBinaryMatrix(
+        [[0, 1, 1, 0, 0, 0], [0, 1, 0, 1, 1, 0], [0, 1, 1, 0, 1, 0], [0, 0, 0, 1, 1, 0], [1, 1, 1, 1, 1, 0],
+         [1, 1, 1, 1, 1, 0]]))
+    print(S.shortestPathBinaryMatrix([[0, 0, 0], [1, 1, 0], [1, 1, 1]]))
+    print(S.shortestPathBinaryMatrix(
+        [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 1, 1, 0],
+         [0, 0, 1, 0, 1, 0, 1, 1], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 1, 1, 0, 0], [1, 0, 1, 1, 1, 0, 0, 0]]))
+
+    print("----------------------------------------")
+    #  Leetcode 773
+    print(S.slidingPuzzle([[1, 2, 3], [4, 0, 5]]))
+    print(S.slidingPuzzle([[1, 2, 3], [5, 4, 0]]))
+    print(S.slidingPuzzle([[4, 1, 2], [5, 0, 3]]))
 
 """
 ..................佛祖开光 ,永无BUG...................
