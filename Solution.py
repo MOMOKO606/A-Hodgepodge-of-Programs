@@ -5247,6 +5247,22 @@ class Solution:
     def isPowerOfTwo(self, n: int) -> bool:
         return n != 0 and n & (n - 1) == 0
 
+    """
+    190. Reverse Bits (Easy)
+    https://leetcode.com/problems/reverse-bits/
+    """
+    def reverseBits(self, n: int) -> int:
+        ans = 0
+        while n:
+            #  ans左移一位，给最右侧腾位置；
+            #  n & 1 => n的最后一位（0 或 1）；
+            #  综上，把n的最后一位插到ans的右侧。
+            ans = (ans << 1) + (n & 1)
+            #  n右移1位 = 把n最右侧的1位删除。
+            n = n >> 1
+        return ans
+
+
 
 
 #  Drive code.
@@ -5866,11 +5882,14 @@ if __name__ == "__main__":
     #  Leetcode 191
     #  pass
 
-    print("----------------------------------------")
     #  Leetcode 231
     print(S.isPowerOfTwo(1))
     print(S.isPowerOfTwo(16))
     print(S.isPowerOfTwo(3))
+
+    print("----------------------------------------")
+    #  Leetcode 190
+    #  pass
 
 
 
