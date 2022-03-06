@@ -5218,13 +5218,27 @@ class Solution:
     191. Number of 1 Bits (Easy)
     https://leetcode.com/problems/number-of-1-bits/
     """
-    #  The bit-operation solution
+    # #  The bit-operation solution.
+    # def hammingWeight(self, n: int) -> int:
+    #     count = 0
+    #     while n != 0:
+    #         count += 1
+    #         n = n & n - 1
+    #     return count
+
+    # #  The library solution.
+    # def hammingWeight(self, n: int) -> int:
+    #     return bin(n).count("1")
+
+    #  The straightforward solution.
     def hammingWeight(self, n: int) -> int:
         count = 0
         while n != 0:
-            count += 1
-            n = n & n - 1
+            if n % 2:
+                count += 1
+            n = n // 2
         return count
+
 
 
 #  Drive code.
