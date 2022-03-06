@@ -5253,7 +5253,7 @@ class Solution:
     """
     def reverseBits(self, n: int) -> int:
         ans = 0
-        while n:
+        for _ in range(32):
             #  ans左移一位，给最右侧腾位置；
             #  n & 1 => n的最后一位（0 或 1）；
             #  综上，把n的最后一位插到ans的右侧。
