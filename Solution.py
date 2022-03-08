@@ -5262,6 +5262,23 @@ class Solution:
             n = n >> 1
         return ans
 
+    """
+    338. Counting Bits(Easy)
+    https://leetcode.com/problems/counting-bits/description/
+    """
+    #  The Brian Kernighan Algorithm solution.
+    def countBits(self, n: int) -> List[int]:
+        #  ans[i] = i中1的数量。
+        #  Base case: 0中有0个1，即ans[0] = 0
+        ans = [0] * (n + 1)
+        for i in range(1, n + 1):
+            #  i & i - 1 有两重含义
+            #  1. 消除i（二进制）的最后1个1。
+            #  2. 得到1个数，设为k。
+            #  由1和2可知，k中1的个数比i中1的个数少1，即ans[i] = ans[k] + 1 = ans[i & i - 1] + 1。
+            ans[i] = ans[i & i - 1] + 1
+        return ans
+
 
 
 
@@ -5887,9 +5904,13 @@ if __name__ == "__main__":
     print(S.isPowerOfTwo(16))
     print(S.isPowerOfTwo(3))
 
-    print("----------------------------------------")
     #  Leetcode 190
     #  pass
+
+    #  Leetcode 338
+    print("----------------------------------------")
+    print(S.countBits(2))
+    print(S.countBits(5))
 
 
 
