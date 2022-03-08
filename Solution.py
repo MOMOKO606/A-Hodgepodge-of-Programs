@@ -2803,7 +2803,6 @@ class Solution:
             #         block += [lines]
             #     symbols.append(block)
             # return symbols
-
         ans = []
         block, usedJ, usedDiag, usedBDiag = [], set(), set(), set()
         _solveNQueens(0)
@@ -2811,25 +2810,46 @@ class Solution:
 
     # #  The concise version.
     # def solveNQueens(self, n: int) -> List[List[str]]:
-    #     def _solveNQueens(i, seq ):
-    #         if i > n - 1:
+    #     def _solveQueens(i = 0, seq = []):
+    #         if i == n:
     #             ans.append( seq )
     #             return
     #         for j in range(n):
-    #             if j in cols or i - j in diag or i + j in backDiag:
+    #             if j in cols or i + j in diags or i - j in backDiags:
     #                 continue
-    #             cols.append( j )
-    #             diag.add( i - j )
-    #             backDiag.add( i + j )
-    #             _solveNQueens( i + 1, seq + [j])
-    #             cols.pop()
-    #             diag.remove( i - j )
-    #             backDiag.remove( i + j )
-    #
-    #     cols, diag, backDiag = [], set(), set()
-    #     ans = []
-    #     _solveNQueens(0, [])
+    #             cols.add(j)
+    #             diags.add( i + j )
+    #             backDiags.add( i - j )
+    #             _solveQueens(i + 1, seq + [j])
+    #             cols.remove(j)
+    #             diags.remove( i + j )
+    #             backDiags.remove( i - j )
+    #     cols, diags, backDiags, ans = set(), set(), set(), []
+    #     _solveQueens()
     #     return [["." * i + "Q" + "." * (n - i - 1) for i in seq] for seq in ans]
+
+    """
+    52. N-Queens II ( Hard )
+    https://leetcode.com/problems/n-queens-ii/
+    """
+    def totalNQueens(self, n: int) -> int:
+        def _solveQueens(i=0, seq=[]):
+            if i == n:
+                ans.append(seq)
+                return
+            for j in range(n):
+                if j in cols or i + j in diags or i - j in backDiags:
+                    continue
+                cols.add(j)
+                diags.add(i + j)
+                backDiags.add(i - j)
+                _solveQueens(i + 1, seq + [j])
+                cols.remove(j)
+                diags.remove(i + j)
+                backDiags.remove(i - j)
+        cols, diags, backDiags, ans = set(), set(), set(), []
+        _solveQueens()
+        return len(ans)
 
     """
     102. Binary Tree Level Order Traversal (Medium)
@@ -5538,6 +5558,12 @@ if __name__ == "__main__":
     print(S.solveNQueens(2))
     print(S.solveNQueens(3))
     print(S.solveNQueens(4))
+
+    #  Leetcode 52
+    print(S.totalNQueens(1))
+    print(S.totalNQueens(4))
+    print(S.solveNQueens(7))
+    print(S.solveNQueens(9))
 
     #  Leetcode 102
     print(S.levelOrder02(deserialize('[3,9,20,null,null,15,7]')))

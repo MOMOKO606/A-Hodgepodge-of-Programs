@@ -734,25 +734,32 @@ class Solution:
 
     #  Leetcode 51
     def solveNQueens(self, n: int) -> List[List[str]]:
-        def _solveNQueens(i, seq):
-            if i > n - 1:
-                ans.append(seq)
+        def _solveQueens(i = 0, seq = []):
+            if i == n:
+                ans.append( seq )
                 return
             for j in range(n):
-                if j in cols or i - j in diag or i + j in backDiag:
+                if j in cols or i + j in diags or i - j in backDiags:
                     continue
-                cols.append(j)
-                diag.add(i - j)
-                backDiag.add(i + j)
-                _solveNQueens(i + 1, seq + [j])
-                cols.pop()
-                diag.remove(i - j)
-                backDiag.remove(i + j)
+                cols.add(j)
+                diags.add( i + j )
+                backDiags.add( i - j )
+                _solveQueens(i + 1, seq + [j])
+                cols.remove(j)
+                diags.remove( i + j )
+                backDiags.remove( i - j )
+        cols, diags, backDiags, ans = set(), set(), set(), []
+        _solveQueens()
+        return [ ["." * i + "Q" + "." * (n - i - 1)  for i in seq] for seq in ans]
 
-        cols, diag, backDiag = [], set(), set()
-        ans = []
-        _solveNQueens(0, [])
-        return [["." * i + "Q" + "." * (n - i - 1) for i in seq] for seq in ans]
+
+
+
+
+
+
+
+
 
     #  Leetcode 433
     #  The BFS solution.
@@ -1052,9 +1059,11 @@ if __name__ == "__main__":
     print(S.generateParenthesis(3))
     print(S.generateParenthesis(1))
 
+    print("----------------------------")
     #  Leetcode 51
     print(S.solveNQueens(4))
     print(S.solveNQueens(1))
+    print("----------------------------")
 
     #  Leetcode 433
     print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
@@ -1075,7 +1084,6 @@ if __name__ == "__main__":
     print(S.findLadders("a", "c", ["a", "b", "c"]))
     print(S.findLadders("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
 
-    print("---------------------------------")
     #  Leetcode 37
     board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", ".", ".", "1", "9", "5", ".", ".", "."],
              [".", "9", "8", ".", ".", ".", ".", "6", "."], ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
