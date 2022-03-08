@@ -5266,17 +5266,37 @@ class Solution:
     338. Counting Bits(Easy)
     https://leetcode.com/problems/counting-bits/description/
     """
-    #  The Brian Kernighan Algorithm solution.
+    # #  The Brian Kernighan Algorithm solution.
+    # def countBits(self, n: int) -> List[int]:
+    #     #  ans[i] = i中1的数量。
+    #     #  Base case: 0中有0个1，即ans[0] = 0
+    #     ans = [0] * (n + 1)
+    #     for i in range(1, n + 1):
+    #         #  i & i - 1 有两重含义
+    #         #  1. 消除i（二进制）的最后1个1。
+    #         #  2. 得到1个数，设为k。
+    #         #  由1和2可知，k中1的个数比i中1的个数少1，即ans[i] = ans[k] + 1 = ans[i & i - 1] + 1。
+    #         ans[i] = ans[i & i - 1] + 1
+    #     return ans
+
+    #  The dp solution.
     def countBits(self, n: int) -> List[int]:
-        #  ans[i] = i中1的数量。
-        #  Base case: 0中有0个1，即ans[0] = 0
+        #  ans[i] = the number of 1 in i.
+        #  if i is even, ans[i] = ans[i >> 1] = ans[i / 2]
+        #  if i is odd, ans[i] = ans[i - 1] + 1
+        #  0            0
+        #  1            1
+        #  2           10
+        #  3           11
+        #  4          100
+        #  5          101
+        #  6          110
+        #  7          111
+        #  8         1000
+        #  9         1001
         ans = [0] * (n + 1)
         for i in range(1, n + 1):
-            #  i & i - 1 有两重含义
-            #  1. 消除i（二进制）的最后1个1。
-            #  2. 得到1个数，设为k。
-            #  由1和2可知，k中1的个数比i中1的个数少1，即ans[i] = ans[k] + 1 = ans[i & i - 1] + 1。
-            ans[i] = ans[i & i - 1] + 1
+            ans[i] = ans[i >> 1] + (i & 1)
         return ans
 
 
