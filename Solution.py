@@ -2833,23 +2833,23 @@ class Solution:
     https://leetcode.com/problems/n-queens-ii/
     """
     def totalNQueens(self, n: int) -> int:
-        def _solveQueens(i=0, seq=[]):
+        def _totalNQueens(i=0, cols=0, diags=0, backDiags=0):
             if i == n:
-                ans.append(seq)
+                self.count += 1
                 return
-            for j in range(n):
-                if j in cols or i + j in diags or i - j in backDiags:
-                    continue
-                cols.add(j)
-                diags.add(i + j)
-                backDiags.add(i - j)
-                _solveQueens(i + 1, seq + [j])
-                cols.remove(j)
-                diags.remove(i + j)
-                backDiags.remove(i - j)
-        cols, diags, backDiags, ans = set(), set(), set(), []
-        _solveQueens()
-        return len(ans)
+            #  Explanation: https://www.cxyxiaowu.com/8990.html
+            #  注意，因为我们擅长位运算找1，所以希望1代表可放皇后，0代表不可放皇后。
+            #  而此时cols, diags, backDiags的1表示已被占用，不可放皇后， 所以一定要取反
+            bits = ~(cols | diags | backDiags) & (1 << n) - 1
+            while bits:  # 此时1代表可以放皇后的位置，0表示不可放皇后。
+                p = bits & -bits  # 取到最右侧（低位）的1。
+                bits = bits & bits - 1  # 消除最右侧（低位）的1 = 此处为0 = 此处放了皇后。
+                #  注意cols, diags, backDiags的更新技巧。
+                #  注意，此时cols, diags, backDiags的1表示已被占用，不可放皇后。
+                _totalNQueens(i + 1,  cols | p, (diags | p) >> 1, (backDiags | p) << 1)
+        self.count = 0
+        _totalNQueens()
+        return self.count
 
     """
     102. Binary Tree Level Order Traversal (Medium)
@@ -5559,11 +5559,11 @@ if __name__ == "__main__":
     print(S.solveNQueens(3))
     print(S.solveNQueens(4))
 
+    print("------------------------------------")
     #  Leetcode 52
     print(S.totalNQueens(1))
     print(S.totalNQueens(4))
-    print(S.solveNQueens(7))
-    print(S.solveNQueens(9))
+    print("------------------------------------")
 
     #  Leetcode 102
     print(S.levelOrder02(deserialize('[3,9,20,null,null,15,7]')))
@@ -5941,7 +5941,6 @@ if __name__ == "__main__":
     print(S.slidingPuzzle([[1, 2, 3], [5, 4, 0]]))
     print(S.slidingPuzzle([[4, 1, 2], [5, 0, 3]]))
 
-
     #  Leetcode 191
     #  pass
 
@@ -5954,9 +5953,9 @@ if __name__ == "__main__":
     #  pass
 
     #  Leetcode 338
-    print("----------------------------------------")
     print(S.countBits(2))
     print(S.countBits(5))
+    print("----------------------------------------")
 
 
 
