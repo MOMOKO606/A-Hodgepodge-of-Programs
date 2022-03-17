@@ -733,21 +733,9 @@ class Solution:
         return ans
 
     #  Leetcode 51
-    def solveNQueens(self, n: int) -> :
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        pass
 
-        def _solveQueens(i = 0, count = 0, cols = 0, diags = 0, backDiags = 0):
-            if i == n: return count
-            #  Explanation: https://www.cxyxiaowu.com/8990.html
-            #  注意，因为我们擅长位运算找1，所以希望1代表可放皇后，0代表不可放皇后。
-            #  而此时cols, diags, backDiags的1表示已被占用，不可放皇后， 所以一定要取反
-            bits = ~(cols | diags | backDiags) & (1 << n) - 1
-            while bits:  #  此时1代表可以放皇后的位置，0表示不可放皇后。
-                p = bits & -bits  #  取到最右侧（低位）的1。
-                bits = bits & bits - 1  #  消除最右侧（低位）的1 = 此处为0 = 此处放了皇后。
-                #  注意cols, diags, backDiags的更新技巧。
-                #  注意，此时cols, diags, backDiags的1表示已被占用，不可放皇后。
-                _solveQueens( i + 1, count + 1, cols | p, (diags | p) >> 1, (backDiags | p) << 1)
-        return _solveQueens()
 
 
     #  Leetcode 433

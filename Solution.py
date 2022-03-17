@@ -1,8 +1,9 @@
 from typing import Optional, List
+from bitarray import bitarray
 from functools import cache
 from heapq import heappush, heappop
 from collections import Counter
-import bisect, math, collections, itertools, copy
+import bisect, math, collections, itertools, copy, mmh3
 
 
 class Node:
@@ -47,6 +48,28 @@ class Trie(object):
             if c not in node.keys(): return False
             node = node[c]
         return True
+
+
+#  Bloom Filter
+class BloomFilter:
+    def __init__(self, size, hash_num):
+        self.size = size
+        self.hash_num = hash_num
+        self.bit_array = bitarray(size)
+        self.bit_array.setall(0)
+
+    def add(self, s):
+        for seed in range(self.hash_num):
+            index = mmh3.hash(s, seed) % self.size
+            self.bit_array[index] = 1
+
+    def lookup(self, s):
+        for seed in range(self.hash_num):
+            index = mmh3.hash(s, seed) % self.size
+            if self.bit_array[index] == 0:
+                return "Nope"
+        return  "Probably"
+
 
 
 #  Tool made by StefanPochmann
@@ -5955,7 +5978,13 @@ if __name__ == "__main__":
     #  Leetcode 338
     print(S.countBits(2))
     print(S.countBits(5))
+
     print("----------------------------------------")
+    #  The example of Bloom Filter
+    bf = BloomFilter(500000, 7)
+    bf.add( "dantezhao" )
+    print(bf.lookup( "dantezhao" ))
+    print(bf.lookup( "yyj" ))
 
 
 
