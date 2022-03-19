@@ -68,8 +68,34 @@ class BloomFilter:
             index = mmh3.hash(s, seed) % self.size
             if self.bit_array[index] == 0:
                 return "Nope"
-        return  "Probably"
+        return "Probably"
 
+
+"""
+Leetcode 146( Medium )
+https://leetcode.com/problems/lru-cache/#/
+"""
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.dic = collections.OrderedDict()
+        self.capacity = capacity
+
+    def get(self, key: int) -> int:
+        if key not in self.dic:
+            return -1
+        value = self.dic.pop(key)
+        self.dic[key] = value
+        return value
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.dic:
+            self.dic.pop(key)
+        else:
+            if self.capacity > 0:
+                self.capacity -= 1
+            else:
+                self.dic.popitem(last=False)
+        self.dic[key] = value
 
 
 #  Tool made by StefanPochmann
@@ -2826,6 +2852,7 @@ class Solution:
             #         block += [lines]
             #     symbols.append(block)
             # return symbols
+
         ans = []
         block, usedJ, usedDiag, usedBDiag = [], set(), set(), set()
         _solveNQueens(0)
@@ -2855,6 +2882,7 @@ class Solution:
     52. N-Queens II ( Hard )
     https://leetcode.com/problems/n-queens-ii/
     """
+
     def totalNQueens(self, n: int) -> int:
         def _totalNQueens(i=0, cols=0, diags=0, backDiags=0):
             if i == n:
@@ -2869,7 +2897,8 @@ class Solution:
                 bits = bits & bits - 1  # 消除最右侧（低位）的1 = 此处为0 = 此处放了皇后。
                 #  注意cols, diags, backDiags的更新技巧。
                 #  注意，此时cols, diags, backDiags的1表示已被占用，不可放皇后。
-                _totalNQueens(i + 1,  cols | p, (diags | p) >> 1, (backDiags | p) << 1)
+                _totalNQueens(i + 1, cols | p, (diags | p) >> 1, (backDiags | p) << 1)
+
         self.count = 0
         _totalNQueens()
         return self.count
@@ -5230,7 +5259,6 @@ class Solution:
             queue = nextQueue
         return -1
 
-
     """
     773. Sliding Puzzle (Hard)
     https://leetcode.com/problems/sliding-puzzle/
@@ -5250,7 +5278,7 @@ class Solution:
                 for move in moves[index]:
                     newSeq = seq[:]
                     newSeq[index], newSeq[move] = newSeq[move], newSeq[index]
-                    if "".join( str(c) for c in newSeq ) not in visited:
+                    if "".join(str(c) for c in newSeq) not in visited:
                         nextQueue.append((newSeq, move))
                 visited.add("".join(str(c) for c in seq))
             level += 1
@@ -5261,6 +5289,7 @@ class Solution:
     191. Number of 1 Bits (Easy)
     https://leetcode.com/problems/number-of-1-bits/
     """
+
     #  The bit-operation solution.
     def hammingWeight(self, n: int) -> int:
         count = 0
@@ -5282,11 +5311,11 @@ class Solution:
     #         n = n // 2
     #     return count
 
-
     """
     231. Power of Two (Easy)
     https://leetcode.com/problems/power-of-two/
     """
+
     def isPowerOfTwo(self, n: int) -> bool:
         return n != 0 and n & (n - 1) == 0
 
@@ -5294,6 +5323,7 @@ class Solution:
     190. Reverse Bits (Easy)
     https://leetcode.com/problems/reverse-bits/
     """
+
     def reverseBits(self, n: int) -> int:
         ans = 0
         for _ in range(32):
@@ -5309,6 +5339,7 @@ class Solution:
     338. Counting Bits(Easy)
     https://leetcode.com/problems/counting-bits/description/
     """
+
     # #  The Brian Kernighan Algorithm solution.
     # def countBits(self, n: int) -> List[int]:
     #     #  ans[i] = i中1的数量。
@@ -5341,8 +5372,6 @@ class Solution:
         for i in range(1, n + 1):
             ans[i] = ans[i >> 1] + (i & 1)
         return ans
-
-
 
 
 #  Drive code.
@@ -5979,13 +6008,28 @@ if __name__ == "__main__":
     print(S.countBits(2))
     print(S.countBits(5))
 
-    print("----------------------------------------")
     #  The example of Bloom Filter
     bf = BloomFilter(500000, 7)
-    bf.add( "dantezhao" )
-    print(bf.lookup( "dantezhao" ))
-    print(bf.lookup( "yyj" ))
+    bf.add("dantezhao")
+    print(bf.lookup("dantezhao"))
+    print(bf.lookup("yyj"))
 
+    print("----------------------------------------")
+    #  Leetcode 146
+    # Your LRUCache object will be instantiated and called as such:
+    # obj = LRUCache(capacity)
+    # param_1 = obj.get(key)
+    # obj.put(key,value)
+    obj = LRUCache(2)
+    obj.put(1, 1)
+    obj.put(2, 2)
+    obj.get(1)
+    obj.put(3, 3)
+    obj.get(2)
+    obj.put(4, 4)
+    obj.get(1)
+    obj.get(3)
+    obj.get(4)
 
 
 """
