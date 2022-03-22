@@ -1,4 +1,4 @@
-import bisect, math, string, mmh3
+import bisect, math, string, mmh3, collections
 from typing import List, Optional
 from functools import cache
 from bitarray import bitarray
@@ -49,6 +49,39 @@ class BloomFilter:
             index = mmh3.hash( num, seed ) % self.size
             if self.bitArray[index] == 0: return "Nope"
         return "Probably"
+
+"""
+Leetcode 146( Medium )
+https://leetcode.com/problems/lru-cache/#/
+"""
+class LRUCache:
+    def __init__(self, capacity):
+        self.remain = capacity
+        self.dic = collections.OrderedDict( )
+
+    def get(self, key):
+        if key not in self.dic[key]: return -1
+        val = self.dic.pop(key)
+        self.dic[key] = val
+        return val
+
+    def put(self, key, num):
+        if key in self.dic:
+            self.dic.pop(key)
+        else:
+            if self.remain > 0:
+                self.remain -= 1
+            else:
+                self.dic.popitem( last = False )
+        self.dic[key] = num
+
+
+
+
+
+
+
+
 
 
 
