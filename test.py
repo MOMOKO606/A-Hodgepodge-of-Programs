@@ -1,6 +1,7 @@
+import bisect, math, string, mmh3
 from typing import List, Optional
-import bisect, math, string
 from functools import cache
+from bitarray import bitarray
 
 
 class ListNode:
@@ -28,6 +29,27 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
 
 def printLinkedlist(head: Optional[ListNode]) -> None:
     print(linkedlist2Array(head))
+
+
+#  Bloom Filter
+class BloomFilter:
+    def __init__(self, size, hashNum):
+        self.size = size
+        self.hashNum = hashNum
+        self.bitArray = bitarray(size)
+        self.bitArray.setall( 0 )
+
+    def add(self, num):
+        for seed in range(self.size):
+            index = mmh3.hash( num, seed ) % self.size
+            self.bitArray[index] = 1
+
+    def lookup(self, num):
+        for seed in range(self.size):
+            index = mmh3.hash( num, seed ) % self.size
+            if self.bitArray[index] == 0: return "Nope"
+        return "Probably"
+
 
 
 class Solution:
