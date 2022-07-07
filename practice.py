@@ -10,20 +10,33 @@ class Solution:
 
     #  125.Valid Palindrome(easy)
     def isPalindrome(self, s: str) -> bool:
-        #  Turn into lowercase.
         s = s.lower()
-        #  Only leave numbers and letters.
-        s = [s[i] for i in range(len(s)) if s[i].isalnum()]
-        #  Compare.
-        return s[::-1] == s
+        i, j = 0, len(s) - 1
+        while i < j:
+            if not s[i].isalnum():
+                i += 1
+                continue
+
+            if not s[j].isalnum():
+                j -= 1
+                continue
+
+            if s[i] != s[j]: return False
+            i += 1
+            j -= 1
+        return True
+
 
 
 if __name__ == "__main__":
     S = Solution()
+
     #  1137 (easy)
     print(S.tribonacci(25))
+
     #  125 (easy)
     print(S.isPalindrome(" "))
+    print(S.isPalindrome(".,"))
     print(S.isPalindrome("race a car"))
     print(S.isPalindrome("A man, a plan, a canal: Panama"))
 
