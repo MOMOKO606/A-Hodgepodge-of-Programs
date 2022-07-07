@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LeetcodeEditor">
+    <option name="projectConfig">
+      <map>
+        <entry key="/var/folders/7s/d8mqq24j5g5gcy4ftpbqnt2h0000gn/T/leetcode/editor/en/[125]Valid Palindrome.py">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="/var/folders/7s/d8mqq24j5g5gcy4ftpbqnt2h0000gn/T/leetcode/editor/en/doc/content/[125]Valid Palindrome.md" />
+              <option name="path" value="/var/folders/7s/d8mqq24j5g5gcy4ftpbqnt2h0000gn/T/leetcode/editor/en/[125]Valid Palindrome.py" />
+              <option name="questionId" value="125" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="/var/folders/7s/d8mqq24j5g5gcy4ftpbqnt2h0000gn/T/leetcode/editor/en/[1]Two Sum.py">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="/var/folders/7s/d8mqq24j5g5gcy4ftpbqnt2h0000gn/T/leetcode/editor/en/doc/content/[1]Two Sum.md" />
+              <option name="path" value="/var/folders/7s/d8mqq24j5g5gcy4ftpbqnt2h0000gn/T/leetcode/editor/en/[1]Two Sum.py" />
+              <option name="questionId" value="1" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
