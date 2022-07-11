@@ -40,11 +40,14 @@ class Solution:
 
     #  11.Container With Most Water (Medium)
     def maxArea(self, height: List[int]) -> int:
-        largest = -math.inf
-        for i in range(len(height) - 1):
-            for j in range(i + 1, len(height)):
-                area = (j - i) * min(height[i], height[j])
-                if area > largest: largest = area
+        i, j, largest = 0, len(height) - 1, -math.inf
+        while i < j:
+            area = (j - i) * min(height[i], height[j])
+            if area > largest:
+                largest = area
+            if height[i] <= height[j]:
+                i += 1
+            else: j -= 1
         return largest
 
 
