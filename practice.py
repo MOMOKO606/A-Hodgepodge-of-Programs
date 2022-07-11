@@ -1,9 +1,10 @@
 import math
+from functools import cache
 from typing import List
 
 
 class Solution:
-    #  1137.N-th Tribonacci Number(easy)  一
+    #  1137. N-th Tribonacci Number(easy)  一
     def tribonacci(self, n: int) -> int:
         if n < 2: return n
         if n == 2: return 1
@@ -12,7 +13,7 @@ class Solution:
             f0, f1, f2 = f1, f2, f0 + f1 + f2
         return f2
 
-    #  125.Valid Palindrome(easy)  一
+    #  125. Valid Palindrome(easy)  一
     def isPalindrome(self, s: str) -> bool:
         s = s.lower()
         n = len(s)
@@ -30,7 +31,7 @@ class Solution:
             else:
                 return False
 
-    #  283.Move zeros(easy)  一
+    #  283. Move zeros(easy)  一
     def moveZeroes(self, nums: List[int]) -> None:
         i = 0
         for j in range(len(nums)):
@@ -38,17 +39,22 @@ class Solution:
                 nums[i], nums[j] = nums[j], nums[i]
                 i += 1
 
-    #  11.Container With Most Water (Medium)
+    #  11. Container With Most Water (Medium) 一
     def maxArea(self, height: List[int]) -> int:
-        i, j, largest = 0, len(height) - 1, -math.inf
+        i, j = 0, len(height) - 1
+        largest = -math.inf
         while i < j:
-            area = (j - i) * min(height[i], height[j])
-            if area > largest:
-                largest = area
+            largest = max( largest, (j - i ) * min(height[i], height[j]))
             if height[i] <= height[j]:
                 i += 1
             else: j -= 1
         return largest
+
+    #  70. Climbing Stairs
+    @cache
+    def climbStairs(self, n: int) -> int:
+        if n < 3: return n
+        return self.climbStairs( n - 1 ) + self.climbStairs( n - 2 )
 
 
 if __name__ == "__main__":
@@ -74,3 +80,8 @@ if __name__ == "__main__":
     #  11 （medium）
     print(S.maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]))
     print(S.maxArea([1, 1]))
+
+    #  70 (easy)
+    print(S.climbStairs(0))
+    print(S.climbStairs(2))
+    print(S.climbStairs(3))
