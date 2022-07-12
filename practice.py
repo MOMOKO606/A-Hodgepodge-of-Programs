@@ -68,6 +68,20 @@ class Solution:
                 return [i, nums_dict[remain]]
             nums_dict[nums[i]] = i
 
+    #  15. 3Sum (easy)
+    def threeSum(self, nums:List[int]) -> List[List[int]]:
+        ans = []
+        for i in range(len(nums) - 2):
+            for j in range(i + 1, len(nums) - 1):
+                target = -nums[i] - nums[j]
+                for k in range(j + 1, len(nums)):
+                    if nums[k] == target:
+                        l = sorted([nums[i], nums[j], nums[k]])
+                        if l not in ans:
+                            ans.append()
+        return ans
+
+
 
 
 if __name__ == "__main__":
@@ -103,3 +117,9 @@ if __name__ == "__main__":
     print(S.twoSum([2, 7, 11, 15], 9))
     print(S.twoSum([3, 2, 4], 6))
     print(S.twoSum([3, 3], 6))
+
+    print("----------------------------------")
+    # 15 (medium)
+    print(S.threeSum([-1,0,1,2,-1,-4]))
+    print(S.threeSum([ 0, 1, 1]))
+    print(S.threeSum([-0, 0, 0]))
