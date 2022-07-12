@@ -111,15 +111,17 @@ class Solution:
 
     #  206. Reverse Linked List (easy)
     def reverseList(self, head:Optional[ListNode]) -> Optional[ListNode]:
-        def reverseListAux( head: Optional[ListNode] ) -> List[Optional[ListNode]]:
-            if not head or not head.next:
-                return [head, head]
-            new_head, new_tail = reverseListAux( head.next )
-            new_tail.next = head
-            head.next = None
-            return [new_head, head]
-        head, _ = reverseListAux(head)
-        return head
+        prev, cur = None, head
+        while cur:
+            next = cur.next
+
+            cur.next = prev
+
+            prev = cur
+            cur = next
+        return prev
+
+
 
 
 
