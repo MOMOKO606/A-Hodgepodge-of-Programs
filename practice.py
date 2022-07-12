@@ -2,22 +2,25 @@ import math
 from functools import cache
 from typing import List, Optional
 
+
 class ListNode:
-    def __init__(self, val = 0, next = None):
+    def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
 
-def array2Linkedlist( nums: List[int] ) -> Optional[ListNode]:
+
+def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
     dummy = cur = ListNode()
     for num in nums:
         cur.next = ListNode(num)
         cur = cur.next
     return dummy.next
 
-def linkedlist2Array( head: Optional[ListNode] ) -> List[int]:
+
+def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
     ans, cur = [], head
     while cur:
-        ans.append( cur.val )
+        ans.append(cur.val)
         cur = cur.next
     return ans
 
@@ -110,7 +113,7 @@ class Solution:
         return ans
 
     #  206. Reverse Linked List (easy)
-    def reverseList(self, head:Optional[ListNode]) -> Optional[ListNode]:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev, cur = None, head
         while cur:
             next = cur.next
@@ -130,11 +133,17 @@ class Solution:
             if slow == fast: return True
         return False
 
-
-
-
-
-
+    #  66. Plus One (easy)
+    def plusOne(self, digits:List[int]) -> List[int]:
+        one, i = 1, len(digits) - 1
+        while i >= 0 and one:
+            if digits[i] + one == 10:
+                digits[i] = 0
+                i -= 1
+            else:
+                digits[i] += one
+                one = 0
+        return [1] + digits[:] if one else digits
 
 
 if __name__ == "__main__":
@@ -180,5 +189,7 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.reverseList(array2Linkedlist([1, 2, 3, 4, 5]))))
 
     print("--------------------------------")
-
-
+    #  66 (easy)
+    print(S.plusOne([1, 2, 3]))
+    print(S.plusOne([4, 3, 2, 1]))
+    print(S.plusOne([9]))
