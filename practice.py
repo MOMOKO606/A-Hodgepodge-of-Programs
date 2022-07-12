@@ -44,19 +44,30 @@ class Solution:
         i, j = 0, len(height) - 1
         largest = -math.inf
         while i < j:
-            largest = max( largest, (j - i ) * min(height[i], height[j]))
+            largest = max(largest, (j - i) * min(height[i], height[j]))
             if height[i] <= height[j]:
                 i += 1
-            else: j -= 1
+            else:
+                j -= 1
         return largest
 
-    #  70. Climbing Stairs
+    #  70. Climbing Stairs (easy)  一
     def climbStairs(self, n: int) -> int:
         if n < 3: return n
         f1, f2 = 1, 2
         for i in range(n - 2):
             f2, f1 = f1 + f2, f2
         return f2
+
+    #  1. Two Sum (easy)
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        for i in range(len(nums) - 1):
+            remain = target - nums[i]
+            for j in range(i + 1, len(nums)):
+                if nums[j] == remain:
+                    return [nums[i], nums[j]]
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -86,3 +97,9 @@ if __name__ == "__main__":
     print(S.climbStairs(0))
     print(S.climbStairs(2))
     print(S.climbStairs(3))
+
+    #  1 (easy)
+    print("---------------------------")
+    print(S.twoSum([2, 7, 11, 15], 9))
+    print(S.twoSum([3, 2, 4], 6))
+    print(S.twoSum([3, 3], 6))
