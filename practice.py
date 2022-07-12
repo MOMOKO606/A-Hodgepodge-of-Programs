@@ -51,11 +51,12 @@ class Solution:
         return largest
 
     #  70. Climbing Stairs
-    @cache
     def climbStairs(self, n: int) -> int:
         if n < 3: return n
-        return self.climbStairs( n - 1 ) + self.climbStairs( n - 2 )
-
+        f1, f2 = 1, 2
+        for i in range(n - 2):
+            f2, f1 = f1 + f2, f2
+        return f2
 
 if __name__ == "__main__":
     S = Solution()
