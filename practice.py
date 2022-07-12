@@ -59,13 +59,14 @@ class Solution:
             f2, f1 = f1 + f2, f2
         return f2
 
-    #  1. Two Sum (easy)
+    #  1. Two Sum (easy) 一
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        for i in range(len(nums) - 1):
+        nums_dict = dict()
+        for i in range(len(nums)):
             remain = target - nums[i]
-            for j in range(i + 1, len(nums)):
-                if nums[j] == remain:
-                    return [i, j]
+            if remain in nums_dict:
+                return [i, nums_dict[remain]]
+            nums_dict[nums[i]] = i
 
 
 
