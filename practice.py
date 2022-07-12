@@ -1,6 +1,25 @@
 import math
 from functools import cache
-from typing import List
+from typing import List, Optional
+
+class ListNode:
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+
+def array2Linkedlist( nums: List[int] ) -> Optional[ListNode]:
+    dummy = cur = ListNode()
+    for num in nums:
+        cur.next = ListNode(num)
+        cur = cur.next
+    return dummy.next
+
+def linkedlist2Array( head: Optional[ListNode] ) -> List[int]:
+    ans, cur = [], head
+    while cur:
+        ans.append( cur.val )
+        cur = cur.next
+    return ans
 
 
 class Solution:
@@ -71,10 +90,8 @@ class Solution:
     #  15. 3Sum (easy)
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         n, nums, ans = len(nums), sorted(nums), []
-
         for k in range(n - 2):
             if k > 0 and nums[k] == nums[k - 1]: continue
-
             i, j = k + 1, n - 1
             while i < j:
                 pivot = nums[k] + nums[i] + nums[j]
@@ -91,6 +108,22 @@ class Solution:
                 else:
                     j -= 1
         return ans
+
+    #  206. Reverse Linked List (easy)
+    def reverseList(self, head:Optional[ListNode]) -> Optional[ListNode]:
+        def reverseListAux( head: Optional[ListNode] ) -> List[Optional[ListNode]]:
+            if not head or not head.next:
+                return [head, head]
+            new_head, new_tail = reverseListAux( head.next )
+            new_tail.next = head
+            head.next = None
+            return [new_head, head]
+        head, _ = reverseListAux(head)
+        return head
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -127,8 +160,11 @@ if __name__ == "__main__":
     print(S.twoSum([3, 2, 4], 6))
     print(S.twoSum([3, 3], 6))
 
-    print("----------------------------------")
-    # 15 (medium)
+    #  15 (medium)
     print(S.threeSum([-1, 0, 1, 2, -1, -4]))
     print(S.threeSum([0, 1, 1]))
     print(S.threeSum([0, 0, 0]))
+
+    #  206 (easy)
+    print("--------------------------------")
+    print(linkedlist2Array(S.reverseList(array2Linkedlist([1, 2, 3, 4, 5]))))
