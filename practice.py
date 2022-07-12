@@ -121,6 +121,15 @@ class Solution:
             cur = next
         return prev
 
+    #  141. Linked List Cycle (easy)
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        fast = slow = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast: return True
+        return False
+
 
 
 
@@ -168,5 +177,8 @@ if __name__ == "__main__":
     print(S.threeSum([0, 0, 0]))
 
     #  206 (easy)
-    print("--------------------------------")
     print(linkedlist2Array(S.reverseList(array2Linkedlist([1, 2, 3, 4, 5]))))
+
+    print("--------------------------------")
+
+
