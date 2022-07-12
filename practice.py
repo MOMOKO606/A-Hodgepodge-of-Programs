@@ -70,16 +70,18 @@ class Solution:
 
     #  15. 3Sum (easy)
     def threeSum(self, nums:List[int]) -> List[List[int]]:
-        ans = []
-        for i in range(len(nums) - 2):
-            for j in range(i + 1, len(nums) - 1):
-                target = -nums[i] - nums[j]
-                for k in range(j + 1, len(nums)):
-                    if nums[k] == target:
-                        l = sorted([nums[i], nums[j], nums[k]])
-                        if l not in ans:
-                            ans.append()
+        n, ans = len(nums), []
+        for i in range(n - 2):
+            hashmap = {}
+            for j in range(i + 1, n):
+                key = -nums[i] - nums[j]
+                if key in hashmap:
+                    l = sorted([key, nums[i], nums[j]])
+                    if l not in ans:
+                        ans.append(l)
+                else: hashmap[nums[j]] = j
         return ans
+
 
 
 
@@ -122,4 +124,4 @@ if __name__ == "__main__":
     # 15 (medium)
     print(S.threeSum([-1,0,1,2,-1,-4]))
     print(S.threeSum([ 0, 1, 1]))
-    print(S.threeSum([-0, 0, 0]))
+    print(S.threeSum([ 0, 0, 0]))
