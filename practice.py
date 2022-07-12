@@ -69,21 +69,28 @@ class Solution:
             nums_dict[nums[i]] = i
 
     #  15. 3Sum (easy)
-    def threeSum(self, nums:List[int]) -> List[List[int]]:
-        n, ans = len(nums), []
-        for i in range(n - 2):
-            hashmap = {}
-            for j in range(i + 1, n):
-                key = -nums[i] - nums[j]
-                if key in hashmap:
-                    l = sorted([key, nums[i], nums[j]])
-                    if l not in ans:
-                        ans.append(l)
-                else: hashmap[nums[j]] = j
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        n, nums, ans = len(nums), sorted(nums), []
+
+        for k in range(n - 2):
+            if k > 0 and nums[k] == nums[k - 1]: continue
+
+            i, j = k + 1, n - 1
+            while i < j:
+                pivot = nums[k] + nums[i] + nums[j]
+                if pivot == 0:
+                    ans.append([nums[k], nums[i], nums[j]])
+                    i += 1
+                    while i < n and nums[i] == nums[i - 1]:
+                        i += 1
+                    j -= 1
+                    while j >= 0 and nums[j] == nums[j + 1]:
+                        j -= 1
+                elif pivot < 0:
+                    i += 1
+                else:
+                    j -= 1
         return ans
-
-
-
 
 
 if __name__ == "__main__":
@@ -122,6 +129,6 @@ if __name__ == "__main__":
 
     print("----------------------------------")
     # 15 (medium)
-    print(S.threeSum([-1,0,1,2,-1,-4]))
-    print(S.threeSum([ 0, 1, 1]))
-    print(S.threeSum([ 0, 0, 0]))
+    print(S.threeSum([-1, 0, 1, 2, -1, -4]))
+    print(S.threeSum([0, 1, 1]))
+    print(S.threeSum([0, 0, 0]))
