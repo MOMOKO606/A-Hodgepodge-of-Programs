@@ -134,7 +134,7 @@ class Solution:
         return False
 
     #  66. Plus One (easy)
-    def plusOne(self, digits:List[int]) -> List[int]:
+    def plusOne(self, digits: List[int]) -> List[int]:
         if len(digits) == 0:
             return [1]
         if digits[-1] + 1 < 10:
@@ -144,15 +144,18 @@ class Solution:
             return self.plusOne(digits[:-1]) + [0]
 
     #  21.Merge Two Sorted Lists (easy)
-    def mergeTwoLists(self, list1:Optional[ListNode], list2:Optional[ListNode]) -> Optional[ListNode]:
-        #  Base case
-        if not list1 or not list2: return list1 or list2
-        if list1.val <= list2.val:
-            list1.next = self.mergeTwoLists( list1.next, list2 )
-            return list1
-        else:
-            list2.next = self.mergeTwoLists(list1, list2.next)
-            return list2
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = cur = ListNode()
+        while list1 and list2:
+            if list1.val <= list2.val:
+                cur.next = list1
+                list1 = list1.next
+            else:
+                cur.next = list2
+                list2 = list2.next
+            cur = cur.next
+        cur.next = list1 or list2
+        return dummy.next
 
 
 if __name__ == "__main__":
