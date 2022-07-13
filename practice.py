@@ -135,15 +135,18 @@ class Solution:
 
     #  66. Plus One (easy)
     def plusOne(self, digits:List[int]) -> List[int]:
-        one, i = 1, len(digits) - 1
-        while i >= 0 and one:
-            if digits[i] + one == 10:
-                digits[i] = 0
-                i -= 1
-            else:
-                digits[i] += one
-                one = 0
-        return [1] + digits[:] if one else digits
+        def plusOneAux( digits:List[int], pos ):
+            #  Base case
+            if pos < 0:
+                return [1] + digits[:]
+            if digits[pos] + 1 < 10:
+                digits[pos] += 1
+                return digits
+            digits[pos] = 0
+            return plusOneAux( digits, pos - 1)
+        return plusOneAux( digits, len(digits) - 1)
+
+
 
 
 if __name__ == "__main__":
