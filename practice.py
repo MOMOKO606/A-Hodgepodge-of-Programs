@@ -157,6 +157,18 @@ class Solution:
         cur.next = list1 or list2
         return dummy.next
 
+    #  26 (Easy)
+    def removeDuplicates(self, nums:List[int]) -> int:
+        i = 0
+        for j in range(1, len(nums)):
+            if nums[j] != nums[i]:
+                i += 1
+                nums[i] = nums[j]
+        return i + 1
+
+
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -210,3 +222,7 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([]), array2Linkedlist([]))))
     print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([]), array2Linkedlist([0]))))
     print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([1, 2, 3]), array2Linkedlist([5, 6, 7]))))
+
+    #  26 (easy)
+    print(S.removeDuplicates([1, 1, 2]))
+    print(S.removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]))
