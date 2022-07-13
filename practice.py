@@ -158,7 +158,7 @@ class Solution:
         return dummy.next
 
     #  26 (Easy)
-    def removeDuplicates(self, nums:List[int]) -> int:
+    def removeDuplicates(self, nums: List[int]) -> int:
         i = 0
         for j in range(1, len(nums)):
             if nums[j] != nums[i]:
@@ -166,7 +166,16 @@ class Solution:
                 nums[i] = nums[j]
         return i + 1
 
-
+    #  88 (easy)
+    def merge(self, nums1: List[int], m, nums2: List[int], n):
+        while m and n:
+            if nums1[m - 1] <= nums2[n - 1]:
+                nums1[m + n - 1] = nums2[n - 1]
+                n -= 1
+            else:
+                nums1[m + n - 1] = nums1[m - 1]
+                m -= 1
+        nums1[:n] = nums2[:n]
 
 
 
@@ -226,3 +235,9 @@ if __name__ == "__main__":
     #  26 (easy)
     print(S.removeDuplicates([1, 1, 2]))
     print(S.removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]))
+
+    #  88 (easy)
+    nums01 = [1, 2, 3, 0, 0, 0]
+    nums02 = [2, 5, 6]
+    S.merge( nums01, 3, nums02, 3)
+    print(nums01)
