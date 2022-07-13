@@ -143,9 +143,16 @@ class Solution:
         else:
             return self.plusOne(digits[:-1]) + [0]
 
-
-
-
+    #  21.Merge Two Sorted Lists (easy)
+    def mergeTwoLists(self, list1:Optional[ListNode], list2:Optional[ListNode]) -> Optional[ListNode]:
+        #  Base case
+        if not list1 or not list2: return list1 or list2
+        if list1.val <= list2.val:
+            list1.next = self.mergeTwoLists( list1.next, list2 )
+            return list1
+        else:
+            list2.next = self.mergeTwoLists(list1, list2.next)
+            return list2
 
 
 if __name__ == "__main__":
@@ -190,8 +197,13 @@ if __name__ == "__main__":
     #  206 (easy)
     print(linkedlist2Array(S.reverseList(array2Linkedlist([1, 2, 3, 4, 5]))))
 
-    print("--------------------------------")
     #  66 (easy)
     print(S.plusOne([1, 2, 3]))
     print(S.plusOne([4, 3, 2, 1]))
     print(S.plusOne([9]))
+
+    #  21 (easy)
+    print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([1, 2, 4]), array2Linkedlist([1, 3, 4]))))
+    print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([]), array2Linkedlist([]))))
+    print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([]), array2Linkedlist([0]))))
+    print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([1, 2, 3]), array2Linkedlist([5, 6, 7]))))
