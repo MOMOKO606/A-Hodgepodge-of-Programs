@@ -56,11 +56,10 @@ class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         j = 0
         for i in range(len(nums)):
-            if nums[i] != 0 and i != j:
-                nums[i], nums[j] = nums[j], nums[i]
+            if nums[i] != 0:
+                if i != j:
+                    nums[i], nums[j] = nums[j], nums[i]
                 j += 1
-
-
 
 
     #  11. Container With Most Water (Medium) 一
@@ -195,8 +194,8 @@ if __name__ == "__main__":
 
     #  283 (easy)
     nums01 = [0, 1, 0, 3, 12]
-    nums02 = [0]
-    S.moveZeroes(nums01)
+    nums02 = [2, 1]
+    # S.moveZeroes(nums01)
     S.moveZeroes(nums02)
     print(nums01)
     print(nums02)
