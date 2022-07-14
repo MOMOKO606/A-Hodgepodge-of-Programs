@@ -4,38 +4,37 @@ from typing import List, Optional
 
 
 class ListNode:
-    def __init__(self, val=0, next=None):
+    def __init__(self, val = 0, next = None):
         self.val = val
         self.next = next
 
-
-def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
+def array2LinkedList( nums: List[int] ) -> Optional[ListNode]:
     dummy = cur = ListNode()
     for num in nums:
-        cur.next = ListNode(num)
+        cur.next =ListNode(num)
         cur = cur.next
     return dummy.next
 
-
-def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
+def linkedList2Array( head: Optional[ListNode] ) -> List[int]:
     ans, cur = [], head
     while cur:
-        ans.append(cur.val)
+        ans.append( cur.val )
         cur = cur.next
     return ans
 
 
+
 class Solution:
-    #  1137. N-th Tribonacci Number(easy)  一
+    #  1137. N-th Tribonacci Number(easy)
     def tribonacci(self, n: int) -> int:
         if n < 2: return n
-        if n == 2: return 1
-        f0, f1, f2 = 0, 1, 1
+        elif n == 2: return 1
+        f0, f1, f2 = 0, 1, 2
         for _ in range(n - 2):
             f0, f1, f2 = f1, f2, f0 + f1 + f2
         return f2
 
-    #  125. Valid Palindrome(easy)  一
+    #  125. Valid Palindrome(easy)
     def isPalindrome(self, s: str) -> bool:
         s = s.lower()
         n = len(s)
@@ -53,13 +52,16 @@ class Solution:
             else:
                 return False
 
-    #  283. Move zeros(easy)  一
+    #  283. Move zeros(easy)
     def moveZeroes(self, nums: List[int]) -> None:
-        i = 0
-        for j in range(len(nums)):
-            if nums[j] != 0:
+        j = 0
+        for i in range(len(nums)):
+            if nums[i] != 0 and i != j:
                 nums[i], nums[j] = nums[j], nums[i]
-                i += 1
+                j += 1
+
+
+
 
     #  11. Container With Most Water (Medium) 一
     def maxArea(self, height: List[int]) -> int:
