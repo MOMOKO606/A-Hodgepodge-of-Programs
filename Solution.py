@@ -1077,15 +1077,13 @@ class Solution:
 
     #  Solution01: brute force - O(n^3).
     def threeSum_naive(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
         ans = []
-        for i in range(n - 2):
-            key = 0 - nums[i]
-            for j in range(i + 1, n - 1):
-                pivot = key - nums[j]
-                for k in range(j + 1, n):
-                    if nums[k] == pivot:
-                        l = sorted([nums[i], nums[j], nums[k]])
+        for k in range(len(nums) - 2):
+            for i in range(k + 1, len(nums) - 1):
+                for j in range(i + 1, len(nums)):
+                    key = nums[k] + nums[i] + nums[j]
+                    if key == 0:
+                        l = sorted([nums[k], nums[i], nums[j]])
                         if l not in ans:
                             ans.append(l)
         return ans

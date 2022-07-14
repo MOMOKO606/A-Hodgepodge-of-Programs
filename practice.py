@@ -4,31 +4,34 @@ from typing import List, Optional
 
 
 class ListNode:
-    def __init__(self, val = 0, next = None):
+    def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
 
-def array2LinkedList( nums: List[int] ) -> Optional[ListNode]:
+
+def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
     dummy = cur = ListNode()
     for num in nums:
-        cur.next =ListNode(num)
+        cur.next = ListNode(num)
         cur = cur.next
     return dummy.next
 
-def linkedList2Array( head: Optional[ListNode] ) -> List[int]:
+
+def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
     ans, cur = [], head
     while cur:
-        ans.append( cur.val )
+        ans.append(cur.val)
         cur = cur.next
     return ans
-
 
 
 class Solution:
     #  1137. N-th Tribonacci Number(easy)
     def tribonacci(self, n: int) -> int:
-        if n < 2: return n
-        elif n == 2: return 1
+        if n < 2:
+            return n
+        elif n == 2:
+            return 1
         f0, f1, f2 = 0, 1, 2
         for _ in range(n - 2):
             f0, f1, f2 = f1, f2, f0 + f1 + f2
@@ -61,28 +64,26 @@ class Solution:
                     nums[i], nums[j] = nums[j], nums[i]
                 j += 1
 
-
-    #  11. Container With Most Water (Medium) 一
+    #  11. Container With Most Water (Medium)
     def maxArea(self, height: List[int]) -> int:
-        i, j = 0, len(height) - 1
-        largest = -math.inf
+        i, j, largest = 0, len(height) - 1, -math.inf,
         while i < j:
-            largest = max(largest, (j - i) * min(height[i], height[j]))
+            largest = max(largest, min(height[i], height[j]) * (j - i))
             if height[i] <= height[j]:
                 i += 1
             else:
                 j -= 1
         return largest
 
-    #  70. Climbing Stairs (easy)  一
+    #  70. Climbing Stairs (easy)
     def climbStairs(self, n: int) -> int:
         if n < 3: return n
         f1, f2 = 1, 2
-        for i in range(n - 2):
-            f2, f1 = f1 + f2, f2
+        for _ in range(n - 2):
+            f1, f2 = f2, f1 + f2
         return f2
 
-    #  1. Two Sum (easy) 一
+    # 1. Two Sum (easy)
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         nums_dict = dict()
         for i in range(len(nums)):
@@ -91,23 +92,25 @@ class Solution:
                 return [i, nums_dict[remain]]
             nums_dict[nums[i]] = i
 
-    #  15. 3Sum (easy)
+    #  15. 3Sum (medium)
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        n, nums, ans = len(nums), sorted(nums), []
+        nums.sort()
+        ans, n = [], len(nums)
         for k in range(n - 2):
-            if k > 0 and nums[k] == nums[k - 1]: continue
+            if k > 0 and nums[k] == nums[k - 1]:
+                continue
             i, j = k + 1, n - 1
             while i < j:
-                pivot = nums[k] + nums[i] + nums[j]
-                if pivot == 0:
+                key = nums[k] + nums[i] + nums[j]
+                if key == 0:
                     ans.append([nums[k], nums[i], nums[j]])
                     i += 1
                     while i < n and nums[i] == nums[i - 1]:
                         i += 1
                     j -= 1
-                    while j >= 0 and nums[j] == nums[j + 1]:
+                    while j > k and nums[j] == nums[j + 1]:
                         j -= 1
-                elif pivot < 0:
+                elif key < 0:
                     i += 1
                 else:
                     j -= 1
@@ -127,22 +130,28 @@ class Solution:
 
     #  141. Linked List Cycle (easy)
     def hasCycle(self, head: Optional[ListNode]) -> bool:
-        fast = slow = head
+        slow = fast = head
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-            if slow == fast: return True
+            if slow == fast:
+                return True
         return False
 
     #  66. Plus One (easy)
     def plusOne(self, digits: List[int]) -> List[int]:
-        if len(digits) == 0:
-            return [1]
-        if digits[-1] + 1 < 10:
-            digits[-1] += 1
-            return digits
-        else:
-            return self.plusOne(digits[:-1]) + [0]
+        j = len(digits) - 1
+        while digits[j] + 1 == 10:
+            digits[j] = 0
+            j -= 1
+            if j < 0:
+                return [1] + digits
+        digits[j] += 1
+        return digits
+
+
+
+
 
     #  21.Merge Two Sorted Lists (easy)
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
@@ -177,7 +186,6 @@ class Solution:
                 nums1[m + n - 1] = nums1[m - 1]
                 m -= 1
         nums1[:n] = nums2[:n]
-
 
 
 if __name__ == "__main__":
@@ -215,6 +223,7 @@ if __name__ == "__main__":
     print(S.twoSum([3, 3], 6))
 
     #  15 (medium)
+
     print(S.threeSum([-1, 0, 1, 2, -1, -4]))
     print(S.threeSum([0, 1, 1]))
     print(S.threeSum([0, 0, 0]))
@@ -222,10 +231,12 @@ if __name__ == "__main__":
     #  206 (easy)
     print(linkedlist2Array(S.reverseList(array2Linkedlist([1, 2, 3, 4, 5]))))
 
+    print("--------------------------------------")
     #  66 (easy)
     print(S.plusOne([1, 2, 3]))
     print(S.plusOne([4, 3, 2, 1]))
     print(S.plusOne([9]))
+    print("--------------------------------------")
 
     #  21 (easy)
     print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([1, 2, 4]), array2Linkedlist([1, 3, 4]))))
@@ -240,5 +251,5 @@ if __name__ == "__main__":
     #  88 (easy)
     nums01 = [1, 2, 3, 0, 0, 0]
     nums02 = [2, 5, 6]
-    S.merge( nums01, 3, nums02, 3)
+    S.merge(nums01, 3, nums02, 3)
     print(nums01)
