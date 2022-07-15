@@ -196,17 +196,21 @@ class Solution:
         return new_head
 
     #  189 (medium)
-    def rotate(self, nums:List[int], k:int) -> None:
-        def reversei2j(nums, i, j):
-            while i < j:
-                nums[i], nums[j] = nums[j], nums[i]
-                i += 1
-                j -= 1
-        n = len(nums)
-        k %= n
-        reversei2j(nums, 0, n - 1)
-        reversei2j(nums, 0, k - 1)
-        reversei2j(nums, k, len(nums) - 1)
+    def rotate(self, nums: List[int], k: int) -> None:
+        count, n, start = 0, len(nums), 0
+        while count != n:
+            cur = start
+            prev = nums[cur]
+            while True:
+                next = (cur + k) % n
+                nums[next], prev = prev, nums[next]
+                cur = next
+                count += 1
+                if cur == start:
+                    break
+            start += 1
+
+
 
 
 
@@ -280,9 +284,9 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.swapPairs(array2Linkedlist([]))))
 
     print("--------------------------------------")
-    nums = [1, 2, 3, 4, 5, 6, 7]
-    S.rotate(nums, 3)
-    print(nums)
+    # nums = [1, 2, 3, 4, 5, 6, 7]
+    # S.rotate(nums, 3)
+    # print(nums)
     nums = [-1, -100, 3, 99]
     S.rotate(nums, 2)
     print(nums)
