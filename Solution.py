@@ -1633,20 +1633,13 @@ class Solution:
 
     #  Solution01: the iterative version using while loop.
     def plusOne(self, digits: List[int]) -> List[int]:
-
-        flag = 1
         j = len(digits) - 1
-
-        while j >= 0 and flag + digits[j] > 9:
-            flag = 1
+        while digits[j] + 1 == 10:
             digits[j] = 0
             j -= 1
-
-        if j >= 0:
-            digits[j] += 1
-        else:
-            digits = [1] + digits
-
+            if j < 0:
+                return [1] + digits
+        digits[j] += 1
         return digits
 
     #  Solution02: the iterative version using for loop.

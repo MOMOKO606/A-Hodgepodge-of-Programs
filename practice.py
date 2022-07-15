@@ -149,10 +149,6 @@ class Solution:
         digits[j] += 1
         return digits
 
-
-
-
-
     #  21.Merge Two Sorted Lists (easy)
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = cur = ListNode()
@@ -170,13 +166,13 @@ class Solution:
     #  26 (Easy)
     def removeDuplicates(self, nums: List[int]) -> int:
         i = 0
-        for j in range(1, len(nums)):
-            if nums[j] != nums[i]:
+        for j in range(len(nums)):
+            if j > 0 and nums[j] != nums[j - 1]:
                 i += 1
                 nums[i] = nums[j]
         return i + 1
 
-    #  88 (easy)
+    # 88 (easy)
     def merge(self, nums1: List[int], m, nums2: List[int], n):
         while m and n:
             if nums1[m - 1] <= nums2[n - 1]:
@@ -186,6 +182,18 @@ class Solution:
                 nums1[m + n - 1] = nums1[m - 1]
                 m -= 1
         nums1[:n] = nums2[:n]
+
+    #  24 (mediaum)
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+
+        new_head = head.next
+        next = head.next.next
+
+        new_head.next = head
+        head.next = self.swapPairs( next )
+        return new_head
 
 
 if __name__ == "__main__":
@@ -231,12 +239,10 @@ if __name__ == "__main__":
     #  206 (easy)
     print(linkedlist2Array(S.reverseList(array2Linkedlist([1, 2, 3, 4, 5]))))
 
-    print("--------------------------------------")
     #  66 (easy)
     print(S.plusOne([1, 2, 3]))
     print(S.plusOne([4, 3, 2, 1]))
     print(S.plusOne([9]))
-    print("--------------------------------------")
 
     #  21 (easy)
     print(linkedlist2Array(S.mergeTwoLists(array2Linkedlist([1, 2, 4]), array2Linkedlist([1, 3, 4]))))
@@ -253,3 +259,11 @@ if __name__ == "__main__":
     nums02 = [2, 5, 6]
     S.merge(nums01, 3, nums02, 3)
     print(nums01)
+
+    print("--------------------------------------")
+    #  24 (medium)
+    print(linkedlist2Array(S.swapPairs(array2Linkedlist([1,2,3,4]))))
+    print(linkedlist2Array(S.swapPairs(array2Linkedlist([1]))))
+    print(linkedlist2Array(S.swapPairs(array2Linkedlist([]))))
+    print("--------------------------------------")
+
