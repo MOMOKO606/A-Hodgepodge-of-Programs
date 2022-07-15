@@ -217,13 +217,14 @@ class Solution:
             fast = fast.next.next
             slow = slow.next
             if slow == fast:
-                p1 = head
-                p2 = slow
-                while p1 != p2:
-                    p1 = p1.next
-                    p2 = p2.next
-                return p1
-        return None
+                break
+        else: return None
+
+        while head != slow:
+            head = head.next
+            slow = slow.next
+        return head
+
 
 
 
