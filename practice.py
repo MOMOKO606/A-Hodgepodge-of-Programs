@@ -64,7 +64,7 @@ class Solution:
                     nums[i], nums[j] = nums[j], nums[i]
                 j += 1
 
-    #  11. Container With Most Water (Medium)
+    #  11. Container With Most Water (medium)
     def maxArea(self, height: List[int]) -> int:
         i, j, largest = 0, len(height) - 1, -math.inf,
         while i < j:
@@ -163,7 +163,7 @@ class Solution:
         cur.next = list1 or list2
         return dummy.next
 
-    #  26 (Easy)
+    #  26 (easy)
     def removeDuplicates(self, nums: List[int]) -> int:
         i = 0
         for j in range(len(nums)):
@@ -183,7 +183,7 @@ class Solution:
                 m -= 1
         nums1[:n] = nums2[:n]
 
-    #  24 (mediaum)
+    #  24 (medium)
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if not head or not head.next:
             return head
@@ -192,8 +192,22 @@ class Solution:
         next = head.next.next
 
         new_head.next = head
-        head.next = self.swapPairs( next )
+        head.next = self.swapPairs(next)
         return new_head
+
+    #  189 (medium)
+    def rotate(self, nums:List[int], k:int) -> None:
+        def reversei2j(nums, i, j):
+            while i < j:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+                j -= 1
+        n = len(nums)
+        k %= n
+        reversei2j(nums, 0, n - 1)
+        reversei2j(nums, 0, k - 1)
+        reversei2j(nums, k, len(nums) - 1)
+
 
 
 if __name__ == "__main__":
@@ -260,10 +274,19 @@ if __name__ == "__main__":
     S.merge(nums01, 3, nums02, 3)
     print(nums01)
 
-    print("--------------------------------------")
     #  24 (medium)
-    print(linkedlist2Array(S.swapPairs(array2Linkedlist([1,2,3,4]))))
+    print(linkedlist2Array(S.swapPairs(array2Linkedlist([1, 2, 3, 4]))))
     print(linkedlist2Array(S.swapPairs(array2Linkedlist([1]))))
     print(linkedlist2Array(S.swapPairs(array2Linkedlist([]))))
-    print("--------------------------------------")
 
+    print("--------------------------------------")
+    nums = [1, 2, 3, 4, 5, 6, 7]
+    S.rotate(nums, 3)
+    print(nums)
+    nums = [-1, -100, 3, 99]
+    S.rotate(nums, 2)
+    print(nums)
+    nums = [-1]
+    S.rotate(nums, 2)
+    print(nums)
+    print("--------------------------------------")
