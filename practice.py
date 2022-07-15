@@ -210,6 +210,21 @@ class Solution:
                     break
             start += 1
 
+    #  142 (medium)
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow = fast = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if slow == fast:
+                p1 = head
+                p2 = slow
+                while p1 != p2:
+                    p1 = p1.next
+                    p2 = p2.next
+                return p1
+        return None
+
 
 
 
@@ -283,14 +298,18 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.swapPairs(array2Linkedlist([1]))))
     print(linkedlist2Array(S.swapPairs(array2Linkedlist([]))))
 
-    print("--------------------------------------")
-    # nums = [1, 2, 3, 4, 5, 6, 7]
-    # S.rotate(nums, 3)
-    # print(nums)
+    #  189 (medium)
+    nums = [1, 2, 3, 4, 5, 6, 7]
+    S.rotate(nums, 3)
+    print(nums)
     nums = [-1, -100, 3, 99]
     S.rotate(nums, 2)
     print(nums)
     nums = [-1]
     S.rotate(nums, 2)
     print(nums)
+
+    #  142 (medium)
     print("--------------------------------------")
+
+
