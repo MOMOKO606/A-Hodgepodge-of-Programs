@@ -247,6 +247,18 @@ class Solution:
         head.next = self.reverseKGroup(cur, k)
         return prev
 
+    #  20 (easy)
+    def isValid(self, s:str) -> bool:
+        hashmap = {"(":")", "{":"}", "[":"]"}
+        stack = []
+        for char in s:
+            if char in hashmap.keys():
+                stack.append(char)
+            elif not stack or char != hashmap[stack.pop()]:
+                return False
+        return stack == []
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -329,7 +341,15 @@ if __name__ == "__main__":
     print(nums)
 
     #  142 (medium)
-    print("--------------------------------------")
+    #  25 (hard)
     print(linkedlist2Array(S.reverseKGroup(array2Linkedlist([1, 2, 3, 4, 5]), 2)))
     print(linkedlist2Array(S.reverseKGroup(array2Linkedlist([1, 2, 3, 4, 5]), 3)))
+
+    #  20 (easy)
     print("--------------------------------------")
+    print(S.isValid("()"))
+    print(S.isValid("()[]{}"))
+    print(S.isValid("(]"))
+    print(S.isValid("]"))
+    print("--------------------------------------")
+
