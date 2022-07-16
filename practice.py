@@ -218,16 +218,34 @@ class Solution:
             slow = slow.next
             if slow == fast:
                 break
-        else: return None
+        else:
+            return None
 
         while head != slow:
             head = head.next
             slow = slow.next
         return head
 
+    #  25 (hard)
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        #  Check
+        cur = head
+        for _ in range(k):
+            #  Base case: less than k nodes.
+            if not cur: return head
+            cur = cur.next
 
+        # reverse k nodes.
+        prev, cur, next, p = ListNode(), head, head.next, k
+        while p != 0:
+            next = cur.next
+            cur.next = prev
+            prev, cur = cur, next
+            p -= 1
 
-
+        #  recursive step
+        head.next = self.reverseKGroup(cur, k)
+        return prev
 
 
 if __name__ == "__main__":
@@ -265,7 +283,6 @@ if __name__ == "__main__":
     print(S.twoSum([3, 3], 6))
 
     #  15 (medium)
-
     print(S.threeSum([-1, 0, 1, 2, -1, -4]))
     print(S.threeSum([0, 1, 1]))
     print(S.threeSum([0, 0, 0]))
@@ -273,6 +290,7 @@ if __name__ == "__main__":
     #  206 (easy)
     print(linkedlist2Array(S.reverseList(array2Linkedlist([1, 2, 3, 4, 5]))))
 
+    #  141
     #  66 (easy)
     print(S.plusOne([1, 2, 3]))
     print(S.plusOne([4, 3, 2, 1]))
@@ -312,5 +330,6 @@ if __name__ == "__main__":
 
     #  142 (medium)
     print("--------------------------------------")
-
-
+    print(linkedlist2Array(S.reverseKGroup(array2Linkedlist([1, 2, 3, 4, 5]), 2)))
+    print(linkedlist2Array(S.reverseKGroup(array2Linkedlist([1, 2, 3, 4, 5]), 3)))
+    print("--------------------------------------")
