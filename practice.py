@@ -309,8 +309,53 @@ class Solution:
                 ans.append(nums[deque[0]])
         return ans
 
+    #  641 (medium)
+    class MyCircularDeque:
+        def __init__(self, k: int):
+            self.capacity = k
+            self.size = 0
+            self.deque = [0] * k
+            self.front, self.rear = k - 1, 0
 
+        def insertFront(self, value: int) -> bool:
+            if self.isFull(): return False
+            self.deque[self.front] = value
+            self.front = (self.front - 1) % self.capacity
+            self.size += 1
+            return True
 
+        def insertLast(self, value: int) -> bool:
+            if self.isFull():return False
+            self.deque[self.rear] = value
+            self.rear = (self.rear + 1) % self.capacity
+            self.size += 1
+            return True
+
+        def deleteFront(self) -> bool:
+            if self.isEmpty():return False
+            self.front = (self.front + 1) % self.capacity
+            self.size -= 1
+            return True
+
+        def deleteLast(self) -> bool:
+            if self.isEmpty(): return False
+            self.rear = (self.rear - 1) % self.capacity
+            self.size -= 1
+            return True
+
+        def getFront(self) -> int:
+            if self.isEmpty(): return -1
+            return self.deque[(self.front + 1) % self.capacity]
+
+        def getRear(self) -> int:
+            if self.isEmpty(): return -1
+            return self.deque[(self.rear - 1) % self.capacity]
+
+        def isEmpty(self) -> bool:
+            return self.size == 0
+
+        def isFull(self) -> bool:
+            return self.size == self.capacity
 
 
 if __name__ == "__main__":
@@ -410,7 +455,8 @@ if __name__ == "__main__":
     print(S.largestRectangleArea([2, 4]))
 
     #  239(hard)
-    print("--------------------------------------")
     print(S.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3))
     print(S.maxSlidingWindow([1], 1))
+
+    #  641(medium)
     print("--------------------------------------")
