@@ -248,8 +248,8 @@ class Solution:
         return prev
 
     #  20 (easy)
-    def isValid(self, s:str) -> bool:
-        hashmap = {"(":")", "[":"]", "{":"}"}
+    def isValid(self, s: str) -> bool:
+        hashmap = {"(": ")", "[": "]", "{": "}"}
         stack = []
         for char in s:
             if char in hashmap.keys():
@@ -258,19 +258,18 @@ class Solution:
                 return False
             return stack == []
 
-
-
-    #  144 (medium)
+    #  155 (medium)
     class MinStack:
         def __init__(self):
             self.stack = []
             self.minstack = []
 
         def push(self, val: int) -> None:
-            self.stack.append( val )
+            self.stack.append(val)
             if not self.minstack or val < self.minstack[-1]:
                 self.minstack.append(val)
-            else: self.minstack.append( self.minstack[-1] )
+            else:
+                self.minstack.append(self.minstack[-1])
 
         def pop(self) -> None:
             self.stack.pop()
@@ -282,7 +281,15 @@ class Solution:
         def getMin(self) -> int:
             return self.minstack[-1]
 
-
+    #  84 (hard)
+    def largestRectangleArea(self, heights:List[int]) -> int:
+        heights.append(-1)
+        largest, stack = -math.inf, [(-1, -1)]
+        for i, height in enumerate(heights):
+            while height < stack[-1][1]:
+                largest = max(largest, stack.pop()[1] * (i - stack[-1][0] - 1))
+            stack.append( (i, height) )
+        return largest
 
 
 
@@ -378,7 +385,8 @@ if __name__ == "__main__":
     print(S.isValid("]"))
 
     #  155(medium)
-
+    #  84(hard)
     print("--------------------------------------")
-
-
+    print(S.largestRectangleArea([2, 1, 5, 6, 2, 3]))
+    print(S.largestRectangleArea([2, 4]))
+    print("--------------------------------------")
