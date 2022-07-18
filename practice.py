@@ -1,6 +1,8 @@
 import math
+import collections
 from functools import cache
 from typing import List, Optional
+
 
 
 class ListNode:
@@ -282,14 +284,32 @@ class Solution:
             return self.minstack[-1]
 
     #  84 (hard)
-    def largestRectangleArea(self, heights:List[int]) -> int:
+    def largestRectangleArea(self, heights: List[int]) -> int:
         heights.append(-1)
         largest, stack = -math.inf, [(-1, -1)]
         for i, height in enumerate(heights):
             while height < stack[-1][1]:
                 largest = max(largest, stack.pop()[1] * (i - stack[-1][0] - 1))
-            stack.append( (i, height) )
+            stack.append((i, height))
         return largest
+
+    #  239 (hard)
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        ans, deque = [], collections.deque()
+        for i in range(len(nums)):
+            #  Step1. Add the num that might be the largest.
+            while deque and nums[i] > nums[deque[-1]]:
+                deque.popleft()
+            deque.append(i)
+            #  Step2. Check whether the leftmost num still in the window.
+            if deque[0] < i - k + 1:
+                deque.popleft()
+            #  Step3. Add the max num to the final answer when window begins.
+            if i >= k - 1:
+                ans.append(nums[deque[0]])
+        return ans
+
+
 
 
 
@@ -386,7 +406,11 @@ if __name__ == "__main__":
 
     #  155(medium)
     #  84(hard)
-    print("--------------------------------------")
     print(S.largestRectangleArea([2, 1, 5, 6, 2, 3]))
     print(S.largestRectangleArea([2, 4]))
+
+    #  239(hard)
+    print("--------------------------------------")
+    print(S.maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3))
+    print(S.maxSlidingWindow([1], 1))
     print("--------------------------------------")
