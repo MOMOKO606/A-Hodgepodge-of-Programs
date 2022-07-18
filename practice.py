@@ -249,14 +249,40 @@ class Solution:
 
     #  20 (easy)
     def isValid(self, s:str) -> bool:
-        hashmap = {"(":")", "{":"}", "[":"]"}
+        hashmap = {"(":")", "[":"]", "{":"}"}
         stack = []
         for char in s:
             if char in hashmap.keys():
                 stack.append(char)
-            elif not stack or char != hashmap[stack.pop()]:
+            elif not stack or hashmap[stack.pop()] != char:
                 return False
-        return stack == []
+            return stack == []
+
+
+
+    #  144 (medium)
+    class MinStack:
+        def __init__(self):
+            self.stack = []
+            self.minstack = []
+
+        def push(self, val: int) -> None:
+            self.stack.append( val )
+            if not self.minstack or val < self.minstack[-1]:
+                self.minstack.append(val)
+            else: self.minstack.append( self.minstack[-1] )
+
+        def pop(self) -> None:
+            self.stack.pop()
+            self.minstack.pop()
+
+        def top(self) -> int:
+            return self.stack[-1]
+
+        def getMin(self) -> int:
+            return self.minstack[-1]
+
+
 
 
 
@@ -346,10 +372,13 @@ if __name__ == "__main__":
     print(linkedlist2Array(S.reverseKGroup(array2Linkedlist([1, 2, 3, 4, 5]), 3)))
 
     #  20 (easy)
-    print("--------------------------------------")
     print(S.isValid("()"))
     print(S.isValid("()[]{}"))
     print(S.isValid("(]"))
     print(S.isValid("]"))
+
+    #  155(medium)
+
     print("--------------------------------------")
+
 
