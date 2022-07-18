@@ -6,9 +6,14 @@ from typing import List, Optional
 
 
 class ListNode:
-    def __init__(self, val=0, next=None):
+    def __init__(self, val = 0, next = None):
         self.val = val
         self.next = next
+
+class DLLNode:
+    def __init__(self, val = 0, prev = None, next = None):
+        self.val = val
+        self.prev, self.next = prev, next
 
 
 def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
@@ -312,50 +317,61 @@ class Solution:
     #  641 (medium)
     class MyCircularDeque:
         def __init__(self, k: int):
-            self.capacity = k
-            self.size = 0
-            self.deque = [0] * k
-            self.front, self.rear = k - 1, 0
+            self.size, self.capacity = 0, k
+            front = DLLNode()
+            rear = DLLNode()
+            front.next = rear
+            rear.prev = front
+            self.front, self.rear = front, rear
 
         def insertFront(self, value: int) -> bool:
             if self.isFull(): return False
-            self.deque[self.front] = value
-            self.front = (self.front - 1) % self.capacity
+
+            self.front.val = value
+
+            node = DLLNode(0, None, self.front)
+            self.front.prev = node
+            self.front = node
+
             self.size += 1
             return True
 
         def insertLast(self, value: int) -> bool:
             if self.isFull():return False
-            self.deque[self.rear] = value
-            self.rear = (self.rear + 1) % self.capacity
+
+            self.rear.val = value
+            node = DLLNode(0, self.rear, None)
+            self.rear.next = node
+            self.rear = node
+
             self.size += 1
             return True
 
         def deleteFront(self) -> bool:
             if self.isEmpty():return False
-            self.front = (self.front + 1) % self.capacity
+            self.front = self.front.next
             self.size -= 1
             return True
 
         def deleteLast(self) -> bool:
-            if self.isEmpty(): return False
-            self.rear = (self.rear - 1) % self.capacity
+            if self.isEmpty():return False
+            self.rear = self.rear.prev
             self.size -= 1
             return True
 
         def getFront(self) -> int:
             if self.isEmpty(): return -1
-            return self.deque[(self.front + 1) % self.capacity]
+            return self.front.next.val
 
         def getRear(self) -> int:
             if self.isEmpty(): return -1
-            return self.deque[(self.rear - 1) % self.capacity]
+            return self.rear.prev.val
 
         def isEmpty(self) -> bool:
             return self.size == 0
 
         def isFull(self) -> bool:
-            return self.size == self.capacity
+            return self.capacity == self.size
 
 
 if __name__ == "__main__":
