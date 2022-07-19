@@ -1768,7 +1768,7 @@ class Solution:
                 r -= 1
         return ans
 
-    # #  The algorithm using a stack.
+    # #  The algorithm 1 using a stack.
     # def trap(self, heights: List[int]) -> int:
     #     i, ans, stack = 0, 0, []
     #     while i < len(heights):
@@ -1779,6 +1779,17 @@ class Solution:
     #             h = heights[stack.pop()]
     #             if len(stack):
     #                 ans += (min(heights[i], heights[stack[-1]]) - h) * (i - stack[-1] -1)
+    #     return ans
+
+    # #  The algorithm 2 using a stack.
+    # def trap(self, heights:List[int]) -> int:
+    #     stack, ans = [], 0
+    #     for i in range(len(heights)):
+    #         while stack and stack[-1][1] < heights[i]:
+    #             _, h = stack.pop()
+    #             if not stack: break
+    #             ans += (min(stack[-1][1], heights[i]) - h) * (i - stack[-1][0] - 1)
+    #         stack.append([i, heights[i]])
     #     return ans
 
     # #  Optimized version using arrays.
