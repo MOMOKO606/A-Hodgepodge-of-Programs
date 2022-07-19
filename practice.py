@@ -375,17 +375,25 @@ class Solution:
 
     #  42 (hard)
     def trap(self, heights:List[int]) -> int:
+        leftmax = rightmax = -1
         n, ans = len(heights), 0
-        leftmax, rightmax = [-1] * n, [-1] * n
-        for i in range(1, n):
-            leftmax[i] = max(leftmax[i - 1], heights[i - 1])
-        for i in reversed(range(n - 1)):
-            rightmax[i] = max(rightmax[i + 1], heights[i + 1])
-        for i in range(n):
-            local = min(leftmax[i], rightmax[i]) - heights[i]
+        i, j = 0, n - 1
+        while i <= j:
+            if leftmax <= rightmax:
+                local = leftmax - heights[i]
+                leftmax = max(leftmax, heights[i])
+                i += 1
+            else:
+                local = rightmax - heights[j]
+                rightmax = max(rightmax, heights[j])
+                j -= 1
             if local > 0:
                 ans += local
         return ans
+
+
+
+
 
 
 
