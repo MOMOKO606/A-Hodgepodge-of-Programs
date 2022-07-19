@@ -375,21 +375,16 @@ class Solution:
 
     #  42 (hard)
     def trap(self, heights:List[int]) -> int:
-        leftmax = rightmax = -1
-        n, ans = len(heights), 0
-        i, j = 0, n - 1
-        while i <= j:
-            if leftmax <= rightmax:
-                local = leftmax - heights[i]
-                leftmax = max(leftmax, heights[i])
-                i += 1
-            else:
-                local = rightmax - heights[j]
-                rightmax = max(rightmax, heights[j])
-                j -= 1
-            if local > 0:
-                ans += local
+        stack, ans = [], 0
+        for i in range(len(heights)):
+            while stack and stack[-1][1] < heights[i]:
+                _, h = stack.pop()
+                if not stack: break
+                ans += (min(stack[-1][1], heights[i]) - h) * (i - stack[-1][0] - 1)
+            stack.append([i, heights[i]])
         return ans
+
+
 
 
 
