@@ -4,14 +4,14 @@ from functools import cache
 from typing import List, Optional
 
 
-
 class ListNode:
-    def __init__(self, val = 0, next = None):
+    def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
 
+
 class DLLNode:
-    def __init__(self, val = 0, prev = None, next = None):
+    def __init__(self, val=0, prev=None, next=None):
         self.val = val
         self.prev, self.next = prev, next
 
@@ -337,7 +337,7 @@ class Solution:
             return True
 
         def insertLast(self, value: int) -> bool:
-            if self.isFull():return False
+            if self.isFull(): return False
 
             self.rear.val = value
             node = DLLNode(0, self.rear, None)
@@ -348,13 +348,13 @@ class Solution:
             return True
 
         def deleteFront(self) -> bool:
-            if self.isEmpty():return False
+            if self.isEmpty(): return False
             self.front = self.front.next
             self.size -= 1
             return True
 
         def deleteLast(self) -> bool:
-            if self.isEmpty():return False
+            if self.isEmpty(): return False
             self.rear = self.rear.prev
             self.size -= 1
             return True
@@ -372,6 +372,22 @@ class Solution:
 
         def isFull(self) -> bool:
             return self.capacity == self.size
+
+    #  42 (hard)
+    def trap(self, heights:List[int]) -> int:
+        n, area = len(heights), 0
+        leftmax, rightmax = heights[0], heights[n - 1]
+        for i in range(1, n - 1):
+            leftmax, rightmax = heights[0], heights[n - 1]
+            for l in range(0, i):
+                leftmax = max(leftmax, heights[l])
+            for r in range(i + 1, n):
+                rightmax = max(rightmax, heights[r])
+            local = min(leftmax, rightmax) - heights[i]
+            if local > 0: area += local
+        return area
+
+
 
 
 if __name__ == "__main__":
@@ -475,4 +491,8 @@ if __name__ == "__main__":
     print(S.maxSlidingWindow([1], 1))
 
     #  641(medium)
+    #  42(hard)
+    print("--------------------------------------")
+    print(S.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
+    print(S.trap([4, 2, 0, 3, 2, 5]))
     print("--------------------------------------")
