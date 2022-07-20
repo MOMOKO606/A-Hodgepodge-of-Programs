@@ -1,7 +1,8 @@
-import math
-import collections
+from Solution import deserialize
 from functools import cache
 from typing import List, Optional
+import math
+import collections
 
 
 class ListNode:
@@ -14,6 +15,16 @@ class DLLNode:
     def __init__(self, val=0, prev=None, next=None):
         self.val = val
         self.prev, self.next = prev, next
+
+
+class TreeNode:
+    def __init__(self, val = 0, left = None, right = None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+    def __repr__(self):
+        return 'TreeNode({})'.format(self.val)
 
 
 def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
@@ -403,9 +414,13 @@ class Solution:
         ans = {}
         for word in strs:
             key = "".join(sorted(word))
-            ans[key] = ans.get(key,[]) + [word]
-        return  list(ans.values())
+            ans[key] = ans.get(key, []) + [word]
+        return list(ans.values())
 
+    #  94(easy)
+    def inorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+        if not root: return []
+        return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
 
 
 if __name__ == "__main__":
@@ -517,9 +532,10 @@ if __name__ == "__main__":
     print(S.isAnagram("anagram", "nagaram"))
     print(S.isAnagram("rat", "cat"))
 
-    print("--------------------------------------")
     #  49(medium)
     print(S.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
     print(S.groupAnagrams([""]))
     print(S.groupAnagrams(["a"]))
-    print("--------------------------------------")
+
+    #  94(easy)
+    #  

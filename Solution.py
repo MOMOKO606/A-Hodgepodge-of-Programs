@@ -1957,7 +1957,7 @@ class Solution:
     #         return []
     #     return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
 
-    # #  Using a stack without flags..
+    # #  Using a stack without flags.
     # def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
     #     stack, ans = [], []
     #     while stack or root:
