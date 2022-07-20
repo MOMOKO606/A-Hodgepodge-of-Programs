@@ -1,4 +1,3 @@
-from Solution import deserialize
 from functools import cache
 from typing import List, Optional
 import math
@@ -419,8 +418,18 @@ class Solution:
 
     #  94(easy)
     def inorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
-        if not root: return []
-        return self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
+        stack, ans = [], []
+        while stack or root:
+            if root:
+                stack.append(root)
+                root = root.left
+            else:
+                root = stack.pop()
+                ans.append( root.val )
+                root = root.right
+        return ans
+
+
 
 
 if __name__ == "__main__":
@@ -538,4 +547,4 @@ if __name__ == "__main__":
     print(S.groupAnagrams(["a"]))
 
     #  94(easy)
-    #  
+
