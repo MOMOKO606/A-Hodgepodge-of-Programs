@@ -388,14 +388,14 @@ class Solution:
             rightmax = max(rightmax, heights[i])
         return sum(ans)
 
-
-
-
-
-
-
-
-
+    #  242(easy)
+    def isAnagram(self, s: str, t: str) -> bool:
+        dict1, dict2 = {}, {}
+        for char in s:
+            dict1[char] = dict1.get(char, 0) + 1
+        for char in t:
+            dict2[char] = dict2.get(char, 0) + 1
+        return dict1 == dict2
 
 
 
@@ -502,7 +502,11 @@ if __name__ == "__main__":
 
     #  641(medium)
     #  42(hard)
-    print("--------------------------------------")
     print(S.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
     print(S.trap([4, 2, 0, 3, 2, 5]))
+
+    print("--------------------------------------")
+    #  242(easy)
+    print(S.isAnagram("anagram", "nagaram"))
+    print(S.isAnagram("rat", "cat"))
     print("--------------------------------------")
