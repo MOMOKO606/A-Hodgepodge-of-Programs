@@ -17,7 +17,7 @@ class DLLNode:
 
 
 class TreeNode:
-    def __init__(self, val = 0, left = None, right = None):
+    def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
@@ -417,7 +417,7 @@ class Solution:
         return list(ans.values())
 
     #  94(easy)
-    def inorderTraversal(self, root:Optional[TreeNode]) -> List[int]:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         stack, ans = [], []
         while stack or root:
             if root:
@@ -425,10 +425,14 @@ class Solution:
                 root = root.left
             else:
                 root = stack.pop()
-                ans.append( root.val )
+                ans.append(root.val)
                 root = root.right
         return ans
 
+    #  144(easy)
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root: return []
+        return [root.val] + self.preorderTraversal(root.left) + self.preorderTraversal(root.right)
 
 
 
@@ -547,4 +551,4 @@ if __name__ == "__main__":
     print(S.groupAnagrams(["a"]))
 
     #  94(easy)
-
+    #  144(esy)
