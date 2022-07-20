@@ -374,17 +374,18 @@ class Solution:
             return self.capacity == self.size
 
     #  42 (hard)
-    def trap(self, heights:List[int]) -> int:
+    def trap(self, heights: List[int]) -> int:
         leftmax, rightmax, ans = -1, -1, len(heights) * [0]
         for i, h in enumerate(heights):
             if h < leftmax:
                 ans[i] = leftmax - h
             leftmax = max(leftmax, h)
 
-        for i in range(len(heights) - 1, -1, -1) :
+        for i in range(len(heights) - 1, -1, -1):
             if heights[i] < rightmax:
                 ans[i] = min(ans[i], rightmax - heights[i])
-            else: ans[i] = 0
+            else:
+                ans[i] = 0
             rightmax = max(rightmax, heights[i])
         return sum(ans)
 
@@ -397,6 +398,13 @@ class Solution:
             dict2[char] = dict2.get(char, 0) + 1
         return dict1 == dict2
 
+    #  49(medium)
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        ans = {}
+        for word in strs:
+            key = "".join(sorted(word))
+            ans[key] = ans.get(key,[]) + [word]
+        return  list(ans.values())
 
 
 
@@ -505,8 +513,13 @@ if __name__ == "__main__":
     print(S.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]))
     print(S.trap([4, 2, 0, 3, 2, 5]))
 
-    print("--------------------------------------")
     #  242(easy)
     print(S.isAnagram("anagram", "nagaram"))
     print(S.isAnagram("rat", "cat"))
+
+    print("--------------------------------------")
+    #  49(medium)
+    print(S.groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+    print(S.groupAnagrams([""]))
+    print(S.groupAnagrams(["a"]))
     print("--------------------------------------")
