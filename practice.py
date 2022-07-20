@@ -431,8 +431,15 @@ class Solution:
 
     #  144(easy)
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        if not root: return []
-        return [root.val] + self.preorderTraversal(root.left) + self.preorderTraversal(root.right)
+        stack, ans = [], []
+        while stack or root:
+            if root:
+                ans.append(root.val)
+                stack.append(root)
+                root = root.left
+            else:
+                root = stack.pop().right
+        return ans
 
 
 
