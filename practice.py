@@ -460,11 +460,23 @@ class Solution:
 
     #  590(easy)
     def postorder(self, root: 'Node') -> List[int]:
-        if not root: return []
+        if not root:
+            return []
         ans = []
         for child in root.children:
             ans += self.postorder(child)
-        return ans + [root.val]
+        ans += [root.val]
+        return ans
+
+    #  429(medium)
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        if not root: return []
+        level, ans = [root], []
+        while level:
+            ans.append([node.val for node in level])
+            level = [child for node in level for child in node.children]
+        return ans
+
 
 
 
@@ -589,3 +601,4 @@ if __name__ == "__main__":
     #  144(easy)
     #  589(easy)
     #  590(easy)
+    #  429(medium)
