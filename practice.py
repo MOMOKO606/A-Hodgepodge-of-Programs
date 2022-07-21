@@ -458,6 +458,15 @@ class Solution:
                     stack += [child]
         return ans
 
+    #  590(easy)
+    def postorder(self, root: 'Node') -> List[int]:
+        if not root: return []
+        ans = []
+        for child in root.children:
+            ans += self.postorder(child)
+        return ans + [root.val]
+
+
 
 
 
@@ -579,3 +588,4 @@ if __name__ == "__main__":
     #  94(easy)
     #  144(easy)
     #  589(easy)
+    #  590(easy)
