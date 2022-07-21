@@ -479,19 +479,17 @@ class Solution:
 
     #  251(easy)
     def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
-        def dfs( root ):
-            if not root: return
-            path.append(str(root.val))
+        def dfs( root, path ):
             if not root.left and not root.right:
                 ans.append("->".join(path))
             if root.left:
-                dfs(root.left)
+                dfs(root.left, path + [str(root.left.val)])
             if root.right:
-                dfs(root.right)
-            path.pop()
+                dfs(root.right, path + [str(root.right.val)])
 
-        ans, path = [], []
-        dfs(root)
+        if not root: return
+        ans = []
+        dfs(root, [str(root.val)])
         return ans
 
 
