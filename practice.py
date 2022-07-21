@@ -26,6 +26,12 @@ class TreeNode:
         return 'TreeNode({})'.format(self.val)
 
 
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+
+
 def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
     dummy = cur = ListNode()
     for num in nums:
@@ -441,6 +447,15 @@ class Solution:
                 root = stack.pop().right
         return ans
 
+    #  589(easy)
+    def preorder(self, root: 'Node') -> List[int]:
+        if not root: return []
+        ans = [root.val]
+        for node in root.children:
+            ans += self.preorder(node)
+        return ans
+
+
 
 
 if __name__ == "__main__":
@@ -558,4 +573,5 @@ if __name__ == "__main__":
     print(S.groupAnagrams(["a"]))
 
     #  94(easy)
-    #  144(esy)
+    #  144(easy)
+    #  589(easy)
