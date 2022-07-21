@@ -477,6 +477,23 @@ class Solution:
             level = [child for node in level for child in node.children]
         return ans
 
+    #  251(easy)
+    def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
+        def dfs( root ):
+            if not root: return
+            path.append(str(root.val))
+            if not root.left and not root.right:
+                ans.append("->".join(path))
+            if root.left:
+                dfs(root.left)
+            if root.right:
+                dfs(root.right)
+            path.pop()
+
+        ans, path = [], []
+        dfs(root)
+        return ans
+
 
 
 
@@ -602,3 +619,4 @@ if __name__ == "__main__":
     #  589(easy)
     #  590(easy)
     #  429(medium)
+    #  251(easy)
