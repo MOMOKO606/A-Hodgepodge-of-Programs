@@ -449,11 +449,15 @@ class Solution:
 
     #  589(easy)
     def preorder(self, root: 'Node') -> List[int]:
-        if not root: return []
-        ans = [root.val]
-        for node in root.children:
-            ans += self.preorder(node)
+        stack, ans = [root], []
+        while stack:
+            node = stack.pop()
+            if node:
+                ans += [node.val]
+                for child in reversed(node.children):
+                    stack += [child]
         return ans
+
 
 
 
