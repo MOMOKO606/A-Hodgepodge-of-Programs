@@ -493,19 +493,17 @@ class Solution:
         dfs(root, [str(root.val)])
         return ans
 
-    #  783(easy)
+    #  783(easy) IMPORTANT!
     def minDiffInBST(self, root: Optional[TreeNode]) -> int:
-        self.mindiff, self.prev = math.inf, math.inf
-        def inorder(root):
-            if not root:return
-            inorder(root.left)
+        def helper(root, low, high):
+            if not root: return high - low
+            left = helper(root.left, low, root.val)
+            right = helper(root.right, root.val, high)
+            return min(left, right)
+        return helper(root, -math.inf, math.inf)
 
-            self.mindiff = min(self.mindiff, abs(root.val - self.prev))
-            self.prev = root.val
 
-            inorder(root.right)
-        inorder(root)
-        return self.mindiff
+
 
 
 
