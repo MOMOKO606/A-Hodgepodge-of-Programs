@@ -495,13 +495,18 @@ class Solution:
 
     #  783(easy)
     def minDiffInBST(self, root: Optional[TreeNode]) -> int:
-        def helper(root):
-            if not root: return []
-            return helper(root.left) + [root.val] + helper(root.right)
-        l, ans = helper(root), math.inf
-        for i in range(len(l) - 1):
-            ans = min(ans, l[i + 1] - l[i])
-        return ans
+        self.mindiff, self.prev = math.inf, math.inf
+        def inorder(root):
+            if not root:return
+            inorder(root.left)
+
+            self.mindiff = min(self.mindiff, abs(root.val - self.prev))
+            self.prev = root.val
+
+            inorder(root.right)
+        inorder(root)
+        return self.mindiff
+
 
 
 
