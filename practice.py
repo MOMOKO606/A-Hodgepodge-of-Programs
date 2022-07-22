@@ -1,5 +1,6 @@
 from functools import cache
 from typing import List, Optional
+from Solution import deserialize, drawtree
 import math
 import collections
 
@@ -492,6 +493,21 @@ class Solution:
         dfs(root, [str(root.val)])
         return ans
 
+    #  783(easy)
+    def minDiffInBST(self, root: Optional[TreeNode]) -> int:
+        def helper(root):
+            if not root: return []
+            return helper(root.left) + [root.val] + helper(root.right)
+        l, ans = helper(root), math.inf
+        for i in range(len(l) - 1):
+            ans = min(ans, l[i + 1] - l[i])
+        return ans
+
+
+
+
+
+
 
 
 
@@ -618,3 +634,7 @@ if __name__ == "__main__":
     #  590(easy)
     #  429(medium)
     #  251(easy)
+    #  783(easy)
+
+    S.minDiffInBST(deserialize("[4, 2, 6, 1, 3]"))
+    # drawtree(deserialize("[90,69,null,49,89,null,52]"))
