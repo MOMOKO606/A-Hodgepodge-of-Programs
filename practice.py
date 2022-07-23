@@ -508,6 +508,14 @@ class Solution:
         ans = 0 if root.val < low or root.val > high else root.val
         return self.rangeSumBST( root.left, low, high ) + ans + self.rangeSumBST(root.right, low, high)
 
+    #  98(easy)
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def isValidBSTHelper(root, low, high):
+            if not root: return True
+            if low < root.val < high:
+                return isValidBSTHelper(root.left, low, root.val) and isValidBSTHelper(root.right, root.val, high)
+        return isValidBSTHelper(root, -float("inf"), float("inf"))
+
 
 
 
@@ -648,9 +656,10 @@ if __name__ == "__main__":
     #  783(easy)
     print(S.minDiffInBST(deserialize("[4, 2, 6, 1, 3]")))
 
-    print("--------------------------------------------------------")
     #  938(easy)
     print(S.rangeSumBST(deserialize("[10,5,15,3,7,null,18]"), 7, 15))
+
     print("--------------------------------------------------------")
+    #  98(easy)
 
 
