@@ -502,6 +502,14 @@ class Solution:
             return min(left, right)
         return helper(root, -math.inf, math.inf)
 
+    #  938(easy)
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        if not root: return 0
+        ans = 0 if root.val < low or root.val > high else root.val
+        return self.rangeSumBST( root.left, low, high ) + ans + self.rangeSumBST(root.right, low, high)
+
+
+
 
 
 
@@ -638,6 +646,11 @@ if __name__ == "__main__":
     #  429(medium)
     #  251(easy)
     #  783(easy)
+    print(S.minDiffInBST(deserialize("[4, 2, 6, 1, 3]")))
 
-    S.minDiffInBST(deserialize("[4, 2, 6, 1, 3]"))
-    # drawtree(deserialize("[90,69,null,49,89,null,52]"))
+    print("--------------------------------------------------------")
+    #  938(easy)
+    print(S.rangeSumBST(deserialize("[10,5,15,3,7,null,18]"), 7, 15))
+    print("--------------------------------------------------------")
+
+
