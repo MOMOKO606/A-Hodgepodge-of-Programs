@@ -518,20 +518,13 @@ class Solution:
 
     #  530(easy)
     def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
-        self.prev, self.diff = float("inf"), float("inf")
+        def helper(root, low, high):
+            if not root: return high - low
+            left = helper(root.left, low, root.val)
+            right = helper(root.right, root.val, high)
+            return min(left, right)
+        return helper(root, -float("inf"), float("inf"))
 
-        def inorder( root ):
-            if not root: return
-            inorder( root.left )
-
-            self.diff = min(self.diff, abs(root.val - self.prev))
-            self.prev = root.val
-
-            inorder( root.right )
-
-
-        inorder(root)
-        return self.diff
 
 
 
