@@ -516,6 +516,23 @@ class Solution:
                 return isValidBSTHelper(root.left, low, root.val) and isValidBSTHelper(root.right, root.val, high)
         return isValidBSTHelper(root, -float("inf"), float("inf"))
 
+    #  530(easy)
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        self.prev, self.diff = float("inf"), float("inf")
+
+        def inorder( root ):
+            if not root: return
+            inorder( root.left )
+
+            self.diff = min(self.diff, abs(root.val - self.prev))
+            self.prev = root.val
+
+            inorder( root.right )
+
+
+        inorder(root)
+        return self.diff
+
 
 
 
@@ -659,7 +676,9 @@ if __name__ == "__main__":
     #  938(easy)
     print(S.rangeSumBST(deserialize("[10,5,15,3,7,null,18]"), 7, 15))
 
-    print("--------------------------------------------------------")
     #  98(easy)
+    #  530(easy)
+    print("--------------------------------------------------------")
+
 
 
