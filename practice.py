@@ -538,8 +538,6 @@ class Solution:
 
         return root
 
-
-
     #  106(medium)
     def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
         if not inorder: return None
@@ -551,6 +549,14 @@ class Solution:
         root.left = self.buildTree( inorder[:pos], postorder[:pos] )
         root.right = self.buildTree( inorder[pos + 1:], postorder[pos:-1] )
         return root
+
+    #  230(medium)
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        def inorder(root):
+            if not root: return []
+            return inorder(root.left) + [root.val] + inorder(root.right)
+
+        return inorder(root)[k - 1]
 
 
 
@@ -701,6 +707,7 @@ if __name__ == "__main__":
     #  530(easy)
     #  105(medium)
     #  106(medium)
+    #  230(medium)
     print("--------------------------------------------------------")
 
 
