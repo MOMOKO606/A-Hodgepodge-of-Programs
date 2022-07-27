@@ -527,15 +527,14 @@ class Solution:
 
     #  106(medium)
     def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
-        if not inorder and not postorder: return None
-        if postorder == inorder and len(inorder) == 1:
-            return TreeNode(inorder[0])
+        if not inorder: return None
+        if len(inorder) == 1: return TreeNode(inorder[0])
 
         root = TreeNode(postorder[-1])
-        p = inorder.index( postorder[-1] )
+        pos = inorder.index( postorder[-1] )
 
-        root.left = self.buildTree( inorder[:p], postorder[:len(inorder[:p])] )
-        root.right = self.buildTree( inorder[p + 1:], postorder[len(inorder[:p]):-1] )
+        root.left = self.buildTree( inorder[:pos], postorder[:pos] )
+        root.right = self.buildTree( inorder[pos + 1:], postorder[pos:-1] )
         return root
 
 
