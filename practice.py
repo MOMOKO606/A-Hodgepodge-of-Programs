@@ -552,18 +552,36 @@ class Solution:
 
     #  230(medium)
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        def inorder( root ):
-            if self.ans != float("inf"): return
+        def helper( root ):
             if not root: return
+            if self.count <= 0: return
+            helper( root.left )
+            self.count -= 1
+            if self.count == 0:
+                self.ans = root.val
+                return
+            helper( root.right )
 
-            inorder( root.left )
-            self.count += 1
-            if self.count == k: self.ans = root.val
-            inorder( root.right )
-
-        self.count, self.ans = 0, float("inf")
-        inorder(root)
+        self.count, self.ans = k, float("inf")
+        helper(root)
         return self.ans
+
+    #  687(medium)
+    def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
+        def helper(root):
+            if not root: return 0
+            left, right = helper(root.left), helper(root.right)
+            left = left + 1 if root.left and root.val == root.left.val else 0
+            right = right + 1 if root.rigt and root.val == root.right.val else 0
+            self.ans = max(self.ans, left + right)
+            return max(left, right)
+
+        self.ans = float("-inf")
+        helper(root)
+        return self.ans
+
+
+
 
 
 
@@ -717,9 +735,13 @@ if __name__ == "__main__":
     #  530(easy)
     #  105(medium)
     #  106(medium)
+
     #  230(medium)
-    print("--------------------------------------------------------")
     S.kthSmallest(deserialize("[3,1,4,null,2]"),1)
+
+    print("--------------------------------------------------------")
+    #  687(medium)
+
 
 
 
