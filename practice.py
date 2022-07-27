@@ -525,6 +525,20 @@ class Solution:
             return min(left, right)
         return helper(root, -float("inf"), float("inf"))
 
+    #  106(medium)
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not inorder and not postorder: return None
+        if postorder == inorder and len(inorder) == 1:
+            return TreeNode(inorder[0])
+
+        root = TreeNode(postorder[-1])
+        p = inorder.index( postorder[-1] )
+
+        root.left = self.buildTree( inorder[:p], postorder[:len(inorder[:p])] )
+        root.right = self.buildTree( inorder[p + 1:], postorder[len(inorder[:p]):-1] )
+        return root
+
+
 
 
 
@@ -671,7 +685,9 @@ if __name__ == "__main__":
 
     #  98(easy)
     #  530(easy)
+    #  106(medium)
     print("--------------------------------------------------------")
+
 
 
 
