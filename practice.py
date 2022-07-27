@@ -552,11 +552,21 @@ class Solution:
 
     #  230(medium)
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        def inorder(root):
-            if not root: return []
-            return inorder(root.left) + [root.val] + inorder(root.right)
+        def inorder( root ):
+            if self.ans != float("inf"): return
+            if not root: return
 
-        return inorder(root)[k - 1]
+            inorder( root.left )
+            self.count += 1
+            if self.count == k: self.ans = root.val
+            inorder( root.right )
+
+        self.count, self.ans = 0, float("inf")
+        inorder(root)
+        return self.ans
+
+
+
 
 
 
@@ -709,6 +719,7 @@ if __name__ == "__main__":
     #  106(medium)
     #  230(medium)
     print("--------------------------------------------------------")
+    S.kthSmallest(deserialize("[3,1,4,null,2]"),1)
 
 
 
