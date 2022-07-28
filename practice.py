@@ -600,13 +600,21 @@ class Solution:
             if not left and not right:
                 self.ans += [seq]
                 return
-            if left < 0 or right < 0 or left > right: return
-            helper(seq+"(", left - 1, right)
-            helper(seq + ")", left, right - 1)
-
-        self.ans = []
-        helper("", n, n)
+            if left > 0:
+                helper(seq + "(", left - 1, right)
+            if right > left:
+                helper(seq + ")",left, right - 1)
+        self.ans, seq = [], ""
+        helper(seq ,n, n)
         return self.ans
+
+    #  226(easy)
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root: return
+        root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
+        return root
+    #  104(easy)
+    #  111(easy)
 
 
 
@@ -746,9 +754,12 @@ if __name__ == "__main__":
 
     #  687(medium)
     #  22(medium)
-    print("--------------------------------------------------------")
     print(S.generateParenthesis(1))
     print(S.generateParenthesis(3))
+
+    #  226(easy)
+    #  104(easy)
+    #  111(easy)
     print("--------------------------------------------------------")
 
 
