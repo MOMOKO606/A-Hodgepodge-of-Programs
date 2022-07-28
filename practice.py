@@ -580,6 +580,22 @@ class Solution:
         helper(root)
         return self.ans
 
+    #  543(easy)
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        def helper(root):
+            if not root: return 0
+            left, right = helper(root.left), helper(root.right)
+            left = left + 1 if root.left else 0
+            right = right + 1 if root.right else 0
+            self.ans = max(self.ans, left + right)
+            return max(left, right)
+        self.ans = 0
+        helper(root)
+        return self.ans
+
+
+
+
 
 
 
