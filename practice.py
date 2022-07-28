@@ -593,31 +593,20 @@ class Solution:
         helper(root)
         return self.ans
 
+    #  22(medium)
+    @cache
+    def generateParenthesis(self, n: int) -> List[str]:
+        def helper(seq, left, right):
+            if not left and not right:
+                self.ans += [seq]
+                return
+            if left < 0 or right < 0 or left > right: return
+            helper(seq+"(", left - 1, right)
+            helper(seq + ")", left, right - 1)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        self.ans = []
+        helper("", n, n)
+        return self.ans
 
 
 
@@ -755,8 +744,12 @@ if __name__ == "__main__":
     #  230(medium)
     S.kthSmallest(deserialize("[3,1,4,null,2]"),1)
 
-    print("--------------------------------------------------------")
     #  687(medium)
+    #  22(medium)
+    print("--------------------------------------------------------")
+    print(S.generateParenthesis(1))
+    print(S.generateParenthesis(3))
+    print("--------------------------------------------------------")
 
 
 
