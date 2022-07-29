@@ -613,7 +613,12 @@ class Solution:
         if not root: return
         root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
         return root
+
     #  104(easy)
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root: return 0
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+    
     #  111(easy)
 
 
