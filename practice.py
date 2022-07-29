@@ -618,9 +618,14 @@ class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if not root: return 0
         return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
-    
-    #  111(easy)
 
+    #  111(easy)
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        def _minDepth(root):
+            if not root: return float("inf")
+            if not root.left and not root.right: return 1
+            return 1 + min(_minDepth(root.left), _minDepth(root.right))
+        return _minDepth(root) if _minDepth(root) != float("inf") else 0
 
 
 if __name__ == "__main__":
