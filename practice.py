@@ -32,6 +32,33 @@ class Node:
         self.val = val
         self.children = children
 
+#  297(hard)
+class Codec:
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root: return "^"
+        return str(root.val) + " " + self.serialize(root.left) + " " + self.serialize(root.right)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+        """
+        def helper(data):
+            char = data.popleft()
+            if char == "^": return None
+            root = TreeNode(char)
+            root.left = helper(data)
+            root.right = helper(data)
+            return root
+        return helper(collections.deque(data.split(" ")))
+
+
 
 def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
     dummy = cur = ListNode()
@@ -627,6 +654,17 @@ class Solution:
             return 1 + min(_minDepth(root.left), _minDepth(root.right))
         return _minDepth(root) if _minDepth(root) != float("inf") else 0
 
+    #  236(medium)
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root or root == p or root == q: return root
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        if left and right: return root
+        else: return left or right
+
+
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -770,6 +808,8 @@ if __name__ == "__main__":
     #  226(easy)
     #  104(easy)
     #  111(easy)
+    #  297(hard)
+    #  236(medium)
     print("--------------------------------------------------------")
 
 
