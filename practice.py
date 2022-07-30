@@ -32,6 +32,7 @@ class Node:
         self.val = val
         self.children = children
 
+
 #  297(hard)
 class Codec:
     def serialize(self, root):
@@ -49,6 +50,7 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
+
         def helper(data):
             char = data.popleft()
             if char == "^": return None
@@ -56,8 +58,8 @@ class Codec:
             root.left = helper(data)
             root.right = helper(data)
             return root
-        return helper(collections.deque(data.split(" ")))
 
+        return helper(collections.deque(data.split(" ")))
 
 
 def array2Linkedlist(nums: List[int]) -> Optional[ListNode]:
@@ -507,7 +509,7 @@ class Solution:
 
     #  251(easy)
     def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
-        def dfs( root, path ):
+        def dfs(root, path):
             if not root.left and not root.right:
                 ans.append("->".join(path))
             if root.left:
@@ -527,13 +529,14 @@ class Solution:
             left = helper(root.left, low, root.val)
             right = helper(root.right, root.val, high)
             return min(left, right)
+
         return helper(root, -math.inf, math.inf)
 
     #  938(easy)
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
         if not root: return 0
         ans = 0 if root.val < low or root.val > high else root.val
-        return self.rangeSumBST( root.left, low, high ) + ans + self.rangeSumBST(root.right, low, high)
+        return self.rangeSumBST(root.left, low, high) + ans + self.rangeSumBST(root.right, low, high)
 
     #  98(easy)
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
@@ -541,6 +544,7 @@ class Solution:
             if not root: return True
             if low < root.val < high:
                 return isValidBSTHelper(root.left, low, root.val) and isValidBSTHelper(root.right, root.val, high)
+
         return isValidBSTHelper(root, -float("inf"), float("inf"))
 
     #  530(easy)
@@ -550,6 +554,7 @@ class Solution:
             left = helper(root.left, low, root.val)
             right = helper(root.right, root.val, high)
             return min(left, right)
+
         return helper(root, -float("inf"), float("inf"))
 
     #  105(medium)
@@ -567,23 +572,23 @@ class Solution:
         if len(inorder) == 1: return TreeNode(inorder[0])
 
         root = TreeNode(postorder[-1])
-        pos = inorder.index( postorder[-1] )
+        pos = inorder.index(postorder[-1])
 
-        root.left = self.buildTree( inorder[:pos], postorder[:pos] )
-        root.right = self.buildTree( inorder[pos + 1:], postorder[pos:-1] )
+        root.left = self.buildTree(inorder[:pos], postorder[:pos])
+        root.right = self.buildTree(inorder[pos + 1:], postorder[pos:-1])
         return root
 
     #  230(medium)
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        def helper( root ):
+        def helper(root):
             if not root: return
             if self.count <= 0: return
-            helper( root.left )
+            helper(root.left)
             self.count -= 1
             if self.count == 0:
                 self.ans = root.val
                 return
-            helper( root.right )
+            helper(root.right)
 
         self.count, self.ans = k, float("inf")
         helper(root)
@@ -612,6 +617,7 @@ class Solution:
             right = right + 1 if root.right else 0
             self.ans = max(self.ans, left + right)
             return max(left, right)
+
         self.ans = 0
         helper(root)
         return self.ans
@@ -626,9 +632,10 @@ class Solution:
             if left > 0:
                 helper(seq + "(", left - 1, right)
             if right > left:
-                helper(seq + ")",left, right - 1)
+                helper(seq + ")", left, right - 1)
+
         self.ans, seq = [], ""
-        helper(seq ,n, n)
+        helper(seq, n, n)
         return self.ans
 
     #  226(easy)
@@ -648,6 +655,7 @@ class Solution:
             if not root: return float("inf")
             if not root.left and not root.right: return 1
             return 1 + min(_minDepth(root.left), _minDepth(root.right))
+
         return _minDepth(root) if _minDepth(root) != float("inf") else 0
 
     #  236(medium)
@@ -655,11 +663,15 @@ class Solution:
         if not root or root == p or root == q: return root
         left = self.lowestCommonAncestor(root.left, p, q)
         right = self.lowestCommonAncestor(root.right, p, q)
-        if left and right: return root
-        else: return left or right
+        if left and right:
+            return root
+        else:
+            return left or right
 
-
-
+    #  77(medium)
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        if not k: return [[]]
+        return [[num] + item for num in reversed(range(1, n + 1)) for item in self.combine(num - 1, k - 1)]
 
 
 if __name__ == "__main__":
@@ -794,7 +806,7 @@ if __name__ == "__main__":
     #  106(medium)
 
     #  230(medium)
-    S.kthSmallest(deserialize("[3,1,4,null,2]"),1)
+    S.kthSmallest(deserialize("[3,1,4,null,2]"), 1)
 
     #  687(medium)
     #  22(medium)
@@ -806,10 +818,10 @@ if __name__ == "__main__":
     #  111(easy)
     #  297(hard)
     #  236(medium)
+
     print("--------------------------------------------------------")
-
-
-
-
-
+    #  77(medium)
+    print(S.combine(1, 1))
+    print(S.combine(4, 2))
+    print("--------------------------------------------------------")
 
