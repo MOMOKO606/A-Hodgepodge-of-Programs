@@ -670,8 +670,19 @@ class Solution:
 
     #  77(medium)
     def combine(self, n: int, k: int) -> List[List[int]]:
-        if not k: return [[]]
-        return [[num] + item for num in reversed(range(1, n + 1)) for item in self.combine(num - 1, k - 1)]
+        def backtracking(n, k):
+            if n < k:
+                return
+            if not k:
+                ans.append(pair[:])
+                return
+            for num in reversed(range(1, n + 1)):
+                pair.append(num)
+                backtracking(num - 1, k - 1)
+                pair.pop()
+        pair, ans = [], []
+        backtracking(n, k)
+        return ans
 
 
 if __name__ == "__main__":

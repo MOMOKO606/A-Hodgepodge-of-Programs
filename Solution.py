@@ -2453,22 +2453,20 @@ class Solution:
     #     return list(itertools.combinations(range(1, n + 1), k))
 
     # #  Backtracking recursive solution.
-    # #  The idea is to use a position in n,
-    # #  to place all the possible numbers from [pos, ..., n] at the first index of pair.
-    # #  When the length of pair reaches k, it's a valid combination. Put it into the ans.
     # def combine(self, n: int, k: int) -> List[List[int]]:
-    #     def backtracking(n, k, pos) -> None:
-    #         #  Base case
-    #         if len(pair) == k:
+    #     def backtracking(n, k):
+    #         if n < k:
+    #             return
+    #         if not k:
     #             ans.append(pair[:])
     #             return
-    #         for i in range(pos, n + 1):
-    #             pair.append( i )
-    #             backtracking(n, k, i + 1)
+    #         for num in reversed(range(1, n + 1)):
+    #             pair.append(num)
+    #             backtracking(num - 1, k - 1)
     #             pair.pop()
-    #         return
+    #
     #     pair, ans = [], []
-    #     backtracking(n, k, 1)
+    #     backtracking(n, k)
     #     return ans
 
     """
