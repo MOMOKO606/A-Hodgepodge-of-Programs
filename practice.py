@@ -680,9 +680,23 @@ class Solution:
                 pair.append(num)
                 backtracking(num - 1, k - 1)
                 pair.pop()
+
         pair, ans = [], []
         backtracking(n, k)
         return ans
+
+    #  46(medium)
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        if not nums: return [[]]
+        ans = []
+        for i in range(len(nums)):
+            nums[0], nums[i] = nums[i], nums[0]
+            for item in self.permute(nums[1:]):
+                ans.append( [nums[0]] + item )
+        return ans
+
+
+
 
 
 if __name__ == "__main__":
@@ -830,9 +844,12 @@ if __name__ == "__main__":
     #  297(hard)
     #  236(medium)
 
-    print("--------------------------------------------------------")
     #  77(medium)
     print(S.combine(1, 1))
     print(S.combine(4, 2))
-    print("--------------------------------------------------------")
 
+    #  46(medium)
+    print("--------------------------------------------------------")
+    print(S.permute([1, 2, 3]))
+    print(S.permute([0, 1]))
+    print("--------------------------------------------------------")
