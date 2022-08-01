@@ -2436,10 +2436,7 @@ class Solution:
     """
 
     #  The concise recursive version.
-    def combine(self, n, k):
-        if k == 0:
-            return [[]]  # if we just return [] the for loop in 2375 might not start since it's empty.
-        return [[i] + item for i in reversed(range(1, n + 1)) for item in self.combine(i - 1, k - 1)]
+    def combine(self, n: int, k: int) -> List[List[int]]:
 
         # #  Equals to the lines below:
         # ans = []

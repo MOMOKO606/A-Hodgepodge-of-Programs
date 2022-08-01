@@ -688,12 +688,7 @@ class Solution:
     #  46(medium)
     def permute(self, nums: List[int]) -> List[List[int]]:
         if not nums: return [[]]
-        ans = []
-        for i in range(len(nums)):
-            nums[0], nums[i] = nums[i], nums[0]
-            for item in self.permute(nums[1:]):
-                ans.append( [nums[0]] + item )
-        return ans
+        return [[nums[i]] + item for i in range(len(nums)) for item in self.permute(nums[:i] + nums[i+1:])]
 
 
 
