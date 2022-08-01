@@ -2437,6 +2437,8 @@ class Solution:
 
     #  The concise recursive version.
     def combine(self, n: int, k: int) -> List[List[int]]:
+        if not k: return [[]]
+        return [[num] + item for num in reversed(range(1, n + 1)) for item in self.combine( num - 1, k - 1)]
 
         # #  Equals to the lines below:
         # ans = []

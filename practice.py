@@ -688,10 +688,20 @@ class Solution:
     #  46(medium)
     def permute(self, nums: List[int]) -> List[List[int]]:
         if not nums: return [[]]
-        return [[nums[i]] + item for i in range(len(nums)) for item in self.permute(nums[:i] + nums[i+1:])]
+        return [[nums[i]] + item for i in range(len(nums)) for item in self.permute(nums[:i] + nums[i + 1:])]
 
-
-
+    #  47(medium)
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        if not nums: return [[]]
+        checked, ans = {}, []
+        for i in range(len(nums)):
+            if nums[i] in checked:
+                continue
+            checked[nums[i]] = nums[i]
+            nums[0], nums[i] = nums[i], nums[0]
+            for item in self.permuteUnique(nums[1:]):
+                ans.append([nums[0]] + item)
+        return ans
 
 
 if __name__ == "__main__":
