@@ -692,15 +692,20 @@ class Solution:
 
     #  47(medium)
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-        if not nums: return [[]]
-        checked, ans = {}, []
-        for i in range(len(nums)):
-            if nums[i] in checked:
-                continue
-            checked[nums[i]] = nums[i]
-            nums[0], nums[i] = nums[i], nums[0]
-            for item in self.permuteUnique(nums[1:]):
-                ans.append([nums[0]] + item)
+        def backtracking(nums):
+            if not nums:
+                ans.append(pair[:])
+                return
+            checked = {}
+            for i in range(len(nums)):
+                if nums[i] in checked:
+                    continue
+                checked[nums[i]] = nums[i]
+                pair.append(nums[i])
+                backtracking(nums[:i] + nums[i + 1:])
+                pair.pop()
+        ans, pair = [], []
+        backtracking(nums)
         return ans
 
 

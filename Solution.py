@@ -2540,6 +2540,25 @@ class Solution:
                 ans += [[nums[0]] + item]
         return ans
 
+    #  The backtracking solution
+    # def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+    #     def backtracking(nums):
+    #         if not nums:
+    #             ans.append(pair[:])
+    #             return
+    #         checked = {}
+    #         for i in range(len(nums)):
+    #             if nums[i] in checked:
+    #                 continue
+    #             checked[nums[i]] = nums[i]
+    #             pair.append(nums[i])
+    #             backtracking(nums[:i] + nums[i + 1:])
+    #             pair.pop()
+    #
+    #     ans, pair = [], []
+    #     backtracking(nums)
+    #     return ans
+
     """
     78. Subsets (Medium)
     Given an integer array nums of unique elements, return all possible subsets (the power set).
