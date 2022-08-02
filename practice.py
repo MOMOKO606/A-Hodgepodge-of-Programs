@@ -708,6 +708,13 @@ class Solution:
         backtracking(nums)
         return ans
 
+    #  48(medium)
+    def subsets(self, nums:List[int]) -> List[List[int]]:
+        ans = [[]]
+        for num in nums:
+            ans += [[num] + item for item in ans]
+        return ans
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -859,7 +866,11 @@ if __name__ == "__main__":
     print(S.combine(4, 2))
 
     #  46(medium)
-    print("--------------------------------------------------------")
     print(S.permute([1, 2, 3]))
     print(S.permute([0, 1]))
+
+    #  47(medium)
+    print("--------------------------------------------------------")
+    print(S.subsets([1,2,3]))
+    print(S.subsets([0]))
     print("--------------------------------------------------------")
