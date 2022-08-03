@@ -718,13 +718,14 @@ class Solution:
                 seq.append(nums[i])
                 backtracking(nums[i + 1:])
                 seq.pop()
+
         ans, seq = [], []
         backtracking(nums)
         return ans
 
     #  90(medium)
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
-        def backtracking( nums ):
+        def backtracking(nums):
             ans.append(seq[:])
             if not nums: return
             for i in range(len(nums)):
@@ -733,10 +734,23 @@ class Solution:
                 seq.append(nums[i])
                 backtracking(nums[i + 1:])
                 seq.pop()
+
         ans, seq = [], []
         nums.sort()
         backtracking(nums)
         return ans
+
+    #  169(easy)
+    def majorityElement(self, nums:List[int]) -> int:
+        flag = 0
+        for i, num in enumerate(nums):
+            if not flag:
+                pivot, flag = num, 1
+            elif num == pivot:
+                flag += 1
+            else:
+                flag -= 1
+        return pivot
 
 
 if __name__ == "__main__":
@@ -896,9 +910,15 @@ if __name__ == "__main__":
     print(S.subsets([1, 2, 3]))
     print(S.subsets([0]))
 
-    print("--------------------------------------------------------")
     #  90(medium)
     print(S.subsetsWithDup([1, 2, 2]))
     print(S.subsetsWithDup([0]))
     print(S.subsetsWithDup([4, 4, 4, 1, 4]))
+
+
+    #  169(easy)
+    print("--------------------------------------------------------")
+    print(S.majorityElement([3, 2, 3]))
+    print(S.majorityElement([2, 2, 1, 1, 1, 2, 2]))
+    print(S.majorityElement([3, 3, 4]))
     print("--------------------------------------------------------")
