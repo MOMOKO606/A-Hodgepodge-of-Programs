@@ -752,6 +752,15 @@ class Solution:
                 flag -= 1
         return pivot
 
+    #  17(medium)
+    def letterCombinations(self, digits: str) -> List[str]:
+        hashmap = {"2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs", "8":"tuv", "9":"wxyz" }
+        def helper(digits):
+            if not digits: return [""]
+            return [char + s for char in hashmap[digits[0]] for s in helper(digits[1:])]
+        return helper(digits) if digits else digits
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -915,10 +924,14 @@ if __name__ == "__main__":
     print(S.subsetsWithDup([0]))
     print(S.subsetsWithDup([4, 4, 4, 1, 4]))
 
-
     #  169(easy)
-    print("--------------------------------------------------------")
     print(S.majorityElement([3, 2, 3]))
     print(S.majorityElement([2, 2, 1, 1, 1, 2, 2]))
     print(S.majorityElement([3, 3, 4]))
+
+    #  17(medium)
+    print("--------------------------------------------------------")
+    print(S.letterCombinations("23"))
+    print(S.letterCombinations(""))
+    print(S.letterCombinations("2"))
     print("--------------------------------------------------------")
