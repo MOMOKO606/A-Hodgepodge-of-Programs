@@ -704,16 +704,27 @@ class Solution:
                 pair.append(nums[i])
                 backtracking(nums[:i] + nums[i + 1:])
                 pair.pop()
+
         ans, pair = [], []
         backtracking(nums)
         return ans
 
-    #  48(medium)
-    def subsets(self, nums:List[int]) -> List[List[int]]:
-        ans = [[]]
-        for num in nums:
-            ans += [[num] + item for item in ans]
+    #  78(medium)
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def backtracking(nums):
+            ans.append(seq[:])
+            if not nums: return
+            for i in range(len(nums)):
+                seq.append(nums[i])
+                backtracking(nums[i + 1:])
+                seq.pop()
+        ans, seq = [], []
+        backtracking(nums)
         return ans
+
+    #  79(medium)
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        pass
 
 
 if __name__ == "__main__":
@@ -869,8 +880,10 @@ if __name__ == "__main__":
     print(S.permute([1, 2, 3]))
     print(S.permute([0, 1]))
 
-    #  47(medium)
+    #  78(medium)
     print("--------------------------------------------------------")
-    print(S.subsets([1,2,3]))
+    print(S.subsets([1, 2, 3]))
     print(S.subsets([0]))
     print("--------------------------------------------------------")
+    #  79(medium)
+    print(S.subsetsWithDup([1, 2, 3]))
