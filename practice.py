@@ -722,9 +722,21 @@ class Solution:
         backtracking(nums)
         return ans
 
-    #  79(medium)
+    #  90(medium)
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
-        pass
+        def backtracking( nums ):
+            ans.append(seq[:])
+            if not nums: return
+            for i in range(len(nums)):
+                if i > 0 and nums[i] == nums[i - 1]:
+                    continue
+                seq.append(nums[i])
+                backtracking(nums[i + 1:])
+                seq.pop()
+        ans, seq = [], []
+        nums.sort()
+        backtracking(nums)
+        return ans
 
 
 if __name__ == "__main__":
@@ -881,9 +893,12 @@ if __name__ == "__main__":
     print(S.permute([0, 1]))
 
     #  78(medium)
-    print("--------------------------------------------------------")
     print(S.subsets([1, 2, 3]))
     print(S.subsets([0]))
+
     print("--------------------------------------------------------")
-    #  79(medium)
-    print(S.subsetsWithDup([1, 2, 3]))
+    #  90(medium)
+    print(S.subsetsWithDup([1, 2, 2]))
+    print(S.subsetsWithDup([0]))
+    print(S.subsetsWithDup([4, 4, 4, 1, 4]))
+    print("--------------------------------------------------------")
