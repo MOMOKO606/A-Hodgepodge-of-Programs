@@ -760,6 +760,30 @@ class Solution:
             ans = [item + char for item in ans for char in hashmap[num]]
         return ans if digits else digits
 
+    #  51(hard)
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        def helper(i):
+            if i == n:
+                ans.append(placed[:])
+                return
+            for j in range(n):
+                if j in cols or j - i in slash or j + i in backslach:
+                    continue
+                placed.append(j)
+                cols.append(j)
+                slash.append(j - i)
+                backslach.append(j + i)
+
+                helper(i + 1)
+
+                placed.pop()
+                cols.pop()
+                slash.pop()
+                backslach.pop()
+        ans, placed, cols, slash, backslach= [], [], [], [], []
+        helper(0)
+        return [["." * j + "Q" + "." * (n - j - 1) for j in seq] for seq in ans]
+
 
 
 
@@ -934,8 +958,12 @@ if __name__ == "__main__":
     print(S.majorityElement([3, 3, 4]))
 
     #  17(medium)
-    print("--------------------------------------------------------")
     print(S.letterCombinations("23"))
     print(S.letterCombinations(""))
     print(S.letterCombinations("2"))
+
+    #  51(hard)
+    print("--------------------------------------------------------")
+    # print(S.solveNQueens(1))
+    print(S.solveNQueens(4))
     print("--------------------------------------------------------")
