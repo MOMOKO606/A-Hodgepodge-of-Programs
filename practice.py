@@ -798,8 +798,19 @@ class Solution:
                     queue.append(node.right)
         return ans
 
-
-
+    #  515(median)
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        if not root: return root
+        deque, ans = collections.deque([root]), []
+        while deque:
+            ans.append(max([node.val for node in deque]))
+            for i in range(len(deque)):
+                node = deque.popleft()
+                if node.left:
+                    deque.append(node.left)
+                if node.right:
+                    deque.append(node.right)
+        return ans
 
 
 if __name__ == "__main__":
