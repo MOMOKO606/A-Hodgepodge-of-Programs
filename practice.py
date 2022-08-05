@@ -784,9 +784,20 @@ class Solution:
         helper(0)
         return [["." * j + "Q" + "." * (n - j - 1) for j in seq] for seq in ans]
 
-
-
-
+    #  102(median)
+    def levelOrder102(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root: return root
+        queue, ans = [root], []
+        while queue:
+            nextlevel = []
+            ans += [[node.val for node in queue]]
+            for node in queue:
+                if node.left:
+                    nextlevel += [node.left]
+                if node.right:
+                    nextlevel += [node.right]
+            queue = nextlevel
+        return ans
 
 
 
@@ -963,7 +974,11 @@ if __name__ == "__main__":
     print(S.letterCombinations("2"))
 
     #  51(hard)
-    print("--------------------------------------------------------")
-    # print(S.solveNQueens(1))
+    print(S.solveNQueens(1))
     print(S.solveNQueens(4))
+
+    #  102(medium)
     print("--------------------------------------------------------")
+    print(S.levelOrder102(deserialize("[3,9,20,null,null,15,7]")))
+    print(S.levelOrder102(deserialize("[1]")))
+
