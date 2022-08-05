@@ -787,17 +787,18 @@ class Solution:
     #  102(median)
     def levelOrder102(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root: return root
-        queue, ans = [root], []
+        queue, ans = collections.deque([root]), []
         while queue:
-            nextlevel = []
-            ans += [[node.val for node in queue]]
-            for node in queue:
+            ans += [[node.val for node in queue ]]
+            for i in range(len(queue)):
+                node = queue.popleft()
                 if node.left:
-                    nextlevel += [node.left]
+                    queue.append(node.left)
                 if node.right:
-                    nextlevel += [node.right]
-            queue = nextlevel
+                    queue.append(node.right)
         return ans
+
+
 
 
 
