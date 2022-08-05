@@ -507,7 +507,7 @@ class Solution:
             level = [child for node in level for child in node.children]
         return ans
 
-    #  251(easy)
+    #  257(easy)
     def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
         def dfs(root, path):
             if not root.left and not root.right:
@@ -740,6 +740,14 @@ class Solution:
         backtracking(nums)
         return ans
 
+    #  50(medium)
+    def myPow(self, x: float, n: int) -> float:
+        if n == 0: return 1
+        if n < 0: return 1 / self.myPow(x, -n)
+        if n % 2:
+            return x * self.myPow(x, n - 1)
+        else: return self.myPow(x ** 2, n // 2)
+
     #  169(easy)
     def majorityElement(self, nums:List[int]) -> int:
         flag = 0
@@ -812,6 +820,25 @@ class Solution:
                     deque.append(node.right)
         return ans
 
+    #  200(medium)
+    def numIslands(self, grid: List[List[str]]) -> int:
+        def helper(i, j):
+            if i < 0 or i == rows or j < 0 or j == cols or grid[i][j] == "0":
+                return 0
+            grid[i][j] = "0"
+            helper(i - 1, j)
+            helper(i + 1, j)
+            helper(i, j - 1)
+            helper(i, j + 1)
+            return 1
+
+        count, visited = 0, set()
+        rows, cols = len(grid), len(grid[0])
+        for i in range(rows):
+            for j in range(cols):
+                count += helper(i, j)
+        return count
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -828,7 +855,7 @@ if __name__ == "__main__":
     #  283 (easy)
     nums01 = [0, 1, 0, 3, 12]
     nums02 = [2, 1]
-    # S.moveZeroes(nums01)
+    S.moveZeroes(nums01)
     S.moveZeroes(nums02)
     print(nums01)
     print(nums02)
@@ -932,7 +959,7 @@ if __name__ == "__main__":
     #  589(easy)
     #  590(easy)
     #  429(medium)
-    #  251(easy)
+    #  257(easy)
     #  783(easy)
     print(S.minDiffInBST(deserialize("[4, 2, 6, 1, 3]")))
 
@@ -948,6 +975,7 @@ if __name__ == "__main__":
     S.kthSmallest(deserialize("[3,1,4,null,2]"), 1)
 
     #  687(medium)
+    #  543(easy)
     #  22(medium)
     print(S.generateParenthesis(1))
     print(S.generateParenthesis(3))
@@ -966,6 +994,7 @@ if __name__ == "__main__":
     print(S.permute([1, 2, 3]))
     print(S.permute([0, 1]))
 
+    #  47(medium)
     #  78(medium)
     print(S.subsets([1, 2, 3]))
     print(S.subsets([0]))
@@ -975,6 +1004,7 @@ if __name__ == "__main__":
     print(S.subsetsWithDup([0]))
     print(S.subsetsWithDup([4, 4, 4, 1, 4]))
 
+    #  50(medium)
     #  169(easy)
     print(S.majorityElement([3, 2, 3]))
     print(S.majorityElement([2, 2, 1, 1, 1, 2, 2]))
@@ -990,7 +1020,21 @@ if __name__ == "__main__":
     print(S.solveNQueens(4))
 
     #  102(medium)
-    print("--------------------------------------------------------")
     print(S.levelOrder102(deserialize("[3,9,20,null,null,15,7]")))
     print(S.levelOrder102(deserialize("[1]")))
 
+    #  515(medium)
+    #  200(medium)
+    print(S.numIslands([
+        ["1", "1", "1", "1", "0"],
+        ["1", "1", "0", "1", "0"],
+        ["1", "1", "0", "0", "0"],
+        ["0", "0", "0", "0", "0"]
+    ]))
+    print(S.numIslands([
+        ["1", "1", "0", "0", "0"],
+        ["1", "1", "0", "0", "0"],
+        ["0", "0", "1", "0", "0"],
+        ["0", "0", "0", "1", "1"]
+    ]))
+    print("-----------------------------------")
