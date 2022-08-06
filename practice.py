@@ -885,7 +885,9 @@ class Solution:
                         bank.remove(newseq)
         return -1
 
-
+    #  126(hard)
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        pass
 
 
 if __name__ == "__main__":
@@ -1101,9 +1103,13 @@ if __name__ == "__main__":
     ], [1, 2]))
 
     #  433(median)
-    print("------------------------------------------------------------------------")
     print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
     print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA", "AACCGCTA", "AAACGGTA"]))
     print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
+
+    #  126(hard)
+    print("------------------------------------------------------------------------")
+    print(S.findLadders("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
+    print(S.findLadders("hit", "cog", ["hot","dot","dog","lot","log"]))
     print("------------------------------------------------------------------------")
 
