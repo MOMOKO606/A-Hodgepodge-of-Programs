@@ -746,10 +746,11 @@ class Solution:
         if n < 0: return 1 / self.myPow(x, -n)
         if n % 2:
             return x * self.myPow(x, n - 1)
-        else: return self.myPow(x * x, n // 2)
+        else:
+            return self.myPow(x * x, n // 2)
 
     #  169(easy)
-    def majorityElement(self, nums:List[int]) -> int:
+    def majorityElement(self, nums: List[int]) -> int:
         flag = 0
         for i, num in enumerate(nums):
             if not flag:
@@ -788,7 +789,8 @@ class Solution:
                 cols.pop()
                 slash.pop()
                 backslach.pop()
-        ans, placed, cols, slash, backslach= [], [], [], [], []
+
+        ans, placed, cols, slash, backslach = [], [], [], [], []
         helper(0)
         return [["." * j + "Q" + "." * (n - j - 1) for j in seq] for seq in ans]
 
@@ -797,7 +799,7 @@ class Solution:
         if not root: return root
         queue, ans = collections.deque([root]), []
         while queue:
-            ans += [[node.val for node in queue ]]
+            ans += [[node.val for node in queue]]
             for i in range(len(queue)):
                 node = queue.popleft()
                 if node.left:
@@ -862,7 +864,7 @@ class Solution:
                 board[i][j] = "B"
                 for k in range(len(dx)):
                     if -1 < i + dx[k] < rows and -1 < j + dy[k] < cols:
-                        _updateBoard( i + dx[k], j + dy[k])
+                        _updateBoard(i + dx[k], j + dy[k])
 
         dx = [-1, 1, 0, 0, -1, -1, 1, 1]
         dy = [0, 0, -1, 1, -1, 1, -1, 1]
@@ -870,7 +872,24 @@ class Solution:
         _updateBoard(click[0], click[1])
         return board
 
-
+    #  455(medium)
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+        level, queue, bankset, visited = 0, [start], set(bank), set()
+        while queue:
+            newqueue = []
+            for seq in queue:
+                for i in range(len(seq)):
+                    for letter in ["A", "C", "G", "T"]:
+                        newseq = seq[:i] + letter + seq[i + 1:]
+                        if newseq not in bankset or newseq in visited:
+                            continue
+                        if newseq == end:
+                            return level + 1
+                        newqueue += [newseq]
+                        visited.add(newseq)
+            queue = newqueue
+            level += 1
+        return -1
 
 
 
@@ -1072,17 +1091,24 @@ if __name__ == "__main__":
         ["0", "0", "0", "1", "1"]
     ]))
 
-    print("-----------------------------------")
     #  529(medium)
     print(S.updateBoard([
-        ["E","E","E","E","E"],
-        ["E","E","M","E","E"],
-        ["E","E","E","E","E"],
-        ["E","E","E","E","E"]
-    ],[3,0] ))
+        ["E", "E", "E", "E", "E"],
+        ["E", "E", "M", "E", "E"],
+        ["E", "E", "E", "E", "E"],
+        ["E", "E", "E", "E", "E"]
+    ], [3, 0]))
     print(S.updateBoard([
-        ["B","1","E","1","B"],
-        ["B","1","M","1","B"],
-        ["B","1","1","1","B"],
-        ["B","B","B","B","B"]
-    ],[1,2] ))
+        ["B", "1", "E", "1", "B"],
+        ["B", "1", "M", "1", "B"],
+        ["B", "1", "1", "1", "B"],
+        ["B", "B", "B", "B", "B"]
+    ], [1, 2]))
+
+    #  433(median)
+    print("------------------------------------------------------------------------")
+    print(S.minMutation("AACCGGTT", "AACCGGTA", ["AACCGGTA"]))
+    print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA", "AACCGCTA", "AAACGGTA"]))
+    print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
+    print("------------------------------------------------------------------------")
+
