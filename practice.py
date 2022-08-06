@@ -839,6 +839,40 @@ class Solution:
                 count += helper(i, j)
         return count
 
+    #  529(medium)
+    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:
+        def minesAround(i, j):
+            count = 0
+            for k in range(len(dx)):
+                x, y = i + dx[k], j + dy[k]
+                if -1 < x < rows and -1 < y < cols and board[x][y] == "M":
+                    count += 1
+            return count
+
+        def _updateBoard(i, j):
+            if board[i][j] == "M":
+                board[i][j] = "X"
+                return
+            if board[i][j] != "E":
+                return
+            count = minesAround(i, j)
+            if count:
+                board[i][j] = str(count)
+            else:
+                board[i][j] = "B"
+                for k in range(len(dx)):
+                    if -1 < i + dx[k] < rows and -1 < j + dy[k] < cols:
+                        _updateBoard( i + dx[k], j + dy[k])
+
+        dx = [-1, 1, 0, 0, -1, -1, 1, 1]
+        dy = [0, 0, -1, 1, -1, 1, -1, 1]
+        rows, cols = len(board), len(board[0])
+        _updateBoard(click[0], click[1])
+        return board
+
+
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1037,4 +1071,18 @@ if __name__ == "__main__":
         ["0", "0", "1", "0", "0"],
         ["0", "0", "0", "1", "1"]
     ]))
+
     print("-----------------------------------")
+    #  529(medium)
+    print(S.updateBoard([
+        ["E","E","E","E","E"],
+        ["E","E","M","E","E"],
+        ["E","E","E","E","E"],
+        ["E","E","E","E","E"]
+    ],[3,0] ))
+    print(S.updateBoard([
+        ["B","1","E","1","B"],
+        ["B","1","M","1","B"],
+        ["B","1","1","1","B"],
+        ["B","B","B","B","B"]
+    ],[1,2] ))
