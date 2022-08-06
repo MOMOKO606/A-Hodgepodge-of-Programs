@@ -900,7 +900,6 @@ class Solution:
 
 
 
-
 if __name__ == "__main__":
     S = Solution()
 
@@ -1120,7 +1119,12 @@ if __name__ == "__main__":
 
     #  126(hard)
     print("------------------------------------------------------------------------")
+<<<<<<< HEAD
     print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
     print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log"]))
+=======
+    print(S.findLadders("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
+    print(S.findLadders("hit", "cog", ["hot","dot","dog","lot","log"]))
+>>>>>>> a6faaaac9d0a5b08d61aac60fc9d2d5c6906a010
     print("------------------------------------------------------------------------")
 
