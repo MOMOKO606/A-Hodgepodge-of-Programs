@@ -872,7 +872,7 @@ class Solution:
         _updateBoard(click[0], click[1])
         return board
 
-    #  455(medium)
+    #  433(medium)
     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
         queue, bank = [(start, 0)], set(bank)
         while queue:
@@ -885,19 +885,25 @@ class Solution:
                         bank.remove(newseq)
         return -1
 
-    #  126(hard)
+    #  127(hard)
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
-        queue, wordList = [(beginWord, 1)], set(wordList)
-        for word, level in queue:
-            for newword in [word[:i] + char +word[i + 1:] for i in range(len(beginWord)) for char in "abcdefghijklmnopqrstuvwxyz"]:
-                if newword in wordList:
-                    if newword == endWord:
-                        return level + 1
-                    wordList.remove(newword)
-                    queue.append((newword, level + 1))
+        queue, visited, wordList, level = [beginWord], set(), set(wordList), 1
+        while queue:
+            nextQueue = []
+            for word in queue:
+                for i in range(len(word)):
+                    for char in "abcdefghijklmnopqrstuvwxyz":
+                        newWord = word[:i] + char + word[i + 1:]
+                        if newWord in wordList and newWord not in visited:
+                            if newWord == endWord: return level + 1
+                            visited.add(newWord)
+                            nextQueue.append(newWord)
+            level += 1
+            queue = nextQueue
         return 0
 
 
+    #  127(hard)
 
 
 if __name__ == "__main__":
@@ -1117,14 +1123,11 @@ if __name__ == "__main__":
     print(S.minMutation("AACCGGTT", "AAACGGTA", ["AACCGGTA", "AACCGCTA", "AAACGGTA"]))
     print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
 
-    #  126(hard)
+    #  127(hard)
     print("------------------------------------------------------------------------")
-<<<<<<< HEAD
-    print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
-    print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log"]))
-=======
-    print(S.findLadders("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
-    print(S.findLadders("hit", "cog", ["hot","dot","dog","lot","log"]))
->>>>>>> a6faaaac9d0a5b08d61aac60fc9d2d5c6906a010
+    # print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+    # print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
+    print(S.ladderLength("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
     print("------------------------------------------------------------------------")
 
+    #  126(hard)
