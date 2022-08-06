@@ -874,22 +874,17 @@ class Solution:
 
     #  455(medium)
     def minMutation(self, start: str, end: str, bank: List[str]) -> int:
-        level, queue, bankset, visited = 0, [start], set(bank), set()
+        queue, bank = [(start, 0)], set(bank)
         while queue:
-            newqueue = []
-            for seq in queue:
-                for i in range(len(seq)):
-                    for letter in ["A", "C", "G", "T"]:
-                        newseq = seq[:i] + letter + seq[i + 1:]
-                        if newseq not in bankset or newseq in visited:
-                            continue
+            for seq, level in queue:
+                for newseq in [seq[:i] + char + seq[i + 1:] for i in range(len(seq)) for char in ["A", "C", "G", "T"]]:
+                    if newseq in bank:
                         if newseq == end:
                             return level + 1
-                        newqueue += [newseq]
-                        visited.add(newseq)
-            queue = newqueue
-            level += 1
+                        queue.append((newseq, level + 1))
+                        bank.remove(newseq)
         return -1
+
 
 
 
