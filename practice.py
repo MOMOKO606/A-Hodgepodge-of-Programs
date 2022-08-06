@@ -886,8 +886,19 @@ class Solution:
         return -1
 
     #  126(hard)
-    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-        pass
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        queue, wordList = [(beginWord, 1)], set(wordList)
+        for word, level in queue:
+            for newword in [word[:i] + char +word[i + 1:] for i in range(len(beginWord)) for char in "abcdefghijklmnopqrstuvwxyz"]:
+                if newword in wordList:
+                    if newword == endWord:
+                        return level + 1
+                    wordList.remove(newword)
+                    queue.append((newword, level + 1))
+        return 0
+
+
+
 
 
 if __name__ == "__main__":
@@ -1109,7 +1120,7 @@ if __name__ == "__main__":
 
     #  126(hard)
     print("------------------------------------------------------------------------")
-    print(S.findLadders("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
-    print(S.findLadders("hit", "cog", ["hot","dot","dog","lot","log"]))
+    print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log","cog"]))
+    print(S.ladderLength("hit", "cog", ["hot","dot","dog","lot","log"]))
     print("------------------------------------------------------------------------")
 
