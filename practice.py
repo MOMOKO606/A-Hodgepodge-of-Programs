@@ -902,8 +902,42 @@ class Solution:
             queue = nextQueue
         return 0
 
+    #  126(hard)
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        def printpath(curWord, curPath):
+            if path.get(curWord) is None:
+                return
+            if curWord == beginWord:
+                ans.append(curPath[::-1])
+                return
+            for prevWord in path[curWord]:
+                curPath.append(prevWord)
+                printpath(prevWord, curPath)
+                curPath.pop()
 
-    #  127(hard)
+        def _findLadders(wordList):
+            queue, wordList, path = [beginWord], set(wordList), {beginWord: [beginWord]}
+            if beginWord in wordList: wordList.remove(beginWord)
+            while queue:
+                nextQueue, localVisited = set(), set()
+                for word in queue:
+                    for i in range(len(word)):
+                        for char in "abcdefghijklmnopqrstuvwxyz":
+                            newWord = word[:i] + char + word[i + 1:]
+                            if newWord not in wordList:
+                                continue
+                            path[newWord] = path[newWord] + [word] if newWord in path.keys() else [word]
+                            localVisited.add(newWord)
+                            nextQueue.add(newWord)
+                queue = list(nextQueue)
+                for word in localVisited:
+                    wordList.remove(word)
+            return path
+
+        ans = []
+        path = _findLadders(wordList)
+        printpath(endWord, [endWord])
+        return ans
 
 
 if __name__ == "__main__":
@@ -1124,10 +1158,13 @@ if __name__ == "__main__":
     print(S.minMutation("AAAAACCC", "AACCCCCC", ["AAAACCCC", "AAACCCCC", "AACCCCCC"]))
 
     #  127(hard)
-    print("------------------------------------------------------------------------")
-    # print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
-    # print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
+    print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+    print(S.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
     print(S.ladderLength("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
-    print("------------------------------------------------------------------------")
 
     #  126(hard)
+    print("------------------------------------------------------------------------")
+    print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+    print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
+    print(S.findLadders("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
+    print("------------------------------------------------------------------------")
