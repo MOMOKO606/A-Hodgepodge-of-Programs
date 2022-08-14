@@ -943,26 +943,41 @@ class Solution:
     def lemonadeChange(self, bills: List[int]) -> bool:
         five, ten = 0, 0
         for paid in bills:
-            if paid == 5: five += 1
-            elif paid == 10: five, ten = five - 1, ten + 1
-            elif ten > 0: five, ten = five - 1, ten - 1
-            else: five -= 3
+            if paid == 5:
+                five += 1
+            elif paid == 10:
+                five, ten = five - 1, ten + 1
+            elif ten > 0:
+                five, ten = five - 1, ten - 1
+            else:
+                five -= 3
             if five < 0: return False
         return True
 
     #  322(medium)
     def coinChange(self, coins: List[int], amount: int) -> int:
         @cache
-        def helper( amount ):
+        def helper(amount):
             if amount < 0: return float("inf")
             if amount == 0: return 0
             ans = float("inf")
             for coin in coins:
-                ans = min(ans, helper( amount - coin ))
+                ans = min(ans, helper(amount - coin))
             return ans + 1
 
         ans = helper(amount)
         return ans if ans != float("inf") else -1
+
+    #  55(medium)
+    def canJump(self, nums: List[int]) -> bool:
+        ans = [False] * len(nums)
+        ans[0] = True
+        for i, num in enumerate(nums):
+            if not ans[i]: return False
+            for j in range(i, min(i + num + 1, len(nums))):
+                ans[j] = True
+            if ans[-1]: return True
+        return False
 
 
 
@@ -1197,9 +1212,13 @@ if __name__ == "__main__":
     print(S.lemonadeChange([5, 5, 5, 10, 20]))
     print(S.lemonadeChange([5, 5, 10, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 5, 5, 20, 5, 20, 5]))
 
-    print("------------------------------------------------------------------------")
     #  322(medium)
-    print(S.coinChange([1,2,5],11))
+    print(S.coinChange([1, 2, 5], 11))
     print(S.coinChange([2], 3))
     print(S.coinChange([1], 0))
+
+    print("------------------------------------------------------------------------")
+    #  55(medium)
+    print(S.canJump([2, 3, 1, 1, 4]))
+    print(S.canJump([3, 2, 1, 0, 4]))
     print("------------------------------------------------------------------------")
