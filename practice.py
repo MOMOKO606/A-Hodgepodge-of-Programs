@@ -939,6 +939,17 @@ class Solution:
         printpath(endWord, [endWord])
         return ans
 
+    #  860(easy)
+    def lemonadeChange(self, bills: List[int]) -> bool:
+        five, ten = 0, 0
+        for paid in bills:
+            if paid == 5: five += 1
+            elif paid == 10: five, ten = five - 1, ten + 1
+            elif ten > 0: five, ten = five - 1, ten - 1
+            else: five -= 3
+            if five < 0: return False
+        return True
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1163,8 +1174,12 @@ if __name__ == "__main__":
     print(S.ladderLength("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
 
     #  126(hard)
-    print("------------------------------------------------------------------------")
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
     print(S.findLadders("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
+
+    #  860(easy)
+    print("------------------------------------------------------------------------")
+    # print(S.lemonadeChange([5, 5, 5, 10, 20]))
+    print(S.lemonadeChange([5, 5, 10, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 5, 5, 20, 5, 20, 5]))
     print("------------------------------------------------------------------------")
