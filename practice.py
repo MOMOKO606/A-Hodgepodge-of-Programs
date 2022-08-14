@@ -950,6 +950,21 @@ class Solution:
             if five < 0: return False
         return True
 
+    #  322(medium)
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        @cache
+        def helper( amount ):
+            if amount < 0: return float("inf")
+            if amount == 0: return 0
+            ans = float("inf")
+            for coin in coins:
+                ans = min(ans, helper( amount - coin ))
+            return ans + 1
+
+        ans = helper(amount)
+        return ans if ans != float("inf") else -1
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1179,7 +1194,12 @@ if __name__ == "__main__":
     print(S.findLadders("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
 
     #  860(easy)
-    print("------------------------------------------------------------------------")
-    # print(S.lemonadeChange([5, 5, 5, 10, 20]))
+    print(S.lemonadeChange([5, 5, 5, 10, 20]))
     print(S.lemonadeChange([5, 5, 10, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 5, 5, 20, 5, 20, 5]))
+
+    print("------------------------------------------------------------------------")
+    #  322(medium)
+    print(S.coinChange([1,2,5],11))
+    print(S.coinChange([2], 3))
+    print(S.coinChange([1], 0))
     print("------------------------------------------------------------------------")
