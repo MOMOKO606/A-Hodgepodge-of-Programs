@@ -970,14 +970,14 @@ class Solution:
 
     #  55(medium)
     def canJump(self, nums: List[int]) -> bool:
-        ans = [False] * len(nums)
-        ans[0] = True
+        reach = nums[0]
         for i, num in enumerate(nums):
-            if not ans[i]: return False
-            for j in range(i, min(i + num + 1, len(nums))):
-                ans[j] = True
-            if ans[-1]: return True
+            if i <= reach:
+                reach = max(reach, i + nums[i])
+            if reach >= len(nums) - 1:
+                return True
         return False
+
 
 
 
