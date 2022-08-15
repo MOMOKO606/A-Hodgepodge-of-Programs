@@ -998,7 +998,13 @@ class Solution:
             j += 1
         return i
 
-
+    #  122(medium)
+    def maxProfit(self, prices: List[int]) -> int:
+        ans = 0
+        for i in range(1, len(prices)):
+            delta = prices[i] - prices[i - 1]
+            if delta > 0: ans += delta
+        return ans
 
 
 if __name__ == "__main__":
@@ -1246,8 +1252,13 @@ if __name__ == "__main__":
     print(S.jump([2, 3, 0, 1, 4]))
     print(S.jump([1, 2, 1, 1, 1]))
 
-    print("------------------------------------------------------------------------")
     #  455(easy)
     print(S.findContentChildren([1, 2, 3], [1, 1]))
     print(S.findContentChildren([1, 2], [1, 2, 3]))
+
+    print("------------------------------------------------------------------------")
+    #  122(medium)
+    print(S.maxProfit([7, 1, 5, 3, 6, 4]))
+    print(S.maxProfit([1, 2, 3, 4, 5]))
+    print(S.maxProfit([7, 6, 4, 3, 1]))
     print("------------------------------------------------------------------------")
