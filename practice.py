@@ -1006,6 +1006,30 @@ class Solution:
             if delta > 0: ans += delta
         return ans
 
+    #  874(medium)
+    def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
+        direction = {"north": [0, 1, "west", "east"],
+                     "south": [0, -1, "east", "west"],
+                     "west": [-1, 0, "south", "north"],
+                     "east": [1, 0, "north", "south"]}
+        cur, x, y, obstacles, ans = "north", 0, 0, set(map(tuple, obstacles)), 0
+        for command in commands:
+            #  Turn right
+            if command == -1:
+                cur = direction[cur][3]
+            #  Turn left
+            elif command == -2:
+                cur = direction[cur][2]
+            else:
+                for step in range(command):
+                    dx, dy = x + direction[cur][0], y + direction[cur][1]
+                    if (dx, dy) in obstacles:
+                        break
+                    x, y = dx, dy
+                    ans = max(ans, x * x + y * y)
+        return ans
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1256,9 +1280,14 @@ if __name__ == "__main__":
     print(S.findContentChildren([1, 2, 3], [1, 1]))
     print(S.findContentChildren([1, 2], [1, 2, 3]))
 
-    print("------------------------------------------------------------------------")
     #  122(medium)
     print(S.maxProfit([7, 1, 5, 3, 6, 4]))
     print(S.maxProfit([1, 2, 3, 4, 5]))
     print(S.maxProfit([7, 6, 4, 3, 1]))
+
+    print("------------------------------------------------------------------------")
+    #  874(medium)
+    print(S.robotSim([4, -1, 3], []))
+    print(S.robotSim([4, -1, 4, -2, 4], [[2, 4]]))
+    print(S.robotSim([6, -1, -1, 6], []))
     print("------------------------------------------------------------------------")
