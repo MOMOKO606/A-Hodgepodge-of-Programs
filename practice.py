@@ -978,6 +978,26 @@ class Solution:
                 return True
         return False
 
+    #  45(medium)
+    def jump(self, nums: List[int]) -> int:
+        reach, nextReach, steps = 0, 0, 0
+        for i, num in enumerate(nums):
+            if reach >= len(nums) - 1: return steps
+            nextReach = max(nextReach, i + num)
+            if i == reach:
+                reach = nextReach
+                steps += 1
+
+    #  455(easy)
+    def findContentChildren(self, g: List[int], s: List[int]) -> int:
+        i, j, m, n = 0, 0, len(g), len(s)
+        g.sort()
+        s.sort()
+        while i < m and j < n:
+            if g[i] <= s[j]: i += 1
+            j += 1
+        return i
+
 
 
 
@@ -1217,8 +1237,17 @@ if __name__ == "__main__":
     print(S.coinChange([2], 3))
     print(S.coinChange([1], 0))
 
-    print("------------------------------------------------------------------------")
     #  55(medium)
     print(S.canJump([2, 3, 1, 1, 4]))
     print(S.canJump([3, 2, 1, 0, 4]))
+
+    #  45(medium)
+    print(S.jump([2, 3, 1, 1, 4]))
+    print(S.jump([2, 3, 0, 1, 4]))
+    print(S.jump([1, 2, 1, 1, 1]))
+
+    print("------------------------------------------------------------------------")
+    #  455(easy)
+    print(S.findContentChildren([1, 2, 3], [1, 1]))
+    print(S.findContentChildren([1, 2], [1, 2, 3]))
     print("------------------------------------------------------------------------")
