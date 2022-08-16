@@ -1035,9 +1035,12 @@ class Solution:
         while low <= high:
             mid = (low + high) // 2
             pivot = mid * mid
-            if pivot == x: return mid
-            elif pivot < x: low = mid + 1
-            else: high = mid - 1
+            if pivot == x:
+                return mid
+            elif pivot < x:
+                low = mid + 1
+            else:
+                high = mid - 1
         return high
 
     #  33(medium)
@@ -1053,6 +1056,21 @@ class Solution:
             else:
                 high = mid - 1
         return -1
+
+    #  367(easy)
+    def isPerfectSquare(self, num: int) -> bool:
+        low, high = 1, num
+        while low <= high:
+            mid = (low + high) // 2
+            pivot = mid * mid
+            if pivot == num:
+                return True
+            elif pivot < num:
+                low = mid + 1
+            else:
+                high = mid - 1
+        return False
+
 
 
 if __name__ == "__main__":
@@ -1315,12 +1333,15 @@ if __name__ == "__main__":
     print(S.robotSim([6, -1, -1, 6], []))
 
     #  69(easy)
-
     print(S.mySqrt(4))
     print(S.mySqrt(8))
 
-    print("------------------------------------------------------------------------")
     #  33(medium)
-    # print(S.search([3, 5, 1], 3))
+    print(S.search([3, 5, 1], 3))
     print(S.search([4, 5, 6, 7, 0, 1, 2], 0))
+
+    #  367(medium)
+    print("------------------------------------------------------------------------")
+    print(S.isPerfectSquare(16))
+    print(S.isPerfectSquare(14))
     print("------------------------------------------------------------------------")
