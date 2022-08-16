@@ -1029,6 +1029,23 @@ class Solution:
                     ans = max(ans, x * x + y * y)
         return ans
 
+    #  69(easy)
+    def mySqrt(self, x: int) -> int:
+        pass
+
+    #  33(medium)
+    def search(self, nums: List[int], target: int) -> int:
+        low, high = 0, len(nums) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if nums[mid] == target:
+                return mid
+            elif (nums[mid] < nums[high] and nums[mid] < target <= nums[high]) or (
+                    nums[low] <= nums[mid] and (target > nums[mid] or target < nums[low])):
+                low = mid + 1
+            else:
+                high = mid - 1
+        return -1
 
 
 if __name__ == "__main__":
@@ -1285,9 +1302,18 @@ if __name__ == "__main__":
     print(S.maxProfit([1, 2, 3, 4, 5]))
     print(S.maxProfit([7, 6, 4, 3, 1]))
 
-    print("------------------------------------------------------------------------")
     #  874(medium)
     print(S.robotSim([4, -1, 3], []))
     print(S.robotSim([4, -1, 4, -2, 4], [[2, 4]]))
     print(S.robotSim([6, -1, -1, 6], []))
+
+    #  69(easy)
+
+    print(S.mySqrt(4))
+    print(S.mySqrt(8))
+
+    print("------------------------------------------------------------------------")
+    #  33(medium)
+    # print(S.search([3, 5, 1], 3))
+    print(S.search([4, 5, 6, 7, 0, 1, 2], 0))
     print("------------------------------------------------------------------------")
