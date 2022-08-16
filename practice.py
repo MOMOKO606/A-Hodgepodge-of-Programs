@@ -1031,7 +1031,14 @@ class Solution:
 
     #  69(easy)
     def mySqrt(self, x: int) -> int:
-        pass
+        low, high = 1, x
+        while low <= high:
+            mid = (low + high) // 2
+            pivot = mid * mid
+            if pivot == x: return mid
+            elif pivot < x: low = mid + 1
+            else: high = mid - 1
+        return high
 
     #  33(medium)
     def search(self, nums: List[int], target: int) -> int:
