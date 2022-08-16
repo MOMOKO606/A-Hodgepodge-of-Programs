@@ -1071,7 +1071,18 @@ class Solution:
                 high = mid - 1
         return False
 
-
+    #  74(medium)
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        nums = []
+        for row in matrix:
+            nums += row
+        low, high = 0, len(nums) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if nums[mid] == target: return True
+            elif target < nums[mid]: high = mid - 1
+            else: low = mid + 1
+        return False
 
 if __name__ == "__main__":
     S = Solution()
@@ -1341,7 +1352,11 @@ if __name__ == "__main__":
     print(S.search([4, 5, 6, 7, 0, 1, 2], 0))
 
     #  367(medium)
-    print("------------------------------------------------------------------------")
     print(S.isPerfectSquare(16))
     print(S.isPerfectSquare(14))
+
+    #  74(medium)
+    print("------------------------------------------------------------------------")
+    print(S.searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 3))
+    print(S.searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 13))
     print("------------------------------------------------------------------------")
