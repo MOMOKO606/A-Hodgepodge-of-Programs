@@ -1101,12 +1101,17 @@ class Solution:
         return nums[low]
 
     #  62(medium)
-    @cache
     def uniquePaths(self, m: int, n: int) -> int:
-        if m < 1 or n < 1: return 0
-        if m == 1 and n == 1: return 1
-        return self.uniquePaths(m - 1, n) + self.uniquePaths(m, n - 1)
-
+        prev, cur = [1] * n, [0] * n
+        for i in range(m - 1):
+            for j in range(n):
+                if j > 0:
+                    cur[j] = prev[j] + cur[j - 1]
+                else:
+                    cur[j] = prev[j]
+            prev = cur
+            cur = [0] * n
+        return prev[-1]
 
 if __name__ == "__main__":
     S = Solution()
