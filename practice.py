@@ -1092,10 +1092,20 @@ class Solution:
         low, high = 0, len(nums) - 1
         while low < high:
             mid = (low + high) // 2
-            if nums[low] <= nums[mid] < nums[high]: break
-            elif nums[low] <= nums[mid] and nums[mid] > nums[high]: low = mid + 1
-            else: high = mid
+            if nums[low] <= nums[mid] < nums[high]:
+                break
+            elif nums[low] <= nums[mid] and nums[mid] > nums[high]:
+                low = mid + 1
+            else:
+                high = mid
         return nums[low]
+
+    #  62(medium)
+    @cache
+    def uniquePaths(self, m: int, n: int) -> int:
+        if m < 1 or n < 1: return 0
+        if m == 1 and n == 1: return 1
+        return self.uniquePaths(m - 1, n) + self.uniquePaths(m, n - 1)
 
 
 if __name__ == "__main__":
@@ -1374,8 +1384,12 @@ if __name__ == "__main__":
     print(S.searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]], 13))
 
     #  153(medium)
-    print("------------------------------------------------------------------------")
     print(S.findMin([3, 4, 5, 1, 2]))
     print(S.findMin([4, 5, 6, 7, 0, 1, 2]))
     print(S.findMin([11, 13, 15, 17]))
+
+    #  62(medium)
+    print("------------------------------------------------------------------------")
+    print(S.uniquePaths(3, 7))
+    print(S.uniquePaths(3, 2))
     print("------------------------------------------------------------------------")
