@@ -1113,6 +1113,18 @@ class Solution:
             cur = [0] * n
         return prev[-1]
 
+    #  63(medium)
+    def uniquePathsWithObstacles(self, grid: List[List[int]]) -> int:
+        @cache
+        def helper(m, n):
+            if m < 0 or n < 0: return 0
+            if grid[m][n]: return 0
+            if m == 0 and n == 0: return 1
+            return helper(m - 1, n) + helper(m, n - 1)
+
+        return helper(len(grid) - 1, len(grid[0]) - 1)
+
+
 if __name__ == "__main__":
     S = Solution()
 
@@ -1394,7 +1406,11 @@ if __name__ == "__main__":
     print(S.findMin([11, 13, 15, 17]))
 
     #  62(medium)
-    print("------------------------------------------------------------------------")
     print(S.uniquePaths(3, 7))
     print(S.uniquePaths(3, 2))
+
+    #  63(medium)
+    print("------------------------------------------------------------------------")
+    print(S.uniquePathsWithObstacles([[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
+    print(S.uniquePathsWithObstacles([[0, 1], [0, 0]]))
     print("------------------------------------------------------------------------")
