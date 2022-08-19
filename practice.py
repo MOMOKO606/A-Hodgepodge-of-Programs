@@ -1115,14 +1115,27 @@ class Solution:
 
     #  63(medium)
     def uniquePathsWithObstacles(self, grid: List[List[int]]) -> int:
-        @cache
-        def helper(m, n):
-            if m < 0 or n < 0: return 0
-            if grid[m][n]: return 0
-            if m == 0 and n == 0: return 1
-            return helper(m - 1, n) + helper(m, n - 1)
-
-        return helper(len(grid) - 1, len(grid[0]) - 1)
+        if grid[0][0]: return 0
+        m, n = len(grid), len(grid[0])
+        dp = [[0 for j in range(n)] for i in range(m)]
+        dp[0][0] = 1
+        for i in range(1, m):
+            if grid[i][0]:
+                dp[i][0] = 0
+            else:
+                dp[i][0] = dp[i - 1][0]
+        for j in range(1, n):
+            if grid[0][j]:
+                dp[0][j] = 0
+            else:
+                dp[0][j] = dp[0][j - 1]
+        for i in range(1, m):
+            for j in range(1, n):
+                if grid[i][j]:
+                    dp[i][j] = 0
+                else:
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        return dp[-1][-1]
 
 
 if __name__ == "__main__":
@@ -1411,6 +1424,7 @@ if __name__ == "__main__":
 
     #  63(medium)
     print("------------------------------------------------------------------------")
-    print(S.uniquePathsWithObstacles([[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
-    print(S.uniquePathsWithObstacles([[0, 1], [0, 0]]))
+    # print(S.uniquePathsWithObstacles([[0, 0, 0], [0, 1, 0], [0, 0, 0]]))
+    # print(S.uniquePathsWithObstacles([[0, 1], [0, 0]]))
+    print(S.uniquePathsWithObstacles([[0, 0], [1, 1], [0, 0]]))
     print("------------------------------------------------------------------------")
