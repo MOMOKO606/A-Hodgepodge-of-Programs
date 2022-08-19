@@ -1139,15 +1139,23 @@ class Solution:
 
     #  1143(medium)
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        m, n = len(text1) + 1, len(text2) + 1
-        dp = [[0] * n for _ in range(m)]
+        m, n = len(text1), len(text2)
+        prev = [0 if text1[0] != text2[j] else 1 for j in range(n)]
+        for j in range(1, n):
+            prev[j] = max(prev[j], prev[j - 1])
+
         for i in range(1, m):
-            for j in range(1, n):
-                if text1[i - 1] == text2[j - 1]:
-                    dp[i][j] = dp[i - 1][j - 1] + 1
+            cur = [0] * n
+            for j in range(n):
+                if j == 0:
+                    cur[j] = max(prev[j], 1) if text1[i] == text2[j] else prev[j]
                 else:
-                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-        return dp[-1][-1]
+                    if text1[i] == text2[j]:
+                        cur[j] = 1 + prev[j - 1]
+                    else:
+                        cur[j] = max(cur[j - 1], prev[j])
+            prev = cur
+        return prev[-1]
 
 
 
@@ -1442,7 +1450,8 @@ if __name__ == "__main__":
 
     #  1143(medium)
     print("------------------------------------------------------------------------")
-    print(S.longestCommonSubsequence("abcde", "ace"))
+    print(S.longestCommonSubsequence("bl", "yby"))
+    print(S.longestCommonSubsequence("ace", "abcde"))
     print(S.longestCommonSubsequence("abc", "abc"))
     print(S.longestCommonSubsequence("abc", "def"))
     print("------------------------------------------------------------------------")
