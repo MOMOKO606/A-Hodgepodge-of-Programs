@@ -1157,6 +1157,21 @@ class Solution:
             prev = cur
         return prev[-1]
 
+    #  120(medium)
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        @cache
+        def helper(i, j):
+            if i == len(triangle): return 0
+            return triangle[i][j] + min(helper(i + 1, j), helper(i + 1, j + 1))
+        return helper(0, 0)
+
+    #  53(medium)
+    def maxSubArray(self, nums: List[int]) -> int:
+        pass
+
+    #  152(medium)
+    def maxProduct(self, nums: List[int]) -> int:
+        pass
 
 
 if __name__ == "__main__":
@@ -1449,9 +1464,22 @@ if __name__ == "__main__":
     print(S.uniquePathsWithObstacles([[0, 0], [1, 1], [0, 0]]))
 
     #  1143(medium)
-    print("------------------------------------------------------------------------")
     print(S.longestCommonSubsequence("bl", "yby"))
     print(S.longestCommonSubsequence("ace", "abcde"))
     print(S.longestCommonSubsequence("abc", "abc"))
     print(S.longestCommonSubsequence("abc", "def"))
+
+    #  120(medium)
     print("------------------------------------------------------------------------")
+    print(S.minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]))
+    print(S.minimumTotal([[-10]]))
+
+    #  53(medium)
+    print("------------------------------------------------------------------------")
+    print(S.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+    print(S.maxSubArray([1]))
+    print(S.maxSubArray([5, 4, -1, 7, 8]))
+
+    #  152(medium)
+    print(S.maxProduct([2, 3, -2, 4]))
+    print(S.maxProduct([-2, 0, -1]))
