@@ -1159,11 +1159,10 @@ class Solution:
 
     #  120(medium)
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        @cache
-        def helper(i, j):
-            if i == len(triangle): return 0
-            return triangle[i][j] + min(helper(i + 1, j), helper(i + 1, j + 1))
-        return helper(0, 0)
+        for i in reversed(range(len(triangle) - 1)):
+            for j in range(len(triangle[i])):
+                triangle[i][j] += min(triangle[i + 1][j], triangle[i + 1][j + 1])
+        return triangle[0][0]
 
     #  53(medium)
     def maxSubArray(self, nums: List[int]) -> int:
