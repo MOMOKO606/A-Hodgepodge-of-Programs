@@ -1164,10 +1164,16 @@ class Solution:
                 triangle[i][j] += min(triangle[i + 1][j], triangle[i + 1][j + 1])
         return triangle[0][0]
 
-
     #  53(medium)
     def maxSubArray(self, nums: List[int]) -> int:
-        pass
+        total, ans = -float("inf"), -float("inf")
+        for num in nums:
+            if total >= 0:
+                total += num
+            else:
+                total = num
+            ans = max(ans, total)
+        return ans
 
     #  152(medium)
     def maxProduct(self, nums: List[int]) -> int:
@@ -1470,24 +1476,15 @@ if __name__ == "__main__":
     print(S.longestCommonSubsequence("abc", "def"))
 
     #  120(medium)
-<<<<<<< HEAD
-    print("------------------------------------------------------------------------")
     print(S.minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]))
     print(S.minimumTotal([[-10]]))
 
     #  53(medium)
     print("------------------------------------------------------------------------")
-=======
-    print("------------------------------------------------------------------------")
-    print(S.minimumTotal([[2], [3, 4], [6, 5, 7], [4, 1, 8, 3]]))
-    print(S.minimumTotal([[-10]]))
-
-    #  53(medium)
-    print("------------------------------------------------------------------------")
->>>>>>> 4abe30ffaa0ac2d8cad915743c0b0ed5c5915e00
     print(S.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
     print(S.maxSubArray([1]))
     print(S.maxSubArray([5, 4, -1, 7, 8]))
+    print("------------------------------------------------------------------------")
 
     #  152(medium)
     print(S.maxProduct([2, 3, -2, 4]))
