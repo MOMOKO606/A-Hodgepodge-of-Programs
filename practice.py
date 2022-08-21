@@ -1172,7 +1172,6 @@ class Solution:
             ans = max(ans, nums[i])
         return ans
 
-
     #  152(medium)
     def maxProduct(self, nums: List[int]) -> int:
         n, ans = len(nums), nums[0]
@@ -1182,6 +1181,14 @@ class Solution:
             largest[i] = max(nums[i], nums[i] * smallest[i - 1], nums[i] * largest[i - 1])
             ans = max(ans, largest[i])
         return ans
+
+    #  121(medium)
+    def maxProfit121(self, prices: List[int]) -> int:
+        buy, sell = -prices[0], -float("inf")
+        for price in prices:
+            buy = max(buy, -price)
+            sell = max(sell, buy + price)
+        return sell
 
 
 if __name__ == "__main__":
@@ -1484,12 +1491,16 @@ if __name__ == "__main__":
     print(S.minimumTotal([[-10]]))
 
     #  53(medium)
-    print("------------------------------------------------------------------------")
     print(S.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
     print(S.maxSubArray([1]))
     print(S.maxSubArray([5, 4, -1, 7, 8]))
-    print("------------------------------------------------------------------------")
 
     #  152(medium)
     print(S.maxProduct([2, 3, -2, 4]))
     print(S.maxProduct([-2, 0, -1]))
+
+    #  121(medium)
+    print("------------------------------------------------------------------------")
+    print(S.maxProfit121([7, 1, 5, 3, 6, 4]))
+    print(S.maxProfit121([7, 6, 4, 3, 1]))
+    print("------------------------------------------------------------------------")
