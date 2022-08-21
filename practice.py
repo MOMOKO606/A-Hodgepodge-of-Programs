@@ -1166,14 +1166,12 @@ class Solution:
 
     #  53(medium)
     def maxSubArray(self, nums: List[int]) -> int:
-        total, ans = -float("inf"), -float("inf")
-        for num in nums:
-            if total >= 0:
-                total += num
-            else:
-                total = num
-            ans = max(ans, total)
+        ans = nums[0]
+        for i in range(1, len(nums)):
+            nums[i] = max(nums[i - 1] + nums[i], nums[i])
+            ans = max(ans, nums[i])
         return ans
+
 
     #  152(medium)
     def maxProduct(self, nums: List[int]) -> int:
