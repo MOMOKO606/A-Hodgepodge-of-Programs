@@ -1175,7 +1175,13 @@ class Solution:
 
     #  152(medium)
     def maxProduct(self, nums: List[int]) -> int:
-        pass
+        n, ans = len(nums), nums[0]
+        smallest, largest = [nums[0]] * n, [nums[0]] * n
+        for i in range(1, n):
+            smallest[i] = min(nums[i], nums[i] * smallest[i - 1], nums[i] * largest[i - 1])
+            largest[i] = max(nums[i], nums[i] * smallest[i - 1], nums[i] * largest[i - 1])
+            ans = max(ans, largest[i])
+        return ans
 
 
 if __name__ == "__main__":
