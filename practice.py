@@ -1218,6 +1218,16 @@ class Solution:
             sell = max(sell, buy + price - fee)
         return sell
 
+    #  309(medium)
+    def maxProfit309(self, prices: List[int]) -> int:
+        buy, sell, cooldown = -prices[0], 0, [0, 0]
+        for price in prices:
+            buy = max(buy, cooldown[1] - price)
+            sell = max(sell, buy + price)
+            cooldown = [sell, cooldown[0]]
+        return sell
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1538,9 +1548,12 @@ if __name__ == "__main__":
     print(S.maxProfit188(2, [2, 4, 1]))
     print(S.maxProfit188(2, [3, 3, 5, 0, 0, 3, 1, 4]))
 
-    print("------------------------------------------------------------------------")
     #  714(medium)
     print(S.maxProfit714([1, 3, 2, 8, 4, 9], 2))
     print(S.maxProfit714([1, 3, 7, 5, 10, 3], 3))
 
+    print("------------------------------------------------------------------------")
     #  309(medium)
+    print(S.maxProfit309([1, 2, 3, 0, 2]))
+    print(S.maxProfit309([1]))
+    print("------------------------------------------------------------------------")
