@@ -1210,8 +1210,13 @@ class Solution:
                 dp[i + 1] = max(dp[i + 1], dp[i] + price)
         return dp[-1]
 
-
-
+    #  714(medium)
+    def maxProfit714(self, prices: List[int], fee: int) -> int:
+        buy, sell = -prices[0], 0
+        for price in prices:
+            buy = max(buy, sell - price)
+            sell = max(sell, buy + price - fee)
+        return sell
 
 
 if __name__ == "__main__":
@@ -1530,7 +1535,12 @@ if __name__ == "__main__":
     print(S.maxProfit123([1, 2, 3, 4, 5]))
 
     #  188(hard)
-    print("------------------------------------------------------------------------")
     print(S.maxProfit188(2, [2, 4, 1]))
     print(S.maxProfit188(2, [3, 3, 5, 0, 0, 3, 1, 4]))
+
     print("------------------------------------------------------------------------")
+    #  714(medium)
+    print(S.maxProfit714([1, 3, 2, 8, 4, 9], 2))
+    print(S.maxProfit714([1, 3, 7, 5, 10, 3], 3))
+
+    #  309(medium)
