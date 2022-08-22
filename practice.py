@@ -1200,6 +1200,19 @@ class Solution:
             sell2 = max(sell2, buy2 + price)
         return sell2
 
+    #  188(hard)
+    def maxProfit188(self, k: int, prices: List[int]) -> int:
+        if not prices: return 0
+        dp = [0] + [-float("inf") for _ in range(2 * k)]
+        for price in prices:
+            for i in range(1, len(dp), 2):
+                dp[i] = max(dp[i], dp[i - 1] - price)
+                dp[i + 1] = max(dp[i + 1], dp[i] + price)
+        return dp[-1]
+
+
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1514,5 +1527,10 @@ if __name__ == "__main__":
     print(S.maxProfit121([7, 6, 4, 3, 1]))
 
     #  123(hard)
+    print(S.maxProfit123([1, 2, 3, 4, 5]))
+
+    #  188(hard)
     print("------------------------------------------------------------------------")
-    print(S.maxProfit123([1,2,3,4,5]))
+    print(S.maxProfit188(2, [2, 4, 1]))
+    print(S.maxProfit188(2, [3, 3, 5, 0, 0, 3, 1, 4]))
+    print("------------------------------------------------------------------------")

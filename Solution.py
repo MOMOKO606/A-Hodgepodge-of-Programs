@@ -75,6 +75,8 @@ class BloomFilter:
 Leetcode 146( Medium )
 https://leetcode.com/problems/lru-cache/#/
 """
+
+
 class LRUCache:
     def __init__(self, capacity: int):
         self.dic = collections.OrderedDict()
@@ -2438,7 +2440,7 @@ class Solution:
     #  The concise recursive version.
     def combine(self, n: int, k: int) -> List[List[int]]:
         if not k: return [[]]
-        return [[num] + item for num in reversed(range(1, n + 1)) for item in self.combine( num - 1, k - 1)]
+        return [[num] + item for num in reversed(range(1, n + 1)) for item in self.combine(num - 1, k - 1)]
 
         # #  Equals to the lines below:
         # ans = []
@@ -5811,8 +5813,9 @@ if __name__ == "__main__":
     print(S.maxProfit123([7, 6, 4, 3, 1]))
 
     #  Leetcode 188
-    print(S.maxProfit188(2, [2, 4, 1]))
-    print(S.maxProfit188(2, [3, 2, 6, 5, 0, 3]))
+    # print(S.maxProfit188(2, [2, 4, 1]))
+    # print(S.maxProfit188(2, [3, 2, 6, 5, 0, 3]))
+    print(S.maxProfit188(2, [3, 3, 5, 0, 0, 3, 1, 4]))
 
     #  Leetcode 309
     print(S.maxProfit309([1, 2, 3, 0, 2]))
@@ -6048,7 +6051,6 @@ if __name__ == "__main__":
     obj.get(1)
     obj.get(3)
     obj.get(4)
-
 
 """
 ..................佛祖开光 ,永无BUG...................
