@@ -1202,13 +1202,12 @@ class Solution:
 
     #  188(hard)
     def maxProfit188(self, k: int, prices: List[int]) -> int:
-        if not prices: return 0
         dp = [0] + [-float("inf") for _ in range(2 * k)]
         for price in prices:
             for i in range(1, len(dp), 2):
                 dp[i] = max(dp[i], dp[i - 1] - price)
                 dp[i + 1] = max(dp[i + 1], dp[i] + price)
-        return dp[-1]
+        return dp[-1] if prices else 0
 
     #  714(medium)
     def maxProfit714(self, prices: List[int], fee: int) -> int:
