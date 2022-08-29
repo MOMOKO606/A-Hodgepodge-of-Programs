@@ -1253,6 +1253,14 @@ class Solution:
             dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
         return dp[-1]
 
+    # #  Using the state machine from buy-and-sell problems
+    # def rob(self, nums: List[int]) -> int:
+    #     rob, cooldown = 0, [0, 0]
+    #     for num in nums:
+    #         rob = max(rob, num + cooldown[1])
+    #         cooldown = [rob, cooldown[0]]
+    #     return rob
+
     #  213(medium)
     def rob213(self, nums: List[int]) -> int:
         pass
