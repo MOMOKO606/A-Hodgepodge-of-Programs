@@ -1245,6 +1245,17 @@ class Solution:
             cooldown = [sell, cooldown[0]]
         return sell
 
+    #  198(medium)
+    def rob(self, nums: List[int]) -> int:
+        nums = [0] + nums
+        dp = nums[:]
+        for i in range(2, len(nums)):
+            dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
+        return dp[-1]
+
+    #  213(medium)
+    def rob213(self, nums: List[int]) -> int:
+        pass
 
 
 if __name__ == "__main__":
@@ -1571,8 +1582,17 @@ if __name__ == "__main__":
     print(S.maxProfit714([1, 3, 2, 8, 4, 9], 2))
     print(S.maxProfit714([1, 3, 7, 5, 10, 3], 3))
 
-    print("------------------------------------------------------------------------")
     #  309(medium)
     print(S.maxProfit309([1, 2, 3, 0, 2]))
     print(S.maxProfit309([1]))
+
+    #  198(medium)
     print("------------------------------------------------------------------------")
+    print(S.rob([1, 2, 3, 1]))
+    print(S.rob([2, 7, 9, 3, 1]))
+    print("------------------------------------------------------------------------")
+
+    #  213(medium)
+    print(S.rob213([2, 3, 2]))
+    print(S.rob213([1, 2, 3, 1]))
+    print(S.rob213([1, 2, 3))
