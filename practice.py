@@ -169,6 +169,25 @@ class Solution:
                     j -= 1
         return ans
 
+    #  16(medium)
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        ans, minDelta, n = 0, math.inf, len(nums)
+        for i in range(n - 2):
+            l, r = i + 1, n - 1
+            while l < r:
+                total = nums[i] + nums[l] + nums[r]
+                if abs(target - total) < minDelta:
+                    minDelta = abs(target - total)
+                    ans = total
+                if target - total > 0:
+                    l += 1
+                elif target - total < 0:
+                    r -= 1
+                else:
+                    return ans
+        return ans
+
     #  206. Reverse Linked List (easy)
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev, cur = None, head
@@ -1267,6 +1286,7 @@ if __name__ == "__main__":
     print(S.threeSum([0, 1, 1]))
     print(S.threeSum([0, 0, 0]))
 
+    #  16 (medium)
     #  206 (easy)
     print(linkedlist2Array(S.reverseList(array2Linkedlist([1, 2, 3, 4, 5]))))
 
