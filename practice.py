@@ -1273,6 +1273,14 @@ class Solution:
 
         return nums[0] if len(nums) == 1 else max(helper(nums[1:]), helper(nums[:-1]))
 
+    #  279(medium)
+    def numSquares(self, n: int) -> int:
+        dp = [0] + [math.inf] * n
+        for i in range(1, n + 1):
+            for j in range(1, int(i ** 0.5) + 1):
+                dp[i] = min(dp[i], dp[i - j * j] + 1)
+        return dp[-1]
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1607,8 +1615,11 @@ if __name__ == "__main__":
     print(S.rob([2, 7, 9, 3, 1]))
 
     #  213(medium)
-    print("------------------------------------------------------------------------")
     print(S.rob213([2, 3, 2]))
     print(S.rob213([1, 2, 3, 1]))
     print(S.rob213([1, 2, 3]))
+
+    #  279(medium)
     print("------------------------------------------------------------------------")
+    print(S.numSquares(12))
+    print(S.numSquares(13))
