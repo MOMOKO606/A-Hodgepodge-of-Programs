@@ -1281,6 +1281,18 @@ class Solution:
                 dp[i] = min(dp[i], dp[i - j * j] + 1)
         return dp[-1]
 
+    #  72(hard)
+    def minDistance(self, word1: str, word2: str) -> int:
+        @cache
+        def helper(m, n):
+            if not m or not n: return m or n
+            if word1[m - 1] == word2[n - 1]:
+                return helper(m - 1, n - 1)
+            else:
+                return 1 + min(helper(m - 1, n - 1), helper(m - 1, n), helper(m, n - 1))
+
+        return helper(len(word1), len(word2))
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1620,6 +1632,9 @@ if __name__ == "__main__":
     print(S.rob213([1, 2, 3]))
 
     #  279(medium)
-    print("------------------------------------------------------------------------")
     print(S.numSquares(12))
     print(S.numSquares(13))
+
+    #  72(hard)
+    print(S.minDistance("horse", "ros"))
+    print(S.minDistance("intention","execution"))
