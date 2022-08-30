@@ -1263,7 +1263,15 @@ class Solution:
 
     #  213(medium)
     def rob213(self, nums: List[int]) -> int:
-        pass
+        def helper(nums):
+            if len(nums) == 1: return nums[0]
+            f0, f1 = nums[0], max(nums[0], nums[1])
+            for i in range(2, len(nums)):
+                f2 = max(f1, f0 + nums[i])
+                f0, f1 = f1, f2
+            return f1 if len(nums) == 2 else f2
+
+        return nums[0] if len(nums) == 1 else max(helper(nums[1:]), helper(nums[:-1]))
 
 
 if __name__ == "__main__":
@@ -1595,12 +1603,12 @@ if __name__ == "__main__":
     print(S.maxProfit309([1]))
 
     #  198(medium)
-    print("------------------------------------------------------------------------")
     print(S.rob([1, 2, 3, 1]))
     print(S.rob([2, 7, 9, 3, 1]))
-    print("------------------------------------------------------------------------")
 
     #  213(medium)
+    print("------------------------------------------------------------------------")
     print(S.rob213([2, 3, 2]))
     print(S.rob213([1, 2, 3, 1]))
-    print(S.rob213([1, 2, 3))
+    print(S.rob213([1, 2, 3]))
+    print("------------------------------------------------------------------------")
