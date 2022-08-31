@@ -308,12 +308,12 @@ class Solution:
             cur = cur.next
 
         # reverse k nodes.
-        prev, cur, next, p = ListNode(), head, head.next, k
-        while p != 0:
+        prev, cur, next, count = None, head, head.next, 0
+        while count != k:
             next = cur.next
             cur.next = prev
             prev, cur = cur, next
-            p -= 1
+            count += 1
 
         #  recursive step
         head.next = self.reverseKGroup(cur, k)
@@ -1292,6 +1292,7 @@ class Solution:
                 return 1 + min(helper(m - 1, n - 1), helper(m - 1, n), helper(m, n - 1))
 
         return helper(len(word1), len(word2))
+
 
 
 if __name__ == "__main__":

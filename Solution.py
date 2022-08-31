@@ -5393,6 +5393,31 @@ class Solution:
             ans[i] = ans[i >> 1] + (i & 1)
         return ans
 
+    #  Leetcode 25
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        # #  Base case 1: only one node / None
+        # if not head or not head.next:
+        #     return head
+
+        #  Check
+        cur = head
+        for _ in range(k):
+            #  Base case 2: more than one node and less than k nodes.
+            if not cur: return head
+            cur = cur.next
+
+        # reverse k nodes.
+        prev, cur, next, p = ListNode(), head, head.next, k
+        while p != 0:
+            next = cur.next
+            cur.next = prev
+            prev, cur = cur, next
+            p -= 1
+
+        #  recursive step
+        head.next = self.reverseKGroup(cur, k)
+        return prev
+
 
 #  Drive code.
 if __name__ == "__main__":
@@ -6028,6 +6053,9 @@ if __name__ == "__main__":
     #  Leetcode 338
     print(S.countBits(2))
     print(S.countBits(5))
+
+    #  Leetcode 25
+
 
     #  The example of Bloom Filter
     bf = BloomFilter(500000, 7)
