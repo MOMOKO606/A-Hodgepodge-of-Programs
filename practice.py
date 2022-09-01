@@ -904,7 +904,7 @@ class Solution:
                         bank.remove(newseq)
         return -1
 
-    #  127(hard)
+    # 127(hard)
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         queue, visited, wordList, level = [beginWord], set(), set(wordList), 1
         while queue:
@@ -921,42 +921,38 @@ class Solution:
             queue = nextQueue
         return 0
 
+
     #  126(hard)
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-        def printpath(curWord, curPath):
-            if path.get(curWord) is None:
+        def _showPath(key):
+            if key == beginWord:
+                ans.append(route[::-1])
                 return
-            if curWord == beginWord:
-                ans.append(curPath[::-1])
-                return
-            for prevWord in path[curWord]:
-                curPath.append(prevWord)
-                printpath(prevWord, curPath)
-                curPath.pop()
+            if not path.get(key): return
+            for value in path[key]:
+                route.append(value)
+                _showPath(value)
+                route.pop()
 
-        def _findLadders(wordList):
-            queue, wordList, path = [beginWord], set(wordList), {beginWord: [beginWord]}
-            if beginWord in wordList: wordList.remove(beginWord)
-            while queue:
-                nextQueue, localVisited = set(), set()
-                for word in queue:
-                    for i in range(len(word)):
-                        for char in "abcdefghijklmnopqrstuvwxyz":
-                            newWord = word[:i] + char + word[i + 1:]
-                            if newWord not in wordList:
-                                continue
-                            path[newWord] = path[newWord] + [word] if newWord in path.keys() else [word]
-                            localVisited.add(newWord)
-                            nextQueue.add(newWord)
-                queue = list(nextQueue)
-                for word in localVisited:
-                    wordList.remove(word)
-            return path
+        queue, wordList, path = [beginWord], set(wordList), {}
+        if beginWord in wordList: wordList.remove(beginWord)
+        while queue:
+            localVisited = set()
+            for word in queue:
+                for i in range(len(word)):
+                    for char in "abcdefghijklmnopqrstuvwxyz":
+                        newWord = word[:i] + char + word[i + 1:]
+                        if newWord not in wordList: continue
+                        path[newWord] = path.get(newWord, []) + [word]
+                        localVisited.add(newWord)
+            for word in localVisited:
+                wordList.remove(word)
+            queue = list(localVisited)
 
-        ans = []
-        path = _findLadders(wordList)
-        printpath(endWord, [endWord])
+        ans, route = [], [endWord]
+        _showPath(endWord)
         return ans
+
 
     #  860(easy)
     def lemonadeChange(self, bills: List[int]) -> bool:
@@ -1519,6 +1515,7 @@ if __name__ == "__main__":
     print(S.ladderLength("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
 
     #  126(hard)
+    print(S.findLadders("a", "c", ["a", "b", "c"]))
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
     print(S.findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
     print(S.findLadders("red", "tax", ["ted", "tex", "red", "tax", "tad", "den", "rex", "pee"]))
