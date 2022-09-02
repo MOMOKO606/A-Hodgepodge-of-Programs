@@ -1771,17 +1771,17 @@ class Solution:
         return ans
 
     # #  The algorithm 1 using a stack.
-    # def trap(self, heights: List[int]) -> int:
-    #     i, ans, stack = 0, 0, []
-    #     while i < len(heights):
-    #         if len(stack) == 0 or heights[stack[-1]] > heights[i]:
-    #             stack += [i]
+    # def trap(self, height: List[int]) -> int:
+    #     stack, i, water = [], 0, 0
+    #     while i < len(height):
+    #         if not stack or height[i] < height[stack[-1]]:
+    #             stack.append(i)
     #             i += 1
     #         else:
-    #             h = heights[stack.pop()]
-    #             if len(stack):
-    #                 ans += (min(heights[i], heights[stack[-1]]) - h) * (i - stack[-1] -1)
-    #     return ans
+    #             j = stack.pop()
+    #             if stack:
+    #                 water += max((min(height[stack[-1]], height[i]) - height[j]) * (i - stack[-1] - 1), 0)
+    #     return water
 
     # #  The algorithm 2 using a stack.
     # def trap(self, heights:List[int]) -> int:
