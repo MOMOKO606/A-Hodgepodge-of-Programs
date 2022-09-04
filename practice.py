@@ -921,7 +921,6 @@ class Solution:
             queue = nextQueue
         return 0
 
-
     #  126(hard)
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
         def _showPath(key):
@@ -952,7 +951,6 @@ class Solution:
         ans, route = [], [endWord]
         _showPath(endWord)
         return ans
-
 
     #  860(easy)
     def lemonadeChange(self, bills: List[int]) -> bool:
@@ -1289,6 +1287,27 @@ class Solution:
 
         return helper(len(word1), len(word2))
 
+    #  980(hard)
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        def dfsHelper(i, j, untravelled):
+            if not (0 <= i < rows and 0 <= j < cols and grid[i][j] >= 0): return
+            if grid[i][j] == 2:
+                self.ans += untravelled == 0
+                return
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                grid[i][j] = -1
+                dfsHelper(i + dx, j + dy, untravelled - 1)
+                grid[i][j] = 0
+
+        rows, cols, untravelled = len(grid), len(grid[0]), 1
+        self.ans = 0
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 1:
+                    x, y = i, j
+                untravelled += grid[i][j] == 0
+        dfsHelper(x, y, untravelled)
+        return self.ans
 
 
 if __name__ == "__main__":
@@ -1635,4 +1654,11 @@ if __name__ == "__main__":
 
     #  72(hard)
     print(S.minDistance("horse", "ros"))
-    print(S.minDistance("intention","execution"))
+    print(S.minDistance("intention", "execution"))
+
+    #  980(hard)
+    print("-------------------------------------------------------------")
+    print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 2, -1]]))
+    print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 2]]))
+    print(S.uniquePathsIII([[0, 1], [2, 0]]))
+    print("-------------------------------------------------------------")
