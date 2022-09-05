@@ -4909,7 +4909,7 @@ class Solution:
     #         queue = list(set(temp))
 
     """
-    518. Coin Change 2 ( xMedium )
+    518. Coin Change 2 ( Medium )
     https://leetcode.com/problems/coin-change-2/
     """
 

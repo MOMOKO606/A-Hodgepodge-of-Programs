@@ -1309,6 +1309,16 @@ class Solution:
         dfsHelper(x, y, untravelled)
         return self.ans
 
+    #  518(medium)
+    def change(self, amount: int, coins: List[int]) -> int:
+        @cache
+        def _change(amount, coins):
+            if amount == 0: return 1
+            if not coins or amount < 0: return 0
+            return _change(amount - coins[-1], coins) + _change(amount, coins[:-1])
+        return _change(amount, tuple(coins))
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1657,8 +1667,13 @@ if __name__ == "__main__":
     print(S.minDistance("intention", "execution"))
 
     #  980(hard)
-    print("-------------------------------------------------------------")
     print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 2, -1]]))
     print(S.uniquePathsIII([[1, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 2]]))
     print(S.uniquePathsIII([[0, 1], [2, 0]]))
+
+    #  518(medium)
+    print("-------------------------------------------------------------")
+    print(S.change(5, [1, 2, 5]))
+    print(S.change(3, [2]))
+    print(S.change(10, [10]))
     print("-------------------------------------------------------------")
