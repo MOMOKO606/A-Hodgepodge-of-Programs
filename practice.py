@@ -1322,13 +1322,15 @@ class Solution:
 
     #  64(medium)
     def minPathSum(self, grid: List[List[int]]) -> int:
-        @cache
-        def _minPathSum(i, j):
-            if i < 0 or j < 0: return math.inf
-            if i == j == 0: return grid[i][j]
-            return grid[i][j] + min(_minPathSum(i - 1, j), _minPathSum(i, j - 1) )
-        return _minPathSum(len(grid) - 1, len(grid[0]) - 1)
-
+        rows, cols = len(grid), len(grid[0])
+        for j in range(1, cols):
+            grid[0][j] = grid[0][j - 1] + grid[0][j]
+        for i in range(1, rows):
+            grid[i][0] = grid[i - 1][0] + grid[i][0]
+        for i in range(1, rows):
+            for j in range(1, cols):
+                grid[i][j] = min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j]
+        return grid[-1][-1]
 
 
 if __name__ == "__main__":
@@ -1689,4 +1691,4 @@ if __name__ == "__main__":
     print("-------------------------------------------------------------")
 
     #  64(medium)
-    
+
