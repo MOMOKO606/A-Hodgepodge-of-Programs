@@ -1332,6 +1332,24 @@ class Solution:
                 grid[i][j] = min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j]
         return grid[-1][-1]
 
+    #  32(hard)
+    def longestValidParentheses(self, s: str) -> int:
+        # The stack top always stores the index of the left boundary - 1 of the longest valid parentheses.
+        stack, ans = [-1], 0
+        for i, char in enumerate(s):
+            if char == ")":
+                stack.pop()
+                if stack:
+                    ans = max(ans, i - stack[-1])
+                    continue
+            stack.append(i)
+        return ans
+
+    #  91(medium)
+    #  221(medium)
+    #  363(hard)
+    #  403(hard)
+
 
 if __name__ == "__main__":
     S = Solution()
