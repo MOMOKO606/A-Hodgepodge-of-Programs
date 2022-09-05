@@ -1311,12 +1311,14 @@ class Solution:
 
     #  518(medium)
     def change(self, amount: int, coins: List[int]) -> int:
-        @cache
-        def _change(amount, coins):
-            if amount == 0: return 1
-            if not coins or amount < 0: return 0
-            return _change(amount - coins[-1], coins) + _change(amount, coins[:-1])
-        return _change(amount, tuple(coins))
+        rows, cols = len(coins) + 1, amount + 1
+        dp = [[0] * cols for _ in range(rows)]
+        for i in range(rows):
+            dp[i][0] = 1
+        for i in range(1, rows):
+            for j in range(1, cols):
+                dp[i][j] = dp[i][j - coins[i - 1]] + dp[i - 1][j] if j >= coins[i - 1] else dp[i - 1][j]
+        return dp[-1][-1]
 
 
 
