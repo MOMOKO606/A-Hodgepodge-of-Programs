@@ -1320,6 +1320,15 @@ class Solution:
                 dp[i][j] = dp[i][j - coins[i - 1]] + dp[i - 1][j] if j >= coins[i - 1] else dp[i - 1][j]
         return dp[-1][-1]
 
+    #  64(medium)
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        @cache
+        def _minPathSum(i, j):
+            if i < 0 or j < 0: return math.inf
+            if i == j == 0: return grid[i][j]
+            return grid[i][j] + min(_minPathSum(i - 1, j), _minPathSum(i, j - 1) )
+        return _minPathSum(len(grid) - 1, len(grid[0]) - 1)
+
 
 
 if __name__ == "__main__":
@@ -1674,8 +1683,10 @@ if __name__ == "__main__":
     print(S.uniquePathsIII([[0, 1], [2, 0]]))
 
     #  518(medium)
-    print("-------------------------------------------------------------")
     print(S.change(5, [1, 2, 5]))
     print(S.change(3, [2]))
     print(S.change(10, [10]))
     print("-------------------------------------------------------------")
+
+    #  64(medium)
+    
