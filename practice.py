@@ -1334,17 +1334,16 @@ class Solution:
 
     #  32(hard)
     def longestValidParentheses(self, s: str) -> int:
-        @cache
-        def helper(i):
-            if i < 0 or s[i] == "(": return 0
-            elif i - 1 >= 0 and s[i - 1] == "(":
-                return helper(i - 2) + 2
-            else:
-                index = i - helper(i - 1) - 1
-                if index >= 0 and s[index] == "(":
-                    return helper(index - 1) + helper(i - 1) + 2
-                else: return 0
-        return max( [helper(j) for j in reversed(range(len(s)))]) if s else 0
+        n = len(s)
+        dp = [0] * n
+        for i in range(1, n):
+            if s[i - 1] == "(" and s[i] == ")":
+                dp[i] = 2 + dp[i - 2] if i - 2 >= 0 else 2
+            elif s[i - 1] == ")" and s[i] == ")":
+                j = i - dp[i - 1] - 1
+                if j >= 0 and s[j] == "(":
+                    dp[i] = dp[j - 1] + dp[i - 1] + 2 if j >= 1 else dp[i - 1] + 2
+        return max(dp) if dp else 0
 
     #  91(medium)
     #  221(medium)
