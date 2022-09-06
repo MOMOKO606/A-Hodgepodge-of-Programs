@@ -1359,18 +1359,19 @@ class Solution:
 
     #  221(medium)
     def maximalSquare(self, matrix: List[List[str]]) -> int:
-        @cache
-        def helper(i, j):
-            if 0 <= i < len(matrix) and 0 <= j < len(matrix[0]) and matrix[i][j] == "1":
-                return 1 + min(helper(i - 1, j), helper(i, j - 1), helper(i - 1, j - 1))
-            return 0
-
-        ans = 0
-        for i in reversed(range(len(matrix))):
-            for j in reversed(range(len(matrix[0]))):
-                ans = max(ans, helper(i, j))
+        rows, cols, ans = len(matrix), len(matrix[0]), 0
+        dp = [[0] * cols for _ in range(rows)]
+        for i in range(rows):
+            for j in range(cols):
+                if matrix[i][j] == "1":
+                    dp[i][j] = 1
+        for i in range(rows):
+            for j in range(cols):
+                if i > 0 and j > 0 and dp[i][j]:
+                    dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
+                ans = max(ans, dp[i][j])
         return ans * ans
-    
+
     #  363(hard)
     #  403(hard)
 
