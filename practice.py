@@ -1373,6 +1373,28 @@ class Solution:
         return ans * ans
 
     #  363(hard)
+    def maxSumSubmatrix(self, matrix: List[List[int]], K: int) -> int:
+        rows, cols, ans = len(matrix), len(matrix[0]), 0
+        for x in range(rows):
+            for y in range(cols):
+                for i in range(x, rows):
+                    for j in range(y, cols):
+                        area = 0
+                        for p in range(x, i + 1):
+                            for q in range(y, j + 1):
+                                area += matrix[p][q]
+                        if area <= K:
+                            ans = max(ans, area)
+        return ans
+
+
+
+
+
+
+
+
+
     #  403(hard)
 
 
@@ -1734,10 +1756,13 @@ if __name__ == "__main__":
 
     #  64(medium)
     #  91(medium)
-    print("-------------------------------------------------------------")
     print(S.numDecodings("12"))
-    # print(S.numDecodings("226"))
-    # print(S.numDecodings("10"))
-    # print(S.numDecodings("06"))
-    print("-------------------------------------------------------------")
+    print(S.numDecodings("226"))
+    print(S.numDecodings("10"))
+    print(S.numDecodings("06"))
 
+    #  363(hard)
+    print("-------------------------------------------------------------")
+    print(S.maxSumSubmatrix([[1, 0, 1], [0, -2, 3]], 2))
+    print(S.maxSumSubmatrix([[2, 2, -1]], 3))
+    print("-------------------------------------------------------------")
