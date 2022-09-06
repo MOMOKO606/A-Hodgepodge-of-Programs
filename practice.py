@@ -1334,16 +1334,17 @@ class Solution:
 
     #  32(hard)
     def longestValidParentheses(self, s: str) -> int:
-        # The stack top always stores the index of the left boundary - 1 of the longest valid parentheses.
-        stack, ans = [-1], 0
-        for i, char in enumerate(s):
-            if char == ")":
-                stack.pop()
-                if stack:
-                    ans = max(ans, i - stack[-1])
-                    continue
-            stack.append(i)
-        return ans
+        @cache
+        def helper(i):
+            if i < 0 or s[i] == "(": return 0
+            elif i - 1 >= 0 and s[i - 1] == "(":
+                return helper(i - 2) + 2
+            else:
+                index = i - helper(i - 1) - 1
+                if index >= 0 and s[index] == "(":
+                    return helper(index - 1) + helper(i - 1) + 2
+                else: return 0
+        return max( [helper(j) for j in reversed(range(len(s)))]) if s else 0
 
     #  91(medium)
     #  221(medium)
