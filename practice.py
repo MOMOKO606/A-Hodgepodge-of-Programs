@@ -1347,17 +1347,15 @@ class Solution:
 
     #  91(medium)
     def numDecodings(self, s: str) -> int:
-        @cache
-        def helper(j):
-            if j < 0: return 1
-            if j == 0: return 1 if s[j] != "0" else 0
-            ans = 0
-            if 1 <= int(s[j]) <= 9:
-                ans += helper(j - 1)
-            if 10 <= int(s[j - 1: j + 1]) <= 26:
-                ans += helper(j - 2)
-            return ans
-        return helper(len(s) - 1)
+        dp = [0] * len(s)
+        for i in range(len(s)):
+            if 1 <= int(s[i]) <= 9:
+                dp[i] += dp[i - 1] if i >= 1 else 1
+            if i >= 2 and 10 <= int(s[i - 1: i + 1]) <= 26:
+                dp[i] += dp[i - 2]
+            elif i == 1 and 10 <= int(s[i - 1: i + 1]) <= 26:
+                dp[i] += 1
+        return dp[-1] if dp else 0
 
     #  221(medium)
     #  363(hard)
