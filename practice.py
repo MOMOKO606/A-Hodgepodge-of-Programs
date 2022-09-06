@@ -1346,6 +1346,19 @@ class Solution:
         return max(dp) if dp else 0
 
     #  91(medium)
+    def numDecodings(self, s: str) -> int:
+        @cache
+        def helper(j):
+            if j < 0: return 1
+            if j == 0: return 1 if s[j] != "0" else 0
+            ans = 0
+            if 1 <= int(s[j]) <= 9:
+                ans += helper(j - 1)
+            if 10 <= int(s[j - 1: j + 1]) <= 26:
+                ans += helper(j - 2)
+            return ans
+        return helper(len(s) - 1)
+
     #  221(medium)
     #  363(hard)
     #  403(hard)
@@ -1706,7 +1719,13 @@ if __name__ == "__main__":
     print(S.change(5, [1, 2, 5]))
     print(S.change(3, [2]))
     print(S.change(10, [10]))
-    print("-------------------------------------------------------------")
 
     #  64(medium)
+    #  91(medium)
+    print("-------------------------------------------------------------")
+    print(S.numDecodings("12"))
+    # print(S.numDecodings("226"))
+    # print(S.numDecodings("10"))
+    # print(S.numDecodings("06"))
+    print("-------------------------------------------------------------")
 
