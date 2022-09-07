@@ -77,6 +77,13 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
         cur = cur.next
     return ans
 
+#  303(easy)
+class NumArray:
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+
+    def sumRange(self, left: int, right: int) -> int:
+        return sum(self.nums[left: right + 1])
 
 class Solution:
     #  1137. N-th Tribonacci Number(easy)
@@ -1374,27 +1381,7 @@ class Solution:
 
     #  363(hard)
     def maxSumSubmatrix(self, matrix: List[List[int]], K: int) -> int:
-        rows, cols, ans = len(matrix), len(matrix[0]), 0
-        for x in range(rows):
-            for y in range(cols):
-                for i in range(x, rows):
-                    for j in range(y, cols):
-                        area = 0
-                        for p in range(x, i + 1):
-                            for q in range(y, j + 1):
-                                area += matrix[p][q]
-                        if area <= K:
-                            ans = max(ans, area)
-        return ans
-
-
-
-
-
-
-
-
-
+        pass
     #  403(hard)
 
 
@@ -1761,6 +1748,7 @@ if __name__ == "__main__":
     print(S.numDecodings("10"))
     print(S.numDecodings("06"))
 
+    #  303(easy)
     #  363(hard)
     print("-------------------------------------------------------------")
     print(S.maxSumSubmatrix([[1, 0, 1], [0, -2, 3]], 2))
