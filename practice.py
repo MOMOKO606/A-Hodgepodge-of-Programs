@@ -92,20 +92,17 @@ class NumArray:
 #  304(medium)
 class NumMatrix:
     def __init__(self, matrix: List[List[int]]):
-        rows, cols = len(matrix), len(matrix[0]) + 1
+        rows, cols = len(matrix) + 1, len(matrix[0]) + 1
         dp = [[0] * cols for _ in range(rows)]
-        for i in range(rows):
-            for j in range(cols):
-                if j > 0:
-                    dp[i][j] = dp[i][j - 1] + matrix[i][j - 1]
-        self.dp = dp
+        for i in range(1, rows):
+            for j in range(1, cols):
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + matrix[i - 1][j - 1]
         self.matrix = matrix
+        self.dp = dp
 
     def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
-        dp, area = self.dp, 0
-        for i in range(row1, row2 + 1):
-            area += dp[i][col2 + 1] - dp[i][col1]
-        return area
+        area, dp = 0, self.dp
+        return dp[row2 + 1][col2 + 1] - dp[row2 + 1][col1] - dp[row1][col2 + 1] + dp[row1][col1]
 
 
 class Solution:
