@@ -81,9 +81,13 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
 class NumArray:
     def __init__(self, nums: List[int]):
         self.nums = nums
+        preSum = [0] + nums[:]
+        for i in range(1, len(preSum)):
+            preSum[i] = preSum[i - 1] + nums[i - 1]
+        self.preSum = preSum
 
     def sumRange(self, left: int, right: int) -> int:
-        return sum(self.nums[left: right + 1])
+        return self.preSum[right + 1] - self.preSum[left]
 
 class Solution:
     #  1137. N-th Tribonacci Number(easy)
