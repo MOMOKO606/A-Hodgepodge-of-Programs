@@ -89,6 +89,17 @@ class NumArray:
     def sumRange(self, left: int, right: int) -> int:
         return self.preSum[right + 1] - self.preSum[left]
 
+#  304(medium)
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        self.matrix = matrix
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        matrix, area = self.matrix, 0
+
+
+
 class Solution:
     #  1137. N-th Tribonacci Number(easy)
     def tribonacci(self, n: int) -> int:
@@ -1383,6 +1394,17 @@ class Solution:
                 ans = max(ans, dp[i][j])
         return ans * ans
 
+    #  560(medium)
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        hashmap = {}
+        hashmap[0], count, preSum = 1, 0, 0
+        for i in range(len(nums)):
+            preSum += nums[i]
+            count += hashmap.get(preSum - k, 0)
+            hashmap[preSum] = hashmap.get(preSum, 0) + 1
+        return count
+
+
     #  363(hard)
     def maxSumSubmatrix(self, matrix: List[List[int]], K: int) -> int:
         pass
@@ -1753,6 +1775,8 @@ if __name__ == "__main__":
     print(S.numDecodings("06"))
 
     #  303(easy)
+    #  304(medium)
+    #  560(medium)
     #  363(hard)
     print("-------------------------------------------------------------")
     print(S.maxSumSubmatrix([[1, 0, 1], [0, -2, 3]], 2))
