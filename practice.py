@@ -1431,7 +1431,6 @@ class Solution:
                     insort(checked, preSum)
         return ans
 
-<<<<<<< HEAD
     # def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
     #     ans, rows, cols = -math.inf, len(matrix), len(matrix[0])
     #     for top in range(rows):
@@ -1450,14 +1449,19 @@ class Solution:
     #                         ans = max(ans, preSum - checked[index])
     #                 insort(checked, preSum)
     #     return ans
-=======
 
-
-
-
->>>>>>> ce0974ef28952f9f14e2154c7e26def5670f1663
 
     #  403(hard)
+    def canCross(self, stones: List[int]) -> bool:
+        if stones[1] != 1: return False
+        steps = {stone: set() for stone in stones}
+        steps[stones[1]].add(1)
+        for i, stone in enumerate(stones):
+            for step in steps[stone]:
+                for length in range(step - 1, step + 2):
+                    if length > 0 and stone + length in steps.keys():
+                        steps[stone + length].add(length)
+        return steps[stones[-1]] != set()
 
 
 if __name__ == "__main__":
@@ -1827,7 +1831,8 @@ if __name__ == "__main__":
     #  304(medium)
     #  560(medium)
     #  363(hard)
-    print("-------------------------------------------------------------")
     print(S.maxSumSubmatrix([[1, 0, 1], [0, -2, 3]], 2))
     print(S.maxSumSubmatrix([[2, 2, -1]], 3))
+
+    #  403(hard)
     print("-------------------------------------------------------------")
