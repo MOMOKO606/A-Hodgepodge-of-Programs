@@ -1,3 +1,4 @@
+from bisect import bisect_left, insort
 from functools import cache
 from typing import List, Optional
 from Solution import deserialize, drawtree
@@ -1411,8 +1412,30 @@ class Solution:
 
 
     #  363(hard)
-    def maxSumSubmatrix(self, matrix: List[List[int]], K: int) -> int:
-        pass
+    def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
+        ans, rows, cols = -math.inf, len(matrix), len(matrix[0])
+        for l in range(cols):
+            compressed = [0] * rows
+            for r in range(l, cols):
+                checked = [0]
+                preSum = 0
+                for i in range(rows):
+                    compressed[i] += matrix[i][r]
+                    preSum += compressed[i]
+                    index = bisect_left(checked, preSum - k)
+                    if index < len(checked):
+                        if preSum - checked[index] == k:
+                            return k
+                        else:
+                            ans = max(ans, preSum - checked[index] )
+                    insort(checked, preSum)
+        return ans
+
+
+
+
+
+
     #  403(hard)
 
 
