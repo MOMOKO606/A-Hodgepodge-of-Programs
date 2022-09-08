@@ -1453,15 +1453,17 @@ class Solution:
 
     #  403(hard)
     def canCross(self, stones: List[int]) -> bool:
-        if stones[1] != 1: return False
-        steps = {stone: set() for stone in stones}
-        steps[stones[1]].add(1)
-        for i, stone in enumerate(stones):
-            for step in steps[stone]:
-                for length in range(step - 1, step + 2):
-                    if length > 0 and stone + length in steps.keys():
-                        steps[stone + length].add(length)
-        return steps[stones[-1]] != set()
+        @cache
+        def dfsHelper( pos, steps ):
+            if pos == stones[-1]:
+                return True
+            if pos not in stones_set or steps < 1:
+                return False
+            for step in range(steps -1 , steps + 2):
+                if dfsHelper(pos + step, step): return True
+            return False
+        stones_set = set(stones)
+        return dfsHelper(1, 1) if stones[1] == 1 else False
 
 
 if __name__ == "__main__":
