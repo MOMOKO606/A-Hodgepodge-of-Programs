@@ -1431,10 +1431,24 @@ class Solution:
                     insort(checked, preSum)
         return ans
 
-
-
-
-
+    # def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
+    #     ans, rows, cols = -math.inf, len(matrix), len(matrix[0])
+    #     for top in range(rows):
+    #         compressed = [0] * cols
+    #         for bottom in range(top, rows):
+    #             checked = [0]
+    #             preSum = 0
+    #             for j in range(cols):
+    #                 compressed[j] += matrix[bottom][j]
+    #                 preSum += compressed[j]
+    #                 index = bisect_left(checked, preSum - k)
+    #                 if index < len(checked):
+    #                     if preSum - checked[index] == k:
+    #                         return k
+    #                     else:
+    #                         ans = max(ans, preSum - checked[index])
+    #                 insort(checked, preSum)
+    #     return ans
 
     #  403(hard)
 
