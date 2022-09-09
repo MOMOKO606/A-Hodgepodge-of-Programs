@@ -1,3 +1,4 @@
+from heapq import heappush, heappop
 from bisect import bisect_left, insort
 from functools import cache
 from typing import List, Optional
@@ -1467,11 +1468,35 @@ class Solution:
 
     #  621(medium)
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        freqs = list(collections.Counter(tasks).values())
-        highest_freq = max(freqs)
-        #  m = Number of the elements with the highest frequency.
-        m = freqs.count(highest_freq)
-        return max((n + 1) * (highest_freq - 1) + m, len(tasks))
+        ans, heap = 0, []
+        for task, freq in collections.Counter(tasks).items():
+            heappush(heap, (-freq, task))
+        while heap:
+            count, nextHeap = 0, []
+            while heap and count < n + 1:
+                freq, task = heappop(heap)
+                freq += 1
+                count += 1
+                ans += 1
+                if freq != 0:
+                    nextHeap.append((freq, task))
+            if nextHeap and count < n + 1: ans += n + 1 - count
+            for freq, task in nextHeap:
+                heappush(heap, (freq, task))
+        return ans
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -1845,4 +1870,10 @@ if __name__ == "__main__":
     print(S.maxSumSubmatrix([[2, 2, -1]], 3))
 
     #  403(hard)
+    #  621(medium)
     print("-------------------------------------------------------------")
+    print(S.leastInterval(["A","A","A","B","B","B"], 2))
+    print(S.leastInterval(["A","A","A","B","B","B"], 0))
+    print(S.leastInterval(["A","A","A","A","A","A","B","C","D","E","F","G"], 2))
+    print("-------------------------------------------------------------")
+
