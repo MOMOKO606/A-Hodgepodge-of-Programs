@@ -4454,7 +4454,7 @@ class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         counts = list(Counter(tasks).values())  # Counter(tasks) -> dict-like structure.
         maxCounts = max(counts)  # Get the most frequency.
-        factor = counts.count(maxCounts)  # Get the number of letters with the biggest frquency.
+        factor = counts.count(maxCounts)  # Get the number of letters with the biggest frequency.
         return max(len(tasks), (n + 1) * (maxCounts - 1) + factor)
 
     # #  The mimic solution.
@@ -4463,7 +4463,7 @@ class Solution:
     # def leastInterval(self, tasks: List[str], n: int) -> int:
     #     ans, heap = 0, []
     #     #  Initialize the heap
-    #     #  Notice: heapq satisfy heap[k] <= heap[2*k+1] and heap[k] <= heap[2*k+2].
+    #     #  Notice: heap satisfy heap[k] <= heap[2*k+1] and heap[k] <= heap[2*k+2].
     #     #  Sort by the first value of the heap node.
     #     for task, freq in Counter(tasks).items():
     #         heappush( heap, (freq * -1, task) )

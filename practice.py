@@ -1465,6 +1465,14 @@ class Solution:
         stones_set = set(stones)
         return dfsHelper(1, 1) if stones[1] == 1 else False
 
+    #  621(medium)
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        freqs = list(collections.Counter(tasks).values())
+        highest_freq = max(freqs)
+        #  m = Number of the elements with the highest frequency.
+        m = freqs.count(highest_freq)
+        return max((n + 1) * (highest_freq - 1) + m, len(tasks))
+
 
 if __name__ == "__main__":
     S = Solution()
