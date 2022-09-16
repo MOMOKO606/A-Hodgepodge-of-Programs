@@ -1487,17 +1487,19 @@ class Solution:
 
     #  647(medium)
     def countSubstrings(self, s: str) -> int:
-        @cache
-        def IsPalindromic(i, j):
-            if i > j: return True
-            if s[i] != s[j]: return False
-            return IsPalindromic(i + 1, j - 1)
+        def palindromicNum(i, j):
+            count = 0
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                count += 1
+                i -= 1
+                j += 1
+            return count
 
-        count = 0
+        ans = 0
         for i in range(len(s)):
-            for j in range(i, len(s)):
-                if IsPalindromic(i, j): count += 1
-        return count
+            ans += palindromicNum(i, i)
+            ans += palindromicNum(i, i + 1)
+        return ans
 
 
 
