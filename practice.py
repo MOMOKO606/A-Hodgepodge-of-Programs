@@ -1501,17 +1501,25 @@ class Solution:
             ans += palindromicNum(i, i + 1)
         return ans
 
+    #  5(medium)
+    def longestPalindrome(self, s: str) -> str:
+        def helper(i, j):
+            while i >= 0 and j < len(s) and s[i] == s[j]:
+                i -= 1
+                j += 1
+            return s[i + 1: j]
 
-
-
-
-
-
-
-
-
-
-
+        longest, ans = 0, ""
+        for i in range(len(s)):
+            s1 = helper(i, i)
+            s2 = helper(i, i + 1)
+            if len(s1) > longest:
+                longest = len(s1)
+                ans = s1
+            if len(s2) > longest:
+                longest = len(s2)
+                ans = s2
+        return ans
 
 
 if __name__ == "__main__":
@@ -1891,6 +1899,7 @@ if __name__ == "__main__":
     print(S.leastInterval(["A","A","A","A","A","A","B","C","D","E","F","G"], 2))
 
     #  647(medium)
+    #  5(medium)
     print("-------------------------------------------------------------")
     #  410(hard)
 
