@@ -1485,6 +1485,19 @@ class Solution:
                 heappush(heap, (freq, task))
         return ans
 
+    #  647(medium)
+    def countSubstrings(self, s: str) -> int:
+        @cache
+        def IsPalindromic(i, j):
+            if i > j: return True
+            if s[i] != s[j]: return False
+            return IsPalindromic(i + 1, j - 1)
+
+        count = 0
+        for i in range(len(s)):
+            for j in range(i, len(s)):
+                if IsPalindromic(i, j): count += 1
+        return count
 
 
 
@@ -1871,9 +1884,11 @@ if __name__ == "__main__":
 
     #  403(hard)
     #  621(medium)
-    print("-------------------------------------------------------------")
     print(S.leastInterval(["A","A","A","B","B","B"], 2))
     print(S.leastInterval(["A","A","A","B","B","B"], 0))
     print(S.leastInterval(["A","A","A","A","A","A","B","C","D","E","F","G"], 2))
+
+    #  647(medium)
     print("-------------------------------------------------------------")
+    #  410(hard)
 
