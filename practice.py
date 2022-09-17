@@ -1503,23 +1503,17 @@ class Solution:
 
     #  5(medium)
     def longestPalindrome(self, s: str) -> str:
-        def helper(i, j):
-            while i >= 0 and j < len(s) and s[i] == s[j]:
-                i -= 1
-                j += 1
-            return s[i + 1: j]
+        largest, begin = 1, 0
+        for i in range(1, len(s)):
+            if i - largest - 1 >= 0 and s[i - largest - 1:i + 1] == s[i - largest - 1:i + 1][::-1]:
+                begin = i - largest - 1
+                largest += 2
 
-        longest, ans = 0, ""
-        for i in range(len(s)):
-            s1 = helper(i, i)
-            s2 = helper(i, i + 1)
-            if len(s1) > longest:
-                longest = len(s1)
-                ans = s1
-            if len(s2) > longest:
-                longest = len(s2)
-                ans = s2
-        return ans
+            elif i - largest >= 0 and s[i - largest:i + 1] == s[i - largest:i + 1][::-1]:
+                begin = i - largest
+                largest += 1
+
+        return s[begin: begin + largest]
 
 
 if __name__ == "__main__":
