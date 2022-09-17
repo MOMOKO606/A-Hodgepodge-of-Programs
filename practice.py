@@ -79,6 +79,7 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
         cur = cur.next
     return ans
 
+
 #  303(easy)
 class NumArray:
     def __init__(self, nums: List[int]):
@@ -90,6 +91,7 @@ class NumArray:
 
     def sumRange(self, left: int, right: int) -> int:
         return self.preSum[right + 1] - self.preSum[left]
+
 
 #  304(medium)
 class NumMatrix:
@@ -1411,7 +1413,6 @@ class Solution:
             hashmap[preSum] = hashmap.get(preSum, 0) + 1
         return count
 
-
     #  363(hard)
     def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
         ans, rows, cols = -math.inf, len(matrix), len(matrix[0])
@@ -1428,7 +1429,7 @@ class Solution:
                         if preSum - checked[index] == k:
                             return k
                         else:
-                            ans = max(ans, preSum - checked[index] )
+                            ans = max(ans, preSum - checked[index])
                     insort(checked, preSum)
         return ans
 
@@ -1451,18 +1452,18 @@ class Solution:
     #                 insort(checked, preSum)
     #     return ans
 
-
     #  403(hard)
     def canCross(self, stones: List[int]) -> bool:
         @cache
-        def dfsHelper( pos, steps ):
+        def dfsHelper(pos, steps):
             if pos == stones[-1]:
                 return True
             if pos not in stones_set or steps < 1:
                 return False
-            for step in range(steps -1 , steps + 2):
+            for step in range(steps - 1, steps + 2):
                 if dfsHelper(pos + step, step): return True
             return False
+
         stones_set = set(stones)
         return dfsHelper(1, 1) if stones[1] == 1 else False
 
@@ -1514,6 +1515,20 @@ class Solution:
                 largest += 1
 
         return s[begin: begin + largest]
+    
+    #  516(medium)
+    def longestPalindromeSubseq(self, s: str) -> int:
+        @cache
+        def helper(i, j):
+            if i == j: return 1
+            if i > j: return 0
+            if s[i] == s[j]:
+                return 2 + helper(i + 1, j - 1)
+            else:
+                return max(helper(i + 1, j), helper(i, j - 1))
+
+        s = list(s)
+        return helper(0, len(s) - 1)
 
 
 if __name__ == "__main__":
@@ -1888,12 +1903,11 @@ if __name__ == "__main__":
 
     #  403(hard)
     #  621(medium)
-    print(S.leastInterval(["A","A","A","B","B","B"], 2))
-    print(S.leastInterval(["A","A","A","B","B","B"], 0))
-    print(S.leastInterval(["A","A","A","A","A","A","B","C","D","E","F","G"], 2))
+    print(S.leastInterval(["A", "A", "A", "B", "B", "B"], 2))
+    print(S.leastInterval(["A", "A", "A", "B", "B", "B"], 0))
+    print(S.leastInterval(["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"], 2))
 
     #  647(medium)
     #  5(medium)
     print("-------------------------------------------------------------")
     #  410(hard)
-
