@@ -1515,20 +1515,20 @@ class Solution:
                 largest += 1
 
         return s[begin: begin + largest]
-    
+
     #  516(medium)
     def longestPalindromeSubseq(self, s: str) -> int:
-        @cache
-        def helper(i, j):
-            if i == j: return 1
-            if i > j: return 0
-            if s[i] == s[j]:
-                return 2 + helper(i + 1, j - 1)
-            else:
-                return max(helper(i + 1, j), helper(i, j - 1))
-
-        s = list(s)
-        return helper(0, len(s) - 1)
+        n = len(s)
+        dp = [ [0] * n for _ in range(n) ]
+        for i in range(n):
+            dp[i][i] = 1
+        for j in range(1, n):
+            for i in range(n - j):
+                if s[i] == s[i + j]:
+                    dp[i][i + j] = dp[i + 1][i + j - 1] + 2
+                else:
+                    dp[i][i + j] = max(dp[i][i + j - 1], dp[i + 1][i + j])
+        return dp[0][n - 1]
 
 
 if __name__ == "__main__":
