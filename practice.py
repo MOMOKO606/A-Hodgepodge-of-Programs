@@ -1519,7 +1519,7 @@ class Solution:
     #  516(medium)
     def longestPalindromeSubseq(self, s: str) -> int:
         n = len(s)
-        dp = [ [0] * n for _ in range(n) ]
+        dp = [[0] * n for _ in range(n)]
         for i in range(n):
             dp[i][i] = 1
         for j in range(1, n):
@@ -1529,6 +1529,19 @@ class Solution:
                 else:
                     dp[i][i + j] = max(dp[i][i + j - 1], dp[i + 1][i + j])
         return dp[0][n - 1]
+
+    #  410(hard)
+    def splitArray(self, nums: List[int], m: int) -> int:
+        n = len(nums)
+        dp = [ [math.inf] * n for i in range(m + 1) ]
+        dp[1][0] = nums[0]
+        for j in range(1, n):
+            dp[1][j] = dp[1][j - 1] + nums[j]
+        for i in range(2, m + 1):
+            for j in range(i - 1, n):
+                for k in range(j):
+                    dp[i][j] = min(dp[i][j], max(dp[i - 1][k], sum(nums[k + 1: j + 1])))
+        return dp[-1][-1]
 
 
 if __name__ == "__main__":
@@ -1911,3 +1924,7 @@ if __name__ == "__main__":
     #  5(medium)
     print("-------------------------------------------------------------")
     #  410(hard)
+    print(S.splitArray([7, 2, 5, 10, 8], 2))
+    print(S.splitArray([1, 2, 3, 4, 5], 2))
+    print(S.splitArray([1, 4, 4], 3))
+    print("-------------------------------------------------------------")
