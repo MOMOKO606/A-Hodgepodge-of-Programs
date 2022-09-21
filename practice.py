@@ -1532,16 +1532,24 @@ class Solution:
 
     #  410(hard)
     def splitArray(self, nums: List[int], m: int) -> int:
-        n = len(nums)
-        dp = [ [math.inf] * n for i in range(m + 1) ]
-        dp[1][0] = nums[0]
-        for j in range(1, n):
-            dp[1][j] = dp[1][j - 1] + nums[j]
-        for i in range(2, m + 1):
-            for j in range(i - 1, n):
-                for k in range(j):
-                    dp[i][j] = min(dp[i][j], max(dp[i - 1][k], sum(nums[k + 1: j + 1])))
-        return dp[-1][-1]
+        def validSplit(ceil):
+            count, subnums = 1, 0
+            for num in nums:
+                if subnums + num <= ceil:
+                    subnums += num
+                else:
+                    subnums = num
+                    count += 1
+            return count <= m
+
+        low, high = max(nums), sum(nums)
+        while low < high:
+            mid = (low + high) // 2
+            if validSplit(mid):
+                high = mid
+            else:
+                low = mid + 1
+        return low
 
 
 if __name__ == "__main__":
