@@ -1553,15 +1553,15 @@ class Solution:
 
     #  312(hard)
     def maxCoins(self, nums: List[int]) -> int:
-        @cache
-        def helper(i, j):
-            if i > j: return 0
-            ans = -math.inf
-            for k in range(i, j + 1):
-                ans = max(ans, helper(i, k - 1) + helper(k + 1, j) + nums[i - 1] * nums[k] * nums[j + 1])
-            return ans
         nums = [1] + nums + [1]
-        return helper(1, len(nums) - 2)
+        n = len(nums)
+        dp = [[0] * n for _ in range(n)]
+        for l in range(n - 2):
+            for i in range(1, n - l - 1):
+                j = i + l
+                for k in range(i, j + 1):
+                    dp[i][j] = max(dp[i][j], dp[i][k - 1] + dp[k + 1][j] + nums[i - 1] * nums[k] * nums[j + 1])
+        return dp[1][n - 2]
 
 
 if __name__ == "__main__":
