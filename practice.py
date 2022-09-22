@@ -1551,6 +1551,18 @@ class Solution:
                 low = mid + 1
         return low
 
+    #  312(hard)
+    def maxCoins(self, nums: List[int]) -> int:
+        @cache
+        def helper(i, j):
+            if i > j: return 0
+            ans = -math.inf
+            for k in range(i, j + 1):
+                ans = max(ans, helper(i, k - 1) + helper(k + 1, j) + nums[i - 1] * nums[k] * nums[j + 1])
+            return ans
+        nums = [1] + nums + [1]
+        return helper(1, len(nums) - 2)
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1930,9 +1942,13 @@ if __name__ == "__main__":
 
     #  647(medium)
     #  5(medium)
-    print("-------------------------------------------------------------")
     #  410(hard)
     print(S.splitArray([7, 2, 5, 10, 8], 2))
     print(S.splitArray([1, 2, 3, 4, 5], 2))
     print(S.splitArray([1, 4, 4], 3))
+
+    #  312(hard)
+    print("-------------------------------------------------------------")
+    print(S.maxCoins([3, 1, 5, 8]))
+    print(S.maxCoins([1, 5]))
     print("-------------------------------------------------------------")
