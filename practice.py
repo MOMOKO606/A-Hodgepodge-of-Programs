@@ -1563,6 +1563,28 @@ class Solution:
                     dp[i][j] = max(dp[i][j], dp[i][k - 1] + dp[k + 1][j] + nums[i - 1] * nums[k] * nums[j + 1])
         return dp[1][n - 2]
 
+    #  76(hard)
+    def minWindow(self, s: str, t: str) -> str:
+        ans, count, hashmap = math.inf, len(t), collections.Counter(t)
+        i, j, left, right = -1, -1, 0, -1
+        while i <= j:
+            if not count and j - i < ans:
+                ans = j - i
+                left, right = i + 1, j
+
+            if j < len(s) and count > 0:
+                j += 1
+                if j < len(s) and s[j] in hashmap.keys():
+                    hashmap[s[j]] -= 1
+                    if hashmap[s[j]] >= 0: count -= 1
+            else:
+                i += 1
+                if i < len(s) and s[i] in hashmap.keys():
+                    hashmap[s[i]] += 1
+                    if hashmap[s[i]] > 0: count += 1
+
+        return s[left: right + 1]
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1948,7 +1970,8 @@ if __name__ == "__main__":
     print(S.splitArray([1, 4, 4], 3))
 
     #  312(hard)
-    print("-------------------------------------------------------------")
     print(S.maxCoins([3, 1, 5, 8]))
     print(S.maxCoins([1, 5]))
+
+    #  76(hard)
     print("-------------------------------------------------------------")
