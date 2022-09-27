@@ -1455,17 +1455,13 @@ class Solution:
     #  403(hard)
     def canCross(self, stones: List[int]) -> bool:
         @cache
-        def dfsHelper(pos, steps):
-            if pos == stones[-1]:
-                return True
-            if pos not in stones_set or steps < 1:
-                return False
-            for step in range(steps - 1, steps + 2):
-                if dfsHelper(pos + step, step): return True
-            return False
-
-        stones_set = set(stones)
-        return dfsHelper(1, 1) if stones[1] == 1 else False
+        def dfs( pos, jumps ):
+            if pos == stones[-1]: return True
+            for nextJump in [jumps - 1, jumps, jumps + 1]:
+                if nextJump > 0 and pos + nextJump in stonesSet:
+                    if dfs(pos + nextJump, nextJump): return True
+        stonesSet = set(stones)
+        return dfs(0, 0)
 
     #  621(medium)
     def leastInterval(self, tasks: List[str], n: int) -> int:
