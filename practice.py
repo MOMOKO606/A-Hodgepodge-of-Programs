@@ -1581,6 +1581,25 @@ class Solution:
 
         return s[left: right + 1]
 
+    #  552(hard)
+    def checkRecord(self, n: int) -> int:
+        @cache
+        def helper( hasA, twoL, i ):
+            if i > n: return 1
+            count = 0
+            #  Choose P
+            count += helper( hasA, 0, i + 1)
+            #  Choose A
+            if not hasA:
+                count += helper( True, 0, i + 1)
+            #  Choose L
+            if twoL < 2:
+                count += helper( hasA, twoL + 1, i + 1)
+            return count
+        return helper(False, 0, 1)
+
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -1970,4 +1989,10 @@ if __name__ == "__main__":
     print(S.maxCoins([1, 5]))
 
     #  76(hard)
+    #  552(hard)
     print("-------------------------------------------------------------")
+    print(S.checkRecord(2))
+    print(S.checkRecord(1))
+    print(S.checkRecord(10101))
+    print("-------------------------------------------------------------")
+
