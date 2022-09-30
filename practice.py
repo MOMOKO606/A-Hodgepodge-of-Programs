@@ -1583,22 +1583,26 @@ class Solution:
 
     #  552(hard)
     def checkRecord(self, n: int) -> int:
-        @cache
-        def helper( hasA, twoL, i ):
-            if i > n: return 1
-            count = 0
-            #  Choose P
-            count += helper( hasA, 0, i + 1)
-            #  Choose A
-            if not hasA:
-                count += helper( True, 0, i + 1)
-            #  Choose L
-            if twoL < 2:
-                count += helper( hasA, twoL + 1, i + 1)
-            return count
-        return helper(False, 0, 1)
-
-
+        #  dp[i][j] means the #records ends at ith postion of n with case j.
+        #  dp[i][0] without A, ends with a A            dp[i - 1][1], dp[i - 1][2], dp[i - 1][3]
+        #  dp[i][1] without A, ends with a P            dp[i - 1][1], dp[i - 1][2], dp[i - 1][3]
+        #  dp[i][2] without A, ends with a L            dp[i - 1][1]
+        #  dp[i][3] without A, ends with a LL           dp[i - 1][2]
+        #  dp[i][4] with a A already, ends with a P     dp[i - 1][0], dp[i - 1][4], dp[i - 1][5], dp[i - 1][6]
+        #  dp[i][5] with a A already, ends with a L     dp[i - 1][0], dp[i - 1][4]
+        #  dp[i][6] with a A already, ends with a LL    dp[i - 1][5]
+        MOD = 1000000007
+        dp = [[0] * 7 for _ in range(n)]
+        dp[0][0], dp[0][1], dp[0][2] = 1, 1, 1
+        for i in range(1, n):
+            dp[i][0] = (dp[i - 1][1] + dp[i - 1][2] + dp[i - 1][3]) % MOD
+            dp[i][1] = (dp[i - 1][1] + dp[i - 1][2] + dp[i - 1][3]) % MOD
+            dp[i][2] = (dp[i - 1][1])
+            dp[i][3] = (dp[i - 1][2])
+            dp[i][4] = (dp[i - 1][0] + dp[i - 1][4] + dp[i - 1][5] + dp[i - 1][6]) % MOD
+            dp[i][5] = (dp[i - 1][0] + dp[i - 1][4]) % MOD
+            dp[i][6] = (dp[i - 1][5])
+        return sum(dp[n - 1][j] for j in range(7)) % MOD
 
 
 if __name__ == "__main__":
