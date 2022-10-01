@@ -1465,21 +1465,22 @@ class Solution:
 
     #  621(medium)
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        ans, heap = 0, []
-        for task, freq in collections.Counter(tasks).items():
-            heappush(heap, (-freq, task))
+        heap, ans = [], 0
+        for freq in Counter(tasks).values():
+            heappush(heap, -freq)
         while heap:
             count, nextHeap = 0, []
-            while heap and count < n + 1:
-                freq, task = heappop(heap)
-                freq += 1
+            while count <= n:
+                if not heap and not nextHeap: return ans
+                if heap:
+                    freq = heappop(heap)
+                    freq += 1
+                    if freq != 0:
+                        heappush(nextHeap, freq)
                 count += 1
                 ans += 1
-                if freq != 0:
-                    nextHeap.append((freq, task))
-            if nextHeap and count < n + 1: ans += n + 1 - count
-            for freq, task in nextHeap:
-                heappush(heap, (freq, task))
+            for node in nextHeap:
+                heappush(heap, node)
         return ans
 
     #  647(medium)
