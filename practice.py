@@ -1656,6 +1656,9 @@ class Solution:
     #  212(hard)
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         #  The dfs helper function.
+        #  Key idea of the optimization: once we found an answer, delete it from the Trie.
+        #  Step1. delete the {"#":0} -> {}
+        #  Step2. In the previous level, delete { letter:{} }
         def dfs(i, j, node, curWord):
             if "#" in node.keys():
                 ans.add(curWord)
