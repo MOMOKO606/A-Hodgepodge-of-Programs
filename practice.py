@@ -109,6 +109,34 @@ class NumMatrix:
         return dp[row2 + 1][col2 + 1] - dp[row2 + 1][col1] - dp[row1][col2 + 1] + dp[row1][col1]
 
 
+#  208(medium)
+class Trie:
+
+    def __init__(self):
+        self.root = {}
+
+    def insert(self, word: str) -> None:
+        node = self.root
+        for char in word:
+            node[char] = node.get(char, {})
+            node = node[char]
+        node["#"] = "#"
+
+    def search(self, word: str) -> bool:
+        node = self.root
+        for char in word:
+            if char not in node.keys(): return False
+            node = node[char]
+        return "#" in node.keys()
+
+    def startsWith(self, prefix: str) -> bool:
+        node = self.root
+        for char in prefix:
+            if char not in node.keys(): return False
+            node = node[char]
+        return True
+
+
 class Solution:
     #  1137. N-th Tribonacci Number(easy)
     def tribonacci(self, n: int) -> int:
@@ -1606,6 +1634,8 @@ class Solution:
         return sum(dp[n - 1][j] for j in range(7)) % MOD
 
 
+
+
 if __name__ == "__main__":
     S = Solution()
 
@@ -1995,9 +2025,10 @@ if __name__ == "__main__":
 
     #  76(hard)
     #  552(hard)
-    print("-------------------------------------------------------------")
     print(S.checkRecord(2))
     print(S.checkRecord(1))
     print(S.checkRecord(10101))
+
     print("-------------------------------------------------------------")
+    #  208
 
