@@ -1483,11 +1483,12 @@ class Solution:
     #  403(hard)
     def canCross(self, stones: List[int]) -> bool:
         @cache
-        def dfs( pos, jumps ):
+        def dfs(pos, jumps):
             if pos == stones[-1]: return True
             for nextJump in [jumps - 1, jumps, jumps + 1]:
                 if nextJump > 0 and pos + nextJump in stonesSet:
                     if dfs(pos + nextJump, nextJump): return True
+
         stonesSet = set(stones)
         return dfs(0, 0)
 
@@ -1633,7 +1634,24 @@ class Solution:
             dp[i][6] = (dp[i - 1][5])
         return sum(dp[n - 1][j] for j in range(7)) % MOD
 
+    #  79(medium)
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        def helper(i, j, k):
+            if k == n: return True
+            if not (0 <= i < rows and 0 <= j < cols and board[i][j] == word[k]):
+                return False
+            ori = board[i][j]
+            board[i][j] = "#"
+            for dx, dy in [(0, 1), (0, -1), (-1, 0), (1, 0)]:
+                if helper(i + dx, j + dy, k + 1): return True
+            board[i][j] = ori
+            return False
 
+        rows, cols, n = len(board), len(board[0]), len(word)
+        for i in range(rows):
+            for j in range(cols):
+                if helper(i, j, 0): return True
+        return False
 
 
 if __name__ == "__main__":
@@ -2029,6 +2047,9 @@ if __name__ == "__main__":
     print(S.checkRecord(1))
     print(S.checkRecord(10101))
 
-    print("-------------------------------------------------------------")
     #  208
-
+    print("-------------------------------------------------------------")
+    #  79
+    print(S.exsit([["A", "B", "C", "E"], ["S", "F", "E", "S"], ["A", "D", "E", "E"]],
+    "ABCESEEEFS"))
+    print("-------------------------------------------------------------")
