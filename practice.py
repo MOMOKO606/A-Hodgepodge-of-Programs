@@ -1653,6 +1653,39 @@ class Solution:
                 if helper(i, j, 0): return True
         return False
 
+    #  212(hard)
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        #  The dfs helper function.
+        def dfs(i, j, node, curWord):
+            if "#" in node.keys():
+                ans.add(curWord)
+                del node["#"]
+            if not (0 <= i < rows and 0 <= j < cols and board[i][j] in node.keys()):
+                return
+            ori = board[i][j]
+            board[i][j] = "$"
+            for di, dj in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                dfs(i + di, j + dj, node[ori], curWord + ori)
+            board[i][j] = ori
+            if not node[ori]: del node[ori]
+
+        #  Build the Trie
+        node = trie = {}
+        for word in words:
+            for char in word:
+                node[char] = node.get(char, {})
+                node = node[char]
+            node["#"] = 0
+            node = trie
+
+        #  Search the whole board to start
+        rows, cols, ans = len(board), len(board[0]), set()
+        for i in range(rows):
+            for j in range(cols):
+                root = trie
+                dfs(i, j, root, "")
+        return list(ans)
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2050,6 +2083,6 @@ if __name__ == "__main__":
     #  208
     print("-------------------------------------------------------------")
     #  79
-    print(S.exsit([["A", "B", "C", "E"], ["S", "F", "E", "S"], ["A", "D", "E", "E"]],
+    print(S.exist([["A", "B", "C", "E"], ["S", "F", "E", "S"], ["A", "D", "E", "E"]],
     "ABCESEEEFS"))
     print("-------------------------------------------------------------")
