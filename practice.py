@@ -1689,6 +1689,22 @@ class Solution:
                 dfs(i, j, root, "")
         return list(ans)
 
+    #  547(medium)
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        def helper(i, j):
+            if not (0 <= i < n and 0 <= j < n and isConnected[i][j]): return 0
+            isConnected[i][j] = 0
+            for k in range(n):
+                helper(k, j)
+                helper(i, k)
+            return 1
+
+        n, ans = len(isConnected), 0
+        for i in range(n):
+            for j in range(n):
+                ans += helper(i, j)
+        return ans
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2083,9 +2099,12 @@ if __name__ == "__main__":
     print(S.checkRecord(1))
     print(S.checkRecord(10101))
 
-    #  208
-    print("-------------------------------------------------------------")
-    #  79
+    #  208(medium)
+    #  79(medium)
     print(S.exist([["A", "B", "C", "E"], ["S", "F", "E", "S"], ["A", "D", "E", "E"]],
     "ABCESEEEFS"))
+
+    #  212(hard)
+    #  547(medium)
     print("-------------------------------------------------------------")
+
