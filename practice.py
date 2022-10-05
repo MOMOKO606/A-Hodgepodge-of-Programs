@@ -1691,18 +1691,32 @@ class Solution:
 
     #  547(medium)
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        def helper(i, j):
-            if not (0 <= i < n and 0 <= j < n and isConnected[i][j]): return 0
-            isConnected[i][j] = 0
-            for k in range(n):
-                helper(k, j)
-                helper(i, k)
-            return 1
+        def _parent(i):
+            node = i
+            while p[node] != node:
+                node = p[node]
+            root, node = node, i
+            while p[node] != root:
+                nextNode = p[node]
+                root = p[node]
+                node = nextNode
+            return root
 
+        def _union(i, j):
+            p1 = _parent(i)
+            p2 = _parent(j)
+            p[p2] = p1
+
+        # Initialize the disjoint set.
         n, ans = len(isConnected), 0
+        p = [i for i in range(n)]
+
         for i in range(n):
             for j in range(n):
-                ans += helper(i, j)
+                if i != j and isConnected[i][j]:
+                    _union(i, j)
+        for i in range(n):
+            if p[i] == i: ans += 1
         return ans
 
 
