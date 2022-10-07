@@ -1744,6 +1744,25 @@ class Solution:
                 elif board[i][j] == "O":
                     board[i][j] = "X"
 
+    #  36(medium)
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        rows = [set(range(1, 10)) for _ in range(9)]
+        cols = [set(range(1, 10)) for _ in range(9)]
+        blocks = [set(range(1,10)) for _ in range(9)]
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == ".": continue
+                pivot = int(board[i][j])
+                k = (i // 3) * 3 + j // 3
+                if pivot not in rows[i]: return False
+                if pivot not in cols[j]: return False
+                if pivot not in blocks[k]: return False
+                rows[i].remove(pivot)
+                cols[j].remove(pivot)
+                blocks[k].remove(pivot)
+        return True
+    #  37(hard)
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2146,5 +2165,7 @@ if __name__ == "__main__":
     #  212(hard)
     #  547(medium)
     #  130(medium)
+    #  36(medium)
+    #  37(hard)
     print("-------------------------------------------------------------")
 
