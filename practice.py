@@ -1761,7 +1761,44 @@ class Solution:
                 cols[j].remove(pivot)
                 blocks[k].remove(pivot)
         return True
+
     #  37(hard)
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+
+        def _helper(iter=0):
+            if iter == len(remain): return True
+            (i, j) = remain[iter]
+            k = (i // 3) * 3 + j // 3
+            for val in (rows[i] & cols[j] & blocks[k]):
+                board[i][j] = str(val)
+                rows[i].remove(val)
+                cols[j].remove(val)
+                blocks[k].remove(val)
+
+                if _helper(iter + 1): return True
+
+                rows[i].add(val)
+                cols[j].add(val)
+                blocks[k].add(val)
+                board[i][j] = "."
+
+        rows = [set(range(1, 10)) for _ in range(9)]
+        cols = [set(range(1, 10)) for _ in range(9)]
+        blocks = [set(range(1, 10)) for _ in range(9)]
+        remain = []
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == ".":
+                    remain.append((i, j))
+                    continue
+                key, k = int(board[i][j]), (i // 3) * 3 + j // 3
+                rows[i].remove(key)
+                cols[j].remove(key)
+                blocks[k].remove(key)
+        _helper()
 
 
 if __name__ == "__main__":
