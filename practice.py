@@ -1800,6 +1800,19 @@ class Solution:
                 blocks[k].remove(key)
         _helper()
 
+    #  1091(medium)
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        if grid[0][0] or grid[-1][-1]: return -1
+        queue, n = [(0, 0, 1)], len(grid)
+        for i, j, levels in queue:
+            if i == j == n - 1: return levels
+            for di, dj in [[i, j - 1], [i, j + 1], [i - 1, j], [i + 1, j], [i - 1, j - 1], [i + 1, j - 1],
+                           [i - 1, j + 1], [i + 1, j + 1]]:
+                if not (0 <= di < n and 0 <= dj < n and grid[di][dj] == 0): continue
+                grid[di][dj] = 1
+                queue += [(di, dj, levels + 1)]
+        return -1
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2204,5 +2217,6 @@ if __name__ == "__main__":
     #  130(medium)
     #  36(medium)
     #  37(hard)
+    #  1091（medium)
     print("-------------------------------------------------------------")
 
