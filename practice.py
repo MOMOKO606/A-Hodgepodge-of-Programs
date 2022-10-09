@@ -1813,6 +1813,27 @@ class Solution:
                 queue += [(di, dj, levels + 1)]
         return -1
 
+    #  773(hard)
+    def slidingPuzzle(self, board: List[List[int]]) -> int:
+        moves = [[1, 3], [0, 2, 4], [1, 5], [0, 4], [1, 3, 5], [2, 4]]
+        board = board[0] + board[1]
+        s = "".join(str(char) for char in board)
+        queue, levels, visited = [board], 0, set([s])
+        while queue:
+            nextQueue = []
+            for board in queue:
+                if board == [1, 2, 3, 4, 5, 0]: return levels
+                index = board.index(0)
+                for move in moves[index]:
+                    newBoard = board[:]
+                    newBoard[index], newBoard[move] = newBoard[move], newBoard[index]
+                    if "".join(str(char) for char in newBoard) in visited: continue
+                    visited.add("".join(str(char) for char in newBoard))
+                    nextQueue += [newBoard]
+            queue = nextQueue
+            levels += 1
+        return -1
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2218,5 +2239,6 @@ if __name__ == "__main__":
     #  36(medium)
     #  37(hard)
     #  1091（medium)
+    #  773（hard)
     print("-------------------------------------------------------------")
 
