@@ -1834,6 +1834,14 @@ class Solution:
             levels += 1
         return -1
 
+    #  191(easy)
+    def hammingWeight(self, n: int) -> int:
+        count = 0
+        while n:
+            n = n & (n - 1)
+            count += 1
+        return count
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2240,5 +2248,6 @@ if __name__ == "__main__":
     #  37(hard)
     #  1091（medium)
     #  773（hard)
+    #  191(easy)
     print("-------------------------------------------------------------")
 
