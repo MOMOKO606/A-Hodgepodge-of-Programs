@@ -1846,6 +1846,14 @@ class Solution:
     def isPowerOfTwo(self, n: int) -> bool:
         return n and not (n & (n - 1))
 
+    #  190(easy)
+    def reverseBits(self, n: int) -> int:
+        ans = 0
+        for _ in range(32):
+            ans = (ans << 1) + (n & 1)
+            n = n >> 1
+        return ans
+
 
 
 if __name__ == "__main__":
@@ -2255,5 +2263,6 @@ if __name__ == "__main__":
     #  773（hard)
     #  191(easy)
     #  231(easy)
+    #  190(easy)
     print("-------------------------------------------------------------")
 
