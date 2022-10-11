@@ -1842,6 +1842,11 @@ class Solution:
             count += 1
         return count
 
+    #  231(easy)
+    def isPowerOfTwo(self, n: int) -> bool:
+        return n and not (n & (n - 1))
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2249,5 +2254,6 @@ if __name__ == "__main__":
     #  1091（medium)
     #  773（hard)
     #  191(easy)
+    #  231(easy)
     print("-------------------------------------------------------------")
 
