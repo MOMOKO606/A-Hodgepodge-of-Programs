@@ -1869,6 +1869,14 @@ class Solution:
         helper()
         return self.count
 
+    #  338(easy)
+    def countBits(self, n: int) -> List[int]:
+        ans = [0] * (n + 1)
+        for i in range(1, n + 1):
+            ans[i] = ans[i & (i - 1)] + 1
+        return ans
+
+
 
 
 if __name__ == "__main__":
@@ -2280,5 +2288,6 @@ if __name__ == "__main__":
     #  231(easy)
     #  190(easy)
     #  52(hard)
+    #  338(easy)
     print("-------------------------------------------------------------")
 
