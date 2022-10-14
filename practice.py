@@ -1854,6 +1854,21 @@ class Solution:
             n = n >> 1
         return ans
 
+    #  52(hard)
+    def totalNQueens(self, n: int) -> int:
+        def helper(i=0, cols=0, diags=0, backDiags=0):
+            if i == n:
+                self.count += 1
+                return
+            bits = ~(cols | diags | backDiags) & (1 << n) - 1
+            while bits:
+                p = bits & -bits
+                bits = bits & (bits - 1)
+                helper(i + 1, cols | p, (diags | p) >> 1, (backDiags | p) << 1)
+        self.count = 0
+        helper()
+        return self.count
+
 
 
 if __name__ == "__main__":
@@ -2264,5 +2279,6 @@ if __name__ == "__main__":
     #  191(easy)
     #  231(easy)
     #  190(easy)
+    #  52(hard)
     print("-------------------------------------------------------------")
 
