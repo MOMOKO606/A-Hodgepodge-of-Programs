@@ -3,8 +3,11 @@ from bisect import bisect_left, insort
 from functools import cache
 from typing import List, Optional
 from Solution import deserialize, drawtree
+from bitarray import bitarray
+from collections import Counter
 import math
 import collections
+import mmh3
 
 
 class ListNode:
@@ -78,6 +81,35 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
         ans.append(cur.val)
         cur = cur.next
     return ans
+
+#  Bloom Filter满足2个功能：
+#  1. 添加字符串；
+#  2. 查找字符串；
+#  创建一个Bloom Filter需要2个基本参数：
+#  1. 能hash的maximum二进制位数；
+#  2. 每个输入字符串被hash成几位bits。
+#  因此需要2个库：bitarray和mmh3
+class BloomFilter:
+    def __init__(self, size, hash_num):
+        self.size = size
+        self.hash_num = hash_num
+        self.bit_array = bitarray(size)
+        self.bit_array.setall(0)
+
+    def add(self, string):
+        for seed in range(self.hash_num):
+            index = mmh3.hash(string, seed) % self.size
+            self.bit_array[index] = 1
+
+    def lookup(self, string):
+        for seed in range(self.hash_num):
+            index = mmh3.hash(string, seed) % self.size
+            if not self.bit_array[index]: return "Nope"
+        return "Probably"
+
+
+
+
 
 
 #  303(easy)
@@ -1879,6 +1911,9 @@ class Solution:
 
 
 
+
+
+
 if __name__ == "__main__":
     S = Solution()
 
@@ -2290,4 +2325,9 @@ if __name__ == "__main__":
     #  52(hard)
     #  338(easy)
     print("-------------------------------------------------------------")
+    #  Bloom Filter
+    bf = BloomFilter(500000, 7)
+    bf.add("BianLong")
+    print(bf.lookup("BianLong"))
+    print(bf.lookup("LiuYing"))
 
