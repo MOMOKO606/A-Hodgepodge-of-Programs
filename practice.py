@@ -121,15 +121,83 @@ class LRUCache:
         return ans
 
     def put(self, key: int, value: int) -> None:
+        #  key存在的case
         if key in self.od:
             self.od.move_to_end(key)
+        #  key不存在，还有capacity的case
         elif self.capacity:
             self.capacity -= 1
+        #  key不存在，且没有capacity的case
         else:
             self.od.popitem(False)
         self.od[key] = value
 
+#  146(medium)
+class DLLNode2:
+    # 正常的Double Linked List是不用key的，只有value，prev & next指针即可；
+    # 此处因为题目需要每个node要有key和value；
+    # 且需要O(1)找到node，所以才需要hashmap的技术处理，即hashmap[key] = node
+    def __init__(self, key=0, value=0, prev=None, next=None):
+        self.key, self.value = key, value
+        self.prev, self.next = prev, next
 
+# You should set the item to the newest(tail) when successfully called the get / put method.
+# hashmap[key1], ..., hashmap[key2]
+#  |  , ...           , |
+# head --------------> node-----------> tail(always empty)
+class LRUCache2:
+    def __init__(self, capacity: int):
+        self.capacity, self.hashmap = capacity, {}
+        self.head = self.tail = DLLNode2()
+
+    #  Add a node to the tail(right)
+    def addNode(self, key, value):
+        #  Put key-value into the tail and update the hashmap.
+        self.tail.key, self.tail.value = key, value
+        self.hashmap[key] = self.tail
+        #  Set up a new tail
+        newTail = DLLNode2(0, 0, self.tail, None)
+        self.tail.next = newTail
+        #  Move tail to the new tail.
+        self.tail = newTail
+
+    #  Pop a node
+    def popNode(self, key):
+        #  Find the node through hashmap
+        node = self.hashmap[key]
+        #  Delete the node from hashmap
+        self.hashmap.pop(key)
+        #  Relink the linked list
+        prev, next = node.prev, node.next
+        if prev: prev.next = next
+        if next: next.prev = prev
+        #  Remenber to move the head if the node is head.
+        if node == self.head:
+            self.head = next
+
+    #  Find a node and set it to the tail.
+    #  Then return the value of the node.
+    def get(self, key: int) -> int:
+        if key not in self.hashmap:
+            return - 1
+        value = self.hashmap[key].value
+        self.popNode(key)
+        self.addNode(key, value)
+        return value
+
+    #  Add/Update a node and set it to the tail.
+    #  Pop the head if the cache is full.
+    def put(self, key: int, value: int) -> None:
+        if key in self.hashmap:
+            self.popNode(key)
+        elif self.capacity:
+            self.capacity -= 1
+        else:
+            # Pop the head
+            self.hashmap.pop(self.head.key)
+            self.head = self.head.next
+            self.head.prev = None
+        self.addNode(key, value)
 
 
 #  303(easy)
@@ -2351,4 +2419,16 @@ if __name__ == "__main__":
     print(bf.lookup("LiuYing"))
     #  Leetcode(146)
     print("-------------------------------------------------------------")
+    lRUCache = LRUCache2(2)
+    lRUCache.put(1, 1)
+    lRUCache.put(2, 2)
+    print(lRUCache.get(1))
+    lRUCache.put(3, 3)
+    print(lRUCache.get(2))
+    lRUCache.put(4, 4)
+    print(lRUCache.get(1))
+    print(lRUCache.get(3))
+    print(lRUCache.get(4))
+
+
 
