@@ -88,7 +88,7 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
 #  创建一个Bloom Filter需要2个基本参数：
 #  1. 能hash的maximum二进制位数；
 #  2. 每个输入字符串被hash成几位bits。
-#  因此需要2个库：bitarray和mmh3
+#  因此需要2个库：bitarray和mmh3 (bitarray也可以list创建)。
 class BloomFilter:
     def __init__(self, size, hash_num):
         self.size = size
@@ -108,6 +108,26 @@ class BloomFilter:
         return "Probably"
 
 
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.od = collections.OrderedDict()
+
+    def get(self, key: int) -> int:
+        ans = self.od.get(key, -1)
+        if ans != -1:
+            #  最左端表示最老的，最右端 = 栈顶 = (last == True) 最新的
+            self.od.move_to_end(key)
+        return ans
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.od:
+            self.od.move_to_end(key)
+        elif self.capacity:
+            self.capacity -= 1
+        else:
+            self.od.popitem(False)
+        self.od[key] = value
 
 
 
@@ -2324,10 +2344,11 @@ if __name__ == "__main__":
     #  190(easy)
     #  52(hard)
     #  338(easy)
-    print("-------------------------------------------------------------")
     #  Bloom Filter
     bf = BloomFilter(500000, 7)
     bf.add("BianLong")
     print(bf.lookup("BianLong"))
     print(bf.lookup("LiuYing"))
+    #  Leetcode(146)
+    print("-------------------------------------------------------------")
 
