@@ -1,4 +1,4 @@
-from heapq import heappush, heappop
+from heapq import heappush, heappop, heapify
 from bisect import bisect_left, insort
 from functools import cache
 from typing import List, Optional
@@ -8,6 +8,86 @@ from collections import Counter
 import math
 import collections
 import mmh3
+
+class Sort:
+    def __init__(self, nums):
+        self.nums = nums
+
+    #  遍历n遍数组，每次遍历只要碰到2个元素是逆序就交换它们。
+    #  本质上经过每轮交换逆序的操作后就能确定一个最大值，即确定最大值、第二大值、第三大值的过程。
+    def bubbleSort(self):
+        nums = self.nums
+        for i in range(len(nums)):
+            for j in range(len(nums) - i - 1):
+                if nums[j] > nums[j + 1]:
+                    nums[j], nums[j + 1] = nums[j + 1], nums[j]
+        self.nums = nums
+
+    def selectionSort(self):
+        nums = self.nums
+        for i in range(len(nums) - 1):
+            smallest = nums[i]
+            for j in range(i + 1, len(nums)):
+                if nums[j] < smallest:
+                    smallest, index = nums[j], j
+            nums[i], nums[index] = nums[index], nums[i]
+        self.nums = nums
+
+    def insertionSort(self):
+        nums = self.nums
+        for i in range(1, len(nums)):
+            j, pivot = i - 1, nums[i]
+            while j >= 0 and nums[j] > pivot:
+                nums[j + 1] = nums[j]
+                j = j - 1
+            nums[j + 1] = pivot
+        self.nums = nums
+
+    def quickSort(self):
+        def _partition(low, high):
+            pivot, i = self.nums[high], low - 1
+            for j in range(low, high):
+                if self.nums[j] <= pivot:
+                    i += 1
+                    self.nums[i], self.nums[j] = self.nums[j], self.nums[i]
+            self.nums[i + 1], self.nums[high] = self.nums[high], self.nums[i + 1]
+            return i + 1
+
+        def _quickSort(low, high):
+            if low < high:
+                mid = _partition(low, high)
+                _quickSort(low, mid - 1)
+                _quickSort(mid + 1, high)
+        _quickSort(0, len(self.nums) - 1)
+
+    def mergeSort(self):
+        def _mergeSort(low, high):
+            if low < high:
+                mid = (low + high) >> 1
+                _mergeSort(low, mid)
+                _mergeSort(mid + 1, high)
+                _merge(low, mid, high)
+
+        def _merge(low, mid, high):
+            l = [self.nums[j] for j in range(low, mid + 1)] + [math.inf]
+            r = [self.nums[j] for j in range(mid + 1, high + 1)] + [math.inf]
+            i, j = 0, 0
+            for k in range(low, high + 1):
+                if l[i] <= r[j]:
+                    self.nums[k] = l[i]
+                    i += 1
+                else:
+                    self.nums[k] = r[j]
+                    j += 1
+        _mergeSort(0, len(self.nums) - 1)
+
+    def heapSort(self):
+        sortedNums = []
+        #  Make your heap
+        heapify(self.nums)
+        while self.nums:
+            sortedNums += [heappop(self.nums)]
+        self.nums = sortedNums
 
 
 class ListNode:
@@ -2412,13 +2492,14 @@ if __name__ == "__main__":
     #  190(easy)
     #  52(hard)
     #  338(easy)
+
     #  Bloom Filter
     bf = BloomFilter(500000, 7)
     bf.add("BianLong")
     print(bf.lookup("BianLong"))
     print(bf.lookup("LiuYing"))
+
     #  Leetcode(146)
-    print("-------------------------------------------------------------")
     lRUCache = LRUCache2(2)
     lRUCache.put(1, 1)
     lRUCache.put(2, 2)
@@ -2429,6 +2510,11 @@ if __name__ == "__main__":
     print(lRUCache.get(1))
     print(lRUCache.get(3))
     print(lRUCache.get(4))
+    print("-------------------------------------------------------------")
+    x = Sort([5,2,7,1,4,2,0,9,8,10])
+    x.heapSort()
+    print(x.nums)
+    print("-------------------------------------------------------------")
 
 
 
