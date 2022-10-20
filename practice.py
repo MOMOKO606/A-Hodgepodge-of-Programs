@@ -2076,6 +2076,20 @@ class Solution:
             ans[i] = ans[i >> 1] + (i & 1)
         return ans
 
+    #  1122(easy)
+    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+        ans, remain, hashmap = [], [], {}
+        for num in arr2: hashmap[num] = 0
+        for num in arr1:
+            if num in hashmap:
+                hashmap[num] += 1
+            else:
+                remain.append(num)
+        for num in arr2:
+            ans += [num] * hashmap[num]
+        remain.sort()
+        return ans + remain
+
 
 
 
@@ -2510,10 +2524,17 @@ if __name__ == "__main__":
     print(lRUCache.get(1))
     print(lRUCache.get(3))
     print(lRUCache.get(4))
-    print("-------------------------------------------------------------")
+
     x = Sort([5,2,7,1,4,2,0,9,8,10])
     x.heapSort()
     print(x.nums)
+
+    print("-------------------------------------------------------------")
+    #  1122(easy)
+    #  242(easy)
+    #  1244(medium)
+    #  56(medium)
+    #  493(hard)
     print("-------------------------------------------------------------")
 
 
