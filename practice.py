@@ -2090,6 +2090,21 @@ class Solution:
         remain.sort()
         return ans + remain
 
+    #  1244(medium)
+    class Leaderboard:
+
+        def __init__(self):
+            self.hashmap = {}
+
+        def addScore(self, playerId: int, score: int) -> None:
+            self.hashmap[playerId] = self.hashmap.get(playerId, 0) + score
+
+        def top(self, K: int) -> int:
+            return sum(sorted(self.hashmap.values(), reverse=True)[:K])
+
+        def reset(self, playerId: int) -> None:
+            self.hashmap.pop(playerId)
+
 
 
 
