@@ -2105,6 +2105,21 @@ class Solution:
         def reset(self, playerId: int) -> None:
             self.hashmap.pop(playerId)
 
+    #  56(medium)
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        #  Step1. sort the intervals using their left boundaries.
+        intervals = sorted(intervals, key=lambda x: x[0])
+        #  Step2. Look through the sorted intervals and merge overlapped intervals.
+        left, right, ans = intervals[0][0], intervals[0][1], []
+        for i in range(1, len(intervals)):
+            #  Update the right boundary.
+            if intervals[i][0] <= right and intervals[i][1] > right:
+                right = intervals[i][1]
+            elif intervals[i][0] > right:
+                ans += [[left, right]]
+                left, right = intervals[i][0], intervals[i][1]
+        return ans + [[left, right]]
+
 
 
 
