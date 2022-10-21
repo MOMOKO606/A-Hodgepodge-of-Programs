@@ -2120,10 +2120,45 @@ class Solution:
                 left, right = intervals[i][0], intervals[i][1]
         return ans + [[left, right]]
 
+    #  493(hard)
+    def reversePairs(self, nums: List[int]) -> int:
+        def _getReverses(low, high):
+            ans = 0
+            if low < high:
+                mid = (low + high) >> 1
+                ans += _getReverses(low, mid)
+                ans += _getReverses(mid + 1, high)
+                ans += _crossReverses(low, mid, high)
+            return ans
 
+        def _crossReverses(low, mid, high):
+            l = [nums[i] for i in range(low, mid + 1)]
+            r = [nums[i] for i in range(mid + 1, high + 1)]
 
+            #  Count the reverses
+            i, j, counts = 0, 0, 0
+            while i < len(l) and j < len(r):
+                while i < len(l) and l[i] <= 2 * r[j]:
+                    i += 1
+                else:
+                    if i == len(l): break
+                    counts += len(l) - i
+                    j += 1
 
+            #  Merge l and r
+            l.append(math.inf)
+            r.append(math.inf)
+            i, j = 0, 0
+            for k in range(low, high + 1):
+                if l[i] <= r[j]:
+                    nums[k] = l[i]
+                    i += 1
+                else:
+                    nums[k] = r[j]
+                    j += 1
+            return counts
 
+        return _getReverses(0, len(nums) - 1)
 
 
 if __name__ == "__main__":
@@ -2543,7 +2578,7 @@ if __name__ == "__main__":
     print(bf.lookup("BianLong"))
     print(bf.lookup("LiuYing"))
 
-    #  Leetcode(146)
+    #  146(medium)
     lRUCache = LRUCache2(2)
     lRUCache.put(1, 1)
     lRUCache.put(2, 2)
