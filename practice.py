@@ -622,6 +622,25 @@ class Solution:
             stack.append((i, height))
         return largest
 
+    #  85(hard)
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        def helper(nums):
+            stack, area = [[-1, -1]], -math.inf
+            nums.append(-1)
+            for i, num in enumerate(nums):
+                while num < stack[-1][1]:
+                    area = max(area, stack.pop()[1] * (i - stack[-1][0] - 1))
+                stack.append([i, num])
+            return area
+
+        rows, cols, ans = len(matrix), len(matrix[0]), -math.inf
+        bars = [0] * cols
+        for i in range(rows):
+            for j in range(cols):
+                bars[j] = 0 if matrix[i][j] == "0" else bars[j] + 1
+            ans = max(ans, helper(bars[:]))
+        return ans
+
     #  239 (hard)
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         ans, deque = [], collections.deque()
@@ -2609,6 +2628,7 @@ if __name__ == "__main__":
     #  56(medium)
     #  493(hard)
     #  746(easy)
+    #  85(hard)
     print("-------------------------------------------------------------")
 
 
