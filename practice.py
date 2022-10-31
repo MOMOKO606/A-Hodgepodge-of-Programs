@@ -2188,6 +2188,17 @@ class Solution:
 
         return helper(len(cost))
 
+    #  300(medium)
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = []
+        for num in nums:
+            index = bisect_left(dp, num)
+            if index == len(dp):
+                dp.append(num)
+            else:
+                dp[index] = num
+        return len(dp)
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2629,6 +2640,7 @@ if __name__ == "__main__":
     #  493(hard)
     #  746(easy)
     #  85(hard)
+    #  300(medium)
     print("-------------------------------------------------------------")
 
 
