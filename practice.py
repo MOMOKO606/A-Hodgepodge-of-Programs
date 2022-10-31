@@ -2199,6 +2199,17 @@ class Solution:
                 dp[index] = num
         return len(dp)
 
+    #  115(hard)
+    def numDistinct(self, s: str, t: str) -> int:
+        rows, cols = len(s), len(t)
+        dp = [[0] * cols for _ in range(rows)]
+        for i in range(rows):
+            dp[i][0] = dp[i - 1][0] + 1 if s[i] == t[0] else dp[i - 1][0]
+        for i in range(rows):
+            for j in range(1, min(i + 1, cols)):
+                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j] if s[i] == t[j] else dp[i - 1][j]
+        return dp[-1][-1]
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2641,6 +2652,7 @@ if __name__ == "__main__":
     #  746(easy)
     #  85(hard)
     #  300(medium)
+    #  115(hard)
     print("-------------------------------------------------------------")
 
 
