@@ -2210,6 +2210,23 @@ class Solution:
                 dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j] if s[i] == t[j] else dp[i - 1][j]
         return dp[-1][-1]
 
+    #  818(hard)
+    def racecar(self, target: int) -> int:
+        queue, levels = [(0, 1)], 0
+        while queue:
+            nextQueue = []
+            for pos, speed in queue:
+                if pos == target: return levels
+                nextQueue.append((pos + speed, speed * 2))
+                if (pos + speed > target and speed > 0) or (pos + speed < target and speed < 0):
+                    nextQueue.append((pos, int(-speed/abs(speed))))
+            queue = nextQueue
+            levels += 1
+
+
+
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2653,6 +2670,7 @@ if __name__ == "__main__":
     #  85(hard)
     #  300(medium)
     #  115(hard)
+    #  818(hard)
     print("-------------------------------------------------------------")
 
 
