@@ -2223,6 +2223,12 @@ class Solution:
             queue = nextQueue
             levels += 1
 
+    #  709(easy)
+    def toLowerCase(self, s: str) -> str:
+        return s.lower()
+
+
+
 
 
 
