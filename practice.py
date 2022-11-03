@@ -2227,6 +2227,10 @@ class Solution:
     def toLowerCase(self, s: str) -> str:
         return s.lower()
 
+    #  58(easy)
+    def lengthOfLastWord(self, s: str) -> int:
+        return len(s.split()[-1])
+
 
 
 
@@ -2677,6 +2681,8 @@ if __name__ == "__main__":
     #  300(medium)
     #  115(hard)
     #  818(hard)
+    #  709(easy)
+    #  58(easy)
     print("-------------------------------------------------------------")
 
 
