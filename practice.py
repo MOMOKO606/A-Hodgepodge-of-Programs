@@ -2241,6 +2241,15 @@ class Solution:
                 count += 1
         return count
 
+    #  387(easy)
+    def firstUniqChar(self, s: str) -> int:
+        hashmap = collections.OrderedDict()
+        for c in s:
+            hashmap[c] = hashmap.get(c, 0) + 1
+        for key, val in hashmap.items():
+            if val == 1: return s.index(key)
+        return -1
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2688,6 +2697,7 @@ if __name__ == "__main__":
     #  709(easy)
     #  58(easy)
     #  771(easy)
+    #  387(easy)
     print("-------------------------------------------------------------")
 
 
