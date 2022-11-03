@@ -2250,6 +2250,32 @@ class Solution:
             if val == 1: return s.index(key)
         return -1
 
+    #  8(medium)
+    #  经常出错，注意各种极端输入
+    def myAtoi(self, s: str) -> int:
+        s = s.split()
+        if not s: return 0
+        #  Step1. 得到第一个字符串
+        chars = s[0]
+
+        #  Step2.
+        flag = 0  # 表示不是数字
+        if chars[0] == "-":
+            flag = -1
+        elif chars[0] == "+" or chars[0].isdecimal():
+            flag = 1
+        left = 1 if chars[0] == "+" or chars[0] == "-" else 0
+        right = len(chars) - 1
+
+        for i in range(left, len(chars)):
+            if not chars[i].isdecimal():
+                right = i - 1
+                break
+        if right < left:
+            return 0
+        else:
+            return sorted([-2 ** 31, int(chars[left: right + 1]) * flag, 2 ** 31 - 1])[1]
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2698,6 +2724,7 @@ if __name__ == "__main__":
     #  58(easy)
     #  771(easy)
     #  387(easy)
+    #  8(medium)
     print("-------------------------------------------------------------")
 
 
