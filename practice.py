@@ -2231,11 +2231,15 @@ class Solution:
     def lengthOfLastWord(self, s: str) -> int:
         return len(s.split()[-1])
 
-
-
-
-
-
+    #  771(easy)
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        hashmap, count = {}, 0
+        for jewel in jewels:
+            hashmap[jewel] = 1
+        for stone in stones:
+            if stone in hashmap.keys():
+                count += 1
+        return count
 
 
 if __name__ == "__main__":
@@ -2683,6 +2687,7 @@ if __name__ == "__main__":
     #  818(hard)
     #  709(easy)
     #  58(easy)
+    #  771(easy)
     print("-------------------------------------------------------------")
 
 
