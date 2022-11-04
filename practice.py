@@ -2278,13 +2278,26 @@ class Solution:
 
     #  14(easy)
     def longestCommonPrefix(self, strs: List[str]) -> str:
-        rows, cols, ans = len(strs), min([len(word) for word in strs]), 0
-        for j in range(cols):
-            for i in range(1, rows):
-                x, y, z = strs[i][j], strs[i - 1][j], strs[i][j] != strs[i - 1][j]
-                if strs[i][j] != strs[i - 1][j]: return strs[0][:ans]
+        #  Build the Trie
+        #  当读入空字符串时，Trie会直接存入"#": "#"
+        trie = {}
+        for word in strs:
+            node = trie
+            for char in word:
+                node[char] = node.get(char, {})
+                node = node[char]
+            node["#"] = "#"
+
+        # Find the longest common path.
+        ans, node = 0, trie
+        for char in strs[0]:
+            if len(node.values()) > 1: return strs[0][:ans]
             ans += 1
+            node = node[char]
+        #  如果输入数组中每个字符串都一样的情况
         return strs[0][:ans]
+
+
 
 
 if __name__ == "__main__":
