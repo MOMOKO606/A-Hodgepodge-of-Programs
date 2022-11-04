@@ -2276,6 +2276,16 @@ class Solution:
         else:
             return sorted([-2 ** 31, int(chars[left: right + 1]) * flag, 2 ** 31 - 1])[1]
 
+    #  14(easy)
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        rows, cols, ans = len(strs), min([len(word) for word in strs]), 0
+        for j in range(cols):
+            for i in range(1, rows):
+                x, y, z = strs[i][j], strs[i - 1][j], strs[i][j] != strs[i - 1][j]
+                if strs[i][j] != strs[i - 1][j]: return strs[0][:ans]
+            ans += 1
+        return strs[0][:ans]
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2725,6 +2735,7 @@ if __name__ == "__main__":
     #  771(easy)
     #  387(easy)
     #  8(medium)
+    #  14(easy)
     print("-------------------------------------------------------------")
 
 
