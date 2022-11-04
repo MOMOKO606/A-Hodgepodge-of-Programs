@@ -2297,7 +2297,16 @@ class Solution:
         #  如果输入数组中每个字符串都一样的情况
         return strs[0][:ans]
 
-
+    #  344(easy)
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        i, j = 0, len(s) - 1
+        while i < j:
+            s[i], s[j] = s[j], s[i]
+            i += 1
+            j -= 1
 
 
 if __name__ == "__main__":
@@ -2749,6 +2758,7 @@ if __name__ == "__main__":
     #  387(easy)
     #  8(medium)
     #  14(easy)
+    #  344(easy)
     print("-------------------------------------------------------------")
 
 
