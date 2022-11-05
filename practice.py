@@ -2315,6 +2315,13 @@ class Solution:
             s[i: i + k] = s[i: i + k][::-1]
         return "".join(s)
 
+    #  557(easy)
+    def reverseWords(self, s: str) -> str:
+        s = s.split()
+        for i, word in enumerate(s):
+            s[i] = word[::-1]
+        return " ".join(s)
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2767,6 +2774,7 @@ if __name__ == "__main__":
     #  14(easy)
     #  344(easy)
     #  541(easy)
+    #  557(easy)
     print("-------------------------------------------------------------")
 
 
