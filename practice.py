@@ -2308,6 +2308,13 @@ class Solution:
             i += 1
             j -= 1
 
+    #  541(easy)
+    def reverseStr(self, s: str, k: int) -> str:
+        s = list(s)
+        for i in range(0, len(s), 2 * k):
+            s[i: i + k] = s[i: i + k][::-1]
+        return "".join(s)
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2759,6 +2766,7 @@ if __name__ == "__main__":
     #  8(medium)
     #  14(easy)
     #  344(easy)
+    #  541(easy)
     print("-------------------------------------------------------------")
 
 
