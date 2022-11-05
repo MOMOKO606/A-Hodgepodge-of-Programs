@@ -2319,6 +2319,20 @@ class Solution:
     def reverseWords(self, s: str) -> str:
         return " ".join([word[::-1] for word in s.split()])
 
+    #  917(easy)
+    def reverseOnlyLetters(self, s: str) -> str:
+        s, l, r = list(s), 0, len(s) - 1
+        while l < r:
+            if s[l].isalpha() and s[r].isalpha():
+                s[l], s[r] = s[r], s[l]
+                l += 1
+                r -= 1
+            elif s[l].isalpha():
+                r -= 1
+            else:
+                l += 1
+        return "".join(s)
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2772,6 +2786,7 @@ if __name__ == "__main__":
     #  344(easy)
     #  541(easy)
     #  557(easy)
+    #  917(easy)
     print("-------------------------------------------------------------")
 
 
