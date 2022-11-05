@@ -2324,6 +2324,10 @@ class Solution:
         stack = [char for char in s if char.isalpha()]
         return "".join([char if not char.isalpha() else stack.pop() for char in s])
 
+    #  151(medium)
+    def reverseWords(self, s: str) -> str:
+        return " ".join(s.split()[::-1])
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2778,6 +2782,7 @@ if __name__ == "__main__":
     #  541(easy)
     #  557(easy)
     #  917(easy)
+    #  151(medium)
     print("-------------------------------------------------------------")
 
 
