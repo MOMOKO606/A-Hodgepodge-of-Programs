@@ -2317,10 +2317,7 @@ class Solution:
 
     #  557(easy)
     def reverseWords(self, s: str) -> str:
-        s = s.split()
-        for i, word in enumerate(s):
-            s[i] = word[::-1]
-        return " ".join(s)
+        return " ".join([word[::-1] for word in s.split()])
 
 
 if __name__ == "__main__":
