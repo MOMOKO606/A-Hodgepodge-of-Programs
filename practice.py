@@ -2328,6 +2328,35 @@ class Solution:
     def reverseWords(self, s: str) -> str:
         return " ".join(s.split()[::-1])
 
+    #  438(medium)
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        target, count, i, j, ans = Counter(p), len(p), 0, -1, []
+        while i <= len(s) - len(p) and j < len(s):
+            #  When window is full
+            if j >= i and j - i + 1 == len(p):
+                #  Indicate this is an answer
+                if count == 0:
+                    ans += [i]
+                # . Move the left pointer
+                target[s[i]] += 1
+                if target[s[i]] > 0:
+                    count += 1
+                i += 1
+            #  When the window is not full
+            else:
+                #  Move the right pointer
+                j += 1
+                #  If s[j] is valid
+                if s[j] in target:
+                    target[s[j]] -= 1
+                    if target[s[j]] >= 0:
+                        count -= 1
+                #  If s[j] is not valid, we make a jump.
+                else:
+                    i = j + 1
+                    target, count = Counter(p), len(p)
+        return ans
+
 
 if __name__ == "__main__":
     S = Solution()
