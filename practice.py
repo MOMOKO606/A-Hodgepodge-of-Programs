@@ -1874,39 +1874,42 @@ class Solution:
 
     #  212(hard)
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        #  The dfs helper function.
         #  Key idea of the optimization: once we found an answer, delete it from the Trie.
         #  Step1. delete the {"#":0} -> {}
         #  Step2. In the previous level, delete { letter:{} }
-        def dfs(i, j, node, curWord):
-            if "#" in node.keys():
-                ans.add(curWord)
-                del node["#"]
-            if not (0 <= i < rows and 0 <= j < cols and board[i][j] in node.keys()):
-                return
-            ori = board[i][j]
+
+        #  DFS in Trie:
+        def helper(i, j, curWord, curNode):
+            #  Base case
+            if "#" in curNode:
+                ans.append(curWord[:])
+                del curNode["#"]
+                #  We don't return here because words in Trie might have the same prefix.
+
+            #  When current letter is invalid
+            if not (0 <= i < rows and 0 <= j < cols and board[i][j] in curNode): return
+            #  When current letter is valid (matches the node in the Tire).
+            oriWord = board[i][j]
             board[i][j] = "$"
-            for di, dj in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                dfs(i + di, j + dj, node[ori], curWord + ori)
-            board[i][j] = ori
-            if not node[ori]: del node[ori]
+            for x, y in [[i - 1, j], [i + 1, j], [i, j - 1], [i, j + 1]]:
+                helper(x, y, curWord + oriWord, curNode[oriWord])
+            if not curNode[oriWord]: del curNode[oriWord]
+            board[i][j] = oriWord
 
         #  Build the Trie
-        node = trie = {}
+        trie = {}
         for word in words:
+            node = trie
             for char in word:
                 node[char] = node.get(char, {})
                 node = node[char]
-            node["#"] = 0
-            node = trie
+            node["#"] = "#"
 
-        #  Search the whole board to start
-        rows, cols, ans = len(board), len(board[0]), set()
+        rows, cols, ans = len(board), len(board[0]), []
         for i in range(rows):
             for j in range(cols):
-                root = trie
-                dfs(i, j, root, "")
-        return list(ans)
+                helper(i, j, "", trie)
+        return ans
 
     #  547(medium)
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
