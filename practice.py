@@ -2382,6 +2382,16 @@ class Solution:
             return (Matched and self.isMatch(s[1:], p)) or self.isMatch(s, p[2:])
         return Matched and self.isMatch(s[1:], p[1:])
 
+    #  44(hard)
+    @cache
+    def isMatch(self, s: str, p: str) -> bool:
+        if not p: return not s
+        if not s: return p[0] == "*" and self.isMatch(s, p[1:])
+        if p[0] == "*":
+            return self.isMatch(s[1:], p) or self.isMatch(s, p[1:])
+        if p[0] == "?" or p[0] == s[0]:
+            return self.isMatch(s[1:], p[1:])
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2839,6 +2849,7 @@ if __name__ == "__main__":
     #  151(medium)
     #  680(easy)
     #  10(hard)
+    #  44(hard)
     print("-------------------------------------------------------------")
 
 
