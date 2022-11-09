@@ -2383,14 +2383,16 @@ class Solution:
         return Matched and self.isMatch(s[1:], p[1:])
 
     #  44(hard)
-    @cache
     def isMatch(self, s: str, p: str) -> bool:
-        if not p: return not s
-        if not s: return p[0] == "*" and self.isMatch(s, p[1:])
-        if p[0] == "*":
-            return self.isMatch(s[1:], p) or self.isMatch(s, p[1:])
-        if p[0] == "?" or p[0] == s[0]:
-            return self.isMatch(s[1:], p[1:])
+        @cache
+        def helper(i, j):
+            if not j: return not i
+            if not i: return p[j - 1] == "*" and helper(i, j - 1)
+            if s[i - 1] == p[j - 1] or p[j - 1] == "?":
+                return helper(i - 1, j - 1)
+            if p[j - 1] == "*":
+                return helper(i - 1, j) or helper(i, j - 1)
+        return helper(len(s), len(p))
 
 
 if __name__ == "__main__":
