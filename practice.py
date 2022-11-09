@@ -2204,13 +2204,14 @@ class Solution:
 
     #  115(hard)
     def numDistinct(self, s: str, t: str) -> int:
-        rows, cols = len(s), len(t)
+        rows, cols = len(s) + 1, len(t) + 1
         dp = [[0] * cols for _ in range(rows)]
-        for i in range(rows):
-            dp[i][0] = dp[i - 1][0] + 1 if s[i] == t[0] else dp[i - 1][0]
-        for i in range(rows):
-            for j in range(1, min(i + 1, cols)):
-                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j] if s[i] == t[j] else dp[i - 1][j]
+        for i in range(rows): dp[i][0] = 1
+        for j in range(1, cols):
+            for i in range(j, rows):
+                dp[i][j] = dp[i - 1][j]
+                if s[i - 1] == t[j - 1]:
+                    dp[i][j] += dp[i - 1][j - 1]
         return dp[-1][-1]
 
     #  818(hard)
