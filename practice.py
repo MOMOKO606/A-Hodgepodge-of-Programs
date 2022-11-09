@@ -2247,11 +2247,12 @@ class Solution:
 
     #  387(easy)
     def firstUniqChar(self, s: str) -> int:
-        hashmap = collections.OrderedDict()
-        for c in s:
-            hashmap[c] = hashmap.get(c, 0) + 1
-        for key, val in hashmap.items():
-            if val == 1: return s.index(key)
+        hashmap = {}
+        for char in s:
+            hashmap[char] = hashmap.get(char, 0) + 1
+        for i, char in enumerate(s):
+            if hashmap[char] == 1:
+                return i
         return -1
 
     #  8(medium)
