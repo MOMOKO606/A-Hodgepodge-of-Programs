@@ -2371,6 +2371,26 @@ class Solution:
             j -= 1
         return True
 
+    #  10(hard)
+    def isMatch(self, s: str, p: str) -> bool:
+        @cache
+        def helper(i, j):
+            #  Base case
+            if i < 0 and j < 0: return True
+            if i >= 0 and j < 0: return False
+
+            #  The "*" case
+            if j >= 1 and p[j] == "*":
+                flag = helper(i, j - 2)
+                if i >= 0 and (p[j - 1] == s[i] or p[j - 1] == "."):
+                    flag = flag or helper(i - 1, j)
+                return flag
+
+            #  The "." case
+            if i >= 0 and j >= 0 and (s[i] == p[j] or p[j] == "."): return helper(i - 1, j - 1)
+
+        return helper(len(s) - 1, len(p) - 1)
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2827,6 +2847,7 @@ if __name__ == "__main__":
     #  917(easy)
     #  151(medium)
     #  680(easy)
+    #  10(hard)
     print("-------------------------------------------------------------")
 
 
