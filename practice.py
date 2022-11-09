@@ -2372,24 +2372,14 @@ class Solution:
         return True
 
     #  10(hard)
-    def isMatch(self, s: str, p: str) -> bool:
-        @cache
-        def helper(i, j):
-            #  Base case
-            if i < 0 and j < 0: return True
-            if i >= 0 and j < 0: return False
-
-            #  The "*" case
-            if j >= 1 and p[j] == "*":
-                flag = helper(i, j - 2)
-                if i >= 0 and (p[j - 1] == s[i] or p[j - 1] == "."):
-                    flag = flag or helper(i - 1, j)
-                return flag
-
-            #  The "." case
-            if i >= 0 and j >= 0 and (s[i] == p[j] or p[j] == "."): return helper(i - 1, j - 1)
-
-        return helper(len(s) - 1, len(p) - 1)
+    @cache
+    def isMatch(self, s, p):
+        if not p: return not s
+        if not s: return len(p) > 1 and p[1] == '*' and self.isMatch(s, p[2:])
+        Matched = (p[0] == '.' or p[0] == s[0])
+        if len(p) > 1 and p[1] == '*':
+            return (Matched and self.isMatch(s[1:], p)) or self.isMatch(s, p[2:])
+        return Matched and self.isMatch(s[1:], p[1:])
 
 
 if __name__ == "__main__":
