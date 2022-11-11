@@ -2422,30 +2422,9 @@ class Solution:
 
     #  28(medium)
     def strStr(self, haystack: str, needle: str) -> int:
-        def getNext(needle):
-            next, i, j = [0], 0, 1
-            while j < len(needle):
-                if needle[i] == needle[j]:
-                    i, j = i + 1, j + 1
-                    next.append(i)
-                else:
-                    if i > 0:
-                        i = next[i - 1]
-                    else:
-                        next.append(0)
-                        j += 1
-            return next
-
-        next = getNext(needle)
-        i, j = 0, 0
-        while j < len(haystack):
-            if haystack[j] == needle[i]:
-                i, j = i + 1, j + 1
-            elif i > 0:
-                i = next[i - 1]
-            else:
-                j += 1
-            if i == len(needle): return j - i
+        for i in range(0, len(haystack) - len(needle) + 1):
+            if haystack[i: i + len(needle)] == needle:
+                return i
         return -1
 
 
