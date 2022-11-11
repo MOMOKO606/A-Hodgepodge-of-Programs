@@ -2394,6 +2394,47 @@ class Solution:
                 return helper(i - 1, j) or helper(i, j - 1)
         return helper(len(s), len(p))
 
+    #  KMP
+    def kmp_search(self, string, patt):
+        def getNext(patt):
+            next, i, j = [0], 0, 1
+            while j < len(patt):
+                if patt[i] == patt[j]:
+                    i += 1
+                    j += 1
+                    next.append(i)
+                else:
+                    if i == 0:
+                        next.append(0)
+                        j += 1
+                    else:
+                        i = next[i - 1]
+            return next
+
+        next = getNext(patt)
+        i, j = 0, 0
+        while j < len(string):
+            if patt[i] == string[j]: i, j = i + 1, j + 1
+            elif i > 0: i = next[i - 1]
+            else: j += 1
+            if i == len(patt): return j - i
+        return 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     S = Solution()
@@ -2457,7 +2498,7 @@ if __name__ == "__main__":
     #  88 (easy)
     nums01 = [1, 2, 3, 0, 0, 0]
     nums02 = [2, 5, 6]
-    S.merge(nums01, 3, nums02, 3)
+    # S.merge(nums01, 3, nums02, 3)
     print(nums01)
 
     #  24 (medium)
@@ -2852,7 +2893,11 @@ if __name__ == "__main__":
     #  680(easy)
     #  10(hard)
     #  44(hard)
+    #  KMP
     print("-------------------------------------------------------------")
+    print(S.kmp_search("abaabababca", "ababc"))  #  answer = 5
+    print(S.kmp_search("bbc abcdab abcdabcdabde", "abcdabd"))  #  answer = 15
+    print(S.kmp_search("aaacaaab", "aaab"))  #  answer = 4
 
 
 
