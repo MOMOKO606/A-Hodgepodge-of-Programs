@@ -2335,24 +2335,14 @@ class Solution:
 
     #  438(medium)
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        pattern = Counter(p)
-        count, ans,lens, lenp, i, j = len(p), [], len(s), len(p), 0, 0
-        while j <= lens and i <= lens - lenp:
-            if count == 0:
-                ans += [i]
-            if j - i + 1 <= lenp:
-                if s[j] in pattern:
-                    pattern[s[j]] -= 1
-                    if pattern[s[j]] >= 0: count -= 1
-                    j += 1
-                else:
-                    pattern, count = Counter(p), lenp
-                    j += 1
-                    i = j
-            else:
+        pattern, i, ans = Counter(p), 0, []
+        for j, char in enumerate(s):
+            pattern[char] -= 1
+            while pattern[char] < 0:
                 pattern[s[i]] += 1
-                if pattern[s[i]] > 0: count += 1
                 i += 1
+            if j - i + 1 == len(p):
+                ans += [i]
         return ans
 
     #  680(easy)
