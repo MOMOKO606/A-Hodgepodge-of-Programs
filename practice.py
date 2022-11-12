@@ -2335,31 +2335,24 @@ class Solution:
 
     #  438(medium)
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        target, count, i, j, ans = Counter(p), len(p), 0, -1, []
-        while i <= len(s) - len(p) and j < len(s):
-            #  When window is full
-            if j >= i and j - i + 1 == len(p):
-                #  Indicate this is an answer
-                if count == 0:
-                    ans += [i]
-                # . Move the left pointer
-                target[s[i]] += 1
-                if target[s[i]] > 0:
-                    count += 1
-                i += 1
-            #  When the window is not full
-            else:
-                #  Move the right pointer
-                j += 1
-                #  If s[j] is valid
-                if s[j] in target:
-                    target[s[j]] -= 1
-                    if target[s[j]] >= 0:
-                        count -= 1
-                #  If s[j] is not valid, we make a jump.
+        pattern = Counter(p)
+        count, ans,lens, lenp, i, j = len(p), [], len(s), len(p), 0, 0
+        while j <= lens and i <= lens - lenp:
+            if count == 0:
+                ans += [i]
+            if j - i + 1 <= lenp:
+                if s[j] in pattern:
+                    pattern[s[j]] -= 1
+                    if pattern[s[j]] >= 0: count -= 1
+                    j += 1
                 else:
-                    i = j + 1
-                    target, count = Counter(p), len(p)
+                    pattern, count = Counter(p), lenp
+                    j += 1
+                    i = j
+            else:
+                pattern[s[i]] += 1
+                if pattern[s[i]] > 0: count += 1
+                i += 1
         return ans
 
     #  680(easy)
