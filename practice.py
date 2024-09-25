@@ -1,3 +1,4 @@
+import heapq
 from heapq import heappush, heappop, heapify
 from bisect import bisect_left, insort
 from functools import cache
@@ -58,6 +59,7 @@ class Sort:
                 mid = _partition(low, high)
                 _quickSort(low, mid - 1)
                 _quickSort(mid + 1, high)
+
         _quickSort(0, len(self.nums) - 1)
 
     def mergeSort(self):
@@ -79,6 +81,7 @@ class Sort:
                 else:
                     self.nums[k] = r[j]
                     j += 1
+
         _mergeSort(0, len(self.nums) - 1)
 
     def heapSort(self):
@@ -88,6 +91,138 @@ class Sort:
         while self.nums:
             sortedNums += [heappop(self.nums)]
         self.nums = sortedNums
+
+
+class AuthenticationManager:
+
+    def __init__(self, timeToLive: int):
+        self.timeToLive = timeToLive
+        self.tokens = {}
+
+    def isExpired(self, tokenId, currentTime):
+        return self.tokens[tokenId] + self.timeToLive >= currentTime
+
+    def generate(self, tokenId: str, currentTime: int) -> None:
+        self.tokens[tokenId] = currentTime
+
+    def renew(self, tokenId: str, currentTime: int) -> None:
+        if tokenId not in self.tokens.keys(): return
+        if not self.isExpired(tokenId, currentTime):
+            self.tokens[tokenId] = currentTime
+        else:
+            self.tokens.pop(tokenId)
+
+    def countUnexpiredTokens(self, currentTime: int) -> int:
+        count = 0
+        for tokenId in self.tokens.keys():
+            if not self.isExpired(tokenId, currentTime): count += 1
+        return count
+
+
+class StockSpanner:
+    def __init__(self):
+        self.stack = [[math.inf, 0]]
+        self.count = 0
+
+    def next(self, price: int) -> int:
+        self.count += 1
+        while price >= self.stack[-1][0]:
+            self.stack.pop()
+        ans = self.count - self.stack[-1][1]
+        self.stack.append([price, self.count])
+        return ans
+
+
+class Bitset:
+
+    def __init__(self, size: int):
+        self.bitset = [0] * size
+        self.size = size
+        self.ones = 0
+        self.flipped = False
+
+    def fix(self, idx: int) -> None:
+        if not self.flipped:
+            if not self.bitset[idx]: self.bitset[idx], self.ones = 1, self.ones + 1
+        else:
+            if self.bitset[idx]: self.bitset[idx], self.ones = 0, self.ones + 1
+
+    def unfix(self, idx: int) -> None:
+        if not self.flipped:
+            if self.bitset[idx]: self.bitset[idx], self.ones = 0, self.ones - 1
+        else:
+            if not self.bitset[idx]: self.bitset[idx], self.ones = 1, self.ones - 1
+
+    def flip(self) -> None:
+        self.flipped = False if self.flipped else True
+        self.ones = self.size - self.ones
+
+    def all(self) -> bool:
+        return self.ones == self.size
+
+    def one(self) -> bool:
+        return self.ones > 0
+
+    def count(self) -> int:
+        return self.ones
+
+    def toString(self) -> str:
+        ans = ""
+        if not self.flipped:
+            for bit in self.bitset:
+                ans += "1" if bit else "0"
+        else:
+            for bit in self.bitset:
+                ans += "0" if bit else "1"
+        return ans
+
+class Leaderboard:
+
+    def __init__(self):
+        self.hashmap = {}
+        self.nums = []
+
+    def addScore(self, playerId: int, score: int) -> None:
+        prevScore = 0
+        if playerId in self.hashmap.keys():
+            prevScore = self.hashmap[playerId]
+            self.reset(playerId)
+        self.hashmap[playerId] = prevScore + score
+        insort(self.nums, prevScore + score)
+
+    def top(self, K: int) -> int:
+        return sum(self.nums[:K])
+
+    def reset(self, playerId: int) -> None:
+        score = self.hashmap[playerId]
+        self.hashmap.pop(playerId)
+        self.nums.pop(bisect_left(self.nums, score))
+
+class KthLargest:
+
+    def __init__(self, k: int, nums: List[int]):
+        heap, count, i = [], 0, 0
+        while i <= len(nums):
+            if count > k:
+                heapq.heappop(heap)
+                count -= 1
+            else:
+                if i < len(nums):
+                    heapq.heappush(heap, nums[i])
+                    count += 1
+                i += 1
+        self.heap, self.count, self.nums, self.k = heap, count, nums, k
+
+
+    def add(self, val: int) -> int:
+        heap, count, nums, k = self.heap, self.count, self.nums, self.k
+        heapq.heappush(heap, val)
+        count += 1
+        if count > k:
+            heapq.heappop(heap)
+            count -= 1
+        self.heap, self.count = heap, count
+        return heap[0]
 
 
 class ListNode:
@@ -162,6 +297,7 @@ def linkedlist2Array(head: Optional[ListNode]) -> List[int]:
         cur = cur.next
     return ans
 
+
 #  Bloom Filter满足2个功能：
 #  1. 添加字符串；
 #  2. 查找字符串；
@@ -212,6 +348,7 @@ class LRUCache:
             self.od.popitem(False)
         self.od[key] = value
 
+
 #  146(medium)
 class DLLNode2:
     # 正常的Double Linked List是不用key的，只有value，prev & next指针即可；
@@ -220,6 +357,7 @@ class DLLNode2:
     def __init__(self, key=0, value=0, prev=None, next=None):
         self.key, self.value = key, value
         self.prev, self.next = prev, next
+
 
 # You should set the item to the newest(tail) when successfully called the get / put method.
 # hashmap[key1], ..., hashmap[key2]
@@ -310,31 +448,31 @@ class NumMatrix:
 
 
 #  208(medium)
-class Trie:
-
-    def __init__(self):
-        self.root = {}
-
-    def insert(self, word: str) -> None:
-        node = self.root
-        for char in word:
-            node[char] = node.get(char, {})
-            node = node[char]
-        node["#"] = "#"
-
-    def search(self, word: str) -> bool:
-        node = self.root
-        for char in word:
-            if char not in node.keys(): return False
-            node = node[char]
-        return "#" in node.keys()
-
-    def startsWith(self, prefix: str) -> bool:
-        node = self.root
-        for char in prefix:
-            if char not in node.keys(): return False
-            node = node[char]
-        return True
+# class Trie:
+#
+#     def __init__(self):
+#         self.root = {}
+#
+#     def insert(self, word: str) -> None:
+#         node = self.root
+#         for char in word:
+#             node[char] = node.get(char, {})
+#             node = node[char]
+#         node["#"] = "#"
+#
+#     def search(self, word: str) -> bool:
+#         node = self.root
+#         for char in word:
+#             if char not in node.keys(): return False
+#             node = node[char]
+#         return "#" in node.keys()
+#
+#     def startsWith(self, prefix: str) -> bool:
+#         node = self.root
+#         for char in prefix:
+#             if char not in node.keys(): return False
+#             node = node[char]
+#         return True
 
 
 class Solution:
@@ -647,7 +785,7 @@ class Solution:
         for i in range(len(nums)):
             #  Step1. Add the num that might be the largest.
             while deque and nums[i] > nums[deque[-1]]:
-                deque.popleft()
+                deque.pop()
             deque.append(i)
             #  Step2. Check whether the leftmost num still in the window.
             if deque[0] < i - k + 1:
@@ -1946,6 +2084,7 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
+
         def dfsHelper(i, j):
             if not (0 <= i < rows and 0 <= j < cols and board[i][j] == "O"): return
             board[i][j] = "$"
@@ -1970,7 +2109,7 @@ class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         rows = [set(range(1, 10)) for _ in range(9)]
         cols = [set(range(1, 10)) for _ in range(9)]
-        blocks = [set(range(1,10)) for _ in range(9)]
+        blocks = [set(range(1, 10)) for _ in range(9)]
         for i in range(9):
             for j in range(9):
                 if board[i][j] == ".": continue
@@ -2087,6 +2226,7 @@ class Solution:
                 p = bits & -bits
                 bits = bits & (bits - 1)
                 helper(i + 1, cols | p, (diags | p) >> 1, (backDiags | p) << 1)
+
         self.count = 0
         helper()
         return self.count
@@ -2223,7 +2363,7 @@ class Solution:
                 if pos == target: return levels
                 nextQueue.append((pos + speed, speed * 2))
                 if (pos + speed > target and speed > 0) or (pos + speed < target and speed < 0):
-                    nextQueue.append((pos, int(-speed/abs(speed))))
+                    nextQueue.append((pos, int(-speed / abs(speed))))
             queue = nextQueue
             levels += 1
 
@@ -2375,6 +2515,7 @@ class Solution:
                 return helper(i - 1, j - 1)
             if p[j - 1] == "*":
                 return helper(i - 1, j) or helper(i, j - 1)
+
         return helper(len(s), len(p))
 
     #  KMP
@@ -2397,9 +2538,12 @@ class Solution:
         next = getNext(patt)
         i, j = 0, 0
         while j < len(string):
-            if patt[i] == string[j]: i, j = i + 1, j + 1
-            elif i > 0: i = next[i - 1]
-            else: j += 1
+            if patt[i] == string[j]:
+                i, j = i + 1, j + 1
+            elif i > 0:
+                i = next[i - 1]
+            else:
+                j += 1
             if i == len(patt): return j - i
         return 0
 
@@ -2409,6 +2553,32 @@ class Solution:
             if haystack[i: i + len(needle)] == needle:
                 return i
         return -1
+
+    #  501(easy)
+    def findMode(self, root: Optional[TreeNode]) -> List[int]:
+        def helper(root):
+            if not root: return []
+            helper(root.left)
+
+            if self.prev == root.val:
+                self.freq += 1
+            else:
+                self.freq = 1
+
+            if self.freq == self.maxFreq:
+                self.ans.append(root.val)
+            elif self.freq > self.maxFreq:
+                self.maxFreq = self.freq
+                self.ans = [root.val]
+
+            self.prev = self.cur
+            self.cur = root.val
+
+            helper(root.right)
+
+        self.prev, self.cur, self.freq, self.maxFreq, self.ans = None, None, 0, 0, []
+        helper(root)
+        return self.ans
 
 
 if __name__ == "__main__":
@@ -2807,7 +2977,7 @@ if __name__ == "__main__":
     #  208(medium)
     #  79(medium)
     print(S.exist([["A", "B", "C", "E"], ["S", "F", "E", "S"], ["A", "D", "E", "E"]],
-    "ABCESEEEFS"))
+                  "ABCESEEEFS"))
 
     #  212(hard)
     #  547(medium)
@@ -2840,7 +3010,7 @@ if __name__ == "__main__":
     print(lRUCache.get(3))
     print(lRUCache.get(4))
 
-    x = Sort([5,2,7,1,4,2,0,9,8,10])
+    x = Sort([5, 2, 7, 1, 4, 2, 0, 9, 8, 10])
     x.heapSort()
     print(x.nums)
 
@@ -2870,13 +3040,51 @@ if __name__ == "__main__":
     #  44(hard)
     #  KMP
 
-
-    print(S.kmp_search("abaabababca", "ababc"))  #  answer = 5
-    print(S.kmp_search("bbc abcdab abcdabcdabde", "abcdabd"))  #  answer = 15
-    print(S.kmp_search("aaacaaab", "aaab"))  #  answer = 4
+    print(S.kmp_search("abaabababca", "ababc"))  # answer = 5
+    print(S.kmp_search("bbc abcdab abcdabcdabde", "abcdabd"))  # answer = 15
+    print(S.kmp_search("aaacaaab", "aaab"))  # answer = 4
     #  28(medium)
-    print("-------------------------------------------------------------")
-    print("-------------------------------------------------------------")
+
+    # Your KthLargest object will be instantiated and called as such:
+    obj = KthLargest(1, [4, 5, 6, 7])
+    param_1 = obj.add(3)
+
+    obj = Leaderboard()
+    obj.addScore(1, 73)
+    obj.addScore(2, 56)
+    obj.addScore(3, 39)
+    obj.addScore(4, 51)
+    obj.addScore(5, 4)
+    param_2 = obj.top(1)
+    obj.reset(1)
+    obj.reset(2)
+    obj.addScore(2, 51)
+    param_2 = obj.top(3)
 
 
+    obj = AuthenticationManager(5)
+    obj.renew("aaa", 1)
+    obj.generate("aaa", 2)
+    param_3 = obj.countUnexpiredTokens(6)
 
+
+    obj = Bitset(2)
+    obj.flip()
+    obj.unfix(1)
+    param_4 = obj.all()
+    # param_5 = obj.one()
+    # param_6 = obj.count()
+    # param_7 = obj.toString()
+
+    # Your StockSpanner object will be instantiated and called as such:
+    obj = StockSpanner()
+    param_1 = obj.next(100)
+    param_2 = obj.next(80)
+    param_3 = obj.next(60)
+    param_4 = obj.next(70)
+    param_5 = obj.next(60)
+    param_6 = obj.next(75)
+
+    # 501
+    
+ 
